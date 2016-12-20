@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="Wallace.UWP.Helpers.Controls.ToastSmoothBase"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Wallace.UWP.Helpers.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <Storyboard x:Name="In" >
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="mainGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                BeginTime="0:0:0">
+                <SplineDoubleKeyFrame  KeyTime="00:00:00.00" Value="0.0"/>
+                <SplineDoubleKeyFrame  KeyTime="00:00:00.280" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Name="Out" >
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="mainGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                BeginTime="0:0:0">
+                <SplineDoubleKeyFrame  KeyTime="00:00:00.00" Value="1"/>
+                <SplineDoubleKeyFrame  KeyTime="00:00:00.400" Value="0.0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+
+    <Grid x:Name="mainGrid" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <RelativePanel Name="mContent" Grid.Row="0" Grid.RowSpan="2"
+                HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                Margin="0,140" MaxHeight="300" MaxWidth="300">
+            <Rectangle RadiusX="4" RadiusY="4" Opacity="0.87"
+                       RelativePanel.AlignBottomWithPanel="True"
+                       RelativePanel.AlignTopWithPanel="True"
+                       RelativePanel.AlignLeftWithPanel="True"
+                       RelativePanel.AlignRightWithPanel="True"
+                       Fill="{Binding ToastBackground}"  />
+            <TextBlock x:Name="tbNotify" TextWrapping="WrapWholeWords" 
+                       Foreground="{Binding ToastForeground}"
+                       Margin="20,15" TextAlignment="Center" />
+         
+        </RelativePanel>
+    </Grid>
+
+    <!--<Border Grid.Row="1" Background="{ThemeResource AppPersonalMusicBarBackground}" 
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                Margin="0,50" Padding="20,15" >
+        
+            <TextBlock x:Name="tbNotify" TextWrapping="Wrap" Foreground="White" />
+        
+
+    </Border>-->
+
+</UserControl>

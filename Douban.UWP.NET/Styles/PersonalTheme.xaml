@@ -1,0 +1,240 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <!--MainPage主背景色-->
+            <SolidColorBrush x:Key="AppPersonalBackground" Color="#FF202020"/>
+            <!--其他子页面主背景色-->
+            <SolidColorBrush x:Key="AppPersonalExtraBackground" Color="#FF202020"/>
+            <!--其他子页面主背景色-->
+            <SolidColorBrush x:Key="AppPersonalExtraBackground02" Color="#FF202020"/>
+            <!--着重色01-->
+            <SolidColorBrush x:Key="AppPersonalFirstAccent" Color="#FF333333"/>
+            <!--着重色02 汉堡菜单-->
+            <SolidColorBrush x:Key="AppPersonalAccent02" Color="#FF333333"/>
+            <!--着重色03-->
+            <SolidColorBrush x:Key="AppPersonalAccent03" Color="#FF1B9AEF"/>
+            <!--纯色字体前景01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure" Color="White"/>
+            <!--纯色字体前景02-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure02" Color="White"/>
+            <!--纯色字体前景03-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure03" Color="White"/>
+            <!--纯色字体前景备选01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPureItem01" Color="#FF1B9AEF"/>
+            <!--透明色字体前景备选01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorAlphaItem01" Color="#AAFFFFFF"/>
+            <!--透明色字体前景备选02-->
+            <SolidColorBrush x:Key="AppPersonalTextColorAlphaItem02" Color="#77FFFFFF"/>
+            <!--特殊字体颜色01 LocalPage排序按钮字体色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial01" Color="#FF1B9AEF"/>
+            <!--特殊字体颜色02 进度条前景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial02" Color="White"/>
+            <!--特殊字体颜色03 进度条背景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial03" Color="#202020"/>
+            <!--特殊字体颜色04 顶栏前景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial04" Color="#FF1B9AEF"/>
+            <!--Switch按钮前景色-->
+            <SolidColorBrush x:Key="SwitchForeground" Color="#FFFFFF"/>
+            <!--关于页面面板前景色-->
+            <SolidColorBrush x:Key="AboutPageForeground" Color="#282828"/>
+            <!--ScrollViewer拉条背景色-->
+            <SolidColorBrush x:Key="AppScrollViewerBackground" Color="#FF404040"/>
+            <!--ScrollViewer拉条前景色-->
+            <SolidColorBrush x:Key="AppScrollViewerForeground" Color="#FF505050"/>
+            <!--ScrollViewer拉条背景色02-->
+            <SolidColorBrush x:Key="AppScrollViewerBackground02" Color="#30303030"/>
+            <!--ScrollViewer拉条前景色02-->
+            <SolidColorBrush x:Key="AppScrollViewerForeground02" Color="#50404040"/>
+            <!--BorderTicknessColor01-->
+            <SolidColorBrush x:Key="BorderTicknessColor01" Color="#33FFFFFF"/>
+            <!--ListViewItemBackground-->
+            <SolidColorBrush x:Key="ListViewItemBackground" Color="#454545"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground" Color="#33BB73"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground2" Color="#34BB83"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground3" Color="#37BBA3"/>
+            <!--DQDForeground-->
+            <SolidColorBrush x:Key="DQDForeground" Color="#FF5252"/>
+            <!--DQDSummTextColor-->
+            <SolidColorBrush x:Key="DQDSummTextColor" Color="#909090"/>
+            <!--DQDPopupBackColor-->
+            <SolidColorBrush x:Key="DQDPopupBackColor" Color="#BB000000"/>
+            <!--DQDPopupBackColor-->
+            <SolidColorBrush x:Key="DQDPopupBackColor2" Color="#55000000"/>
+            <!--DQDReTextColor-->
+            <SolidColorBrush x:Key="DQDReTextColor" Color="#EFEFEF"/>
+            <!--DQDListTitleColor-->
+            <SolidColorBrush x:Key="DQDListTitleColor" Color="#3333BB73"/>
+            <!--DQDListHeaderColor-->
+            <SolidColorBrush x:Key="DQDListHeaderColor" Color="#DD33BB73"/>
+            <!--DQDListTopColor-->
+            <SolidColorBrush x:Key="DQDListTopColor" Color="#9933BB73"/>
+            <!--DQDListBottomColor-->
+            <SolidColorBrush x:Key="DQDListBottomColor" Color="#4433BB73"/>
+
+            <!--ENRZForeground01-->
+            <SolidColorBrush x:Key="ENRZForeground01" Color="#CA003E"/>
+            <!--ENRZForeground02-->
+            <SolidColorBrush x:Key="ENRZForeground02" Color="#FE9A04"/>
+            <!--ENRZForeground03-->
+            <SolidColorBrush x:Key="ENRZForeground03" Color="#FE9A04"/>
+            <!--ENRZForeground04-->
+            <SolidColorBrush x:Key="ENRZForeground04" Color="#2F9B69"/>
+            
+            <!--ENRZBackgroundColor-->
+            <SolidColorBrush x:Key="ENRZBackground" Color="#202020"/>
+            <!--ENRZBackground02-->
+            <SolidColorBrush x:Key="ENRZBackground02" Color="#282828"/>
+            <!--ENRZBackground03-->
+            <SolidColorBrush x:Key="ENRZBackground03" Color="#383838"/>
+
+            <!--LNUBackground01-->
+            <SolidColorBrush x:Key="LNUBackground01" Color="#282828"/>
+            <!--LNUBackground02-->
+            <SolidColorBrush x:Key="LNUBackground02" Color="#121212"/>
+
+            <!--LNUForeground01-->
+            <SolidColorBrush x:Key="LNUForeground01" Color="#CA003E"/>
+            <!--LNUForeground02-->
+            <SolidColorBrush x:Key="LNUForeground02" Color="#EEEFEFEF"/>
+            <!--LNUForeground03-->
+            <SolidColorBrush x:Key="LNUForeground03" Color="#383838"/>
+
+            <!--LNUTextColor01-->
+            <SolidColorBrush x:Key="LNUTextColor01" Color="#CCEEEEEE"/>
+
+            <!--LNUStrokeColor01-->
+            <SolidColorBrush x:Key="LNUStrokeColor01" Color="#AAEEEEEE"/>
+
+            <!--DQDReBackColor-->
+            <Color x:Key="DQDReBackColor">#99000000</Color>
+            <!--ENRZLineColor-->
+            <Color x:Key="ENRZLineColor">#909090</Color>
+
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+            <!--MainPage主背景色-->
+            <SolidColorBrush x:Key="AppPersonalBackground" Color="#FFCCCCCC"/>
+            <!--其他子页面主背景色-->
+            <SolidColorBrush x:Key="AppPersonalExtraBackground" Color="#FFF6F6F6"/>
+            <!--其他子页面主背景色02-->
+            <SolidColorBrush x:Key="AppPersonalExtraBackground02" Color="White"/>
+            <!--着重色01-->
+            <SolidColorBrush x:Key="AppPersonalFirstAccent" Color="#FF1B9AEF"/>
+            <!--着重色02 汉堡菜单-->
+            <SolidColorBrush x:Key="AppPersonalAccent02" Color="#22000000"/>
+            <!--着重色03-->
+            <SolidColorBrush x:Key="AppPersonalAccent03" Color="White"/>
+            <!--纯色字体前景01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure" Color="White"/>
+            <!--纯色字体前景02-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure02" Color="Black"/>
+            <!--纯色字体前景03-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPure03" Color="Black"/>
+            <!--纯色字体前景备选01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorPureItem01" Color="#FF1B9AEF"/>
+            <!--透明色字体前景备选01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorAlphaItem01" Color="#AA000000"/>
+            <!--透明色字体前景备选02-->
+            <SolidColorBrush x:Key="AppPersonalTextColorAlphaItem02" Color="#CC000000"/>
+            <!--特殊字体颜色01-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial01" Color="#FF1B9AEF"/>
+            <!--特殊字体颜色02 进度条前景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial02" Color="#CC202020"/>
+            <!--特殊字体颜色03 进度条背景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial03" Color="White"/>
+            <!--特殊字体颜色04 顶栏前景色-->
+            <SolidColorBrush x:Key="AppPersonalTextColorSpecial04" Color="#FF1B9AEF"/>
+            <!--Switch按钮前景色-->
+            <SolidColorBrush x:Key="SwitchForeground" Color="#303030"/>
+            <!--关于页面面板前景色-->
+            <SolidColorBrush x:Key="AboutPageForeground" Color="#FFE6E6E6"/>
+            <!--ScrollViewer拉条背景色-->
+            <SolidColorBrush x:Key="AppScrollViewerBackground" Color="#FFE6E6E6"/>
+            <!--ScrollViewer拉条前景色-->
+            <SolidColorBrush x:Key="AppScrollViewerForeground" Color="#FFD6D6D6"/>
+            <!--ScrollViewer拉条背景色02-->
+            <SolidColorBrush x:Key="AppScrollViewerBackground02" Color="#20303030"/>
+            <!--ScrollViewer拉条前景色02-->
+            <SolidColorBrush x:Key="AppScrollViewerForeground02" Color="#40404040"/>
+            <!--BorderTicknessColor01-->
+            <SolidColorBrush x:Key="BorderTicknessColor01" Color="#33000000"/>
+            <!--ListViewItemBackground-->
+            <SolidColorBrush x:Key="ListViewItemBackground" Color="#ECECEC"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground" Color="#33BB55"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground2" Color="#30BB45"/>
+            <!--DQDBackground-->
+            <SolidColorBrush x:Key="DQDBackground3" Color="#40BB95"/>
+            <!--DQDForeground-->
+            <SolidColorBrush x:Key="DQDForeground" Color="#2599EE"/>
+            <!--DQDSummTextColor-->
+            <SolidColorBrush x:Key="DQDSummTextColor" Color="#909090"/>
+            <!--DQDPopupBackColor-->
+            <SolidColorBrush x:Key="DQDPopupBackColor" Color="#BBFFFFFF"/>
+            <!--DQDPopupBackColor-->
+            <SolidColorBrush x:Key="DQDPopupBackColor2" Color="#55FFFFFF"/>
+            <!--DQDReTextColor-->
+            <SolidColorBrush x:Key="DQDReTextColor" Color="#303030"/>
+            <!--DQDListTitleColor-->
+            <SolidColorBrush x:Key="DQDListTitleColor" Color="#3330BB45"/>
+            <!--DQDListHeaderColor-->
+            <SolidColorBrush x:Key="DQDListHeaderColor" Color="#DD30BB45"/>
+            <!--DQDListTopColor-->
+            <SolidColorBrush x:Key="DQDListTopColor" Color="#9930BB45"/>
+            <!--DQDListBottomColor-->
+            <SolidColorBrush x:Key="DQDListBottomColor" Color="#4430BB45"/>
+
+            <!--ENRZForeground01-->
+            <SolidColorBrush x:Key="ENRZForeground01" Color="#CC202020"/>
+            <!--ENRZForeground02-->
+            <SolidColorBrush x:Key="ENRZForeground02" Color="#FE9A04"/>
+            <!--ENRZForeground03-->
+            <SolidColorBrush x:Key="ENRZForeground03" Color="#2F9B69"/>
+            <!--ENRZForeground03-->
+            <SolidColorBrush x:Key="ENRZForeground04" Color="#2F9B69"/>
+            
+            <!--ENRZBackgroundColor-->
+            <SolidColorBrush x:Key="ENRZBackground" Color="#FCFCFC"/>
+            <!--ENRZBackground02-->
+            <SolidColorBrush x:Key="ENRZBackground02" Color="#E6E6E6"/>
+            <!--ENRZBackground03-->
+            <SolidColorBrush x:Key="ENRZBackground03" Color="#607FD3"/>
+
+            <!--LNUBackground01-->
+            <SolidColorBrush x:Key="LNUBackground01" Color="#FCFCFC"/>
+            <!--LNUBackground02-->
+            <SolidColorBrush x:Key="LNUBackground02" Color="#EDEDED"/>
+
+            <!--LNUForeground01-->
+            <SolidColorBrush x:Key="LNUForeground01" Color="#E5E5E5"/>
+            <!--LNUForeground02-->
+            <SolidColorBrush x:Key="LNUForeground02" Color="#CC202020"/>
+            <!--LNUForeground03-->
+            <SolidColorBrush x:Key="LNUForeground03" Color="#CC202020"/>
+
+            <!--LNUTextColor01--> 
+            <SolidColorBrush x:Key="LNUTextColor01" Color="#CC333333"/>
+
+            <!--LNUStrokeColor01-->
+            <SolidColorBrush x:Key="LNUStrokeColor01" Color="#AA333333"/>
+
+            <!--ENRZBackgroundColor--><!--
+            <SolidColorBrush x:Key="ENRZForeground01" Color="#FF125B"/>-->
+
+            <!--DQDReBackColor-->
+            <Color x:Key="DQDReBackColor">#99FFFFFF</Color>
+            <!--ENRZLineColor-->
+            <Color x:Key="ENRZLineColor">#909090</Color>
+
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

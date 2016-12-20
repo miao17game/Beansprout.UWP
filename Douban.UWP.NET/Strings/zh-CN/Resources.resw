@@ -1,0 +1,384 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DB_BOOK" xml:space="preserve">
+    <value>读书</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_DONGXI" xml:space="preserve">
+    <value>东西</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_FM" xml:space="preserve">
+    <value>FM</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_GROUP" xml:space="preserve">
+    <value>小组</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_INDEX" xml:space="preserve">
+    <value>豆瓣</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_lOCATION" xml:space="preserve">
+    <value>同城</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_MARKET" xml:space="preserve">
+    <value>市集</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_MORE" xml:space="preserve">
+    <value>更多</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_MOVIE" xml:space="preserve">
+    <value>电影</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_MUSIC" xml:space="preserve">
+    <value>音乐</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_READ" xml:space="preserve">
+    <value>阅读</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="SettingButton.Text" xml:space="preserve">
+    <value>设置</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban01.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban02.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban03.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban04.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban05.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban06.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDouban07.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDoubanUWP.Text" xml:space="preserve">
+    <value>关于 瓜皮 UWP ( 豆瓣第三方 )</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDoubanUWP_mess01.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDoubanUWP_mess02.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDoubanUWP_mess03.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AboutDoubanUWP_mess04.Text" xml:space="preserve">
+    <value>占位</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Alipay.Text" xml:space="preserve">
+    <value>支付宝：18640046260 ( 长者脸 )</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="AppCache.Text" xml:space="preserve">
+    <value>应用程序缓存</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Blog.Text" xml:space="preserve">
+    <value>博客：</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Caculating.Text" xml:space="preserve">
+    <value>[ 计算中... ]</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="ClearCache.Content" xml:space="preserve">
+    <value>清理缓存</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Contact.Text" xml:space="preserve">
+    <value>联系</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="DarkMode.Text" xml:space="preserve">
+    <value>夜间模式</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="DarkModeSummary.Text" xml:space="preserve">
+    <value>是否打开夜间模式</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="DivideSwitch.Text" xml:space="preserve">
+    <value>拆分视图选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="DivideSwitchSummary.Text" xml:space="preserve">
+    <value>是否让页面视图左右瓜分</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="D_C.Text" xml:space="preserve">
+    <value>捐助与支持</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback.Content" xml:space="preserve">
+    <value>我要反馈</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_Body" xml:space="preserve">
+    <value>问题描述</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_Email.Text" xml:space="preserve">
+    <value>通过邮件反馈问题</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_FriendlyName" xml:space="preserve">
+    <value>设备名</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_OS" xml:space="preserve">
+    <value>操作系统</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_SFV" xml:space="preserve">
+    <value>固件版本</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_SHV" xml:space="preserve">
+    <value>硬件版本</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_SMF" xml:space="preserve">
+    <value>制造商</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_SPN" xml:space="preserve">
+    <value>产品名称</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_Subject" xml:space="preserve">
+    <value>瓜皮UWP 反馈</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Feedback_Version" xml:space="preserve">
+    <value>程序版本</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="LanguageMode.Text" xml:space="preserve">
+    <value>区域语言设置</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="LanguageModeSummary.Text" xml:space="preserve">
+    <value>选择您的本地语言选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="LanguageOptions.Text" xml:space="preserve">
+    <value>语言选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="OtherOptions.Text" xml:space="preserve">
+    <value>其他选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="ProgressRoute.Text" xml:space="preserve">
+    <value>开发进度</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="ReStartToChangeLanguage" xml:space="preserve">
+    <value>修改将在应用重启时生效</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SettPageItem_About.Header" xml:space="preserve">
+    <value>关于</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SettPageItem_AboutDouban.Header" xml:space="preserve">
+    <value>关于瓜皮UWP</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SettPageItem_AboutMe.Header" xml:space="preserve">
+    <value>关于我</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SettPageItem_PrivacyPolicy.Header" xml:space="preserve">
+    <value>隐私政策</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SettPageItem_Settings.Header" xml:space="preserve">
+    <value>设置</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SplitMode.Text" xml:space="preserve">
+    <value>比例选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="SplitSummary.Text" xml:space="preserve">
+    <value>选择左右拆分视图的比例</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="VersionMessage" xml:space="preserve">
+    <value>版本信息</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="VersionMessageFor.Text" xml:space="preserve">
+    <value>版本信息</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="VisualOptions.Text" xml:space="preserve">
+    <value>视觉选项</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Weibo.Text" xml:space="preserve">
+    <value>微博：</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Weibo_mess.Content" xml:space="preserve">
+    <value>Code大白痴</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="ClickTwiceToExit" xml:space="preserve">
+    <value>再按一次返回键退出应用</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="DB_PREPARE_TITLE.Text" xml:space="preserve">
+    <value>瓜皮 UWP</value>
+    <comment>PreparePage</comment>
+  </data>
+</root>
