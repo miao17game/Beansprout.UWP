@@ -381,4 +381,36 @@
     <value>瓜皮 UWP</value>
     <comment>PreparePage</comment>
   </data>
+  <data name="Douban_Login_Abort.Content" xml:space="preserve">
+    <value>取消</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_AutoLogin.Content" xml:space="preserve">
+    <value>自动登录</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_ID.Text" xml:space="preserve">
+    <value>账号</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Password.Text" xml:space="preserve">
+    <value>密码</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Promise.Text" xml:space="preserve">
+    <value>我们保证只将信息记录用于自动登录</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_SavePassword.Content" xml:space="preserve">
+    <value>记住密码</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Submit.Content" xml:space="preserve">
+    <value>登陆</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Title.Text" xml:space="preserve">
+    <value>登陆 瓜皮</value>
+    <comment>LoginPage</comment>
+  </data>
 </root>

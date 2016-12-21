@@ -1,54 +1,78 @@
 ﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
 using Douban.UWP.NET.Resources;
 using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Pages;
 using Wallace.UWP.Helpers.Tools;
-using Wallace.UWP.Helpers.Helpers;
+using Wallace.UWP.Helpers;
 using Windows.UI.Core;
 using Douban.UWP.NET.Controls;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Douban.UWP.NET {
 
     public sealed partial class MainPage : Page {
         public MainPage() {
             this.InitializeComponent();
-            Current = this;
-            baseListRing.IsActive = true;
             PrepareFrame.Navigate(typeof(PreparePage));
             SetControlAccessEnabled();
-            StatusBarInit.InitInnerDesktopStatusBar(true);
-            Window.Current.SetTitleBar(BasePartBorder);
-            NavigateManager.BackRequested += OnBackRequested;
-            var isDarkOrNot = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true;
-            RequestedTheme = isDarkOrNot ? ElementTheme.Dark : ElementTheme.Light;
-            IfNeedAdapteVitualNavigationBar();
+            InitMainPageState();
+            AdapteVitualNavigationBarIfNeed();
             InitSlideRecState();
             GetResources();
         }
 
-        private void SetControlAccessEnabled() {
-            HamburgerBox = this.HamburgerListBox;
-            MainContentFrame = this.ContentFrame;
-            BaseListRing = this.baseListRing;
-            NavigateTitlePath = this.navigateTitlePath;
+        #region Methods
+
+        private void InitMainPageState() {
+            baseListRing.IsActive = true;
+            NavigateManager.BackRequested += OnBackRequested;
+            StatusBarInit.InitInnerDesktopStatusBar(true);
+            Window.Current.SetTitleBar(BasePartBorder);
+            var isDarkOrNot = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true;
+            RequestedTheme = isDarkOrNot ? ElementTheme.Dark : ElementTheme.Light;
         }
+
+        private void SetControlAccessEnabled() {
+            Current = this;
+            HamburgerBox = this.HamburgerListBox;
+            MainLeftPartFrame = this.BasePartFrame;
+            MainContentFrame = this.ContentFrame;
+            MainLoginFrame = this.LoginPopupFrame;
+            BaseListRing = this.baseListRing;
+            MainLoginPopup = this.ImagePopup;
+        }
+
+        private void InitCloseAppTask() {
+            isNeedClose = true;
+            new ToastSmooth(GetUIString("ClickTwiceToExit")).Show();
+            Task.Run(async () => {
+                await Task.Delay(2000);
+                isNeedClose = false;
+            });
+        }
+
+        private void AdapteVitualNavigationBarIfNeed() {
+            if (IsMobile) {
+                AppView.VisibleBoundsChanged += (s, e) => { AdapteVitualNavigationBarWithoutStatusBar(this); };
+                AdapteVitualNavigationBarWithoutStatusBar(this);
+            }
+        }
+
+        #endregion
+
+        #region Events
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e) {
             if (ContentFrame.Content == null) {
@@ -61,15 +85,6 @@ namespace Douban.UWP.NET {
             e.Handled = true;
         }
 
-        private void InitCloseAppTask() {
-            isNeedClose = true;
-            new ToastSmooth(GetUIString("ClickTwiceToExit")).Show();
-            Task.Run(async () => {
-                await Task.Delay(2000);
-                isNeedClose = false;
-            });
-        }
-
         private void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 
         }
@@ -79,8 +94,22 @@ namespace Douban.UWP.NET {
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) {
-            BasePartFrame.Navigate(typeof(SettingsPage));
+            NavigateToBase?.Invoke(
+                sender,
+                null,
+                GetFrameInstance(NavigateType.Settings),
+                GetPageType(NavigateType.Settings));
+            //BasePartFrame.Navigate(typeof(SettingsPage));
             HamburgerListBox.SelectedIndex = -1;
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e) {
+            NavigateToBase?.Invoke(
+                sender, 
+                null, 
+                GetFrameInstance(NavigateType.Login), 
+                GetPageType(NavigateType.Login));
+            ImagePopup.IsOpen = true;
         }
 
         private void NavigationSplit_PaneClosed(SplitView sender, object args) {
@@ -102,12 +131,17 @@ namespace Douban.UWP.NET {
             EnterBorder.Begin();
         }
 
-        private void IfNeedAdapteVitualNavigationBar() {
-            if (IsMobile) {
-                AppView.VisibleBoundsChanged += (s, e) => { AdapteVitualNavigationBarWithoutStatusBar(this); };
-                AdapteVitualNavigationBarWithoutStatusBar(this);
-            }
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
+            ImagePopup.Width = (sender as Grid).ActualWidth;
+            ImagePopup.Height = (sender as Grid).ActualHeight;
         }
+
+        private void ImagePopup_SizeChanged(object sender, SizeChangedEventArgs e) {
+            ImagePopupBorder.Width = (sender as Popup).ActualWidth;
+            ImagePopupBorder.Height = (sender as Popup).ActualHeight;
+        }
+
+        #endregion
 
         #region Slide Animations
 
@@ -174,20 +208,12 @@ namespace Douban.UWP.NET {
 
         #region Properties and state
 
-        public static MainPage Current { get; private set; }
-        public TextBlock NavigateTitlePath { get; private set; }
-        public Frame MainContentFrame { get; private set; }
-        public ProgressRing BaseListRing { get; private set; }
-        public ListBox HamburgerBox { get; private set; }
-
         private bool isNeedClose = false;
 
         public const string HomeHost = "https://www.douban.com/";
         public const string HomeHostInsert = "https://www.douban.com";
 
-        public delegate void NavigationEventHandler(object sender, NavigateParameter parameter, Frame frame, Type type);
-        public NavigationEventHandler NavigateToBase = (sender, parameter, frame, type) => { frame.Navigate(type, parameter); };
-
         #endregion
+
     }
 }

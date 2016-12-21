@@ -107,7 +107,7 @@
                          Margin=" 30,0,30,0" 
                          MinHeight="1"
                          Height="2"
-                         Foreground="{ThemeResource ENRZForeground02}"/>
+                         Foreground="{ThemeResource DoubanForeground01}"/>
             <TextBlock x:Uid="DB_PREPARE_TITLE" RelativePanel.Below="LogeImage"
                        Foreground="White" FontSize="20" Margin="0,10,0,0"
                        HorizontalAlignment="Center"

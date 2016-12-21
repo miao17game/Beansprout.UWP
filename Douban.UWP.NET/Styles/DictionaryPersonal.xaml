@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="PersonalTheme.xaml"/>
+        <ResourceDictionary Source="DoubanResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <x:Double x:Key="SplitViewOpenPaneThemeLength">500</x:Double>
@@ -451,7 +452,7 @@
                                         Width="44"
                                         RadiusX="5"
                                         RadiusY="5"
-                                        Fill="{ThemeResource ENRZForeground02}"
+                                        Fill="{ThemeResource DoubanForeground01}"
                                         Stroke="{ThemeResource SwitchForeground}"
                                         StrokeThickness="{ThemeResource ToggleSwitchOnStrokeThickness}"
                                         Opacity="0"/>
@@ -594,7 +595,7 @@
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
                                                      Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
                                                      Storyboard.TargetProperty="Opacity">
@@ -618,7 +619,7 @@
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
                                                      Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02 }" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01 }" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
                                                      Storyboard.TargetProperty="Foreground">
@@ -743,7 +744,7 @@
                                         <ControlTemplate TargetType="Button">
                                             <Grid x:Name="ButtonLayoutGrid" BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
                                                                   BorderThickness="{TemplateBinding BorderThickness}"
-                                                                  Background="{ThemeResource ENRZForeground02}">
+                                                                  Background="{ThemeResource DoubanForeground01}">
                                                 <VisualStateManager.VisualStateGroups>
                                                     <VisualStateGroup x:Name="CommonStates">
                                                         <VisualState x:Name="Normal" />
@@ -3291,7 +3292,7 @@
         </Setter>
     </Style>
     <Style x:Name="NewDefaultSlider" TargetType="Slider">
-        <Setter Property="Foreground" Value="{ThemeResource ENRZForeground02}" />
+        <Setter Property="Foreground" Value="{ThemeResource DoubanForeground01}" />
         <Setter Property="Background" Value="{ThemeResource AppPersonalTextColorPure02}" />
         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
@@ -3433,7 +3434,7 @@
                                           Grid.Row="1"
                                           Grid.ColumnSpan="3" />
                                 <Rectangle x:Name="HorizontalDecreaseRect"
-                                          Fill="{ThemeResource ENRZForeground02}"
+                                          Fill="{ThemeResource DoubanForeground01}"
                                           Grid.Row="1" />
                                 <TickBar x:Name="TopTickBar"
                                         Visibility="Collapsed"
@@ -3655,13 +3656,13 @@
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxItemBorderBrushSelected}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
                                     </Storyboard>
@@ -3695,13 +3696,13 @@
                                 <VisualState x:Name="SelectedPointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxItemBorderBrushSelectedPointerOver}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
                                     </Storyboard>
@@ -3709,13 +3710,13 @@
                                 <VisualState x:Name="SelectedPressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="BorderBrush">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ComboBoxItemBorderBrushSelectedPressed}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4036,7 +4037,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LNUStrokeColor01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZBackground}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanBackground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundUnchecked}" />
@@ -4058,7 +4059,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LNUTextColor01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZBackground}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanBackground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundUncheckedPointerOver}" />
@@ -4080,7 +4081,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LNUTextColor01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZBackground}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanBackground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundUncheckedPressed}" />
@@ -4128,7 +4129,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckBackgroundStrokeChecked}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundChecked}" />
@@ -4158,7 +4159,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LNUStrokeColor01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundCheckedPointerOver}" />
@@ -4184,7 +4185,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource LNUStrokeColor01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalRectangle" Storyboard.TargetProperty="Fill">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CheckGlyph" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CheckBoxCheckGlyphForegroundCheckedPressed}" />
@@ -4349,7 +4350,7 @@
                         </Grid.ColumnDefinitions>
                         <Grid VerticalAlignment="Top" Height="32">
                             <Rectangle x:Name="NormalRectangle"
-                                Fill="{ThemeResource ENRZBackground}"
+                                Fill="{ThemeResource DoubanBackground01}"
                                 Stroke="{ThemeResource LNUStrokeColor01}"
                                 StrokeThickness="1"
                                        RadiusX="3"
@@ -4664,7 +4665,7 @@
     <Style x:Key="SpecialButtonSubmit" TargetType="Button">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ENRZForeground02}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground01}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="UseSystemFocusVisuals" Value="False"/>
         <Setter Property="Template">
@@ -4683,11 +4684,11 @@
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4696,11 +4697,11 @@
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4709,11 +4710,11 @@
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground01}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground02}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4736,7 +4737,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Border x:Name="rectangleBorder" 
-                                    Background="{ThemeResource ENRZForeground02}" 
+                                    Background="{ThemeResource DoubanForeground01}" 
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="3,3,3,3"/>
@@ -4778,7 +4779,7 @@
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4787,7 +4788,7 @@
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -4796,7 +4797,7 @@
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

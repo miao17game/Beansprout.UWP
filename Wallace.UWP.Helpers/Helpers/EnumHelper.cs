@@ -9,7 +9,7 @@
 
 using System;
 
-namespace Wallace.UWP.Helpers. Helpers {
+namespace Wallace.UWP.Helpers {
     /// <summary>
     /// 简单的帮助器，用于将一个字符串值转换为其相应的枚举文字。
     /// 如"Running"-> BackgroundTaskState.Running

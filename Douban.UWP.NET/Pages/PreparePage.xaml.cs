@@ -1,4 +1,4 @@
-﻿using Wallace.UWP.Helpers.Helpers;
+﻿using Wallace.UWP.Helpers;
 using Wallace.UWP.Helpers.Tools;
 using System;
 using System.Collections.Generic;

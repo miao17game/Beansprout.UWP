@@ -24,7 +24,7 @@
     </Page.Resources>
     <!--#endregion-->
 
-    <Grid Name="grid" Background="{ThemeResource LNUBackground01}">
+    <Grid Name="grid" Background="{ThemeResource DoubanBackground04}">
 
         <!--#region StateTriggers-->
         <VisualStateManager.VisualStateGroups>
@@ -201,11 +201,11 @@
                                         FontSize="16"
                                         Click="CacheClearBtn_Click"
                                         Style="{StaticResource SpecialButtonAbort}" 
-                                        Background="{ThemeResource ENRZForeground02}"
+                                        Background="{ThemeResource DoubanForeground01}"
                                         VerticalAlignment="Stretch">
                                 </Button>
                                 <ProgressRing Name="ClearRing"
-                                              Foreground="{ThemeResource ENRZForeground01}"
+                                              Foreground="{ThemeResource DoubanForeground02}"
                                               Width="30"
                                               Height="30"
                                               IsActive="False"/>
@@ -417,7 +417,7 @@
                                        TextWrapping="WrapWholeWords"></TextBlock>
                             <HyperlinkButton Content="Wallace Sun"
                                      NavigateUri="http://noodlesblog.azurewebsites.net/" 
-                                     Foreground="{ThemeResource ENRZForeground01}"
+                                     Foreground="{ThemeResource DoubanForeground02}"
                                      Padding="0" FontWeight="Bold"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" 
@@ -428,7 +428,7 @@
                                        TextWrapping="WrapWholeWords"></TextBlock>
                             <HyperlinkButton x:Uid="Weibo_mess"
                                      NavigateUri="http://weibo.com/miao17game?refer_flag=1001030102_" 
-                                     Foreground="{ThemeResource ENRZForeground01}"
+                                     Foreground="{ThemeResource DoubanForeground02}"
                                      Padding="0" FontWeight="Bold"/>
                         </StackPanel>
 
@@ -465,7 +465,7 @@
                         <Run x:Uid="Feedback_Email" FontWeight="SemiBold"/>
                         </TextBlock>
                         <Button x:Uid="Feedback"
-                            Background="{ThemeResource ENRZForeground01}"
+                            Background="{ThemeResource DoubanForeground02}"
                             Foreground="#EFEFEF"
                             Name="FeedBackBtn" 
                                  Margin="0,10,5,5"
@@ -486,12 +486,12 @@
             <PivotItem Name="PrivacyPolicy" x:Uid="SettPageItem_PrivacyPolicy" >
                 <Grid>
                     <WebView Source="http://noodlesblog.azurewebsites.net/post/2016/10/20/lnu-education-management"
-                         DefaultBackgroundColor="{ThemeResource LNUBackground01}"
+                         DefaultBackgroundColor="{ThemeResource DoubanBackground04}"
                              ContentLoading="WebView_ContentLoading" 
                              DOMContentLoaded="WebView_DOMContentLoaded"
                              NavigationStarting="WebView_NavigationStarting"/>
                     <ProgressRing Name="PolicyRing" Width="50" Height="50" IsActive="False"
-                                  Foreground="{ThemeResource ENRZForeground01}"/>
+                                  Foreground="{ThemeResource DoubanForeground02}"/>
                 </Grid>
             </PivotItem>
             <!--#endregion-->

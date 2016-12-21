@@ -1,15 +1,19 @@
-﻿using Douban.UWP.Core.Tools;
+﻿
+using static Wallace.UWP.Helpers.Tools.UWPStates;
+using Douban.UWP.Core.Tools;
 using Douban.UWP.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wallace.UWP.Helpers.Helpers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Douban.UWP.NET.Tools;
+using Douban.UWP.NET.Resources;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.NET.Controls {
     public class BaseContentPage : Page {
@@ -21,11 +25,7 @@ namespace Douban.UWP.NET.Controls {
         }
 
         protected virtual void InitPageState() {
-            //isDivideScreen = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
-            //MainPage.DivideWindowRange(
-            //    currentFramePage: this,
-            //    divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //    isDivideScreen: isDivideScreen);
+            // TO DO ...
         }
 
         #region Page Animations
@@ -61,7 +61,7 @@ namespace Douban.UWP.NET.Controls {
         private void DoublAnimationSlideOut_Completed(object sender, object e) {
             storyToSideGridOut.Stop();
             doubleAnimation.Completed -= DoublAnimation_Completed;
-            //MainPage.Current.MainContentFrame.Content = null;
+            AppResources.MainContentFrame.Content = null;
         }
 
         private void DoublAnimation_Completed(object sender, object e) {

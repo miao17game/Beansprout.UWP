@@ -19,17 +19,17 @@ namespace Douban.UWP.NET.Tools.Converters {
 
         private string ToIconCode(string title) {
             return 
-                title == GetUIString("DB_INDEX") ? char.ConvertFromUtf32(0xE10F) :
-                title == GetUIString("DB_BOOK") ? char.ConvertFromUtf32(0xE187) :
-                title == GetUIString("DB_MOVIE") ? char.ConvertFromUtf32(0xE181) :
-                title == GetUIString("DB_MUSIC") ? char.ConvertFromUtf32(0xE190) :
-                title == GetUIString("DB_LOCATION") ? char.ConvertFromUtf32(0xE706) :
-                title == GetUIString("DB_GROUP") ? char.ConvertFromUtf32(0xE2B2) :
-                title == GetUIString("DB_READ") ? char.ConvertFromUtf32(0xE7B8) :
-                title == GetUIString("DB_FM") ? char.ConvertFromUtf32(0xE094) :
-                title == GetUIString("DB_DONGXI") ? char.ConvertFromUtf32(0xE81E) :
-                title == GetUIString("DB_MARKET") ? char.ConvertFromUtf32(0xE914) :
-                title == GetUIString("DB_MORE") ? char.ConvertFromUtf32(0xEC15) :
+                title == GetUIString("DB_INDEX") ? char.ConvertFromUtf32(0xEC0A) :
+                title == GetUIString("DB_BOOK") ? char.ConvertFromUtf32(0xE1D3) :
+                title == GetUIString("DB_MOVIE") ? char.ConvertFromUtf32(0xEC80) :
+                title == GetUIString("DB_MUSIC") ? char.ConvertFromUtf32(0xE93C) :
+                title == GetUIString("DB_LOCATION") ? char.ConvertFromUtf32(0xEC43) :
+                title == GetUIString("DB_GROUP") ? char.ConvertFromUtf32(0xE125) :
+                title == GetUIString("DB_READ") ? char.ConvertFromUtf32(0xECA7) :
+                title == GetUIString("DB_FM") ? char.ConvertFromUtf32(0xE95A) :
+                title == GetUIString("DB_DONGXI") ? char.ConvertFromUtf32(0xED58) :
+                title == GetUIString("DB_MARKET") ? char.ConvertFromUtf32(0xE719) :
+                title == GetUIString("DB_MORE") ? char.ConvertFromUtf32(0xE71B) :
                 char.ConvertFromUtf32(0xE1F6);
         }
     }

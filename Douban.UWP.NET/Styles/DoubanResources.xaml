@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <!--DoubanForeground01 Yellow Strong -->
+            <SolidColorBrush x:Key="DoubanForeground01" Color="#FE9A04"/>
+            <!--DoubanForeground02 Pink Red -->
+            <SolidColorBrush x:Key="DoubanForeground02" Color="#CA003E"/>
+            <!--DoubanForeground03 Pink Red FirstMainColor -->
+            <SolidColorBrush x:Key="DoubanForeground03" Color="#31C79B"/>
+            <!--DoubanForeground04 White Gray -->
+            <SolidColorBrush x:Key="DoubanForeground04" Color="#EEEFEFEF"/>
+            <!--DoubanForeground05 Dark Gray Black HamburgerMainColor -->
+            <SolidColorBrush x:Key="DoubanForeground05" Color="#383838"/>
+            <!--DoubanForeground06 Gray FirstBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground06" Color="#666666"/>
+            <!--DoubanForeground07 Gray SecondBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground07" Color="#383838"/>
+            <!--DoubanForeground08 Yellow Strong ThirdBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground08" Color="#D0FE9A04"/>
+
+            <!--DoubanBackground01 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanBackground01" Color="#202020"/>
+            <!--DoubanBackground02 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanBackground02" Color="#282828"/>
+            <!--DoubanBackground03 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanBackground03" Color="#383838"/>
+            <!--DoubanBackground04 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanBackground04" Color="#282828"/>
+            <!--DoubanBackground05 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanBackground05" Color="#121212"/>
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+            <!--DoubanForeground01 Yellow Strong -->
+            <SolidColorBrush x:Key="DoubanForeground01" Color="#FE9A04"/>
+            <!--DoubanForeground02 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanForeground02" Color="#CC202020"/>
+            <!--DoubanForeground03 White Gray FirstMainColor -->
+            <SolidColorBrush x:Key="DoubanForeground03" Color="#E5E5E5"/>
+            <!--DoubanForeground04 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanForeground04" Color="#CC202020"/>
+            <!--DoubanForeground05 Dark Gray Black HamburgerMainColor -->
+            <SolidColorBrush x:Key="DoubanForeground05" Color="#31C79B"/>
+            <!--DoubanForeground06 Gray FirstBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground06" Color="#CCCCCC"/>
+            <!--DoubanForeground07 Gray SecondBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground07" Color="#F0F0F0"/>
+            <!--DoubanForeground08 Yellow Strong ThirdBorderColor -->
+            <SolidColorBrush x:Key="DoubanForeground08" Color="#D0FE9A04"/>
+
+            <!--DoubanBackground01 White Almost -->
+            <SolidColorBrush x:Key="DoubanBackground01" Color="#FCFCFC"/>
+            <!--DoubanBackground02 White Gray -->
+            <SolidColorBrush x:Key="DoubanBackground02" Color="#E6E6E6"/>
+            <!--DoubanBackground03 Blue Smooth -->
+            <SolidColorBrush x:Key="DoubanBackground03" Color="#607FD3"/>
+            <!--DoubanBackground04 White Almost -->
+            <SolidColorBrush x:Key="DoubanBackground04" Color="#FCFCFC"/>
+            <!--DoubanBackground05 White Gray -->
+            <SolidColorBrush x:Key="DoubanBackground05" Color="#EDEDED"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

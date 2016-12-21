@@ -9,5 +9,7 @@ namespace Douban.UWP.Core.Models {
         NULL,
         Index,
         Webview,
+        Settings,
+        Login,
     }
 }

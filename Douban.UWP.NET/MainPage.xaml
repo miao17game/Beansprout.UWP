@@ -78,7 +78,7 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground"
     											Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
     											Storyboard.TargetProperty="Foreground">
@@ -90,7 +90,7 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground"
     											Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
     											Storyboard.TargetProperty="Foreground">
@@ -102,7 +102,7 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground"
     											Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
     											Storyboard.TargetProperty="Foreground">
@@ -114,7 +114,7 @@
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PressedBackground"
     											Storyboard.TargetProperty="Fill">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ENRZForeground02}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
     											Storyboard.TargetProperty="Foreground">
@@ -153,7 +153,7 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged">
 
         <!--#region StateTriggers-->
         <VisualStateManager.VisualStateGroups>
@@ -277,7 +277,7 @@
             <SplitView.Pane>
 
                 <!--#region HamburgerList-->
-                <RelativePanel Background="{ThemeResource LNUForeground03}">
+                <RelativePanel Background="{ThemeResource DoubanForeground05}">
                     <Button Name="HamburgerButton"
                             Content="&#xE700;"
                             Width="70"
@@ -285,6 +285,15 @@
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
                             Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                    <Button Name="LoginButton"
+                            Content="&#xE156;"
+                            Width="70"
+                            Height="70"
+                            FontWeight="ExtraBold"
+                            Click="LoginButton_Click"
+                            Foreground="White"
+                            RelativePanel.AlignRightWithPanel="True"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
                     <ListBox Name="HamburgerListBox" 
                              Background="Transparent"
@@ -329,7 +338,7 @@
                             <Grid Width="48" Height="48" HorizontalAlignment="Left">
                                 <Ellipse Fill="#EB3557" Width="40" Height="40" />
                                 <TextBlock  Text="&#xE115;" 
-                                            Width="50" FontSize="22" Margin=" -1,0,0,0"
+                                            Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
                                             Foreground="{ThemeResource AppPersonalTextColorPure}"
                                             Style="{ThemeResource CenterContentTextBlock}"
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
@@ -351,22 +360,32 @@
                 <Grid>
 
                     <Border Name="BasePartBorder" 
-                Background="{ThemeResource LNUForeground01}" 
-                Height="70" 
-                VerticalAlignment="Top">
+                            Background="{ThemeResource DoubanForeground03}" 
+                            Height="70" 
+                            VerticalAlignment="Top">
                         <TextBlock Name="navigateTitlePath"
                                    MaxWidth="400"
                                    x:Uid="LNU_Title" FontSize="20"
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
-                                   Foreground="{ThemeResource LNUForeground02}"/>
+                                   Foreground="{ThemeResource DoubanForeground04}"/>
                     </Border>
-                    <Rectangle Height="0.5" 
-                   Margin=" 0,69.5,0,0" 
-                   VerticalAlignment="Top" 
-                   Opacity="0.7"
-                   Fill="{ThemeResource ENRZForeground02}"/>
+                    <Rectangle Height="1" 
+                               Margin=" 0,66.5,0,0" 
+                               VerticalAlignment="Top" 
+                               Opacity="0.7"
+                               Fill="{ThemeResource DoubanForeground08}"/>
+                    <Rectangle Height="1" 
+                               Margin=" 0,67.5,0,0" 
+                               VerticalAlignment="Top" 
+                               Opacity="1"
+                               Fill="{ThemeResource DoubanForeground06}"/>
+                    <Rectangle Height="2" 
+                               Margin=" 0,68,0,0" 
+                               VerticalAlignment="Top" 
+                               Opacity="1"
+                               Fill="{ThemeResource DoubanForeground07}"/>
                     <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
                             Content="&#xE700;"
@@ -374,13 +393,13 @@
                             Height="70"
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
-                            Foreground="{ThemeResource LNUForeground02}"
+                            Foreground="{ThemeResource DoubanForeground04}"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
 
                     <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
 
                     <ProgressRing Name="baseListRing" Width="70" Height=" 70" IsActive="False"
-                                  Foreground="{ThemeResource ENRZForeground01}"/>
+                                  Foreground="{ThemeResource DoubanForeground02}"/>
 
                     <Border Name="DarkDivideBorder" 
                             Background="{ThemeResource DQDPopupBackColor}"
@@ -399,6 +418,18 @@
         <Grid Name="ContentGrid" Grid.Column="1">
             <Frame Name="ContentFrame"/>
         </Grid>
+
+        <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"
+               SizeChanged="ImagePopup_SizeChanged">
+            <Border Name="ImagePopupBorder"
+                    Width="{Binding ActualWidth, ElementName=ImagePopup, Mode=OneWay}" 
+                    Height="{Binding ActualHeight, ElementName=ImagePopup, Mode=OneWay}" 
+                    Background="#90000000">
+                <Grid>
+                    <Frame Name="LoginPopupFrame" Margin="30,60" MaxWidth="1200" />
+                </Grid>
+            </Border>
+        </Popup>
 
         <Frame Name="PrepareFrame" Grid.ColumnSpan="2"/>
 

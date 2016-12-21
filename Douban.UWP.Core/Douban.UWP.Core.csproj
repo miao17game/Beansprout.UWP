@@ -118,7 +118,7 @@
     <Compile Include="Tools\CipherEncryptionHelper.cs" />
     <Compile Include="Tools\ConstFields.cs" />
     <Compile Include="Tools\DataProcess.cs" />
-    <Compile Include="Tools\LNUWebProcess.cs" />
+    <Compile Include="Tools\DoubanWebProcess.cs" />
     <Compile Include="Tools\PersonalExpressions\EscapeReplace.cs" />
     <Compile Include="Tools\SettingsSelect.cs" />
     <EmbeddedResource Include="Properties\Douban.UWP.Core.rd.xml" />

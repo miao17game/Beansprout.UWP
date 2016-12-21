@@ -381,4 +381,36 @@
     <value>GUAPI UWP</value>
     <comment>PreparePage</comment>
   </data>
+  <data name="Douban_Login_Abort.Content" xml:space="preserve">
+    <value>Abort</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_AutoLogin.Content" xml:space="preserve">
+    <value>Auto-login</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_ID.Text" xml:space="preserve">
+    <value>ACCOUNT</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Password.Text" xml:space="preserve">
+    <value>PASSWORD</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Promise.Text" xml:space="preserve">
+    <value>We promise that we will save your message only for auto-login.</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_SavePassword.Content" xml:space="preserve">
+    <value>Remenber me</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Submit.Content" xml:space="preserve">
+    <value>Submit</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Title.Text" xml:space="preserve">
+    <value>LOGIN</value>
+    <comment>LoginPage</comment>
+  </data>
 </root>

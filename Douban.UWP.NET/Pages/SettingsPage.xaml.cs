@@ -3,7 +3,6 @@ using static Wallace.UWP.Helpers.Tools.UWPStates;
 using static Douban.UWP.NET.Pages.SettingsPage.InsideResources;
 
 using Edi.UWP.Helpers;
-using Wallace.UWP.Helpers.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,6 +27,8 @@ using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models;
 using Wallace.UWP.Helpers.Tools;
 using Windows.UI;
+using Wallace.UWP.Helpers;
+using Douban.UWP.NET.Resources;
 #endregion
 
 namespace Douban.UWP.NET.Pages {
@@ -140,27 +141,27 @@ namespace Douban.UWP.NET.Pages {
 
         private static void ChangeSplitViewWidth(double value) {
             //if (ContentPage.Current != null)
-            //    MainPage.DivideWindowRange(
-            //        ContentPage.Current, 
-            //        divideNum : value / 100, 
+            //    GlobalHelpers.DivideWindowRange(
+            //        ContentPage.Current,
+            //        divideNum: value / 100,
             //        isDivideScreen: Current.ScreenSwitch.IsOn);
             //if (LoginPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        LoginPage.Current,
             //        divideNum : value / 100,
             //        isDivideScreen: Current.ScreenSwitch.IsOn);
             //if (WebViewPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        WebViewPage.Current,
             //        divideNum: value / 100,
             //        isDivideScreen: Current.ScreenSwitch.IsOn);
             //if (ChangePassPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        ChangePassPage.Current,
             //        divideNum: value / 100,
             //        isDivideScreen: Current.ScreenSwitch.IsOn);
             //if (SchedulePage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        SchedulePage.Current,
             //        divideNum: value / 100,
             //        isDivideScreen: Current.ScreenSwitch.IsOn);
@@ -170,7 +171,7 @@ namespace Douban.UWP.NET.Pages {
 
         private void OnThemeSwitchToggled(ToggleSwitch sender) {
             SettingsHelper.SaveSettingsValue(SettingsConstants.IsDarkThemeOrNot, sender.IsOn);
-            MainPage.Current.RequestedTheme = sender.IsOn ? ElementTheme.Dark : ElementTheme.Light;
+            AppResources.Current.RequestedTheme = sender.IsOn ? ElementTheme.Dark : ElementTheme.Light;
             if (isInitViewOrNot)
                 return;
             StatusBarInit.InitDesktopStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
@@ -180,27 +181,27 @@ namespace Douban.UWP.NET.Pages {
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
             //if (LoginPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        LoginPage.Current,
             //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
             //        isDivideScreen: sender.IsOn);
             //if (ContentPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        ContentPage.Current,
             //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
             //        isDivideScreen: sender.IsOn);
             //if (WebViewPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        WebViewPage.Current,
             //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
             //        isDivideScreen: sender.IsOn);
             //if (ChangePassPage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        ChangePassPage.Current,
             //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
             //        isDivideScreen: sender.IsOn);
             //if (SchedulePage.Current != null)
-            //    MainPage.DivideWindowRange(
+            //    GlobalHelpers.DivideWindowRange(
             //        SchedulePage.Current,
             //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
             //        isDivideScreen: sender.IsOn);

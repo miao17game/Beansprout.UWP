@@ -12,7 +12,7 @@ using System . Runtime . Serialization;
 using System . Runtime . Serialization . Json;
 using System . Text;
 
-namespace Wallace.UWP.Helpers. Helpers {
+namespace Wallace.UWP.Helpers {
     /// <summary>
     /// 简单的 JSON 序列化 / 解序列化程序用于在两个进程之间传递消息
     /// </summary>

@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models {
     public class NavigateParameter {
-        
+        public object SpecialParameter { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 
-namespace Wallace.UWP.Helpers.Helpers {
+namespace Wallace.UWP.Helpers {
     /// <summary>
     /// 在整个解决方案中使用的Settings value字符串常量的集合 ///
     /// 此文件向所有项目共享

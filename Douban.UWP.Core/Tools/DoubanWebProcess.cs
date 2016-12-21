@@ -16,7 +16,7 @@ using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 
 namespace Douban.UWP.Core.Tools {
-    public static class LNUWebProcess {
+    public static class DoubanWebProcess {
 
         #region Properties and fields
 
@@ -156,7 +156,7 @@ namespace Douban.UWP.Core.Tools {
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 unRedirectHttpClient = null;
                 return await PostLNULoginCallback(UnRedirectHttpClient, user, password);
-            } catch (COMException ex) { // it is obvious that the internrt connect go wrong.
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 return null;
             } catch (AccessUnPassedException ex) {
@@ -190,7 +190,7 @@ namespace Douban.UWP.Core.Tools {
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 unRedirectHttpClient = null;
                 return await LNULogOutCallback(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect go wrong.
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 return null;
             } catch (Exception ex) { // unkown error, report it.
@@ -220,7 +220,7 @@ namespace Douban.UWP.Core.Tools {
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 unRedirectHttpClient = null;
                 return await LNULogOutCallback(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect go wrong.
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 return null;
             } catch (Exception ex) { // unkown error, report it.
@@ -250,7 +250,7 @@ namespace Douban.UWP.Core.Tools {
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 unRedirectHttpClient = null;
                 return await PostLNUChangePassword(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect go wrong.
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 return null;
             } catch (Exception ex) { // unkown error, report it.
@@ -278,7 +278,7 @@ namespace Douban.UWP.Core.Tools {
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 unRedirectHttpClient = null;
                 return await PostLNURedirectPOSTMethod(UnRedirectHttpClient, logoutPath, cookie);
-            } catch (COMException ex) { // it is obvious that the internrt connect go wrong.
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
                 return null;
             } catch (Exception ex) { // unkown error, report it.
