@@ -20,10 +20,14 @@ namespace Wallace.UWP.Helpers.Tools {
         /// <param name="urlString">Target web uri-string</param>
         /// <param name="ifNeedGB2312">GB2312 or UTF-8</param>
         /// <returns></returns>
-        public static async Task<string> GetHtmlResources ( string urlString , bool ifNeedGB2312 ) {
+        public static async Task<string> GetHtmlResources ( string urlString , bool ifNeedGB2312 = false ) {
             var LrcStringBuider = new StringBuilder ( );
             try {
                 var request = WebRequest.Create(urlString) as HttpWebRequest;
+                request.Headers[HttpRequestHeader.Referer] = "https://www.douban.com/";
+                request.Headers[HttpRequestHeader.UserAgent] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
+                request.Headers[HttpRequestHeader.Host] = "www.douban.com";
+                request.Headers[HttpRequestHeader.Connection] = "Keep-Alive";
                 request.Method = "GET";
                 try {
                     using (var response = await request.GetResponseAsync() as HttpWebResponse) {

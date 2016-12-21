@@ -50,6 +50,19 @@ namespace Douban.UWP.Core.Tools {
             }
         }
 
+        public static HttpCookieManager RedirectCookiesManager;
+
+        public static HttpBaseProtocolFilter RedirectHttpFilter;
+
+        private static HttpClient RedirectHttpClient = new HttpClient(new Func<HttpBaseProtocolFilter>(() => {
+            if (RedirectHttpFilter != null)
+                return RedirectHttpFilter;
+            RedirectHttpFilter = new HttpBaseProtocolFilter();
+            RedirectHttpFilter.AllowAutoRedirect = true;
+            RedirectCookiesManager = RedirectHttpFilter.CookieManager;
+            return RedirectHttpFilter;
+        }).Invoke());
+
         public static void RefreshHttpClient() { unRedirectHttpClient = null; }
 
         #endregion
@@ -90,6 +103,42 @@ namespace Douban.UWP.Core.Tools {
             var streamReader = new StreamReader(stream.AsStreamForRead(), IsGB2312? DBCSEncoding.GetDBCSEncoding("gb2312"): Encoding.UTF8);
             LrcStringBuider.Append(await streamReader.ReadToEndAsync());
             return LrcStringBuider;
+        }
+
+        #endregion
+
+        #region Douban Methods
+
+        /// <summary>
+        /// command from left tab.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static async Task<string> GetDoubanResponseAsync(string path, HttpClient client = null) {
+            var returnString = default(string);
+            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
+                var httpClient = client ?? RedirectHttpClient;
+                
+                using (var request = GET(httpClient, path)) {
+                    request.Headers.Host = new Windows.Networking.HostName("www.douban.com");
+                    request.Headers.Referer = new Uri("https://www.douban.com/");
+                    request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
+                    request.Headers["Connection"] = "Keep-Alive";
+                    var result = await httpClient.SendRequestAsync(request);
+                    returnString = (await CastStreamContentToString(result, false)).ToString();
+                }
+            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
+                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
+                return await LNULogOutCallback(new HttpClient(), path);
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
+                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
+                return "";
+            } catch (Exception ex) { // unkown error, report it.
+                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
+                return "";
+            }
+            return returnString;
         }
 
         #endregion

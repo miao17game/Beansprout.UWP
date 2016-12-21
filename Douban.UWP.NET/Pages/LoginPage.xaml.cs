@@ -57,11 +57,37 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void InnerWebView_ContentLoading(WebView sender, WebViewContentLoadingEventArgs args) {
-            WebRing.IsActive = true;
+   
         }
 
-        private void InnerWebView_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args) {
+        private async void InnerWebView_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
+          
             WebRing.IsActive = false;
+            await AskWebViewToCallback();
+
+        }
+
+        /// <summary>
+        /// send message to windows so that we can get message of login-success whether or not.
+        /// </summary>
+        /// <returns></returns>
+        private async Task AskWebViewToCallback() { // js to callback
+            var js = @"window.external.notify(
+                                    JSON.stringify(
+                                        new Array (
+                                            document.body.innerText,
+                                            document.body.innerHTML)));";
+            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
+        }
+
+        /// <summary>
+        /// receive message when the js in the webview send message to window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnScriNotifypt(object sender, NotifyEventArgs e) {
+            InnerWebView.ScriptNotify -= OnScriNotifypt;
+            CheckIfLoginSucceed(JsonHelper.FromJson<string[]>(e.Value)[1]);
         }
 
         #endregion
@@ -116,23 +142,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e) {
-            //StatusRing.IsActive = true;
-            //LogOutButton.IsEnabled = false;
-            //SettingsHelper.SaveSettingsValue(SettingsSelect.IsAutoLogin, false);
-            //var message = await LNULogOutCallback(MainPage.LoginClient, "http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.Logout");
-            //if (message == null)
-            //    Debug.WriteLine("logout_failed");
-            //else {
-            //    MainPage.LoginCache.IsInsert = false;
-            //    UnRedirectCookiesManager.DeleteCookie(MainPage.LoginCache.Cookie);
-            //    RefreshHttpClient();
-            //    ReportHelper.ReportAttention(GetUIString("LogOut_Success"));
-            //    MainPage.Current.NavigateToBase?.Invoke(
-            //        this,
-            //        new NavigateParameter { ToFetchType = DataFetchType.Index_Login, MessageBag = navigateTitle, ToUri = currentUri, NaviType = NavigateType.Login },
-            //        MainPage.InnerResources.GetFrameInstance(NavigateType.Login),
-            //        typeof(LoginPage));
-            //}
+            
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e) {
@@ -179,13 +189,7 @@ namespace Douban.UWP.NET.Pages {
         /// make ui of popup right anyway.
         /// </summary>
         private void InitLoginPopupState() {
-            //if (thisPageType == DataFetchType.Index_ReLogin)
-            //    if (VisibleWidth <= 800 || IsMobile) {
-            //        this.Width = VisibleWidth - 60;
-            //        this.Height = VisibleHeight - 60;
-            //    } else {
-            //        this.MaxHeight = 1000;
-            //    }
+          
         }
 
         /// <summary>
@@ -200,25 +204,7 @@ namespace Douban.UWP.NET.Pages {
         /// </summary>
         /// <returns></returns>
         private void ClickSubmitButtonIfAuto() {
-            //Submit.IsEnabled = false;
-            //SubitRing.IsActive = true;
-            //var user = EmailBox.Text;
-            //var pass = PasswordBox.Password;
-
-            //PasswordAndUserEncryption(ref user, ref pass);
-
-            //// set the abort button with keybord-focus, so that the vitual keyboad in the mobile device with disappear.
-            //Abort.Focus(FocusState.Keyboard);
-
-            ////await InsertLoginMessage(user, pass);
-            //var loginReturn = await PostLNULoginCallback(MainPage.LoginClient, user, pass);
-            //if (loginReturn != null)
-            //    CheckIfLoginSucceed(loginReturn);
-            //else {
-            //    ReportHelper.ReportAttention(GetUIString("Internet_Failed"));
-            //    Submit.IsEnabled = true;
-            //    SubitRing.IsActive = false;
-            //}
+           
         }
 
         #endregion
@@ -229,86 +215,43 @@ namespace Douban.UWP.NET.Pages {
         /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
         /// </summary>
         /// <param name="htmlContent">html of websites</param>
+        private void CheckIfLoginSucceed(string htmlBodyContent) {
+            var doc = new HtmlDocument();
+            doc.LoadHtml(@"<html>
+                                             <head>
+                                             <title>......</title >
+                                             <link href='style.css' rel='stylesheet' type='text/css'>
+                                             <script language='JavaScript1.2' src='nocache.js'></script >
+                                             </head><body>" + htmlBodyContent + "</body></html>");
+            var rootNode = doc.DocumentNode;
+            var checkStatus = rootNode.SelectSingleNode("//div[@class='mod isay isay-disable has-commodity ']");
+            if (checkStatus == null) { // login failed, redirect to the login page.
+                // DO NOTHING ... 
+            } else { // login successful...
+                AppResources.MainLoginPopup.IsOpen = false;
+            }
+        }
+
+        /// <summary>
+        /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
+        /// </summary>
+        /// <param name="htmlContent">html of websites</param>
         private void CheckIfLoginSucceed(LoginReturnBag loginReturn) {
-            //var doc = new HtmlDocument();
-            //if (loginReturn.HtmlResouces == null) { // login failed, redirect to the login page.
-            //    ReportHelper.ReportAttention(GetUIString("Login_Failed"));
-            //    SettingsHelper.SaveSettingsValue(SettingsSelect.IsAutoLogin, false);
-            //    RedirectToLoginAgain();
-            //    return;
-            //}
-            //doc.LoadHtml(loginReturn.HtmlResouces);
-            //var rootNode = doc.DocumentNode;
-            //var studentStatus = rootNode.SelectSingleNode("//span[@class='t']");
-            //if (studentStatus == null) { // login failed, redirect to the login page.
-            //    ReportHelper.ReportAttention(GetUIString("Login_Failed"));
-            //    SettingsHelper.SaveSettingsValue(SettingsSelect.IsAutoLogin, false);
-            //    RedirectToLoginAgain();
-            //    return;
-            //} else { // login successful, save login status and show it.
-            //    if (!studentStatus.InnerText.Contains("请先登录再使用")) {
-            //        SaveLoginStatus(studentStatus, loginReturn.CookieBag);
-            //        LoginPopup.IsOpen = false;
-            //        SetVisibility(MainPopupGrid, false);
-            //        if (thisPageType == DataFetchType.Index_ReLogin) {
-            //            RedirectToPageBefore();
-            //            return;
-            //        }
-            //        SetVisibility(StatusGrid, true);
-            //    } else {
-            //        ReportHelper.ReportAttention(GetUIString("Login_Failed"));
-            //        SettingsHelper.SaveSettingsValue(SettingsSelect.IsAutoLogin, false);
-            //        RedirectToLoginAgain();
-            //        return;
-            //    }
-            //}
+            
         }
 
         /// <summary>
         /// Go back to the page which navigate you to come here.
         /// </summary>
         private void RedirectToPageBefore() {
-            //MainPage.Current.ReLoginPopup.IsOpen = false;
-            //MainPage.Current.NavigateToBase?.Invoke(
-            //null,
-            //new NavigateParameter { ToFetchType = fromPageType, MessageBag = fromNavigateTitle, ToUri = fromUri, NaviType = fromNaviType },
-            //MainPage.InnerResources.GetFrameInstance(fromNaviType),
-            //MainPage.InnerResources.GetPageType(fromNaviType));
+           
         }
 
         /// <summary>
         /// redirect to login when login-error throws.
         /// </summary>
         private void RedirectToLoginAgain() {
-            //if (thisPageType == DataFetchType.Index_ReLogin) {
-            //    MainPage.Current.NavigateToBase?.Invoke(
-            //        this,
-            //        new NavigateParameter {
-            //            ToFetchType = DataFetchType.Index_ReLogin,
-            //            MessageBag = navigateTitle,
-            //            ToUri = currentUri,
-            //            NaviType = NavigateType.ReLogin,
-            //            MessageToReturn = new ReturnParameter {
-            //                FromUri = fromUri,
-            //                FromFetchType = fromPageType,
-            //                FromNaviType = fromNaviType,
-            //                ReturnMessage = fromNavigateTitle,
-            //            },
-            //        },
-            //        MainPage.InnerResources.GetFrameInstance(NavigateType.ReLogin),
-            //        typeof(LoginPage));
-            //    return;
-            //}
-            //MainPage.Current.NavigateToBase?.Invoke(
-            //    this,
-            //    new NavigateParameter {
-            //        ToFetchType = DataFetchType.Index_Login,
-            //        MessageBag = navigateTitle,
-            //        ToUri = currentUri,
-            //        NaviType = NavigateType.Login
-            //    },
-            //    MainPage.InnerResources.GetFrameInstance(NavigateType.Login),
-            //    typeof(LoginPage));
+            
         }
 
         /// <summary>
@@ -316,19 +259,7 @@ namespace Douban.UWP.NET.Pages {
         /// </summary>
         /// <param name="item"></param>
         private void SaveLoginStatus(HtmlNode item, HttpCookie cookie) {
-            //var message = item.InnerText.Replace(" ", "@").Replace(",", "@");
-            //var mess = message.Split('@');
-            //ReportHelper.ReportAttention(GetUIString("Login_Success"));
-            //var stringColl = mess[2].Replace("(", "@").Replace(")", "@").Split('@');
-            //MainPage.LoginCache.IsInsert = true;
-            //MainPage.LoginCache.UserName = UserName.Text = stringColl[0];
-            //MainPage.LoginCache.UserID = UserID.Text = stringColl[1];
-            //MainPage.LoginCache.UserDepartment = UserDepartment.Text = mess[0].Substring(1, mess[0].Length - 1);
-            //MainPage.LoginCache.UserCourse = UserCourse.Text = mess[1].Substring(0, mess[1].Length - 2);
-            //MainPage.LoginCache.UserTime = UserTime.Text = mess[3] + GetUIString("TimeAnoutation");
-            //MainPage.LoginCache.UserIP = UserIP.Text = new Regex("\n").Replace(mess[4].Substring(5, mess[4].Length - 5), "");
-            //MainPage.LoginCache.CacheMiliTime = DateTime.Now;
-            //MainPage.LoginCache.Cookie = cookie;
+            
         }
 
         #endregion
@@ -418,6 +349,7 @@ namespace Douban.UWP.NET.Pages {
         private BinaryStringEncoding binaryStringEncoding;
         private IBuffer ibufferVector;
         private CryptographicKey cryptographicKey;
+        private bool ifNeedToCheck = false;
         #endregion
 
         #endregion

@@ -12,7 +12,7 @@
 
     </Base:BaseContentPage.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Transparent">
 
         <!--#region StateTriggers-->
         <VisualStateManager.VisualStateGroups>
@@ -39,12 +39,12 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="OutGrid.(FrameworkElement.Margin)">
+                            <Setter.Value>25,45</Setter.Value>
+                        </Setter>
                         <Setter Target="relativePanel.(FrameworkElement.Margin)">
                             <Setter.Value>25,45</Setter.Value>
-                        </Setter>
-                        <Setter Target="InnerWebView.(FrameworkElement.Margin)">
-                            <Setter.Value>25,45</Setter.Value>
-                        </Setter>
+                        </Setter> 
 
                     </VisualState.Setters>
                 </VisualState>
@@ -54,10 +54,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="relativePanel.(FrameworkElement.Margin)">
+                        <Setter Target="OutGrid.(FrameworkElement.Margin)">
                             <Setter.Value>25,45</Setter.Value>
                         </Setter>
-                        <Setter Target="InnerWebView.(FrameworkElement.Margin)">
+                        <Setter Target="relativePanel.(FrameworkElement.Margin)">
                             <Setter.Value>25,45</Setter.Value>
                         </Setter>
 
@@ -69,10 +69,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="relativePanel.(FrameworkElement.Margin)">
+                        <Setter Target="OutGrid.(FrameworkElement.Margin)">
                             <Setter.Value>25,45</Setter.Value>
                         </Setter>
-                        <Setter Target="InnerWebView.(FrameworkElement.Margin)">
+                        <Setter Target="relativePanel.(FrameworkElement.Margin)">
                             <Setter.Value>25,45</Setter.Value>
                         </Setter>
 
@@ -82,46 +82,50 @@
         </VisualStateManager.VisualStateGroups>
         <!--#endregion-->
 
-        <Grid>
+        <Grid Name="OutGrid" Margin="5,25,5,25">
+            
+            <Grid Background="White">
 
-            <WebView Name="InnerWebView" 
-                     Margin="5,25,5,25"
-                     Visibility="Visible"
-                     Source="https://www.douban.com/"
-                     DefaultBackgroundColor="#FFFFFF"
-                     NavigationStarting="InnerWebView_NavigationStarting" 
-                     NavigationCompleted="InnerWebView_NavigationCompleted"
-                     ContentLoading="InnerWebView_ContentLoading"
-                     DOMContentLoaded="InnerWebView_DOMContentLoaded"/>
+                <WebView Name="InnerWebView" 
+                         Visibility="Visible"
+                         Source="https://www.douban.com/"
+                         DefaultBackgroundColor="White"
+                         NavigationStarting="InnerWebView_NavigationStarting" 
+                         NavigationCompleted="InnerWebView_NavigationCompleted"
+                         ContentLoading="InnerWebView_ContentLoading"
+                         DOMContentLoaded="InnerWebView_DOMContentLoadedAsync"
+                         ScriptNotify="OnScriNotifypt"/>
 
-            <ProgressRing Name="WebRing" Width="70" Height=" 70" IsActive="False"
+                <ProgressRing Name="WebRing" Width="70" Height=" 70" IsActive="True"
                                   Foreground="{ThemeResource DoubanForeground02}"/>
 
-            <Button Name="AbortWebButton" 
+                <Button Name="AbortWebButton" 
                     Click="Abort_Click" 
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
-                    Margin="50"
+                    Margin="30"
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
-                <Grid>
-                    <Ellipse Fill="#A0A0A0" Width="70" Height="70"/>
-                    <TextBlock Text="&#xE711;" FontSize="50" Foreground="White" Margin="10,10"/>
-                </Grid>
-            </Button>
+                    <Grid>
+                        <Ellipse Fill="#A0A0A0" Width="50" Height="50"/>
+                        <TextBlock Text="&#xE711;" FontSize="30" Foreground="White" Margin="10,10"/>
+                    </Grid>
+                </Button>
 
-        </Grid>
+            </Grid>
 
-        <RelativePanel x:Name="relativePanel" Margin="5,25,5,25" Grid.Column="1"
+            <RelativePanel  Grid.Column="1" Visibility="Collapsed" 
                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-            <RelativePanel Grid.Column="1" 
-                                       RelativePanel.AlignLeftWithPanel="True"
-                                       RelativePanel.AlignRightWithPanel="True"
-                                       RelativePanel.AlignTopWithPanel="True"
-                                       RelativePanel.AlignBottomWithPanel="True">
+                <RelativePanel x:Name="relativePanel" 
+                               Margin="5,25,5,25"
+                               Grid.Column="1" 
+                               RelativePanel.AlignLeftWithPanel="True"
+                               RelativePanel.AlignRightWithPanel="True"
+                               RelativePanel.AlignTopWithPanel="True"
+                               RelativePanel.AlignBottomWithPanel="True">
 
-                <!--#region Title Image-->
-                <TextBlock Name="AccText" 
+                    <!--#region Title Image-->
+                    <TextBlock Name="AccText" 
                                        x:Uid="Douban_Login_Title"
                                        Foreground="{ThemeResource LNUTextColor01}" 
                                        FontWeight="Light"
@@ -129,34 +133,34 @@
                                        FontSize="22"
                                        Margin=" 0,15,0,0"
                                        RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-                <!--#endregion-->
+                    <!--#endregion-->
 
-                <!--#region ID -->
-                <Grid Name="EmailGrid" 
+                    <!--#region ID -->
+                    <Grid Name="EmailGrid" 
                                   Height=" 55" 
                                   Margin="5,20,5,10" 
                                   RelativePanel.AlignLeftWithPanel="True"
                                   RelativePanel.Below="AccText"
                                   RelativePanel.AlignRightWithPanel="True">
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.ColumnSpan="2">
-                        <Border Background="{ThemeResource ENRZBackground}" 
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="2">
+                            <Border Background="{ThemeResource ENRZBackground}" 
                                             CornerRadius="3,3,3,3" 
                                             Name="EmailBorderness"
                                             BorderThickness="1" 
                                             BorderBrush="{ThemeResource AppScrollViewerForeground02}"/>
-                    </Grid>
-                    <TextBlock Foreground="{ThemeResource AppPersonalTextColorPure02}" 
+                        </Grid>
+                        <TextBlock Foreground="{ThemeResource AppPersonalTextColorPure02}" 
                                            FontSize="17" 
                                            x:Uid="Douban_Login_ID" 
                                            Margin="10,5,5,5" 
                                            Width=" 70"
                                            VerticalAlignment="Center" 
                                            Grid.Column="0" />
-                    <TextBox Background="Transparent" 
+                        <TextBox Background="Transparent" 
                                          Grid.Column="1" 
                                          Name="EmailBox"
                                          Margin="10,5,10,5" 
@@ -165,35 +169,35 @@
                                          Style="{StaticResource SpecialTextBox}"
                                          GotFocus="EmailBox_GotFocus"
                                          LostFocus="EmailBox_LostFocus"/>
-                </Grid>
-                <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
 
-                <!--#region Password-->
-                <Grid Name="PasswordGrid" 
+                    <!--#region Password-->
+                    <Grid Name="PasswordGrid" 
                                   RelativePanel.Below="EmailGrid"
                                   Height=" 55" 
                                   Margin="5,5,5,10" 
                                   RelativePanel.AlignLeftWithPanel="True"
                                   RelativePanel.AlignRightWithPanel="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.ColumnSpan="2">
-                        <Border Background="{ThemeResource ENRZBackground}" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="2">
+                            <Border Background="{ThemeResource ENRZBackground}" 
                                             CornerRadius="3,3,3,3" 
                                             Name="PasswordBorderness"
                                             BorderThickness="1" 
                                             BorderBrush="{ThemeResource AppScrollViewerForeground02}"/>
-                    </Grid>
-                    <TextBlock Foreground="{ThemeResource AppPersonalTextColorPure02}" 
+                        </Grid>
+                        <TextBlock Foreground="{ThemeResource AppPersonalTextColorPure02}" 
                                            FontSize="17" 
                                            x:Uid="Douban_Login_Password" 
                                            Margin="10,5,5,5" 
                                            Width=" 70"
                                            VerticalAlignment="Center" 
                                            Grid.Column="0"/>
-                    <PasswordBox Background="Transparent" 
+                        <PasswordBox Background="Transparent" 
                                              VerticalAlignment="Center"
                                              Margin="10,5,10,5" 
                                              Grid.Column="1" 
@@ -202,11 +206,11 @@
                                              Name="PasswordBox"
                                              GotFocus="PasswordBox_GotFocus" 
                                              LostFocus="PasswordBox_LostFocus"/>
-                </Grid>
-                <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
 
-                <!--#region CheckBox-->
-                <CheckBox Name="PasswordCheckBox" 
+                    <!--#region CheckBox-->
+                    <CheckBox Name="PasswordCheckBox" 
                                       Checked="PasswordCheckBox_Checked"
                                       Click="PasswordCheckBox_Click"
                                       Style="{ThemeResource SpecialCheckBox}"
@@ -215,7 +219,7 @@
                                       RelativePanel.Below="PasswordGrid"
                                       Margin="8,10" 
                                       IsEnabled="True"/>
-                <CheckBox Name="AutoLoginCheckBox" 
+                    <CheckBox Name="AutoLoginCheckBox" 
                                       Checked="AutoLoginCheckBox_Checked"
                                       Click="AutoLoginCheckBox_Click"
                                       Style="{ThemeResource SpecialCheckBox}"
@@ -224,10 +228,10 @@
                                       RelativePanel.Below="PasswordCheckBox"
                                       Margin="8,10"
                                       IsEnabled="True"/>
-                <!--#endregion-->
+                    <!--#endregion-->
 
-                <!--#region Buttons-->
-                <TextBlock Name="announceText" 
+                    <!--#region Buttons-->
+                    <TextBlock Name="announceText" 
                                        x:Uid="Douban_Login_Promise"
                                        Foreground="{ThemeResource LNUTextColor01}" 
                                        FontWeight="Light" 
@@ -237,17 +241,17 @@
                                        RelativePanel.Above="ButtonsGrid"
                                        TextWrapping="WrapWholeWords"
                                        TextAlignment="Left"/>
-                <Grid Name="ButtonsGrid" 
+                    <Grid Name="ButtonsGrid" 
                                   Padding=" 5,12,5,0" 
                                   Height="60"
                                   RelativePanel.AlignLeftWithPanel="True" 
                                   RelativePanel.AlignRightWithPanel="True"
                                   RelativePanel.AlignBottomWithPanel="True">
-                    <Grid.ColumnDefinitions >
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="3*"/>
-                    </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" 
+                        <Grid.ColumnDefinitions >
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" 
                                         x:Uid="Douban_Login_Submit" 
                                         Margin="0,0,10,0"
                                         Style="{StaticResource SpecialButtonSubmit}" 
@@ -256,14 +260,14 @@
                                         HorizontalAlignment="Stretch" 
                                         Click="Submit_Click"
                                         VerticalAlignment="Stretch">
-                    </Button>
-                    <ProgressRing Name="SubitRing" 
+                        </Button>
+                        <ProgressRing Name="SubitRing" 
                                               Grid.Column="0" 
                                               IsActive="False"
                                               Foreground="{ThemeResource ENRZForeground01}"
                                               HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
-                    <Button Grid.Column="1" 
+                        <Button Grid.Column="1" 
                                         x:Uid="Douban_Login_Abort" 
                                         Margin="10,0,0,0"
                                         Background="{ThemeResource AppScrollViewerForeground02}"
@@ -272,13 +276,14 @@
                                         HorizontalAlignment="Stretch" 
                                         Click="Abort_Click"
                                         VerticalAlignment="Stretch"/>
-                </Grid>
-                <!--#endregion-->
+                    </Grid>
+                    <!--#endregion-->
 
+                </RelativePanel>
             </RelativePanel>
-        </RelativePanel>
 
-        <!--#endregion-->
+            <!--#endregion-->
+        </Grid>
 
     </Grid>
 </Base:BaseContentPage>

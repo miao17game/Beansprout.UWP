@@ -19,6 +19,8 @@ using Windows.UI.Core;
 using Douban.UWP.NET.Controls;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls.Primitives;
+using Douban.UWP.Core.Tools;
+using HtmlAgilityPack;
 
 namespace Douban.UWP.NET {
 
@@ -99,15 +101,26 @@ namespace Douban.UWP.NET {
                 null,
                 GetFrameInstance(NavigateType.Settings),
                 GetPageType(NavigateType.Settings));
-            //BasePartFrame.Navigate(typeof(SettingsPage));
             HamburgerListBox.SelectedIndex = -1;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e) {
+        private async void LoginButton_Click(object sender, RoutedEventArgs e) {
+            BaseListRing.IsActive = true;
+            var result = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(result);
+            if (doc.DocumentNode.SelectSingleNode("//div[@class='mod isay isay-disable has-commodity ']") != null) {
+                NavigateToBase?.Invoke(
+                sender,
+                new NavigateParameter { SpecialParameter = result },
+                GetFrameInstance(NavigateType.UserInfo),
+                GetPageType(NavigateType.UserInfo));
+                return;
+            }
             NavigateToBase?.Invoke(
-                sender, 
-                null, 
-                GetFrameInstance(NavigateType.Login), 
+                sender,
+                null,
+                GetFrameInstance(NavigateType.Login),
                 GetPageType(NavigateType.Login));
             ImagePopup.IsOpen = true;
         }
@@ -209,7 +222,7 @@ namespace Douban.UWP.NET {
         #region Properties and state
 
         private bool isNeedClose = false;
-
+        private bool isNeedLogin = true;
         public const string HomeHost = "https://www.douban.com/";
         public const string HomeHostInsert = "https://www.douban.com";
 
