@@ -11,5 +11,6 @@ namespace Douban.UWP.Core.Models {
         Webview,
         Settings,
         Login,
+        UserInfo,
     }
 }

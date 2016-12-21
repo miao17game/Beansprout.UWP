@@ -109,6 +109,7 @@ namespace Douban.UWP.NET.Resources {
                 pagesMaps = new Dictionary<NavigateType, Type> {
                     { NavigateType.Settings,typeof(SettingsPage)},
                     { NavigateType.Login,typeof(LoginPage)},
+                    { NavigateType.UserInfo,typeof(UserInfoPage)},
                     //{ NavigateType.Webview,typeof(WebViewPage)},
                     //{ NavigateType.Index,typeof(IndexPage)},
                 };
@@ -128,6 +129,7 @@ namespace Douban.UWP.NET.Resources {
                     frameMaps = new Dictionary<NavigateType, Frame> {
                         { NavigateType.Settings, MainLeftPartFrame},
                         { NavigateType.Login, MainLoginFrame},
+                        { NavigateType.UserInfo, MainLeftPartFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
                         { NavigateType.Index, MainLeftPartFrame},
                     };
