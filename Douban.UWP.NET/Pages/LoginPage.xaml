@@ -256,7 +256,7 @@
                                              LostFocus="VerificationCodeBox_LostFocus"/>
                         <!-- VerificationCode Image -->
                         <Border Name="VerificationCodeBorder" Visibility="Visible" Grid.Column="2">
-                            <Image Name="VerificationCodeImage" MaxWidth="220" Margin="5"/>
+                            <Image Name="VerificationCodeImage" MaxWidth="175" Margin="5"/>
                         </Border>
                     </Grid>
                     <!--#endregion-->

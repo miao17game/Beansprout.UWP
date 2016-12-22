@@ -246,6 +246,10 @@ namespace Douban.UWP.NET.Pages {
                                         node.innerText = '{user}';
                                     if (node.id == 'password') 
                                         node.innerText = '{pass}';
+                                    if (node.name == 'form_email') 
+                                        node.setAttribute('value', '{user}');
+                                    if (node.name == 'form_password') 
+                                        node.setAttribute('value', '{pass}');
                                     if (node.id == 'captcha_field') 
                                         node.innerText = '{code}';
                                     if (node.id == 'remember') 
