@@ -9,6 +9,8 @@ using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Wallace.UWP.Helpers;
+using Douban.UWP.Core.Tools;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -17,6 +19,7 @@ namespace Douban.UWP.NET.Resources {
     public static class AppResources {
 
         #region Controls Management
+        public static TextBlock NavigateTitleBlock { get; set; }
         public static MainPage Current { get; set; }
         public static Frame MainContentFrame { get; set; }
         public static Frame MainLeftPartFrame { get; set; }
@@ -24,6 +27,35 @@ namespace Douban.UWP.NET.Resources {
         public static ProgressRing BaseListRing { get; set; }
         public static ListBox HamburgerBox { get; set; }
         public static Popup MainLoginPopup { get; set; }
+        #endregion
+
+        #region Global Resources Properties
+
+        private static bool? _isDivideScreen;
+        public static bool IsDivideScreen {
+            get {
+                return _isDivideScreen ?? new Func<bool>(() => {
+                    _isDivideScreen = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
+                    return (bool)_isDivideScreen;
+                }).Invoke();
+            }
+            set { _isDivideScreen = value; }
+        }
+
+        private static double? _divideNumber;
+        public static double DivideNumber {
+            get {
+                return _divideNumber ?? new Func<double>(() => {
+                    _divideNumber = (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6;
+                    return (double)_divideNumber;
+                }).Invoke();
+            }
+            set { _divideNumber = value; }
+        }
+
+        public static bool IsLogined { get; set; }
+        public static string LoginResult { get; set; }
+
         #endregion
 
         #region Navigate Methods
@@ -40,12 +72,12 @@ namespace Douban.UWP.NET.Resources {
                         new NavigationBar {
                             Title = GetUIString("DB_INDEX"),
                             PathUri = new Uri("https://www.douban.com/"),
-                            NaviType = NavigateType.Index,
-                            FetchType = DataFetchType.Index,
+                            NaviType = NavigateType.Webview,
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_BOOK"),
-                            NaviType = NavigateType.Index,
+                            PathUri = new Uri("https://book.douban.com/"),
+                            NaviType = NavigateType.Webview,
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_MOVIE"),
@@ -110,8 +142,8 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Settings,typeof(SettingsPage)},
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
-                    //{ NavigateType.Webview,typeof(WebViewPage)},
-                    //{ NavigateType.Index,typeof(IndexPage)},
+                    { NavigateType.Index, typeof(WebViewPage)},
+                    { NavigateType.Webview, typeof(WebViewPage)},
                 };
                 return pagesMaps;
             }).Invoke(); }

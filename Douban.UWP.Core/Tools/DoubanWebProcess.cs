@@ -84,11 +84,11 @@ namespace Douban.UWP.Core.Tools {
             return await client.PostAsync(new Uri(urlString), null);
         }
 
-        private static HttpRequestMessage POST(HttpClient client, string urlString , bool notForLogin = true) {
+        private static HttpRequestMessage POST(string urlString , bool notForLogin = true) {
             return new HttpRequestMessage(HttpMethod.Post, new Uri(urlString));
         }
 
-        private static HttpRequestMessage GET(HttpClient client, string urlString) {
+        private static HttpRequestMessage GET(string urlString) {
             return new HttpRequestMessage(HttpMethod.Get, new Uri(urlString));
         }
 
@@ -97,7 +97,7 @@ namespace Douban.UWP.Core.Tools {
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        private static async Task<StringBuilder> CastStreamContentToString(HttpResponseMessage result, bool IsGB2312 = true ) {
+        private static async Task<StringBuilder> CastStreamResultToStringAsync(HttpResponseMessage result, bool IsGB2312 = true ) {
             var stream = await (result.Content as HttpStreamContent).ReadAsInputStreamAsync();
             var LrcStringBuider = new StringBuilder();
             var streamReader = new StreamReader(stream.AsStreamForRead(), IsGB2312? DBCSEncoding.GetDBCSEncoding("gb2312"): Encoding.UTF8);
@@ -115,28 +115,31 @@ namespace Douban.UWP.Core.Tools {
         /// <param name="client"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static async Task<string> GetDoubanResponseAsync(string path, HttpClient client = null) {
+        public static async Task<string> GetDoubanResponseAsync(string path, bool allowToRedirect = true, HttpClient client = null) {
             var returnString = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                var httpClient = client ?? RedirectHttpClient;
-                
-                using (var request = GET(httpClient, path)) {
+                var httpClient = client ?? (allowToRedirect ? RedirectHttpClient : UnRedirectHttpClient);
+                using (var request = GET(path)) {
                     request.Headers.Host = new Windows.Networking.HostName("www.douban.com");
                     request.Headers.Referer = new Uri("https://www.douban.com/");
                     request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
                     request.Headers["Connection"] = "Keep-Alive";
                     var result = await httpClient.SendRequestAsync(request);
-                    returnString = (await CastStreamContentToString(result, false)).ToString();
+                    if (allowToRedirect) {
+                        returnString = (await CastStreamResultToStringAsync(result, false)).ToString();
+                    } else {
+                        returnString = await GetDoubanResponseAsync(result.Headers["Location"]);
+                    }
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
+                Debug.WriteLine("\nObjectDisposedException -- Failed：\n" + ex.StackTrace);
                 return await LNULogOutCallback(new HttpClient(), path);
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return "";
+                Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
+                return "Connect Error.";
             } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return "";
+                Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
+                return "Unknown Error.";
             }
             return returnString;
         }
@@ -194,11 +197,11 @@ namespace Douban.UWP.Core.Tools {
 
                     ///
 
-                    using (var request = GET(client, "http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.loginmessage")) {
+                    using (var request = GET("http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.loginmessage")) {
                         request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
                         request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/xk_login.html");
                         var result = await httpClient.SendRequestAsync(request);
-                        bag.HtmlResouces = (await CastStreamContentToString(result)).ToString();
+                        bag.HtmlResouces = (await CastStreamResultToStringAsync(result)).ToString();
                     }
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
@@ -229,11 +232,11 @@ namespace Douban.UWP.Core.Tools {
             var bag = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
                 var httpClient = client;
-                using (var request = GET(client, logoutPath)) {
+                using (var request = GET(logoutPath)) {
                     request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
                     request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/zhxt_bks_left.html");
                     var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamContentToString(result)).ToString();
+                    bag = (await CastStreamResultToStringAsync(result)).ToString();
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
@@ -259,11 +262,11 @@ namespace Douban.UWP.Core.Tools {
             var bag = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
                 var httpClient = client;
-                using (var request = GET(client, logoutPath)) {
+                using (var request = GET(logoutPath)) {
                     request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
                     request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/zhxt_bks_left.html");
                     var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamContentToString(result)).ToString();
+                    bag = (await CastStreamResultToStringAsync(result)).ToString();
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
@@ -289,11 +292,11 @@ namespace Douban.UWP.Core.Tools {
             var bag = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
                 var httpClient = client;
-                using (var request = POST(client, logoutPath)) {
+                using (var request = POST(logoutPath)) {
                     request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
                     request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.NewPass");
                     var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamContentToString(result)).ToString();
+                    bag = (await CastStreamResultToStringAsync(result)).ToString();
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
@@ -318,10 +321,10 @@ namespace Douban.UWP.Core.Tools {
         public static async Task<string> PostLNURedirectPOSTMethod(HttpClient client, string logoutPath, HttpCookie cookie) {
             var bag = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                using (var request = POST(client, logoutPath)) {
+                using (var request = POST(logoutPath)) {
                     request.Headers["Cookie"] = "ACCOUNT=" + cookie.Value + "; path=/pls/wwwbks/";
                     var result = await client.SendRequestAsync(request);
-                    bag = (await CastStreamContentToString(result, false)).ToString();
+                    bag = (await CastStreamResultToStringAsync(result, false)).ToString();
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nFailed：\n" + ex.StackTrace);

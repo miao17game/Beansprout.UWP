@@ -1,4 +1,5 @@
-﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+﻿#region Using
+using static Wallace.UWP.Helpers.Tools.UWPStates;
 using static Douban.UWP.NET.Resources.AppResources;
 
 using System;
@@ -21,6 +22,8 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls.Primitives;
 using Douban.UWP.Core.Tools;
 using HtmlAgilityPack;
+using Windows.UI.Xaml.Media.Imaging;
+#endregion
 
 namespace Douban.UWP.NET {
 
@@ -48,6 +51,7 @@ namespace Douban.UWP.NET {
 
         private void SetControlAccessEnabled() {
             Current = this;
+            NavigateTitleBlock = this.navigateTitlePath;
             HamburgerBox = this.HamburgerListBox;
             MainLeftPartFrame = this.BasePartFrame;
             MainContentFrame = this.ContentFrame;
@@ -72,6 +76,34 @@ namespace Douban.UWP.NET {
             }
         }
 
+        private async Task TryLoginAsync(bool isInit = false) {
+            LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
+            var doc = new HtmlDocument();
+            doc.LoadHtml(LoginResult);
+            if (doc.DocumentNode.SelectSingleNode("//div[@class='top-nav-info']") != null) {
+
+                try {
+                    SetUserStatus(doc);
+                } catch { /* Ignore. */ }
+
+                IsLogined = true;
+                if (!isInit)
+                    NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
+                return;
+            }
+            if (!isInit) {
+                NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
+                ImagePopup.IsOpen = true;
+            }
+        }
+
+        public static void SetUserStatus(HtmlDocument doc) {
+            var bag = Tools.GlobalHelpers.GetLoginStatus(doc);
+            Current.LoginUserText.Text = "";
+            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(bag.ImageUrl) };
+            Current.LoginUserBlock.Text = bag.UserName;
+        }
+
         #endregion
 
         #region Events
@@ -88,7 +120,16 @@ namespace Douban.UWP.NET {
         }
 
         private void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
+            var item = (sender as ListBox).SelectedItem as NavigationBar;
+            if (item == null)
+                return;
+            navigateTitlePath.Text = item.Title;
+            NavigateToBase?.Invoke(
+                sender, 
+                new NavigateParameter { ToUri = item != null ? item.PathUri : null }, 
+                GetFrameInstance(item.NaviType),
+                GetPageType(item.NaviType));
+            NavigationSplit.IsPaneOpen = false;
         }
 
         private void HamburgerButton_Click(object sender, RoutedEventArgs e) {
@@ -96,6 +137,8 @@ namespace Douban.UWP.NET {
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) {
+            NavigationSplit.IsPaneOpen = false;
+            navigateTitlePath.Text = GetUIString("Settings");
             NavigateToBase?.Invoke(
                 sender,
                 null,
@@ -106,23 +149,18 @@ namespace Douban.UWP.NET {
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
             BaseListRing.IsActive = true;
-            var result = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/");
-            var doc = new HtmlDocument();
-            doc.LoadHtml(result);
-            if (doc.DocumentNode.SelectSingleNode("//div[@class='mod isay isay-disable has-commodity ']") != null) {
+            HamburgerListBox.SelectedIndex = -1;
+            NavigationSplit.IsPaneOpen = false;
+            if (!IsLogined) {
+                await TryLoginAsync();
+            } else {
                 NavigateToBase?.Invoke(
-                sender,
-                new NavigateParameter { SpecialParameter = result },
-                GetFrameInstance(NavigateType.UserInfo),
-                GetPageType(NavigateType.UserInfo));
-                return;
+                    sender,
+                    null,
+                    GetFrameInstance(NavigateType.UserInfo),
+                    GetPageType(NavigateType.UserInfo));
             }
-            NavigateToBase?.Invoke(
-                sender,
-                null,
-                GetFrameInstance(NavigateType.Login),
-                GetPageType(NavigateType.Login));
-            ImagePopup.IsOpen = true;
+            BaseListRing.IsActive = false;
         }
 
         private void NavigationSplit_PaneClosed(SplitView sender, object args) {
@@ -213,8 +251,9 @@ namespace Douban.UWP.NET {
             OnPaneIsOpened();
         }
 
-        private void GetResources() {
-            NaviBarResouces.Source = AppResources.HamburgerResList;
+        private async void GetResources() {
+            NaviBarResouces.Source = HamburgerResList;
+            await TryLoginAsync(true);
         }
 
         #endregion

@@ -17,6 +17,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Wallace.UWP.Helpers;
+using Douban.UWP.NET.Tools;
+using Douban.UWP.Core.Tools;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -25,10 +28,13 @@ namespace Douban.UWP.NET.Pages {
             this.InitializeComponent();
         }
 
+        protected override void InitPageState() {
+            base.InitPageState();
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            var htmlString = e.Parameter as NavigateParameter;
-            placeforword.Text = htmlString.SpecialParameter as string;
+            placeforword.Text = LoginResult;
             BaseListRing.IsActive = false;
         }
     }

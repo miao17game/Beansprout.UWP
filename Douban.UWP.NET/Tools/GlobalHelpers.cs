@@ -15,6 +15,15 @@ namespace Douban.UWP.NET.Tools {
 
         #region Global methods
 
+        public static LoginStatusBag GetLoginStatus(HtmlAgilityPack.HtmlDocument doc) {
+            var ima = doc.DocumentNode
+                    .SelectSingleNode("//div[@id='db-usr-profile']")
+                    .SelectSingleNode("div[@class='pic']")
+                    .SelectSingleNode("a")
+                    .SelectSingleNode("img");
+            return new LoginStatusBag { ImageUrl = new Uri(ima.Attributes["src"].Value), UserName = ima.Attributes["alt"].Value };
+        }
+
         /// <summary>
         /// Change the page layout by the settings item : "Divide Screen Mode"
         /// </summary>

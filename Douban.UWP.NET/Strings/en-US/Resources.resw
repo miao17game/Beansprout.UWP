@@ -413,4 +413,16 @@
     <value>LOGIN</value>
     <comment>LoginPage</comment>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="LoginPanel.Text" xml:space="preserve">
+    <value>Click here to Login</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="Douban_Login_VerificationCode.Text" xml:space="preserve">
+    <value>Verifi Code</value>
+    <comment>LoginPage</comment>
+  </data>
 </root>

@@ -8,7 +8,7 @@
             <SolidColorBrush x:Key="DoubanForeground01" Color="#FE9A04"/>
             <!--DoubanForeground02 Pink Red -->
             <SolidColorBrush x:Key="DoubanForeground02" Color="#CA003E"/>
-            <!--DoubanForeground03 Pink Red FirstMainColor -->
+            <!--DoubanForeground03 Green FirstMainColor -->
             <SolidColorBrush x:Key="DoubanForeground03" Color="#31C79B"/>
             <!--DoubanForeground04 White Gray -->
             <SolidColorBrush x:Key="DoubanForeground04" Color="#EEEFEFEF"/>
@@ -42,7 +42,7 @@
             <SolidColorBrush x:Key="DoubanForeground03" Color="#E5E5E5"/>
             <!--DoubanForeground04 Dark Gray Black -->
             <SolidColorBrush x:Key="DoubanForeground04" Color="#CC202020"/>
-            <!--DoubanForeground05 Dark Gray Black HamburgerMainColor -->
+            <!--DoubanForeground05 Green Black HamburgerMainColor -->
             <SolidColorBrush x:Key="DoubanForeground05" Color="#31C79B"/>
             <!--DoubanForeground06 Gray FirstBorderColor -->
             <SolidColorBrush x:Key="DoubanForeground06" Color="#CCCCCC"/>

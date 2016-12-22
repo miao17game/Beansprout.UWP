@@ -25,7 +25,7 @@ namespace Douban.UWP.NET.Controls {
         }
 
         protected virtual void InitPageState() {
-            // TO DO ...
+            // FOR OVERRIDE ...
         }
 
         #region Page Animations
@@ -83,7 +83,6 @@ namespace Douban.UWP.NET.Controls {
         #region Properties
         internal bool isFirstLoaded = true;
         internal bool isDivideScreen = true;
-        internal string navigateTitle;
         internal DataFetchType thisPageType;
         internal NavigateType thisNaviType;
         internal Uri currentUri;

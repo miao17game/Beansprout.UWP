@@ -9,13 +9,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Wallace.UWP.Helpers;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Douban.UWP.NET.Resources;
@@ -35,62 +30,7 @@ namespace Douban.UWP.NET.Pages {
             this.InitializeComponent();
         }
 
-        protected override void InitPageState() {
-            base.InitPageState();
-            //isDivideScreen = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
-            //GlobalHelpers.DivideWindowRange(
-            //    currentFramePage: this,
-            //    divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //    isDivideScreen: isDivideScreen);
-        }
-
         #region Events
-
-        #region WebView Events
-
-        private void InnerWebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
-
-        }
-
-        private void InnerWebView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
-
-        }
-
-        private void InnerWebView_ContentLoading(WebView sender, WebViewContentLoadingEventArgs args) {
-   
-        }
-
-        private async void InnerWebView_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
-          
-            WebRing.IsActive = false;
-            await AskWebViewToCallback();
-
-        }
-
-        /// <summary>
-        /// send message to windows so that we can get message of login-success whether or not.
-        /// </summary>
-        /// <returns></returns>
-        private async Task AskWebViewToCallback() { // js to callback
-            var js = @"window.external.notify(
-                                    JSON.stringify(
-                                        new Array (
-                                            document.body.innerText,
-                                            document.body.innerHTML)));";
-            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
-        }
-
-        /// <summary>
-        /// receive message when the js in the webview send message to window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnScriNotifypt(object sender, NotifyEventArgs e) {
-            InnerWebView.ScriptNotify -= OnScriNotifypt;
-            CheckIfLoginSucceed(JsonHelper.FromJson<string[]>(e.Value)[1]);
-        }
-
-        #endregion
 
         #region Page and Controls Events
 
@@ -103,12 +43,69 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            relativePanel.SetVisibility(false);
+            InnerWebView.Source = new Uri("https://www.douban.com/mine/");
+
+            PasswordCheckBox.IsChecked = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsSavePassword) ?? false;
+            AutoLoginCheckBox.IsChecked = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsAutoLogin) ?? false;
+            isAuto = AutoLoginCheckBox.IsChecked = PasswordCheckBox.IsChecked ?? false ? AutoLoginCheckBox.IsChecked : false;
+            AutoLoginCheckBox.IsEnabled = PasswordCheckBox.IsChecked ?? false;
+
+            PasswordAndUserDecryption();
+
+            //NativeLoginPanel.SetVisibility(false);
+
         }
 
         private void MainPopupGrid_SizeChanged(object sender, SizeChangedEventArgs e) {
 
         }
+
+        #region WebView Events
+
+        private void InnerWebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
+
+        }
+
+        private void InnerWebView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
+
+        }
+
+        private void InnerWebView_ContentLoading(WebView sender, WebViewContentLoadingEventArgs args) {
+
+        }
+
+        private async void InnerWebView_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
+            WebRing.IsActive = false;
+            try {
+                await AskWebViewToCallbackAsync();
+            } catch(Exception e) {
+                Debug.WriteLine("error:\n" + e.StackTrace);
+            } finally {
+                try { await GetVerificationCodeAsync(); } catch { /* ignore */}
+            }
+        }
+
+        /// <summary>
+        /// receive message when the js in the webview send message to window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnScriNotifypt(object sender, NotifyEventArgs e) {
+
+            var check = default(string[]);
+            try {
+                check = JsonHelper.FromJson<string[]>(e.Value);
+            } catch(System.Runtime.Serialization.SerializationException) { check = null; }
+
+            if (check != null) {
+                CheckIfLoginSucceed(check[1]);
+            } else {
+                VerificationCodeBorder.SetVisibility(true);
+                VerificationCodeImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(JsonHelper.FromJson<string>(e.Value)));
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -121,12 +118,20 @@ namespace Douban.UWP.NET.Pages {
             PasswordBorderness.BorderBrush = Application.Current.Resources["ENRZForeground02"] as Brush;
         }
 
+        private void VerificationCodeBox_GotFocus(object sender, RoutedEventArgs e) {
+            VerificationCodeBorderness.BorderBrush = Application.Current.Resources["ENRZForeground02"] as Brush;
+        }
+
         private void EmailBox_LostFocus(object sender, RoutedEventArgs e) {
             EmailBorderness.BorderBrush = Application.Current.Resources["AppScrollViewerForeground02"] as Brush;
         }
 
         private void PasswordBox_LostFocus(object sender, RoutedEventArgs e) {
             PasswordBorderness.BorderBrush = Application.Current.Resources["AppScrollViewerForeground02"] as Brush;
+        }
+
+        private void VerificationCodeBox_LostFocus(object sender, RoutedEventArgs e) {
+            VerificationCodeBorderness.BorderBrush = Application.Current.Resources["AppScrollViewerForeground02"] as Brush;
         }
         #endregion
 
@@ -138,7 +143,7 @@ namespace Douban.UWP.NET.Pages {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Submit_Click(object sender, RoutedEventArgs e) {
-            ClickSubmitButtonIfAuto();
+            ClickSubmitButtonIfAutoAsync();
         }
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e) {
@@ -146,6 +151,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e) {
+            AppResources.BaseListRing.IsActive = false;
             AppResources.MainLoginPopup.IsOpen = false;
         }
 
@@ -203,13 +209,75 @@ namespace Douban.UWP.NET.Pages {
         /// if need, run this method for auto-login.
         /// </summary>
         /// <returns></returns>
-        private void ClickSubmitButtonIfAuto() {
-           
+        private async void ClickSubmitButtonIfAutoAsync() {
+            Submit.IsEnabled = false;
+            SubitRing.IsActive = true;
+            var user = EmailBox.Text;
+            var pass = PasswordBox.Password;
+
+            PasswordAndUserEncryption(user, pass);
+
+            // set the abort button with keybord-focus, so that the vitual keyboad in the mobile device with disappear.
+            Abort.Focus(FocusState.Keyboard);
+
+            await InsertLoginMessageAsync(user, pass, VerificationCodeBorder.Visibility == Visibility.Visible ? VerificationCodeBox.Text : null, isAuto.Value);
         }
 
         #endregion
 
         #region Login Status Changed
+
+        /// <summary>
+        /// insert id and password into webview from popup, and after that, click the submit button.
+        /// </summary>
+        /// <param name="user">your cache id</param>
+        /// <param name="pass">your cache password</param>
+        /// <returns></returns>
+        private async Task InsertLoginMessageAsync(string user, string pass, string code = null, bool auto = false) {
+            try { // insert js and run it, so that we can insert message into the target place and click the submit button.
+                var autoToLogin = auto ? "checked" : "";
+                var newJSFounction = $@"
+                            var node_list = document.getElementsByTagName('input');
+                                for (var i = 0; i < node_list.length; i++) {"{"}
+                                var node = node_list[i];
+                                    if (node.name == 'login') 
+                                        node.click();
+                                    if (node.id == 'email') 
+                                        node.innerText = '{user}';
+                                    if (node.id == 'password') 
+                                        node.innerText = '{pass}';
+                                    if (node.id == 'captcha_field') 
+                                        node.innerText = '{code}';
+                                    if (node.id == 'remember') 
+                                        node.setAttribute('checked', '{autoToLogin}');
+                                {"}"} ";
+                await InnerWebView.InvokeScriptAsync("eval", new[] { newJSFounction });
+            } catch (Exception) { // if any error throws, reset the UI and report errer.
+                Submit.IsEnabled = true;
+                SubitRing.IsActive = false;
+                ReportHelper.ReportAttention("Error");
+            }
+        }
+
+        private async Task GetVerificationCodeAsync() { // js to callback
+            var js = @"var node = document.getElementById('captcha_image');
+                             var src = node.getAttribute('src');
+                             window.external.notify(JSON.stringify(src));";
+            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
+        }
+
+        /// <summary>
+        /// send message to windows so that we can get message of login-success whether or not.
+        /// </summary>
+        /// <returns></returns>
+        private async Task AskWebViewToCallbackAsync() { // js to callback
+            var js = @"window.external.notify(
+                                    JSON.stringify(
+                                        new Array (
+                                            document.body.innerText,
+                                            document.body.innerHTML)));";
+            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
+        }
 
         /// <summary>
         /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
@@ -224,11 +292,18 @@ namespace Douban.UWP.NET.Pages {
                                              <script language='JavaScript1.2' src='nocache.js'></script >
                                              </head><body>" + htmlBodyContent + "</body></html>");
             var rootNode = doc.DocumentNode;
-            var checkStatus = rootNode.SelectSingleNode("//div[@class='mod isay isay-disable has-commodity ']");
-            if (checkStatus == null) { // login failed, redirect to the login page.
-                // DO NOTHING ... 
+            var checkStatus = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
+            if (checkStatus == null) { // login failed.
             } else { // login successful...
                 AppResources.MainLoginPopup.IsOpen = false;
+                try {
+                    MainPage.SetUserStatus(doc);
+                } catch { /* Ignore. */ }
+                AppResources.NavigateToBase?.Invoke(
+                    null, 
+                    null, 
+                    AppResources.GetFrameInstance(NavigateType.UserInfo), 
+                    AppResources.GetPageType(NavigateType.UserInfo));
             }
         }
 
@@ -266,7 +341,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Password Encryption & Decryption
 
-        private void PasswordAndUserEncryption(ref string user, ref string pass) {
+        private void PasswordAndUserEncryption(string user, string pass) {
             if (PasswordCheckBox.IsChecked ?? false) {
                 try { // password encryption is over here.
 
@@ -286,13 +361,6 @@ namespace Douban.UWP.NET.Pages {
 
                     SettingsHelper.SaveSettingsValue(SettingsConstants.Password, passToSave.ToArray());
                     SettingsHelper.SaveSettingsValue(SettingsConstants.Email, userToSave.ToArray());
-
-                    /// Changes For Windows Store
-
-                    pass = Convert.ToBase64String(passToSave.ToArray()).Replace("/", "$");
-                    user = Convert.ToBase64String(userToSave.ToArray()).Replace("/", "$");
-
-                    ///
 
                 } catch (Exception e) { // if any error throws, report in debug range and do nothing in the foreground.
                     Debug.WriteLine(e.StackTrace);
@@ -345,11 +413,10 @@ namespace Douban.UWP.NET.Pages {
         #region Properties and state
 
         #region Fields for this
-        public static LoginPage Current;
         private BinaryStringEncoding binaryStringEncoding;
         private IBuffer ibufferVector;
         private CryptographicKey cryptographicKey;
-        private bool ifNeedToCheck = false;
+        private bool? isAuto = false;
         #endregion
 
         #endregion

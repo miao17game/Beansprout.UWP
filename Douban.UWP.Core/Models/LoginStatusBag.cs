@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models {
-    public class NavigateParameter {
-        public Uri ToUri { get; set; }
-        public object SpecialParameter { get; set; }
+    public class LoginStatusBag {
+
+        public string UserName { get; set; }
+
+        public Uri ImageUrl { get; set; }
+
     }
 }

@@ -22,6 +22,7 @@
       </uap:VisualElements>
       <uap:ApplicationContentUriRules>
         <uap:Rule Match="https://www.douban.com/" Type="include" WindowsRuntimeAccess="none" />
+        <uap:Rule Match="http://www.douban.com/" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
     </Application>
   </Applications>

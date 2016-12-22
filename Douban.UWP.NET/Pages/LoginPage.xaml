@@ -88,7 +88,6 @@
 
                 <WebView Name="InnerWebView" 
                          Visibility="Visible"
-                         Source="https://www.douban.com/"
                          DefaultBackgroundColor="White"
                          NavigationStarting="InnerWebView_NavigationStarting" 
                          NavigationCompleted="InnerWebView_NavigationCompleted"
@@ -113,7 +112,7 @@
 
             </Grid>
 
-            <RelativePanel  Grid.Column="1" Visibility="Collapsed" 
+            <RelativePanel Name="NativeLoginPanel"  Grid.Column="1" Visibility="Visible" 
                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
                 <RelativePanel x:Name="relativePanel" 
@@ -122,7 +121,8 @@
                                RelativePanel.AlignLeftWithPanel="True"
                                RelativePanel.AlignRightWithPanel="True"
                                RelativePanel.AlignTopWithPanel="True"
-                               RelativePanel.AlignBottomWithPanel="True">
+                               RelativePanel.AlignBottomWithPanel="True"
+                               MaxWidth="700">
 
                     <!--#region Title Image-->
                     <TextBlock Name="AccText" 
@@ -209,6 +209,49 @@
                     </Grid>
                     <!--#endregion-->
 
+                    <!-- VerificationCode Image -->
+                    <Border Name="VerificationCodeBorder" Visibility="Visible"
+                            RelativePanel.Below="PasswordGrid">
+                        <Image Name="VerificationCodeImage" MaxWidth="200" MaxHeight="100" Margin=" 15,0,0,0"/>
+                    </Border>
+
+                    <!--#region VerificationCode-->
+                    <Grid Name="VerificationCodeGrid" 
+                                  RelativePanel.Below="VerificationCodeBorder"
+                                  Height=" 55" 
+                                  Margin="5,5,5,10" 
+                                  RelativePanel.AlignLeftWithPanel="True"
+                                  RelativePanel.AlignRightWithPanel="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.ColumnSpan="2">
+                            <Border Background="{ThemeResource ENRZBackground}" 
+                                            CornerRadius="3,3,3,3" 
+                                            Name="VerificationCodeBorderness"
+                                            BorderThickness="1" 
+                                            BorderBrush="{ThemeResource AppScrollViewerForeground02}"/>
+                        </Grid>
+                        <TextBlock Foreground="{ThemeResource AppPersonalTextColorPure02}" 
+                                           FontSize="17" 
+                                           x:Uid="Douban_Login_VerificationCode" 
+                                           Margin="10,5,5,5" 
+                                           Width=" 70"
+                                           VerticalAlignment="Center" 
+                                           Grid.Column="0"/>
+                        <TextBox Background="Transparent" 
+                                             VerticalAlignment="Center"
+                                             Margin="10,5,10,5" 
+                                             Grid.Column="1" 
+                                             FontWeight="SemiBold"
+                                             Style="{StaticResource SpecialTextBox}" 
+                                             Name="VerificationCodeBox"
+                                             GotFocus="VerificationCodeBox_GotFocus" 
+                                             LostFocus="VerificationCodeBox_LostFocus"/>
+                    </Grid>
+                    <!--#endregion-->
+
                     <!--#region CheckBox-->
                     <CheckBox Name="PasswordCheckBox" 
                                       Checked="PasswordCheckBox_Checked"
@@ -216,7 +259,7 @@
                                       Style="{ThemeResource SpecialCheckBox}"
                                       Background="{ThemeResource ENRZForeground02}"
                                       x:Uid="Douban_Login_SavePassword"
-                                      RelativePanel.Below="PasswordGrid"
+                                      RelativePanel.Below="VerificationCodeGrid"
                                       Margin="8,10" 
                                       IsEnabled="True"/>
                     <CheckBox Name="AutoLoginCheckBox" 

@@ -413,4 +413,16 @@
     <value>登陆 瓜皮</value>
     <comment>LoginPage</comment>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="LoginPanel.Text" xml:space="preserve">
+    <value>未登录</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="Douban_Login_VerificationCode.Text" xml:space="preserve">
+    <value>验证码</value>
+    <comment>LoginPage</comment>
+  </data>
 </root>

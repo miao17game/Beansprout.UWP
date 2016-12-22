@@ -165,7 +165,8 @@
                     <VisualState.Setters>
 
                         <Setter Target="NavigationSplit.(SplitView.DisplayMode)" Value="Overlay"/>
-                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="HamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
@@ -176,9 +177,12 @@
                         <Setter Target="HamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="LoginButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
                         <Setter Target="BasePartFrame.(FrameworkElement.Margin)" >
                             <Setter.Value>
-                                <Thickness>0,70,0,0</Thickness>
+                                <Thickness>0,80,0,0</Thickness>
                             </Setter.Value>
                         </Setter>
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
@@ -198,7 +202,8 @@
                     <VisualState.Setters>
 
                         <Setter Target="NavigationSplit.(SplitView.DisplayMode)" Value="Overlay"/>
-                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="HamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
@@ -209,9 +214,12 @@
                         <Setter Target="HamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="LoginButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
                         <Setter Target="BasePartFrame.(FrameworkElement.Margin)" >
                             <Setter.Value>
-                                <Thickness>0,70,0,0</Thickness>
+                                <Thickness>0,80,0,0</Thickness>
                             </Setter.Value>
                         </Setter>
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
@@ -286,19 +294,47 @@
                             Click="HamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
-                    <Button Name="LoginButton"
+                    <!--<Button Name="LoginButton"
                             Content="&#xE156;"
+                            FontSize="35"
                             Width="70"
                             Height="70"
                             FontWeight="ExtraBold"
                             Click="LoginButton_Click"
                             Foreground="White"
-                            RelativePanel.AlignRightWithPanel="True"
-                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                            RelativePanel.Below="HamburgerButton"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>-->
+                    <Button Name="LoginButton" 
+                            Height="70" 
+                            Margin="3,0,0,0"
+                            Click="LoginButton_Click"
+                            RelativePanel.Below="HamburgerButton"
+                            Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Bottom" >
+                        <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
+                            <Grid Width="48" Height="48" HorizontalAlignment="Left">
+                                <Ellipse Name="LoginUserIcon" Fill="{ThemeResource DoubanForeground01}" Width="40" Height="40" />
+                                <TextBlock Name="LoginUserText" Text="&#xE156;" 
+                                            Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
+                                            Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                            Style="{ThemeResource CenterContentTextBlock}"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                            </Grid>
+                            <TextBlock Name="LoginUserBlock" 
+                                       x:Uid="LoginPanel"
+                                       FontWeight="ExtraBold"
+                                       Margin=" 60,0,0,0"
+                                       FontSize="16"
+                                       Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                       FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
+                                       Style="{ThemeResource CenterContentTextBlock}"/>
+                        </Grid>
+                    </Button>
                     <ListBox Name="HamburgerListBox" 
                              Background="Transparent"
                              Margin="0,0,0,70"
-                             RelativePanel.Below="HamburgerButton"
+                             RelativePanel.Below="LoginButton"
                              SelectionChanged="HamburgerListBox_SelectionChanged"
                              ItemsSource="{Binding Source={StaticResource NaviBarResouces}}">
                         <ListBox.ItemTemplate>
@@ -371,21 +407,23 @@
                                    FontWeight="Bold"
                                    Foreground="{ThemeResource DoubanForeground04}"/>
                     </Border>
-                    <Rectangle Height="1" 
-                               Margin=" 0,66.5,0,0" 
-                               VerticalAlignment="Top" 
+                    <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
+                        <Rectangle Height="1" 
+                               Margin=" 0,0,0,2.5" 
+                               VerticalAlignment="Bottom" 
                                Opacity="0.7"
                                Fill="{ThemeResource DoubanForeground08}"/>
-                    <Rectangle Height="1" 
-                               Margin=" 0,67.5,0,0" 
-                               VerticalAlignment="Top" 
+                        <Rectangle Height="1" 
+                               Margin=" 0,0,0,1.5" 
+                               VerticalAlignment="Bottom" 
                                Opacity="1"
                                Fill="{ThemeResource DoubanForeground06}"/>
-                    <Rectangle Height="2" 
-                               Margin=" 0,68,0,0" 
-                               VerticalAlignment="Top" 
+                        <Rectangle Height="2" 
+                               Margin=" 0,0,0,0" 
+                               VerticalAlignment="Bottom" 
                                Opacity="1"
                                Fill="{ThemeResource DoubanForeground07}"/>
+                    </Grid>
                     <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
                             Content="&#xE700;"
@@ -399,7 +437,7 @@
                     <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
 
                     <ProgressRing Name="baseListRing" Width="70" Height=" 70" IsActive="False"
-                                  Foreground="{ThemeResource DoubanForeground02}"/>
+                                  Foreground="{ThemeResource DoubanForeground01}"/>
 
                     <Border Name="DarkDivideBorder" 
                             Background="{ThemeResource DQDPopupBackColor}"
