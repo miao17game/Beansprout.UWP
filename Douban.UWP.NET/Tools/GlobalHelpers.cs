@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Resources;
+using Windows.UI.Xaml.Media;
 
 namespace Douban.UWP.NET.Tools {
     public static class GlobalHelpers {
@@ -78,6 +79,40 @@ namespace Douban.UWP.NET.Tools {
             else
                 currentPage.Margin = new Thickness(0, 0, 0, 0);
         }
+
+        #region Handler of ListView Scroll 
+
+        public static ScrollViewer GetScrollViewer(DependencyObject depObj) {
+            if (depObj is ScrollViewer)
+                return depObj as ScrollViewer;
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                var result = GetScrollViewer(child);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+        public static PivotItem GetPVItemViewer(DependencyObject depObj, ref int num) {
+            if (depObj is PivotItem) {
+                if (num == 0)
+                    return depObj as PivotItem;
+                else
+                    num--;
+                return null;
+            }
+
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                var result = GetPVItemViewer(child, ref num);
+                if (result != null)
+                    return result;
+            }
+            return null;
+        }
+
+        #endregion
 
         #region Dropped
         //public static bool IsNeedLoginOrNot { get { return !LoginCache.IsInsert || IsMoreThan30Minutes(LoginCache.CacheMiliTime, DateTime.Now); } }

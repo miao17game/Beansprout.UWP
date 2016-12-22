@@ -390,11 +390,11 @@
     <comment>LoginPage</comment>
   </data>
   <data name="Douban_Login_ID.Text" xml:space="preserve">
-    <value>ACCOUNT</value>
+    <value>Email</value>
     <comment>LoginPage</comment>
   </data>
   <data name="Douban_Login_Password.Text" xml:space="preserve">
-    <value>PASSWORD</value>
+    <value>Password</value>
     <comment>LoginPage</comment>
   </data>
   <data name="Douban_Login_Promise.Text" xml:space="preserve">
@@ -422,7 +422,11 @@
     <comment>MainPage</comment>
   </data>
   <data name="Douban_Login_VerificationCode.Text" xml:space="preserve">
-    <value>Verifi Code</value>
+    <value>Code</value>
+    <comment>LoginPage</comment>
+  </data>
+  <data name="Douban_Login_Title_Summary.Text" xml:space="preserve">
+    <value>Please enter your Douban account.</value>
     <comment>LoginPage</comment>
   </data>
 </root>

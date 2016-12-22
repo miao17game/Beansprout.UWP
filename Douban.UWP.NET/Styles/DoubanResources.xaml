@@ -31,6 +31,9 @@
             <SolidColorBrush x:Key="DoubanBackground04" Color="#282828"/>
             <!--DoubanBackground05 Dark Gray Black -->
             <SolidColorBrush x:Key="DoubanBackground05" Color="#121212"/>
+
+            <!--DoubanTextColor01 Black -->
+            <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
@@ -61,6 +64,9 @@
             <SolidColorBrush x:Key="DoubanBackground04" Color="#FCFCFC"/>
             <!--DoubanBackground05 White Gray -->
             <SolidColorBrush x:Key="DoubanBackground05" Color="#EDEDED"/>
+
+            <!--DoubanTextColor01 Black -->
+            <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

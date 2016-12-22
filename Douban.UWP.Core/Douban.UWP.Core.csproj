@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DataFetchType.cs" />
+    <Compile Include="Models\InfosHeader.cs" />
+    <Compile Include="Models\InfosListItem.cs" />
     <Compile Include="Models\LoginReturnBag.cs" />
     <Compile Include="Models\LoginStatusBag.cs" />
     <Compile Include="Models\NavigateParameter.cs" />

@@ -294,16 +294,6 @@
                             Click="HamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
-                    <!--<Button Name="LoginButton"
-                            Content="&#xE156;"
-                            FontSize="35"
-                            Width="70"
-                            Height="70"
-                            FontWeight="ExtraBold"
-                            Click="LoginButton_Click"
-                            Foreground="White"
-                            RelativePanel.Below="HamburgerButton"
-                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>-->
                     <Button Name="LoginButton" 
                             Height="70" 
                             Margin="3,0,0,0"
@@ -314,8 +304,8 @@
                             VerticalAlignment="Bottom" >
                         <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
                             <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                <Ellipse Name="LoginUserIcon" Fill="{ThemeResource DoubanForeground01}" Width="40" Height="40" />
-                                <TextBlock Name="LoginUserText" Text="&#xE156;" 
+                                <Ellipse Name="LoginUserIcon" Fill="#707070" Width="40" Height="40" />
+                                <TextBlock Name="LoginUserText" Text="&#xE13D;" 
                                             Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
                                             Foreground="{ThemeResource AppPersonalTextColorPure}"
                                             Style="{ThemeResource CenterContentTextBlock}"
@@ -341,11 +331,11 @@
                             <DataTemplate x:DataType="model:NavigationBar">
                                 <Grid>
                                     <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                        <Ellipse Fill="{
+                                        <Rectangle Fill="{
                                             Binding ElementName=ModelTitle, 
                                             Path=Text, 
                                             Converter={StaticResource ColorConverter}}" 
-                                                 Width="40" Height="40" />
+                                                 Width="40" Height="40" RadiusX="10" RadiusY="10"/>
                                         <TextBlock  Text="{
                                             Binding ElementName=ModelTitle, 
                                             Path=Text, 
@@ -372,7 +362,7 @@
                             VerticalAlignment="Bottom" >
                         <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
                             <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                <Ellipse Fill="#EB3557" Width="40" Height="40" />
+                                <Rectangle Fill="#EB3557" Width="40" Height="40" RadiusX="10" RadiusY="10" />
                                 <TextBlock  Text="&#xE115;" 
                                             Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
                                             Foreground="{ThemeResource AppPersonalTextColorPure}"
@@ -405,7 +395,7 @@
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
-                                   Foreground="{ThemeResource DoubanForeground04}"/>
+                                   Foreground="{ThemeResource DoubanTextColor01}"/>
                     </Border>
                     <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
                         <Rectangle Height="1" 
@@ -431,7 +421,7 @@
                             Height="70"
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
-                            Foreground="{ThemeResource DoubanForeground04}"
+                            Foreground="{ThemeResource DoubanTextColor01}"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
 
                     <Frame Name="BasePartFrame" Margin="0,70,0,0"/>

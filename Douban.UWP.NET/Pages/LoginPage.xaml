@@ -113,7 +113,7 @@
             </Grid>
 
             <RelativePanel Name="NativeLoginPanel"  Grid.Column="1" Visibility="Visible" 
-                       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                       Background="{ThemeResource DoubanBackground05}">
 
                 <RelativePanel x:Name="relativePanel" 
                                Margin="5,25,5,25"
@@ -122,17 +122,27 @@
                                RelativePanel.AlignRightWithPanel="True"
                                RelativePanel.AlignTopWithPanel="True"
                                RelativePanel.AlignBottomWithPanel="True"
-                               MaxWidth="700">
+                               MaxWidth="500">
 
                     <!--#region Title Image-->
                     <TextBlock Name="AccText" 
                                        x:Uid="Douban_Login_Title"
                                        Foreground="{ThemeResource LNUTextColor01}" 
-                                       FontWeight="Light"
+                                       FontWeight="SemiBold"
                                        HorizontalAlignment="Center" 
-                                       FontSize="22"
+                                       FontSize="28"
                                        Margin=" 0,15,0,0"
                                        RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+                    
+                    <TextBlock Name="AccTextSummary" 
+                               x:Uid="Douban_Login_Title_Summary"
+                               Foreground="{ThemeResource LNUTextColor01}" 
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" 
+                               FontSize="18"
+                               Margin=" 0,10,0,0"
+                               RelativePanel.Below="AccText"
+                               RelativePanel.AlignHorizontalCenterWithPanel="True"/>
                     <!--#endregion-->
 
                     <!--#region ID -->
@@ -140,7 +150,7 @@
                                   Height=" 55" 
                                   Margin="5,20,5,10" 
                                   RelativePanel.AlignLeftWithPanel="True"
-                                  RelativePanel.Below="AccText"
+                                  RelativePanel.Below="AccTextSummary"
                                   RelativePanel.AlignRightWithPanel="True">
                         <Grid.ColumnDefinitions >
                             <ColumnDefinition Width="auto"/>
@@ -209,15 +219,9 @@
                     </Grid>
                     <!--#endregion-->
 
-                    <!-- VerificationCode Image -->
-                    <Border Name="VerificationCodeBorder" Visibility="Visible"
-                            RelativePanel.Below="PasswordGrid">
-                        <Image Name="VerificationCodeImage" MaxWidth="200" MaxHeight="100" Margin=" 15,0,0,0"/>
-                    </Border>
-
                     <!--#region VerificationCode-->
                     <Grid Name="VerificationCodeGrid" 
-                                  RelativePanel.Below="VerificationCodeBorder"
+                                  RelativePanel.Below="PasswordGrid"
                                   Height=" 55" 
                                   Margin="5,5,5,10" 
                                   RelativePanel.AlignLeftWithPanel="True"
@@ -225,8 +229,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.ColumnSpan="2">
+                        <Grid Grid.ColumnSpan="3">
                             <Border Background="{ThemeResource ENRZBackground}" 
                                             CornerRadius="3,3,3,3" 
                                             Name="VerificationCodeBorderness"
@@ -249,6 +254,10 @@
                                              Name="VerificationCodeBox"
                                              GotFocus="VerificationCodeBox_GotFocus" 
                                              LostFocus="VerificationCodeBox_LostFocus"/>
+                        <!-- VerificationCode Image -->
+                        <Border Name="VerificationCodeBorder" Visibility="Visible" Grid.Column="2">
+                            <Image Name="VerificationCodeImage" MaxWidth="220" Margin="5"/>
+                        </Border>
                     </Grid>
                     <!--#endregion-->
 

@@ -417,7 +417,7 @@
                                        TextWrapping="WrapWholeWords"></TextBlock>
                             <HyperlinkButton Content="Wallace Sun"
                                      NavigateUri="http://noodlesblog.azurewebsites.net/" 
-                                     Foreground="{ThemeResource DoubanForeground02}"
+                                     Foreground="{ThemeResource DoubanForeground01}"
                                      Padding="0" FontWeight="Bold"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" 
@@ -428,7 +428,7 @@
                                        TextWrapping="WrapWholeWords"></TextBlock>
                             <HyperlinkButton x:Uid="Weibo_mess"
                                      NavigateUri="http://weibo.com/miao17game?refer_flag=1001030102_" 
-                                     Foreground="{ThemeResource DoubanForeground02}"
+                                     Foreground="{ThemeResource DoubanForeground01}"
                                      Padding="0" FontWeight="Bold"/>
                         </StackPanel>
 
@@ -465,7 +465,7 @@
                         <Run x:Uid="Feedback_Email" FontWeight="SemiBold"/>
                         </TextBlock>
                         <Button x:Uid="Feedback"
-                            Background="{ThemeResource DoubanForeground02}"
+                            Background="{ThemeResource DoubanForeground01}"
                             Foreground="#EFEFEF"
                             Name="FeedBackBtn" 
                                  Margin="0,10,5,5"
@@ -491,7 +491,7 @@
                              DOMContentLoaded="WebView_DOMContentLoaded"
                              NavigationStarting="WebView_NavigationStarting"/>
                     <ProgressRing Name="PolicyRing" Width="50" Height="50" IsActive="False"
-                                  Foreground="{ThemeResource DoubanForeground02}"/>
+                                  Foreground="{ThemeResource DoubanForeground01}"/>
                 </Grid>
             </PivotItem>
             <!--#endregion-->

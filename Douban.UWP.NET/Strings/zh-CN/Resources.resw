@@ -425,4 +425,8 @@
     <value>验证码</value>
     <comment>LoginPage</comment>
   </data>
+  <data name="Douban_Login_Title_Summary.Text" xml:space="preserve">
+    <value>请使用您的豆瓣账号</value>
+    <comment>LoginPage</comment>
+  </data>
 </root>
