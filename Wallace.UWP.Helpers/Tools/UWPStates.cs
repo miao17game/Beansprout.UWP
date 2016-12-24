@@ -22,7 +22,7 @@ namespace Wallace.UWP.Helpers.Tools {
 
         public static SystemNavigationManager NavigateManager { get { return SystemNavigationManager.GetForCurrentView(); } }
         public static ApplicationView AppView { get { return ApplicationView.GetForCurrentView(); } }
-        public static ResourceLoader ResLoader{ get { return resLoader ?? new ResourceLoader(); } }
+        public static ResourceLoader ResLoader { get { return resLoader ?? new ResourceLoader(); } }
 
         /// <summary>
         /// Current window height with NavigationBar and StatusBar

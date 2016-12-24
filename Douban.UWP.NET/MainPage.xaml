@@ -318,7 +318,7 @@
                             </Grid>
                             <TextBlock Name="LoginUserBlock" 
                                        x:Uid="LoginPanel"
-                                       FontWeight="ExtraBold"
+                                       FontWeight="Bold"
                                        Margin=" 60,0,0,0"
                                        FontSize="16"
                                        Foreground="{ThemeResource AppPersonalTextColorPure}"
@@ -433,6 +433,8 @@
 
                     <ProgressRing Name="baseListRing" Width="70" Height=" 70" IsActive="False"
                                   Foreground="{ThemeResource DoubanForeground01}"/>
+
+                    <Image Name="doubanRing"  Width="70" Height=" 70"  Visibility="Collapsed" Source="/Assets/loading_green.gif"/>
 
                     <Border Name="DarkDivideBorder" 
                             Background="{ThemeResource DQDPopupBackColor}"

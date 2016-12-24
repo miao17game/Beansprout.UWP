@@ -151,7 +151,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e) {
-            BaseListRing.IsActive = false;
+            DoubanLoading.SetVisibility(false);
             MainLoginPopup.IsOpen = false;
         }
 

@@ -12,9 +12,9 @@
         <Style x:Key="SpecialButtonSubmit" TargetType="Button">
             <Setter Property="FontSize" Value="18"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="{ThemeResource DoubanForeground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground}" />
-            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Background" Value="{ThemeResource DoubanForeground05}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground05}" />
+            <Setter Property="BorderThickness" Value="0" />
             <Setter Property="UseSystemFocusVisuals" Value="False"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -32,11 +32,11 @@
                                             <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -45,11 +45,11 @@
                                             <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -58,11 +58,11 @@
                                             <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
                                             </ObjectAnimationUsingKeyFrames>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
     											Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
@@ -88,7 +88,7 @@
                                     Background="{TemplateBinding Background}" 
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="5"/>
+                                    CornerRadius="2"/>
                             <ContentPresenter x:Name="ContentPresenter"
     							BorderBrush="Transparent"
     							BorderThickness="0"
@@ -107,9 +107,10 @@
         </Style>
         <Style x:Key="SpecialButtonAbort" TargetType="Button">
             <Setter Property="FontSize" Value="18"/>
-            <Setter Property="Foreground" Value="{ThemeResource DoubanForeground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground}" />
-            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Background" Value="{ThemeResource DoubanBackground04}"/>
+            <Setter Property="Foreground" Value="{ThemeResource DoubanForeground05}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground05}" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="UseSystemFocusVisuals" Value="False"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -168,10 +169,10 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <Border x:Name="rectangleBorder" 
-                                    Background="White"
+                                    Background="{TemplateBinding Background}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="3,3,3,3"/>
+                                    CornerRadius="2"/>
                             <ContentPresenter x:Name="ContentPresenter"
     							BorderBrush="Transparent"
     							BorderThickness="0"
@@ -187,6 +188,18 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="NameItemBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="#808080"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="NumberBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{ThemeResource DoubanTextColor03}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
     </Base:BaseContentPage.Resources>
 
@@ -212,7 +225,7 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
-                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="240"/>
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="300"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Height)" Value="120"/>
                         <Setter Target="border.(FrameworkElement.Width)" Value="130"/>
@@ -223,9 +236,9 @@
                             </Setter.Value>
                         </Setter>
                         <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="140"/>
-                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="40"/>
-                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="40"/>
-                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="30"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="30"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="30"/>
                         <Setter Target="TalkButton.(Control.FontSize)" Value="17"/>
                         <Setter Target="TalkButton.(FrameworkElement.Margin)">
                             <Setter.Value>
@@ -237,18 +250,18 @@
                                 <Thickness>3,0</Thickness>
                             </Setter.Value>
                         </Setter>
-                        <Setter Target="WatchButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="13"/>
                         <Setter Target="FlowButton.(FrameworkElement.Margin)">
                             <Setter.Value>
-                                <Thickness>0,0,3,0</Thickness>
+                                <Thickness>0,0,10,0</Thickness>
                             </Setter.Value>
                         </Setter>
-                        <Setter Target="FlowButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="13"/>
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="20"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
                             <Setter.Value>
-                                <Thickness>15,15,0,0</Thickness>
+                                <Thickness>15,0,0,0</Thickness>
                             </Setter.Value>
                         </Setter>
 
@@ -271,7 +284,7 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
-                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="240"/>
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="360"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Height)" Value="120"/>
                         <Setter Target="border.(FrameworkElement.Width)" Value="130"/>
@@ -285,7 +298,7 @@
                         <Setter Target="TalkButton.(FrameworkElement.Height)" Value="40"/>
                         <Setter Target="WatchButton.(FrameworkElement.Height)" Value="40"/>
                         <Setter Target="FlowButton.(FrameworkElement.Height)" Value="40"/>
-                        <Setter Target="TalkButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="15"/>
                         <Setter Target="TalkButton.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>3,0</Thickness>
@@ -296,10 +309,10 @@
                                 <Thickness>3,0</Thickness>
                             </Setter.Value>
                         </Setter>
-                        <Setter Target="WatchButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="15"/>
                         <Setter Target="FlowButton.(FrameworkElement.Margin)">
                             <Setter.Value>
-                                <Thickness>0,0,3,0</Thickness>
+                                <Thickness>0,0,10,0</Thickness>
                             </Setter.Value>
                         </Setter>
                         <Setter Target="FlowButton.(Control.FontSize)" Value="17"/>
@@ -307,7 +320,7 @@
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
                             <Setter.Value>
-                                <Thickness>15,15,0,0</Thickness>
+                                <Thickness>15,0,0,0</Thickness>
                             </Setter.Value>
                         </Setter>
                         
@@ -319,6 +332,32 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="400"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="LocationBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
+                        <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="LocationBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="200"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="18"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="20"/>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="20"/>
+
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="DesktopExtra_Tablet">
@@ -327,6 +366,33 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="400"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="LocationBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
+                        <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="LocationBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="200"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="18"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="20"/>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="20"/>
+                        
+
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="DesktopExtra_LightTablet">
@@ -334,6 +400,32 @@
                         <AdaptiveTrigger MinWindowHeight="1300"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="500"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="LocationBlock.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
+                        <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="LocationBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="200"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="18"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="20"/>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="20"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -345,17 +437,18 @@
 
             <StackPanel>
 
-                <Grid Name="HeadGrid" Height="360" VerticalAlignment="Top" Background="Black">
+                <Grid Name="HeadGrid" Height="420" VerticalAlignment="Top" Background="Black">
 
                     <Image Source="/Assets/188.jpg" Stretch="UniformToFill" Opacity="0.8"/>
-                    <Border x:Name="border" CornerRadius="75" Background="White" Width="150" Height="150" 
-                            VerticalAlignment="Bottom" Margin="0,0,0,35">
-                        <Ellipse Name="HeadUserImage" Width="140" Height="140" >
-                            <Ellipse.Fill>
-                                <SolidColorBrush Color="#707070"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                    </Border>
+                    <StackPanel Name="HeadContainerStack" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <Border x:Name="border" CornerRadius="75" Background="White" Width="150" Height="150" Margin="0,0,0,20">
+                            <Ellipse Name="HeadUserImage" Width="140" Height="140" >
+                                <Ellipse.Fill>
+                                    <SolidColorBrush Color="#707070"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Border>
+                    </StackPanel>
 
                     <Border Name="BasePartBorder" 
                             Background="Transparent" 
@@ -363,7 +456,7 @@
                         <TextBlock Name="navigateTitlePath"
                        x:Uid="UserInfos_Title"
                        MaxWidth="500"
-                       FontWeight="SemiBold"
+                       FontWeight="Bold"
                        Text="USERINFOS" FontSize="20"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
@@ -381,30 +474,32 @@
 
                 <Grid Name="DescriptionGrid" Height="320">
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1.5*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Grid>
+                    <Grid Name="U_L_GRID">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Name="UserNameBlock" FontWeight="SemiBold" 
-                                   Text="User" FontSize="50" Margin="15,25,0,0"/>
-                        <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="SemiBold" 
-                                   Text="Location" FontSize="35" Margin="15,-2.5,0,5" Foreground="#808080"/>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center">
+                            <TextBlock Name="UserNameBlock" FontWeight="Bold" Foreground="{ThemeResource DoubanTextColor03}"
+                                   Text="User" FontSize="50" Margin="15,0,0,0"/>
+                            <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="SemiBold" 
+                                   Text="Location" FontSize="35" Margin="15,0,0,5" Foreground="#808080"/>
+                        </StackPanel>
                     </Grid>
 
-                    <Grid Grid.Column="1">
+                    <Grid Name="BTN_GRID" Grid.Column="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.55*"/>
                         </Grid.ColumnDefinitions>
                         <Button Name="TalkButton" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource SpecialButtonAbort}" x:Uid="TalkButton"
@@ -415,24 +510,97 @@
                                 Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="SemiBold" 
                                 Content="GZ" Click="WatchButton_Click"/>
                         <Button Name="FlowButton" Grid.Column="2" HorizontalAlignment="Stretch" 
-                                Style="{ThemeResource SpecialButtonSubmit}"
+                                Style="{ThemeResource SpecialButtonSubmit}" FontFamily="Segoe MDL2 Assets"
                                 Height="70" Margin=" 0,0,10,0" FontSize="35"  FontWeight="SemiBold" 
-                                Content=">" Click="FlowButton_Click"/>
+                                Content="&#xE011;" Click="FlowButton_Click"/>
                     </Grid>
 
-                    <Grid Grid.Row ="1" Grid.ColumnSpan ="2">
+                    <Grid Name="M_DES_GRID" Grid.Row ="1" Grid.ColumnSpan ="2">
                         <Grid >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Name="DescriptionBlock"/>
-                            <TextBlock Grid.Column ="1" Text=">" FontSize="25"  FontWeight="SemiBold" VerticalAlignment ="Center" Margin="5"/>
+                            <TextBlock Name="DescriptionBlock" TextWrapping="WrapWholeWords" Text="PlaceHolder" Margin="15,10,10,5" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column ="1" FontFamily="Segoe MDL2 Assets" Text="&#xE00F;" Foreground="#CC808080"
+                                       FontSize="20"  FontWeight="Black" VerticalAlignment ="Center" Margin="5,10,15,5"/>
                         </Grid>
                         <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Background="Transparent" />
                     </Grid>
-                    
+
+                </Grid>
+
+                <Rectangle Fill="#AAA0A0A0" Height="1" Visibility="Visible" Opacity="0.4" Margin="10,10,10,0"/>
+
+                <Grid Name="SelectGrid" Height="120" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Name="G_B_GRID">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="BroadcastNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}"/>
+                            <TextBlock Name="BroadcastBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="GB" x:Uid="Broadcast_Name"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="DIARY_GRID" Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="DiaryNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
+                            <TextBlock Name="DiaryBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="DIARY" x:Uid="Diary_Name"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="PHOTOS_GRID" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="PhotosNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}"/>
+                            <TextBlock Name="PhotosBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="PHOTO" x:Uid="Photos_Name"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="B_M_GRID" Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="BookMovieNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
+                            <TextBlock Name="BookMovieBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="BM" x:Uid="BookMovie_Name"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Name="GROUPS_GRID" Grid.Column="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="GroupsNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
+                            <TextBlock Name="GroupsBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="GROUP" x:Uid="Group_Name"/>
+                        </StackPanel>
+                    </Grid>
 
                 </Grid>
 

@@ -102,6 +102,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BaseContentPage.cs" />
+    <Compile Include="Controls\IndexDesContainer.xaml.cs">
+      <DependentUpon>IndexDesContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ScheduleTip.xaml.cs">
       <DependentUpon>ScheduleTip.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,9 @@
     <Compile Include="Pages\BaseListPage.xaml.cs">
       <DependentUpon>BaseListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ListInfosPage.xaml.cs">
+      <DependentUpon>ListInfosPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
@@ -122,6 +128,9 @@
     </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TestPage.xaml.cs">
+      <DependentUpon>TestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserInfoPage.xaml.cs">
       <DependentUpon>UserInfoPage.xaml</DependentUpon>
@@ -147,6 +156,8 @@
     <Content Include="Assets\213.jpg" />
     <Content Include="Assets\218.jpg" />
     <Content Include="Assets\231.jpg" />
+    <Content Include="Assets\loading_green.gif" />
+    <Content Include="Assets\loading_grey.gif" />
     <Content Include="Assets\wallace.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -162,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\IndexDesContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ScheduleTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -178,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\ListInfosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,6 +208,10 @@
     <Page Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TestPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\UserInfoPage.xaml">
       <SubType>Designer</SubType>

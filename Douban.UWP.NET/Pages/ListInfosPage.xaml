@@ -1,0 +1,40 @@
+﻿<Page
+    x:Class="Douban.UWP.NET.Pages.ListInfosPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Pages"
+    xmlns:model="using:Douban.UWP.Core.Models.ListModel"
+    xmlns:control ="using:Douban.UWP.NET.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="ListViewResources"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource DoubanBackground04}">
+
+        <ListView ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
+                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="model:IndexItem">
+                    <control:IndexDesContainer x:Name="ItemSingleton" 
+                                                   Margin="0,5,0,3"
+                                                   Background="{ThemeResource DoubanBackground04}"
+                                                   Title="{Binding Title}" 
+                                                   AuthorAvatar="{Binding AuthorAvatar}"
+                                                   AuthorName="{Binding AuthorName}"
+                                                   Cover="{Binding Cover}" 
+                                                   Description="{Binding Description}" 
+                                                   ColumnName="{Binding ColumnName}" 
+                                                   LikersCount="{Binding LikersCount}"
+                                                   CommentCount="{Binding CommentCount}" 
+                                               MorePictures ="{Binding MorePictures}"
+                                                   ClickVisible="Collapsed"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</Page>

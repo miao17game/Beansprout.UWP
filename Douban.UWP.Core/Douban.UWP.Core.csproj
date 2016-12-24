@@ -110,8 +110,9 @@
     <Compile Include="Models\DataFetchType.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
-    <Compile Include="Models\LoginReturnBag.cs" />
-    <Compile Include="Models\LoginStatusBag.cs" />
+    <Compile Include="Models\ListModel\IndexItem.cs" />
+    <Compile Include="Models\LoginModels\LoginReturnBag.cs" />
+    <Compile Include="Models\LoginModels\LoginStatusBag.cs" />
     <Compile Include="Models\NavigateParameter.cs" />
     <Compile Include="Models\NavigateType.cs" />
     <Compile Include="Models\NavigationBar.cs" />

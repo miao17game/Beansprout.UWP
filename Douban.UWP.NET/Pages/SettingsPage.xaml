@@ -260,10 +260,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.0.7 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.11 / 2016.10.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="首页功能加入中" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.0.7 / 2016.10.24" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="个人主页功能加入中" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.6 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.6 / 2016.10.23" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="细节修改" /><LineBreak/>
                             <Run Text="适配Mobile的登陆配置" /><LineBreak/><LineBreak/>
                             
@@ -453,6 +456,7 @@
                              NavigationStarting="WebView_NavigationStarting"/>
                     <ProgressRing Name="PolicyRing" Width="50" Height="50" IsActive="False"
                                   Foreground="{ThemeResource DoubanForeground01}"/>
+                    <Image Name="policyRingDB"  Width="50" Height=" 50"  Visibility="Collapsed" Source="/Assets/loading_green.gif"/>
                 </Grid>
             </PivotItem>
             <!--#endregion-->

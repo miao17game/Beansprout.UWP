@@ -41,7 +41,7 @@ namespace Douban.UWP.NET {
         #region Methods
 
         private void InitMainPageState() {
-            baseListRing.IsActive = true;
+            doubanRing.SetVisibility(true);
             NavigateManager.BackRequested += OnBackRequested;
             StatusBarInit.InitInnerDesktopStatusBar(true);
             Window.Current.SetTitleBar(BasePartBorder);
@@ -58,6 +58,7 @@ namespace Douban.UWP.NET {
             MainLoginFrame = this.LoginPopupFrame;
             BaseListRing = this.baseListRing;
             MainLoginPopup = this.ImagePopup;
+            DoubanLoading = this.doubanRing;
         }
 
         private void InitCloseAppTask() {
@@ -127,6 +128,7 @@ namespace Douban.UWP.NET {
             var item = (sender as ListBox).SelectedItem as NavigationBar;
             if (item == null)
                 return;
+            doubanRing.SetVisibility(true);
             navigateTitlePath.Text = item.Title;
             NavigateToBase?.Invoke(
                 sender, 
@@ -152,14 +154,14 @@ namespace Douban.UWP.NET {
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
-            BaseListRing.IsActive = true;
+            DoubanLoading.SetVisibility(true);
             HamburgerListBox.SelectedIndex = -1;
             NavigationSplit.IsPaneOpen = false;
             if (!IsLogined) 
                 await TryLoginAsync();
             else 
                 NavigateToUserInfoPage();
-            BaseListRing.IsActive = false;
+            DoubanLoading.SetVisibility(false);
         }
 
         private void NavigationSplit_PaneClosed(SplitView sender, object args) {

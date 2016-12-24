@@ -17,5 +17,7 @@ namespace Douban.UWP.Core.Models {
 
         public Uri LocationUrl { get; set; }
 
+        public string Description { get; set; }
+
     }
 }

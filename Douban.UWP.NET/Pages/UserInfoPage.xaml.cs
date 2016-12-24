@@ -38,10 +38,11 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            BaseListRing.IsActive = false;
+            DoubanLoading.SetVisibility(false);
             HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(LoginStatus.BigHeadUrl) };
             UserNameBlock.Text = LoginStatus.UserName;
             LocationBlock.Text = LoginStatus.LocationString;
+            DescriptionBlock.Text = LoginStatus.Description;
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
@@ -50,6 +51,25 @@ namespace Douban.UWP.NET.Pages {
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
+            if(VisibleWidth > 800) {
+                if (DescriptionGrid.Children.Contains(U_L_GRID)) {
+                    DescriptionGrid.Children.Remove(U_L_GRID);
+                    HeadContainerStack.Children.Add(U_L_GRID);
+                    Grid.SetColumn(BTN_GRID, 0);
+                    Grid.SetColumnSpan(BTN_GRID, 2);
+                    U_L_GRID.HorizontalAlignment = HorizontalAlignment.Center;
+                    UserNameBlock.Foreground = new SolidColorBrush(Windows.UI.Colors.White);
+                }
+            } else {
+                if (HeadContainerStack.Children.Contains(U_L_GRID)) {
+                    HeadContainerStack.Children.Remove(U_L_GRID);
+                    DescriptionGrid.Children.Add(U_L_GRID);
+                    Grid.SetColumn(BTN_GRID, 1);
+                    Grid.SetColumnSpan(BTN_GRID, 1);
+                    U_L_GRID.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    UserNameBlock.Foreground = IsGlobalDark ? new SolidColorBrush(Windows.UI.Colors.White) : new SolidColorBrush(Windows.UI.Colors.Black);
+                }
+            }
         }
 
         #endregion

@@ -26,11 +26,7 @@
                  NavigationStarting="Scroll_NavigationStarting"
                  ContentLoading="Scroll_ContentLoading"/>
 
-        <ProgressRing Name="contentRing" 
-                      Width="70" 
-                      Height=" 70"
-                      IsActive="True"
-                      Foreground="{ThemeResource DoubanForeground01}"/>
+        <Image Name="doubanRing"  Width="70" Height=" 70"  Visibility="Visible" Source="/Assets/loading_green.gif" />
 
     </Grid>
 </base:BaseContentPage>

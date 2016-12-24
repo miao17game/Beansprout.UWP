@@ -53,7 +53,7 @@ namespace Douban.UWP.NET.Pages {
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             var item = (sender as Pivot).SelectedItem as PivotItem;
             if (item.Name == PrivacyPolicy.Name)
-                PolicyRing.IsActive = true;
+                policyRingDB.SetVisibility(true);
         }
 
         private async void FeedBackBtn_Click(object sender, RoutedEventArgs e) {
@@ -117,12 +117,11 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void WebView_ContentLoading(WebView sender, WebViewContentLoadingEventArgs args) {
-            PolicyRing.IsActive = true;
+            policyRingDB.SetVisibility(true);
         }
 
         private void WebView_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args) {
-            PolicyRing.IsActive = false;
-            PolicyRing.SetVisibility(false);
+            policyRingDB.SetVisibility(false);
         }
 
         #endregion

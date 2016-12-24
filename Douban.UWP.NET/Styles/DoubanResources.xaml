@@ -36,8 +36,10 @@
 
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
-            <!--DoubanTextColor02 Black -->
+            <!--DoubanTextColor02 White -->
             <SolidColorBrush x:Key="DoubanTextColor02" Color="#EEFEFEFE"/>
+            <!--DoubanTextColor03 White -->
+            <SolidColorBrush x:Key="DoubanTextColor03" Color="#EEFEFEFE"/>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
@@ -75,6 +77,8 @@
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
             <!--DoubanTextColor02 Black -->
             <SolidColorBrush x:Key="DoubanTextColor02" Color="#CC202020"/>
+            <!--DoubanTextColor03 Black -->
+            <SolidColorBrush x:Key="DoubanTextColor03" Color="#CC202020"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

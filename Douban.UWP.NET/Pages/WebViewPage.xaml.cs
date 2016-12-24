@@ -20,7 +20,7 @@ namespace Douban.UWP.NET.Pages {
 
         public WebViewPage() {
             this.InitializeComponent();
-            BaseListRing.IsActive = false;
+            DoubanLoading.SetVisibility(false);
         }
 
         #endregion
@@ -45,7 +45,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Scroll_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args) {
-            contentRing.IsActive = false;
+            doubanRing.SetVisibility(false);
         }
 
         #endregion

@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
+using Windows.UI.Xaml;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -27,9 +28,12 @@ namespace Douban.UWP.NET.Resources {
         public static ProgressRing BaseListRing { get; set; }
         public static ListBox HamburgerBox { get; set; }
         public static Popup MainLoginPopup { get; set; }
+        public static Image DoubanLoading { get; set; }
         #endregion
 
         #region Global Resources Properties
+
+        public static bool IsGlobalDark { get { return (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true; } }
 
         private static bool? _isDivideScreen;
         public static bool IsDivideScreen {
@@ -69,6 +73,45 @@ namespace Douban.UWP.NET.Resources {
         public static NavigationEventHandler NavigateToBase = (sender, parameter, frame, type) => { frame.Navigate(type, parameter); };
         #endregion
 
+        #region Type
+
+        public static Type GetPageType(NavigateType type) { return PageTypeCollection.ContainsKey(type) ? PageTypeCollection[type] : null; }
+        static private IDictionary<NavigateType, Type> pagesMaps;
+        public static IDictionary<NavigateType, Type> PageTypeCollection {
+            get {
+                return pagesMaps ?? new Func<IDictionary<NavigateType, Type>>(()=> {
+                pagesMaps = new Dictionary<NavigateType, Type> {
+                    { NavigateType.Settings,typeof(SettingsPage)},
+                    { NavigateType.Login,typeof(LoginPage)},
+                    { NavigateType.UserInfo,typeof(UserInfoPage)},
+                    { NavigateType.Index, typeof(ListInfosPage)},
+                    { NavigateType.Webview, typeof(WebViewPage)},
+                };
+                return pagesMaps;
+            }).Invoke(); }
+        }
+
+        #endregion
+
+        #region Frame
+
+        public static Frame GetFrameInstance(NavigateType type) { return FrameMaps.ContainsKey(type) ? FrameMaps[type] : null; }
+        static private IDictionary<NavigateType, Frame> frameMaps;
+        public static IDictionary<NavigateType, Frame> FrameMaps {
+            get {
+                return frameMaps ?? new Func<IDictionary<NavigateType, Frame>>(()=> {
+                    frameMaps = new Dictionary<NavigateType, Frame> {
+                        { NavigateType.Settings, MainLeftPartFrame},
+                        { NavigateType.Login, MainLoginFrame},
+                        { NavigateType.UserInfo, MainContentFrame},
+                        { NavigateType.Webview, MainLeftPartFrame},
+                        { NavigateType.Index, MainLeftPartFrame},
+                    };
+                    return frameMaps;
+                }).Invoke();
+            }
+        }
+
         #region Hamburger resources
         static private IList<NavigationBar> navigationListMap;
         public static IList<NavigationBar> HamburgerResList {
@@ -77,8 +120,8 @@ namespace Douban.UWP.NET.Resources {
                     navigationListMap = new List<NavigationBar> {
                         new NavigationBar {
                             Title = GetUIString("DB_INDEX"),
-                            PathUri = new Uri("https://www.douban.com/"),
-                            NaviType = NavigateType.Webview,
+                            PathUri = new Uri("https://m.douban.com/"),
+                            NaviType = NavigateType.Index,
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_BOOK"),
@@ -137,45 +180,6 @@ namespace Douban.UWP.NET.Resources {
         }
         #endregion
 
-        #region Type
-
-        public static Type GetPageType(NavigateType type) { return PageTypeCollection.ContainsKey(type) ? PageTypeCollection[type] : null; }
-        static private IDictionary<NavigateType, Type> pagesMaps;
-        public static IDictionary<NavigateType, Type> PageTypeCollection {
-            get {
-                return pagesMaps ?? new Func<IDictionary<NavigateType, Type>>(()=> {
-                pagesMaps = new Dictionary<NavigateType, Type> {
-                    { NavigateType.Settings,typeof(SettingsPage)},
-                    { NavigateType.Login,typeof(LoginPage)},
-                    { NavigateType.UserInfo,typeof(UserInfoPage)},
-                    { NavigateType.Index, typeof(WebViewPage)},
-                    { NavigateType.Webview, typeof(WebViewPage)},
-                };
-                return pagesMaps;
-            }).Invoke(); }
-        }
-
-        #endregion
-
-        #region Frame
-
-        public static Frame GetFrameInstance(NavigateType type) { return FrameMaps.ContainsKey(type) ? FrameMaps[type] : null; }
-        static private IDictionary<NavigateType, Frame> frameMaps;
-        public static IDictionary<NavigateType, Frame> FrameMaps {
-            get {
-                return frameMaps ?? new Func<IDictionary<NavigateType, Frame>>(()=> {
-                    frameMaps = new Dictionary<NavigateType, Frame> {
-                        { NavigateType.Settings, MainLeftPartFrame},
-                        { NavigateType.Login, MainLoginFrame},
-                        { NavigateType.UserInfo, MainContentFrame},
-                        { NavigateType.Webview, MainLeftPartFrame},
-                        { NavigateType.Index, MainLeftPartFrame},
-                    };
-                    return frameMaps;
-                }).Invoke();
-            }
-        }
-        
         #endregion
 
         //#region Child page for cache

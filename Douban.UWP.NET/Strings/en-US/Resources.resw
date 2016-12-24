@@ -434,7 +434,7 @@
     <comment>LoginPage</comment>
   </data>
   <data name="UserInfos_Title.Text" xml:space="preserve">
-    <value>User Infos</value>
+    <value>Home</value>
     <comment>UserInfosPage</comment>
   </data>
   <data name="TalkButton.Content" xml:space="preserve">
@@ -443,6 +443,30 @@
   </data>
   <data name="WatchButton.Content" xml:space="preserve">
     <value>Watch</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Lazy_for_no_description" xml:space="preserve">
+    <value>Nothing here.</value>
+    <comment>GlobalHelpers</comment>
+  </data>
+  <data name="BookMovie_Name.Text" xml:space="preserve">
+    <value>Book&amp;Movie</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Broadcast_Name.Text" xml:space="preserve">
+    <value>Status</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Diary_Name.Text" xml:space="preserve">
+    <value>Diary</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Group_Name.Text" xml:space="preserve">
+    <value>Groups</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Photos_Name.Text" xml:space="preserve">
+    <value>Gellary</value>
     <comment>UserInfosPage</comment>
   </data>
 </root>

@@ -27,9 +27,11 @@ namespace Douban.UWP.NET.Tools {
             var user_info_div = doc.DocumentNode.SelectSingleNode("//div[@class='user-info']");
             var location = user_info_div != null ? new Uri(user_info_div.SelectSingleNode("a").Attributes["href"].Value) : null;
             var location_string = user_info_div != null ? user_info_div.SelectSingleNode("a").InnerText : null;
+            var des_span = doc.DocumentNode.SelectSingleNode("//span[@id='intro_display']");
             return new LoginStatusBag {
                 ImageUrl = new Uri(ima.Attributes["src"].Value),
                 UserName = ima.Attributes["alt"].Value,
+                Description = des_span != null ? des_span.InnerText : GetUIString("Lazy_for_no_description"),
                 BigHeadUrl = bigHead,
                 LocationString = location_string,
                 LocationUrl = location,

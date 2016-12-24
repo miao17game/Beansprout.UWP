@@ -433,7 +433,7 @@
     <value>登录失败，请检查后重试</value>
   </data>
   <data name="UserInfos_Title.Text" xml:space="preserve">
-    <value>个人中心</value>
+    <value>个人主页</value>
     <comment>UserInfosPage</comment>
   </data>
   <data name="TalkButton.Content" xml:space="preserve">
@@ -442,6 +442,30 @@
   </data>
   <data name="WatchButton.Content" xml:space="preserve">
     <value>关注</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Lazy_for_no_description" xml:space="preserve">
+    <value>这家伙很懒，什么也没留下</value>
+    <comment>GlobalHelpers</comment>
+  </data>
+  <data name="BookMovie_Name.Text" xml:space="preserve">
+    <value>书影音</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Broadcast_Name.Text" xml:space="preserve">
+    <value>广播</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Diary_Name.Text" xml:space="preserve">
+    <value>日记</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Group_Name.Text" xml:space="preserve">
+    <value>小组</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Photos_Name.Text" xml:space="preserve">
+    <value>相册</value>
     <comment>UserInfosPage</comment>
   </data>
 </root>

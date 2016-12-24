@@ -105,6 +105,14 @@ namespace Douban.UWP.Core.Tools {
             return LrcStringBuider;
         }
 
+        private static async Task<StringBuilder> CastStreamResultToStringAsync(HttpResponseMessage result, Encoding ecd) {
+            var stream = await (result.Content as HttpStreamContent).ReadAsInputStreamAsync();
+            var LrcStringBuider = new StringBuilder();
+            var streamReader = new StreamReader(stream.AsStreamForRead(), ecd);
+            LrcStringBuider.Append(await streamReader.ReadToEndAsync());
+            return LrcStringBuider;
+        }
+
         #endregion
 
         #region Douban Methods
@@ -115,7 +123,7 @@ namespace Douban.UWP.Core.Tools {
         /// <param name="client"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static async Task<string> GetDoubanResponseAsync(string path, bool allowToRedirect = true, HttpClient client = null) {
+        public static async Task<string> GetDoubanResponseAsync(string path, bool allowToRedirect = true, HttpClient client = null, Encoding ecd = null) {
             var returnString = default(string);
             try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
                 var httpClient = client ?? (allowToRedirect ? RedirectHttpClient : UnRedirectHttpClient);
@@ -126,14 +134,48 @@ namespace Douban.UWP.Core.Tools {
                     request.Headers["Connection"] = "Keep-Alive";
                     var result = await httpClient.SendRequestAsync(request);
                     if (allowToRedirect) {
-                        returnString = (await CastStreamResultToStringAsync(result, false)).ToString();
+                        returnString = ecd == null? (await CastStreamResultToStringAsync(result, false)).ToString() : (await CastStreamResultToStringAsync(result, ecd)).ToString();
                     } else {
-                        returnString = await GetDoubanResponseAsync(result.Headers["Location"]);
+                        returnString = ecd == null ? await GetDoubanResponseAsync(result.Headers["Location"]) : await GetDoubanResponseAsync(result.Headers["Location"], ecd: ecd);
                     }
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nObjectDisposedException -- Failed：\n" + ex.StackTrace);
-                return await LNULogOutCallback(new HttpClient(), path);
+                return await GetDoubanResponseAsync(path, allowToRedirect, client: new HttpClient(), ecd: ecd);
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
+                Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
+                return "Connect Error.";
+            } catch (Exception ex) { // unkown error, report it.
+                Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
+                return "Unknown Error.";
+            }
+            return returnString;
+        }
+
+        /// <summary>
+        /// command from left tab.
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static async Task<string> GetMDoubanResponseAsync(string path, bool allowToRedirect = true, HttpClient client = null, Encoding ecd = null) {
+            var returnString = default(string);
+            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
+                var httpClient = client ?? (allowToRedirect ? RedirectHttpClient : UnRedirectHttpClient);
+                using (var request = GET(path)) {
+                    request.Headers.Host = new Windows.Networking.HostName("m.douban.com");
+                    request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
+                    request.Headers["Connection"] = "Keep-Alive";
+                    var result = await httpClient.SendRequestAsync(request);
+                    if (allowToRedirect) {
+                        returnString = ecd == null ? (await CastStreamResultToStringAsync(result, false)).ToString() : (await CastStreamResultToStringAsync(result, ecd)).ToString();
+                    } else {
+                        returnString = ecd == null ? await GetMDoubanResponseAsync(result.Headers["Location"]) : await GetMDoubanResponseAsync(result.Headers["Location"], ecd: ecd);
+                    }
+                }
+            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
+                Debug.WriteLine("\nObjectDisposedException -- Failed：\n" + ex.StackTrace);
+                return await GetMDoubanResponseAsync(path, allowToRedirect, client: new HttpClient(), ecd: ecd);
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
                 return "Connect Error.";
