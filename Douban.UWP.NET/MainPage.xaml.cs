@@ -88,7 +88,7 @@ namespace Douban.UWP.NET {
 
                 IsLogined = true;
                 if (!isInit)
-                    NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
+                    NavigateToUserInfoPage();
                 return;
             }
             if (!isInit) {
@@ -97,11 +97,15 @@ namespace Douban.UWP.NET {
             }
         }
 
+        private void NavigateToUserInfoPage() {
+            NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
+        }
+
         public static void SetUserStatus(HtmlDocument doc) {
-            var bag = Tools.GlobalHelpers.GetLoginStatus(doc);
+            LoginStatus = Tools.GlobalHelpers.GetLoginStatus(doc);
+            Current.LoginUserBlock.Text = LoginStatus.UserName;
             Current.LoginUserText.Text = "";
-            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(bag.ImageUrl) };
-            Current.LoginUserBlock.Text = bag.UserName;
+            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(LoginStatus.ImageUrl) };
         }
 
         #endregion
@@ -151,15 +155,10 @@ namespace Douban.UWP.NET {
             BaseListRing.IsActive = true;
             HamburgerListBox.SelectedIndex = -1;
             NavigationSplit.IsPaneOpen = false;
-            if (!IsLogined) {
+            if (!IsLogined) 
                 await TryLoginAsync();
-            } else {
-                NavigateToBase?.Invoke(
-                    sender,
-                    null,
-                    GetFrameInstance(NavigateType.UserInfo),
-                    GetPageType(NavigateType.UserInfo));
-            }
+            else 
+                NavigateToUserInfoPage();
             BaseListRing.IsActive = false;
         }
 
@@ -261,7 +260,7 @@ namespace Douban.UWP.NET {
         #region Properties and state
 
         private bool isNeedClose = false;
-        private bool isNeedLogin = true;
+        private bool isInitLogin = false;
         public const string HomeHost = "https://www.douban.com/";
         public const string HomeHostInsert = "https://www.douban.com";
 

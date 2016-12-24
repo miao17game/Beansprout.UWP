@@ -8,7 +8,440 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock TextWrapping="WrapWholeWords" Name="placeforword"/>
+    <Base:BaseContentPage.Resources>
+        <Style x:Key="SpecialButtonSubmit" TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{ThemeResource DoubanForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="UseSystemFocusVisuals" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="rectangleBorder" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="5"/>
+                            <ContentPresenter x:Name="ContentPresenter"
+    							BorderBrush="Transparent"
+    							BorderThickness="0"
+    							Content="{TemplateBinding Content}"
+    							Background="Transparent"
+    							ContentTransitions="{TemplateBinding ContentTransitions}"
+    							ContentTemplate="{TemplateBinding ContentTemplate}"
+    							Padding="{TemplateBinding Padding}"
+    							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    							AutomationProperties.AccessibilityView="Raw"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SpecialButtonAbort" TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{ThemeResource DoubanForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="UseSystemFocusVisuals" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="rectangleBorder" 
+                                    Background="White"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3,3,3,3"/>
+                            <ContentPresenter x:Name="ContentPresenter"
+    							BorderBrush="Transparent"
+    							BorderThickness="0"
+    							Content="{TemplateBinding Content}"
+    							Background="Transparent"
+    							ContentTransitions="{TemplateBinding ContentTransitions}"
+    							ContentTemplate="{TemplateBinding ContentTemplate}"
+    							Padding="{TemplateBinding Padding}"
+    							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    							AutomationProperties.AccessibilityView="Raw"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Base:BaseContentPage.Resources>
+
+    <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
+
+        <!--#region StateTriggers-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Mobile360">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                        <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="200"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="240"/>
+                        <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
+                        <Setter Target="HeadUserImage.(FrameworkElement.Height)" Value="120"/>
+                        <Setter Target="border.(FrameworkElement.Width)" Value="130"/>
+                        <Setter Target="border.(FrameworkElement.Height)" Value="130"/>
+                        <Setter Target="border.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,15</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="140"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="WatchButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="20"/>
+                        <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>15,15,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile480">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="361"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                        <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="300"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="240"/>
+                        <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
+                        <Setter Target="HeadUserImage.(FrameworkElement.Height)" Value="120"/>
+                        <Setter Target="border.(FrameworkElement.Width)" Value="130"/>
+                        <Setter Target="border.(FrameworkElement.Height)" Value="130"/>
+                        <Setter Target="border.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,15</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="DescriptionGrid.(FrameworkElement.Height)" Value="140"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="WatchButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Height)" Value="40"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="TalkButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="WatchButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="WatchButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="FlowButton.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,3,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="20"/>
+                        <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
+                        <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>15,15,0,0</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Desktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="400" MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_Tablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="700" MinWindowWidth="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_LightTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--#endregion-->
+
+        <ScrollViewer Name="Scroll" >
+
+            <StackPanel>
+
+                <Grid Name="HeadGrid" Height="360" VerticalAlignment="Top" Background="Black">
+
+                    <Image Source="/Assets/188.jpg" Stretch="UniformToFill" Opacity="0.8"/>
+                    <Border x:Name="border" CornerRadius="75" Background="White" Width="150" Height="150" 
+                            VerticalAlignment="Bottom" Margin="0,0,0,35">
+                        <Ellipse Name="HeadUserImage" Width="140" Height="140" >
+                            <Ellipse.Fill>
+                                <SolidColorBrush Color="#707070"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Border>
+
+                    <Border Name="BasePartBorder" 
+                            Background="Transparent" 
+                            Height="70" VerticalAlignment="Top">
+                        <TextBlock Name="navigateTitlePath"
+                       x:Uid="UserInfos_Title"
+                       MaxWidth="500"
+                       FontWeight="SemiBold"
+                       Text="USERINFOS" FontSize="20"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+                    </Border>
+                    <Button Name="BaseHamburgerButton"
+                            VerticalAlignment="Top"
+                            Content="&#xE26C;"
+                            Width="70"
+                            Height="70"
+                            Click="BaseHamburgerButton_Click"
+                            Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                </Grid>
+
+                <Grid Name="DescriptionGrid" Height="320">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Name="UserNameBlock" FontWeight="SemiBold" 
+                                   Text="User" FontSize="50" Margin="15,25,0,0"/>
+                        <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="SemiBold" 
+                                   Text="Location" FontSize="35" Margin="15,-2.5,0,5" Foreground="#808080"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Name="TalkButton" HorizontalAlignment="Stretch" 
+                                Style="{ThemeResource SpecialButtonAbort}" x:Uid="TalkButton"
+                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="SemiBold" 
+                                Content="SX" Click="TalkButton_Click"/>
+                        <Button Name="WatchButton" Grid.Column="1" HorizontalAlignment="Stretch" 
+                                Style="{ThemeResource SpecialButtonSubmit}" x:Uid="WatchButton"
+                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="SemiBold" 
+                                Content="GZ" Click="WatchButton_Click"/>
+                        <Button Name="FlowButton" Grid.Column="2" HorizontalAlignment="Stretch" 
+                                Style="{ThemeResource SpecialButtonSubmit}"
+                                Height="70" Margin=" 0,0,10,0" FontSize="35"  FontWeight="SemiBold" 
+                                Content=">" Click="FlowButton_Click"/>
+                    </Grid>
+
+                    <Grid Grid.Row ="1" Grid.ColumnSpan ="2">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Name="DescriptionBlock"/>
+                            <TextBlock Grid.Column ="1" Text=">" FontSize="25"  FontWeight="SemiBold" VerticalAlignment ="Center" Margin="5"/>
+                        </Grid>
+                        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Background="Transparent" />
+                    </Grid>
+                    
+
+                </Grid>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <ProgressRing Name="contentRing" Width="70" Height=" 70" IsActive="False"
+                                  Foreground="{ThemeResource ENRZForeground01}"/>
+
     </Grid>
 </Base:BaseContentPage>

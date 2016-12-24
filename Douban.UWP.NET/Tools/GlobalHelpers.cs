@@ -22,7 +22,18 @@ namespace Douban.UWP.NET.Tools {
                     .SelectSingleNode("div[@class='pic']")
                     .SelectSingleNode("a")
                     .SelectSingleNode("img");
-            return new LoginStatusBag { ImageUrl = new Uri(ima.Attributes["src"].Value), UserName = ima.Attributes["alt"].Value };
+            var basic_info_div = doc.DocumentNode.SelectSingleNode("//div[@class='basic-info']");
+            var bigHead = basic_info_div != null ? new Uri(basic_info_div.SelectSingleNode("img[@class='userface']").Attributes["src"].Value) : null;
+            var user_info_div = doc.DocumentNode.SelectSingleNode("//div[@class='user-info']");
+            var location = user_info_div != null ? new Uri(user_info_div.SelectSingleNode("a").Attributes["href"].Value) : null;
+            var location_string = user_info_div != null ? user_info_div.SelectSingleNode("a").InnerText : null;
+            return new LoginStatusBag {
+                ImageUrl = new Uri(ima.Attributes["src"].Value),
+                UserName = ima.Attributes["alt"].Value,
+                BigHeadUrl = bigHead,
+                LocationString = location_string,
+                LocationUrl = location,
+            };
         }
 
         /// <summary>

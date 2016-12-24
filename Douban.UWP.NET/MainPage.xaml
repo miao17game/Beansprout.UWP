@@ -155,6 +155,11 @@
 
     <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged">
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
         <!--#region StateTriggers-->
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
@@ -395,7 +400,7 @@
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
-                                   Foreground="{ThemeResource DoubanTextColor01}"/>
+                                   Foreground="{ThemeResource DoubanTextColor02}"/>
                     </Border>
                     <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
                         <Rectangle Height="1" 
@@ -421,7 +426,7 @@
                             Height="70"
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
-                            Foreground="{ThemeResource DoubanTextColor01}"
+                            Foreground="{ThemeResource DoubanTextColor02}"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
 
                     <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
@@ -440,15 +445,19 @@
             </SplitView.Content>
         </SplitView>
 
-        <Rectangle Name="SlideAnimaRec" Width="50" Fill="White"
-                   HorizontalAlignment="Left" Margin="0,120,0,70" Opacity="0"/>
+        <Rectangle Name="SlideAnimaRec" 
+                   Width="50" Fill="Black"
+                   HorizontalAlignment="Left"
+                   Margin="0,120,0,70"
+                   Opacity="0" 
+                   Canvas.ZIndex="1"/>
 
-        <Grid Name="ContentGrid" Grid.Column="1">
+        <Grid Name="ContentGrid" Grid.Column="1" Canvas.ZIndex="2">
             <Frame Name="ContentFrame"/>
         </Grid>
 
         <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"
-               SizeChanged="ImagePopup_SizeChanged">
+               SizeChanged="ImagePopup_SizeChanged" Canvas.ZIndex="2">
             <Border Name="ImagePopupBorder"
                     Width="{Binding ActualWidth, ElementName=ImagePopup, Mode=OneWay}" 
                     Height="{Binding ActualHeight, ElementName=ImagePopup, Mode=OneWay}" 
@@ -459,7 +468,7 @@
             </Border>
         </Popup>
 
-        <Frame Name="PrepareFrame" Grid.ColumnSpan="2"/>
+        <Frame Name="PrepareFrame" Grid.ColumnSpan="2" Canvas.ZIndex="2"/>
 
     </Grid>
 </Page>

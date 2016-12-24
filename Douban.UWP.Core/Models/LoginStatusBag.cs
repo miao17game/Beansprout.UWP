@@ -11,5 +11,11 @@ namespace Douban.UWP.Core.Models {
 
         public Uri ImageUrl { get; set; }
 
+        public Uri BigHeadUrl { get; set; }
+
+        public string LocationString { get; set; }
+
+        public Uri LocationUrl { get; set; }
+
     }
 }

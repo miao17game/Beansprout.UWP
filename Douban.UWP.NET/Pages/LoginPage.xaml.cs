@@ -1,4 +1,5 @@
 ﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
 
 using Douban.UWP.Core.Tools;
 using Douban.UWP.NET.Controls;
@@ -13,7 +14,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Douban.UWP.NET.Resources;
 using Douban.UWP.Core.Models;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
@@ -38,7 +38,7 @@ namespace Douban.UWP.NET.Pages {
             GlobalHelpers.SetChildPageMargin(
                 currentPage: this,
                 matchNumber: VisibleWidth,
-                isDivideScreen: isDivideScreen);
+                isDivideScreen: IsDivideScreen);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
@@ -100,7 +100,7 @@ namespace Douban.UWP.NET.Pages {
             if (check != null) {
                 CheckIfLoginSucceed(check[1]);
             } else {
-                VerificationCodeBorder.SetVisibility(true);
+                VerificationCodeGrid.SetVisibility(true);
                 VerificationCodeImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(JsonHelper.FromJson<string>(e.Value)));
             }
         }
@@ -111,15 +111,15 @@ namespace Douban.UWP.NET.Pages {
 
         #region Focus Changed
         private void EmailBox_GotFocus(object sender, RoutedEventArgs e) {
-            EmailBorderness.BorderBrush = Application.Current.Resources["ENRZForeground02"] as Brush;
+            EmailBorderness.BorderBrush = Application.Current.Resources["DoubanForeground"] as Brush;
         }
 
         private void PasswordBox_GotFocus(object sender, RoutedEventArgs e) {
-            PasswordBorderness.BorderBrush = Application.Current.Resources["ENRZForeground02"] as Brush;
+            PasswordBorderness.BorderBrush = Application.Current.Resources["DoubanForeground"] as Brush;
         }
 
         private void VerificationCodeBox_GotFocus(object sender, RoutedEventArgs e) {
-            VerificationCodeBorderness.BorderBrush = Application.Current.Resources["ENRZForeground02"] as Brush;
+            VerificationCodeBorderness.BorderBrush = Application.Current.Resources["DoubanForeground"] as Brush;
         }
 
         private void EmailBox_LostFocus(object sender, RoutedEventArgs e) {
@@ -151,8 +151,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Abort_Click(object sender, RoutedEventArgs e) {
-            AppResources.BaseListRing.IsActive = false;
-            AppResources.MainLoginPopup.IsOpen = false;
+            BaseListRing.IsActive = false;
+            MainLoginPopup.IsOpen = false;
         }
 
         #endregion
@@ -240,7 +240,7 @@ namespace Douban.UWP.NET.Pages {
                             var node_list = document.getElementsByTagName('input');
                                 for (var i = 0; i < node_list.length; i++) {"{"}
                                 var node = node_list[i];
-                                    if (node.name == 'login') 
+                                    if (node.getAttribute('type') == 'submit') 
                                         node.click();
                                     if (node.id == 'email') 
                                         node.innerText = '{user}';
@@ -296,18 +296,22 @@ namespace Douban.UWP.NET.Pages {
                                              <script language='JavaScript1.2' src='nocache.js'></script >
                                              </head><body>" + htmlBodyContent + "</body></html>");
             var rootNode = doc.DocumentNode;
-            var checkStatus = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
-            if (checkStatus == null) { // login failed.
-            } else { // login successful...
-                AppResources.MainLoginPopup.IsOpen = false;
+            var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
+            var mobileCheck = rootNode.SelectSingleNode("//div[@id='TalionNav']");
+            if (pcCheck == null && mobileCheck == null) {// login failed.
+                ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+            } else {
+                // login successful...
+                MainLoginPopup.IsOpen = false;
                 try {
                     MainPage.SetUserStatus(doc);
                 } catch { /* Ignore. */ }
-                AppResources.NavigateToBase?.Invoke(
-                    null, 
-                    null, 
-                    AppResources.GetFrameInstance(NavigateType.UserInfo), 
-                    AppResources.GetPageType(NavigateType.UserInfo));
+                NavigateToBase?.Invoke(
+                    null,
+                    null,
+                    GetFrameInstance(NavigateType.UserInfo),
+                    GetPageType(NavigateType.UserInfo));
+                NavigateTitleBlock.Text = LoginStatus.UserName;
             }
         }
 

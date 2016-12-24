@@ -53,6 +53,12 @@ namespace Douban.UWP.NET.Resources {
             set { _divideNumber = value; }
         }
 
+        private static LoginStatusBag _loginStatus = new LoginStatusBag();
+        public static LoginStatusBag LoginStatus {
+            get { return _loginStatus; }
+            set { _loginStatus = value; }
+        }
+
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }
 
@@ -161,7 +167,7 @@ namespace Douban.UWP.NET.Resources {
                     frameMaps = new Dictionary<NavigateType, Frame> {
                         { NavigateType.Settings, MainLeftPartFrame},
                         { NavigateType.Login, MainLoginFrame},
-                        { NavigateType.UserInfo, MainLeftPartFrame},
+                        { NavigateType.UserInfo, MainContentFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
                         { NavigateType.Index, MainLeftPartFrame},
                     };

@@ -29,6 +29,7 @@ using Wallace.UWP.Helpers.Tools;
 using Windows.UI;
 using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Resources;
+using System.Reflection;
 #endregion
 
 namespace Douban.UWP.NET.Pages {
@@ -140,31 +141,14 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private static void ChangeSplitViewWidth(double value) {
-            //if (ContentPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        ContentPage.Current,
-            //        divideNum: value / 100,
-            //        isDivideScreen: Current.ScreenSwitch.IsOn);
-            //if (LoginPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        LoginPage.Current,
-            //        divideNum : value / 100,
-            //        isDivideScreen: Current.ScreenSwitch.IsOn);
-            //if (WebViewPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        WebViewPage.Current,
-            //        divideNum: value / 100,
-            //        isDivideScreen: Current.ScreenSwitch.IsOn);
-            //if (ChangePassPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        ChangePassPage.Current,
-            //        divideNum: value / 100,
-            //        isDivideScreen: Current.ScreenSwitch.IsOn);
-            //if (SchedulePage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        SchedulePage.Current,
-            //        divideNum: value / 100,
-            //        isDivideScreen: Current.ScreenSwitch.IsOn);
+            var CF = AppResources.MainContentFrame;
+            if (CF.Content == null)
+                return;
+            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+                GlobalHelpers.DivideWindowRange(
+                    CF.Content as Page,
+                    divideNum: value / 100,
+                    isDivideScreen: Current.ScreenSwitch.IsOn);
         }
 
         #region Toggle Events
@@ -180,31 +164,15 @@ namespace Douban.UWP.NET.Pages {
 
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
-            //if (LoginPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        LoginPage.Current,
-            //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //        isDivideScreen: sender.IsOn);
-            //if (ContentPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        ContentPage.Current,
-            //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //        isDivideScreen: sender.IsOn);
-            //if (WebViewPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        WebViewPage.Current,
-            //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //        isDivideScreen: sender.IsOn);
-            //if (ChangePassPage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        ChangePassPage.Current,
-            //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //        isDivideScreen: sender.IsOn);
-            //if (SchedulePage.Current != null)
-            //    GlobalHelpers.DivideWindowRange(
-            //        SchedulePage.Current,
-            //        divideNum: (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6,
-            //        isDivideScreen: sender.IsOn);
+            AppResources.IsDivideScreen = sender.IsOn;
+            var CF = AppResources.MainContentFrame;
+            if (CF.Content == null)
+                return;
+            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+                GlobalHelpers.DivideWindowRange(
+                    CF.Content as Page,
+                    divideNum: AppResources.DivideNumber,
+                    isDivideScreen: AppResources.IsDivideScreen);
         }
 
         #endregion

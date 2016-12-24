@@ -143,6 +143,9 @@
     <None Include="Douban.UWP.NET_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\188.jpg" />
+    <Content Include="Assets\213.jpg" />
+    <Content Include="Assets\218.jpg" />
     <Content Include="Assets\231.jpg" />
     <Content Include="Assets\wallace.png" />
     <Content Include="Properties\Default.rd.xml" />

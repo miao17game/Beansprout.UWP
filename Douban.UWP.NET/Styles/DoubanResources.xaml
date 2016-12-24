@@ -4,16 +4,18 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
+            <!--DoubanForeground Green -->
+            <SolidColorBrush x:Key="DoubanForeground" Color="#31C79B"/>
             <!--DoubanForeground01 Yellow Strong -->
             <SolidColorBrush x:Key="DoubanForeground01" Color="#FE9A04"/>
             <!--DoubanForeground02 Pink Red -->
             <SolidColorBrush x:Key="DoubanForeground02" Color="#CA003E"/>
             <!--DoubanForeground03 Green FirstMainColor -->
-            <SolidColorBrush x:Key="DoubanForeground03" Color="#31C79B"/>
+            <SolidColorBrush x:Key="DoubanForeground03" Color="#383838"/>
             <!--DoubanForeground04 White Gray -->
             <SolidColorBrush x:Key="DoubanForeground04" Color="#EEEFEFEF"/>
             <!--DoubanForeground05 Dark Gray Black HamburgerMainColor -->
-            <SolidColorBrush x:Key="DoubanForeground05" Color="#383838"/>
+            <SolidColorBrush x:Key="DoubanForeground05" Color="#31A79B"/>
             <!--DoubanForeground06 Gray FirstBorderColor -->
             <SolidColorBrush x:Key="DoubanForeground06" Color="#666666"/>
             <!--DoubanForeground07 Gray SecondBorderColor -->
@@ -34,9 +36,13 @@
 
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
+            <!--DoubanTextColor02 Black -->
+            <SolidColorBrush x:Key="DoubanTextColor02" Color="#EEFEFEFE"/>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
+            <!--DoubanForeground Green -->
+            <SolidColorBrush x:Key="DoubanForeground" Color="#31A79B"/>
             <!--DoubanForeground01 Yellow Strong -->
             <SolidColorBrush x:Key="DoubanForeground01" Color="#FE9A04"/>
             <!--DoubanForeground02 Dark Gray Black -->
@@ -67,6 +73,8 @@
 
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
+            <!--DoubanTextColor02 Black -->
+            <SolidColorBrush x:Key="DoubanTextColor02" Color="#CC202020"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

@@ -260,71 +260,32 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.1009.* / 2016.11.*" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="修改密码也加密了" /><LineBreak/><LineBreak/>
+                            <Run Text="Version：1.0.7 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="个人主页功能加入中" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.1008.1648 / 2016.11.2" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="用户名都加密了" /><LineBreak/>
-                            <Run Text="HTTPS都已经启用了" /><LineBreak/>
-                            <Run Text="还说我用纯文本传输密码...excuse me？？？" /><LineBreak/><LineBreak/>
+                            <Run Text="Version：1.0.6 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="细节修改" /><LineBreak/>
+                            <Run Text="适配Mobile的登陆配置" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.1007.2158 / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="接受商店Review的指示" /><LineBreak/>
-                            <Run Text="加密用户密码的过程传输" /><LineBreak/>
-                            <Run Text="但是登陆速度慢了十倍..." /><LineBreak/><LineBreak/>
+                            <Run Text="Version：1.0.3 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="登录功能完成" /><LineBreak/>
+                            <Run Text="可以记录登录状态" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.1006.2148 / 2016.10.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="重写日间模式配色" /><LineBreak/>
-                            <Run Text="完善课表详细页面风格" /><LineBreak/>
-                            <Run Text="美化部分控件的风格" /><LineBreak/>
-                            <Run Text="修复两个小错误" /><LineBreak/>
-                            <Run Text="增加主页内容占位" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.1005.2338 / 2016.10.23" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="重写登陆API调用" /><LineBreak/>
-                            <Run Text="加入课程表显示" /><LineBreak/>
-                            <Run Text="修复部分小问题" /><LineBreak/>
-                            <Run Text="功能缓慢完善" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.1004.1908 / 2016.10.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="强化自动登录" /><LineBreak/>
-                            <Run Text="允许修改密码" /><LineBreak/>
-                            <Run Text="目前仅完成部分页面" /><LineBreak/>
-                            <Run Text="动画补齐" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.1003.2147 / 2016.10.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="可以保存账户和密码" /><LineBreak/>
-                            <Run Text="登陆页面自动化增加" /><LineBreak/>
-                            <Run Text="登录信息状态保存" /><LineBreak/>
-                            <Run Text="设置页面引入隐私政策" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.1002.2219 / 2016.10.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="登陆页面本地化" /><LineBreak/>
-                            <Run Text="登录信息页面加入" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.1001.1741 / 2016.10.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="应用图标添加" /><LineBreak/>
-                            <Run Text="首屏UI及应用整体优化" /><LineBreak/>
-                            <Run Text="Items内容增加" /><LineBreak/>
-                            <Run Text="为上交商店做准备" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.0.3 / 2016.10.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.2 / 2016.10.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="内容先期Web嵌套已完成" /><LineBreak/>
                             <Run Text="分屏模式开关加入" /><LineBreak/>
                             <Run Text="分屏尺寸调整功能加入" /><LineBreak/>
                             <Run Text="语言下拉选单风格调整" /><LineBreak/>
-                            <Run Text="增加导航类型" /><LineBreak/><LineBreak/>
-                            
-                            <Run Text="Version：1.0.2 / 2016.10.16" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="语言切换功能加入" /><LineBreak/>
                             <Run Text="明暗主题与切换功能加入" /><LineBreak/>
                             <Run Text="必要信息填入" /><LineBreak/>
                             <Run Text="UI调整优化" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.1 / 2016.10.15" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="主要外观框架开发完成" /><LineBreak/><LineBreak/>
+                            <Run Text="Version：1.0.1 / 2016.10.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="主外观框架开发完成" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.0 / 2016.10.14" FontSize="15" FontWeight="Medium" /><LineBreak/>
-                            <Run Text="LNU For Windows10 正式进入开发阶段" /><LineBreak/><LineBreak/>
+                            <Run Text="Version：1.0.0 / 2016.10.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="GuaPi For Windows10 (3rd-Party Douban) 正式进入开发阶段" /><LineBreak/><LineBreak/>
                             
                         </TextBlock>
 
