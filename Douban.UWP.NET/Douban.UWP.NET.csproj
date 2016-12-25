@@ -143,6 +143,7 @@
     <Compile Include="Tools\Converters\ColorConverter.cs" />
     <Compile Include="Tools\Converters\IconConverter.cs" />
     <Compile Include="Tools\GlobalHelpers.cs" />
+    <Compile Include="Tools\IncrementalLoadingContext.cs" />
     <Compile Include="Tools\ReportHelper.cs" />
   </ItemGroup>
   <ItemGroup>

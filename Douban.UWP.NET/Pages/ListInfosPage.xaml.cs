@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Douban.UWP.NET.Tools;
+using System.Threading.Tasks;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -33,23 +34,25 @@ namespace Douban.UWP.NET.Pages {
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+            ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResources);
+            DoubanLoading.SetVisibility(false);
+        }
+
+        private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target) {
             ICollection<IndexItem> list = new List<IndexItem>();
-            var date = DateTime.Now.AddSeconds(86400).ToString("yyyy-MM-dd");
-            var target = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
-            target = string.Format(target, date);
             try {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
                     ReportHelper.ReportAttention(GetUIString("WebActionError"));
                     DoubanLoading.SetVisibility(false);
-                    return;
+                    return list;
                 }
                 JObject jo = JObject.Parse(result);
                 var feeds = jo["recommend_feeds"];
                 if (feeds == null || !feeds.HasValues) {
                     ReportHelper.ReportAttention(GetUIString("FetchJsonDataError"));
                     DoubanLoading.SetVisibility(false);
-                    return;
+                    return list;
                 }
                 if (feeds.HasValues) {
                     feeds.Children().ToList().ForEach(singleton => {
@@ -91,8 +94,18 @@ namespace Douban.UWP.NET.Pages {
                     });
                 }
             } catch { ReportHelper.ReportAttention(GetUIString("UnknownError")); }
-            ListViewResources.Source = list;
-            DoubanLoading.SetVisibility(false);
+            return list;
         }
+
+        private async Task<ICollection<IndexItem>> FetchMoreResources(int offset) {
+            var date = DateTime.Now.AddDays(-(offset + 1)).ToString("yyyy-MM-dd");
+            var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
+            return await FetchMessageFromAPIAsync(string.Format(Host, date));
+        }
+
+        #region Properties
+
+        #endregion
+
     }
 }
