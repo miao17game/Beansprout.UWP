@@ -20,23 +20,26 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:IndexItem">
                     <control:IndexDesContainer x:Name="ItemSingleton" 
-                                                   Margin="0,5,0,3"
-                                                   Background="{ThemeResource DoubanBackground04}"
-                                                   Title="{Binding Title}" 
-                                                   AuthorAvatar="{Binding AuthorAvatar}"
-                                                   AuthorName="{Binding AuthorName}"
-                                                   Cover="{Binding Cover}" 
-                                                   Description="{Binding Description}" 
-                                                   ColumnName="{Binding ColumnName}" 
-                                                   LikersCount="{Binding LikersCount}"
-                                                   CommentCount="{Binding CommentCount}" 
-                                               MorePictures ="{Binding MorePictures}"
-                                                   ClickVisible="Collapsed"/>
+                                               Margin="0,5,0,3"
+                                               Background="{ThemeResource DoubanBackground04}"
+                                               Title="{x:Bind Title}" 
+                                               Cover="{x:Bind Cover}" 
+                                               AuthorAvatar="{x:Bind AuthorAvatar}"
+                                               AuthorName="{x:Bind AuthorName}"
+                                               Description="{x:Bind Description}" 
+                                               ColumnName="{x:Bind ColumnName}" 
+                                               LikersCount="{x:Bind LikersCount}"
+                                               CommentCount="{x:Bind CommentCount}" 
+                                               PicturesCount="{x:Bind PhotosCount}"
+                                               MorePictures ="{x:Bind MorePictures}"
+                                               ClickVisible="Collapsed"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
         <control:TimeWelcomeBlock Height="50" VerticalAlignment="Top"/>
+
+        <Image Name="IncrementalLoading" Visibility="Collapsed" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15"/>
 
     </Grid>
 </Page>

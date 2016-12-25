@@ -24,6 +24,7 @@ namespace Douban.UWP.NET.Tools {
         protected override async Task<IList<object>> LoadItemsAsync(CancellationToken cancToken, uint count) {
             var coll = await FetchCallback.Invoke(offset);
             wholeCount += (uint)coll.Count;
+            offset++;
             return coll.ToArray();
         }
 
