@@ -15,8 +15,8 @@
 
     <Grid Background="{ThemeResource DoubanBackground04}">
 
-        <ListView ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
-                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}">
+        <ListView Name="IndexList" ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
+                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" >
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:IndexItem">
                     <control:IndexDesContainer x:Name="ItemSingleton" 
@@ -35,6 +35,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <control:TimeWelcomeBlock Height="50" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>

@@ -481,4 +481,20 @@
     <value>Sorry, unknown error occured.</value>
     <comment>ListInfosPage</comment>
   </data>
+  <data name="GoodAfternoon" xml:space="preserve">
+    <value>Good Afternoon!</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>Good Morning!</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodNight" xml:space="preserve">
+    <value>Good Night!</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodNoon" xml:space="preserve">
+    <value>Enjoy yourself.</value>
+    <comment>UserControl</comment>
+  </data>
 </root>

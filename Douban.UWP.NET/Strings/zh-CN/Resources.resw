@@ -480,4 +480,20 @@
     <value>很抱歉，发生未知错误</value>
     <comment>ListInfosPage</comment>
   </data>
+  <data name="GoodAfternoon" xml:space="preserve">
+    <value>喝杯下午茶吧</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodMorning" xml:space="preserve">
+    <value>早上好呀！</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodNight" xml:space="preserve">
+    <value>享受晚间时光</value>
+    <comment>UserControl</comment>
+  </data>
+  <data name="GoodNoon" xml:space="preserve">
+    <value>有个好心情：）</value>
+    <comment>UserControl</comment>
+  </data>
 </root>
