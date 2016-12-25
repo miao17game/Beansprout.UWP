@@ -469,4 +469,16 @@
     <value>Gellary</value>
     <comment>UserInfosPage</comment>
   </data>
+  <data name="FetchJsonDataError" xml:space="preserve">
+    <value>Json Data Error.</value>
+    <comment>ListInfosPage</comment>
+  </data>
+  <data name="WebActionError" xml:space="preserve">
+    <value>Web error, please check.</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>Sorry, unknown error occured.</value>
+    <comment>ListInfosPage</comment>
+  </data>
 </root>

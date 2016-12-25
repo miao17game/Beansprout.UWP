@@ -93,7 +93,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Image Name="ContainerImage" Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2" 
+            <Image Name="ContainerImage" Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2" Margin="0,5,0,0"
                    Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Right" Stretch="UniformToFill"/>
 
             <TextBlock Name="TitleBlock" Text="{Binding Title}" TextWrapping="WrapWholeWords" 

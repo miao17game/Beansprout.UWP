@@ -468,4 +468,16 @@
     <value>相册</value>
     <comment>UserInfosPage</comment>
   </data>
+  <data name="FetchJsonDataError" xml:space="preserve">
+    <value>解析Json数据出错</value>
+    <comment>ListInfosPage</comment>
+  </data>
+  <data name="WebActionError" xml:space="preserve">
+    <value>网络异常，请检查</value>
+    <comment>MainPage</comment>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>很抱歉，发生未知错误</value>
+    <comment>ListInfosPage</comment>
+  </data>
 </root>

@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Douban.UWP.Core.Tools;
 using HtmlAgilityPack;
 using Windows.UI.Xaml.Media.Imaging;
+using Douban.UWP.NET.Tools;
 #endregion
 
 namespace Douban.UWP.NET {
@@ -78,24 +79,30 @@ namespace Douban.UWP.NET {
         }
 
         private async Task TryLoginAsync(bool isInit = false) {
-            LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
-            var doc = new HtmlDocument();
-            doc.LoadHtml(LoginResult);
-            if (doc.DocumentNode.SelectSingleNode("//div[@class='top-nav-info']") != null) {
+            try {
+                LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
+                if (LoginButton == null) {
+                    ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                    return;
+                }
+                var doc = new HtmlDocument();
+                doc.LoadHtml(LoginResult);
+                if (doc.DocumentNode.SelectSingleNode("//div[@class='top-nav-info']") != null) {
 
-                try {
-                    SetUserStatus(doc);
-                } catch { /* Ignore. */ }
+                    try {
+                        SetUserStatus(doc);
+                    } catch { /* Ignore. */ }
 
-                IsLogined = true;
-                if (!isInit)
-                    NavigateToUserInfoPage();
-                return;
-            }
-            if (!isInit) {
-                NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
-                ImagePopup.IsOpen = true;
-            }
+                    IsLogined = true;
+                    if (!isInit)
+                        NavigateToUserInfoPage();
+                    return;
+                }
+                if (!isInit) {
+                    NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
+                    ImagePopup.IsOpen = true;
+                }
+            } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
         }
 
         private void NavigateToUserInfoPage() {

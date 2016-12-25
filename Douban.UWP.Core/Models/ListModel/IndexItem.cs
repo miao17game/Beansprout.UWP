@@ -33,7 +33,7 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public ICollection<object> Comments { get; set; }
 
-        public object Action { get; set; }
+        public string Action { get; set; }
 
         public string Description { get; set; }
 

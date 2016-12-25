@@ -144,10 +144,10 @@ namespace Douban.UWP.Core.Tools {
                 return await GetDoubanResponseAsync(path, allowToRedirect, client: new HttpClient(), ecd: ecd);
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
-                return "Connect Error.";
+                return null;
             } catch (Exception ex) { // unkown error, report it.
                 Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
-                return "Unknown Error.";
+                return null;
             }
             return returnString;
         }
@@ -178,10 +178,10 @@ namespace Douban.UWP.Core.Tools {
                 return await GetMDoubanResponseAsync(path, allowToRedirect, client: new HttpClient(), ecd: ecd);
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
-                return "Connect Error.";
+                return null;
             } catch (Exception ex) { // unkown error, report it.
                 Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
-                return "Unknown Error.";
+                return null;
             }
             return returnString;
         }
