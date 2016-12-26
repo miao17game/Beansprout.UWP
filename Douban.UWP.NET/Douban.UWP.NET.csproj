@@ -144,11 +144,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.cs" />
     <Compile Include="Tools\Converters\ColorConverter.cs" />
+    <Compile Include="Tools\Converters\BinaryConverter.cs" />
+    <Compile Include="Tools\Converters\IListToListConverter.cs" />
     <Compile Include="Tools\Converters\DeVisibilityConverter.cs" />
     <Compile Include="Tools\Converters\IconConverter.cs" />
+    <Compile Include="Tools\Converters\HasCoverConverter.cs" />
     <Compile Include="Tools\Converters\SelfVisibilityConverter.cs" />
     <Compile Include="Tools\GlobalHelpers.cs" />
-    <Compile Include="Tools\IncrementalLoadingContext.cs" />
+    <Compile Include="Tools\DoubanIncrementalContext.cs" />
     <Compile Include="Tools\ReportHelper.cs" />
   </ItemGroup>
   <ItemGroup>

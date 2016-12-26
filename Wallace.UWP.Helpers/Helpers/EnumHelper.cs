@@ -18,5 +18,9 @@ namespace Wallace.UWP.Helpers {
         public static T Parse<T>(string value) where T : struct {
             return (T)Enum.Parse(typeof(T), value);
         }
+
+        public static string DeParse<T>(T value) where T : struct {
+            return Enum.GetName(typeof(T), value);
+        }
     }
 }

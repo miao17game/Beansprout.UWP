@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Douban.UWP.Tools.Converters {
-    public class SelfVisibilityConverter : IValueConverter {
+    public class HasCoverConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
             return ConvertToVisibility((string)value, (string)parameter);
         }
@@ -17,6 +17,6 @@ namespace Douban.UWP.Tools.Converters {
             throw new NotImplementedException();
         }
 
-        private Visibility ConvertToVisibility(string value, string parameter) { return parameter == value ? Visibility.Collapsed : Visibility.Visible; }
+        private Visibility ConvertToVisibility(string value, string parameter) { return parameter == value ? Visibility.Visible : Visibility.Collapsed; }
     }
 }

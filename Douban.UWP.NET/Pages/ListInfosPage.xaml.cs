@@ -23,12 +23,8 @@ using System.Threading.Tasks;
 using Douban.UWP.NET.Controls;
 using System.Diagnostics;
 
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
-
 namespace Douban.UWP.NET.Pages {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
+
     public sealed partial class ListInfosPage : Page {
         public ListInfosPage() {
             this.InitializeComponent();
@@ -65,8 +61,9 @@ namespace Douban.UWP.NET.Pages {
                             var column = singleton["column"];
                             var comments = singleton["comments"];
                             var morePic = singleton["more_pic_urls"];
-                            ICollection<Uri> more_pic = new List<Uri>();
-                            if (morePic.HasValues) { morePic.ToList().ForEach(pic => { if (pic.Value<string>() != "") { more_pic.Add(new Uri(pic.Value<string>())); } }); }
+                            IList<Uri> more_pic = new List<Uri>();
+                            if (morePic.HasValues) { morePic.ToList().ForEach(pic => { if (pic.Value<string>() != "") { more_pic.Add(new Uri(pic.Value<string>())); } }); } 
+                            else { more_pic.Add(new Uri("https://www.none.com/no.jpg")); more_pic.Add(new Uri("https://www.none.com/no.jpg")); }
                             var type =
                             singleton["cover_url"].Value<string>() == "" ? IndexItem.ItemType.Paragraph :
                             singleton["photos_count"].Value<uint>() == 0 ? IndexItem.ItemType.Normal :
@@ -81,6 +78,7 @@ namespace Douban.UWP.NET.Pages {
                                 AuthorAvatar = author.HasValues ? author["avatar"].Value<string>() != "" ? new Uri(author["avatar"].Value<string>()) : null : null,
                                 AuthorName = author.HasValues ? author["name"].Value<string>() : null,
                                 PathUrl = singleton["uri"].Value<string>(),
+                                HasCover = singleton["cover_url"].Value<string>() != "" ? true:false,
                                 Cover = singleton["cover_url"].Value<string>() != "" ? new Uri(singleton["cover_url"].Value<string>()) : null,
                                 Source = singleton["source"].Value<string>(),
                                 ColumnUrl = column.HasValues ? column["uri"].Value<string>() : null,
@@ -112,8 +110,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         public async void Test() {
-            var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/rexxar/api/v2/user/155291175/reviews?type=movie&start=0&count=20&ck=JJBh&for_mobile=1" +
-                "");
+            var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/rexxar/api/v2/user/155291175/reviews?type=movie&start=0&count=20&ck=JJBh&for_mobile=1");
             JObject jo = JObject.Parse(result);
             Debug.WriteLine(jo.ToString());
         }

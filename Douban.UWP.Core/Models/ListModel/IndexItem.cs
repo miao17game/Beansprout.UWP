@@ -23,6 +23,8 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public string PathUrl { get; set; }
 
+        public bool HasCover { get; set; }
+
         public Uri Cover { get; set; }
 
         public string Source { get; set; }
@@ -31,13 +33,13 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public object OutSource { get; set; }
 
-        public ICollection<object> Comments { get; set; }
+        public IList<object> Comments { get; set; }
 
         public string Action { get; set; }
 
         public string Description { get; set; }
 
-        public ICollection<Uri> MorePictures { get; set; }
+        public IList<Uri> MorePictures { get; set; }
 
         public string MonitorUrl { get; set; }
 

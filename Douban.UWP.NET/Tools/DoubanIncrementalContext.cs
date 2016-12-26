@@ -32,7 +32,6 @@ namespace Douban.UWP.NET.Tools {
         public delegate Task<ICollection<T>> FetchDataCallbackHandler(int offset);
         public FetchDataCallbackHandler FetchCallback;
         private int offset;
-        private string targetHost;
         private InitSelector InitType;
     }
 }

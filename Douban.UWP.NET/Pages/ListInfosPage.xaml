@@ -7,10 +7,12 @@
     xmlns:control ="using:Douban.UWP.NET.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
         <CollectionViewSource x:Name="ListViewResources"/>
+        <Converters:IListToListConverter x:Key="IListToListConverter"/>
     </Page.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}">
@@ -22,7 +24,9 @@
                     <control:IndexDesContainer x:Name="ItemSingleton" 
                                                Margin="0,5,0,3"
                                                Background="{ThemeResource DoubanBackground04}"
+                                               PanelType ="{Binding Type}"
                                                Title="{x:Bind Title}" 
+                                               HasCover="{x:Bind HasCover}"
                                                Cover="{x:Bind Cover}" 
                                                AuthorAvatar="{x:Bind AuthorAvatar}"
                                                AuthorName="{x:Bind AuthorName}"
@@ -31,7 +35,7 @@
                                                LikersCount="{x:Bind LikersCount}"
                                                CommentCount="{x:Bind CommentCount}" 
                                                PicturesCount="{x:Bind PhotosCount}"
-                                               MorePictures ="{x:Bind MorePictures}"
+                                               MorePictures ="{Binding MorePictures, Converter={StaticResource IListToListConverter}}"
                                                ClickVisible="Collapsed"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

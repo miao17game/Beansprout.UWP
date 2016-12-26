@@ -53,7 +53,7 @@ namespace Wallace.UWP.Helpers.DataVirtualization {
 
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count) {
             if (IsOnAsyncWorkOrNot)
-                //throw new InvalidOperationException();
+                throw new InvalidOperationException();
             IsOnAsyncWorkOrNot = true;
             return AsyncInfo.Run((cancToken) => LoadMoreItemsAsync(cancToken, count));
         }
@@ -67,7 +67,7 @@ namespace Wallace.UWP.Helpers.DataVirtualization {
             try {
                 var items = await LoadItemsAsync(cancToken, count);
                 var baseIndex = sourceList.Count;
-                sourceList.AddRange(items);
+                (sourceList as List<object>).AddRange(items);
                 NotifyWhenItemsInserted(baseIndex, items.Count);
                 return new LoadMoreItemsResult { Count = (uint)items.Count };
             } finally { IsOnAsyncWorkOrNot = false; }
@@ -88,7 +88,7 @@ namespace Wallace.UWP.Helpers.DataVirtualization {
         #endregion
 
         #region State
-        List<object> sourceList = new List<object>();
+        IList<object> sourceList = new List<object>();
         bool IsOnAsyncWorkOrNot = false;
         #endregion
 
