@@ -40,6 +40,17 @@
             <SolidColorBrush x:Key="DoubanTextColor02" Color="#EEFEFEFE"/>
             <!--DoubanTextColor03 White -->
             <SolidColorBrush x:Key="DoubanTextColor03" Color="#EEFEFEFE"/>
+
+            <!--DoubanShadowColor01 Black -->
+            <Color x:Key="DoubanShadowColor01">#01FFFFFF</Color>
+            <!--DoubanShadowColor02 White -->
+            <Color x:Key="DoubanShadowColor02">#04FFFFFF</Color>
+            <!--DoubanShadowColor03 White -->
+            <Color x:Key="DoubanShadowColor03">#0AFFFFFF</Color>
+            <!--DoubanShadowColor04 White -->
+            <Color x:Key="DoubanShadowColor04">#1cFFFFFF</Color>
+            <!--DoubanShadowColor05 White -->
+            <Color x:Key="DoubanShadowColor05">#00FFFFFF</Color>
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="Light">
@@ -79,6 +90,17 @@
             <SolidColorBrush x:Key="DoubanTextColor02" Color="#CC202020"/>
             <!--DoubanTextColor03 Black -->
             <SolidColorBrush x:Key="DoubanTextColor03" Color="#CC202020"/>
+
+            <!--DoubanShadowColor01 Black -->
+            <Color x:Key="DoubanShadowColor01">#1A909090</Color>
+            <!--DoubanShadowColor02 White -->
+            <Color x:Key="DoubanShadowColor02">#34909090</Color>
+            <!--DoubanShadowColor03 White -->
+            <Color x:Key="DoubanShadowColor03">#6B909090</Color>
+            <!--DoubanShadowColor04 White -->
+            <Color x:Key="DoubanShadowColor04">#A0909090</Color>
+            <!--DoubanShadowColor05 White -->
+            <Color x:Key="DoubanShadowColor05">#00909090</Color>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

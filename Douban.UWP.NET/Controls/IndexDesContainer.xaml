@@ -58,7 +58,22 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        
+                        <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="Image_temp_01.(Grid.Column)" Value="1"/>
+                        <Setter Target="Image_temp_02.(Grid.Column)" Value="2"/>
+                        <Setter Target="Image_temp_01.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.Row)" Value="0"/>
+                        <Setter Target="temp_block_0_2.(TextBlock.FontSize)" Value="18"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.MinWidth)" Value="400"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.MinWidth)" Value="400"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                0,5,0,0
+                            </Setter.Value>
+                        </Setter>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -68,6 +83,23 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="350"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="350"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="350"/>
+                        <Setter Target="Image_temp_01.(Grid.Column)" Value="1"/>
+                        <Setter Target="Image_temp_02.(Grid.Column)" Value="2"/>
+                        <Setter Target="Image_temp_01.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.Row)" Value="0"/>
+                        <Setter Target="temp_block_0_2.(TextBlock.FontSize)" Value="18"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.MinWidth)" Value="450"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.MinWidth)" Value="450"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                0,5,0,0
+                            </Setter.Value>
+                        </Setter>
+
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="DesktopExtra_LightTablet">
@@ -75,6 +107,23 @@
                         <AdaptiveTrigger MinWindowHeight="1300"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+
+                        <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="300"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="300"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="300"/>
+                        <Setter Target="Image_temp_01.(Grid.Column)" Value="1"/>
+                        <Setter Target="Image_temp_02.(Grid.Column)" Value="2"/>
+                        <Setter Target="Image_temp_01.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="Image_temp_02.(Grid.Row)" Value="0"/>
+                        <Setter Target="temp_block_0_2.(TextBlock.FontSize)" Value="18"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.MinWidth)" Value="400"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.MinWidth)" Value="400"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                0,5,0,0
+                            </Setter.Value>
+                        </Setter>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -146,14 +195,14 @@
             <Image Name="ContainerImage2" Source="{Binding Cover}" Grid.Column="0" Grid.RowSpan="2"
                    Margin="0,5,0,0" Height="240" HorizontalAlignment="Stretch" Stretch="Fill"/>
 
-            <Image Name="Image_temp_01" Source="{Binding MorePictures[0]}" Grid.Column="1" Margin="0,5,0,0"/>
+            <Image Name="Image_temp_01" Source="{Binding MorePictures[0]}" Grid.Column="1" Margin="0,5,0,0" Stretch="Fill"/>
 
             <TextBlock Name="M_P_Flag" Text="{Binding PicturesCount}" Visibility="Collapsed"/>
 
             <Grid Name="Image_temp_02"  Grid.Column="1" Grid.Row="1">
-                <Image  Source="{Binding MorePictures[1]}" />
+                <Image  Source="{Binding MorePictures[1]}" Stretch="Fill"/>
                 <Rectangle Fill="Black" Opacity="0.35"/>
-                <TextBlock Foreground="White" Text="{Binding ElementName=M_P_Flag, Path=Text ,Converter={StaticResource BinaryConverter}, ConverterParameter=-3}"
+                <TextBlock Name="temp_block_0_2" Foreground="White" Text="{Binding ElementName=M_P_Flag, Path=Text ,Converter={StaticResource BinaryConverter}, ConverterParameter=-3}"
                            HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
             </Grid>
 

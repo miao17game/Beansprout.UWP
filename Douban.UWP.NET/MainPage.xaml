@@ -402,23 +402,28 @@
                                    FontWeight="Bold"
                                    Foreground="{ThemeResource DoubanTextColor02}"/>
                     </Border>
-                    <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
+
+                    <Grid Name="LineGrid" Height="70" VerticalAlignment="Top" Canvas.ZIndex="1">
                         <Rectangle Height="1" 
-                               Margin=" 0,0,0,2.5" 
+                               Margin=" 0,0,0,0" 
                                VerticalAlignment="Bottom" 
                                Opacity="0.7"
                                Fill="{ThemeResource DoubanForeground08}"/>
-                        <Rectangle Height="1" 
-                               Margin=" 0,0,0,1.5" 
-                               VerticalAlignment="Bottom" 
-                               Opacity="1"
-                               Fill="{ThemeResource DoubanForeground06}"/>
-                        <Rectangle Height="2" 
-                               Margin=" 0,0,0,0" 
-                               VerticalAlignment="Bottom" 
-                               Opacity="1"
-                               Fill="{ThemeResource DoubanForeground07}"/>
+                        <Rectangle Margin="0,0,0,-30" Height=" 30" VerticalAlignment="Bottom">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                    <GradientStopCollection >
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
                     </Grid>
+                    
                     <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
                             Content="&#xE700;"
@@ -426,6 +431,7 @@
                             Height="70"
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
+                            Canvas.ZIndex="1"
                             Foreground="{ThemeResource DoubanTextColor02}"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
 

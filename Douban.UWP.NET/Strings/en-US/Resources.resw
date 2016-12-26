@@ -494,7 +494,7 @@
     <comment>UserControl</comment>
   </data>
   <data name="GoodNoon" xml:space="preserve">
-    <value>Enjoy yourself.</value>
+    <value>Enjoy yourself!</value>
     <comment>UserControl</comment>
   </data>
 </root>
