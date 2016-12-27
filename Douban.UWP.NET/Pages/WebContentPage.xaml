@@ -25,7 +25,7 @@
 
                         <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="200"/>
                         <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
-                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="110"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
@@ -35,6 +35,9 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="Scroll.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,0</Setter.Value>
+                        </Setter>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -46,7 +49,7 @@
 
                         <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="300"/>
                         <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
-                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="110"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
@@ -56,6 +59,9 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="Scroll.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,0</Setter.Value>
+                        </Setter>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -93,7 +99,7 @@
             </TransitionCollection>
         </Grid.Transitions>
 
-        <WebView Name="Scroll" 
+        <WebView Name="Scroll" Margin="0,70,0,0"
                  DOMContentLoaded="Scroll_DOMContentLoaded"
                  NavigationStarting="Scroll_NavigationStarting"
                  ContentLoading="Scroll_ContentLoading"/>
@@ -117,13 +123,13 @@
                             Click="BaseHamburgerButton_Click"
                             Foreground="{ThemeResource DoubanTextColor02}"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
-        <Grid Name="LineGrid" Height="100" VerticalAlignment="Top" >
+        <Grid Name="LineGrid" Height="85" VerticalAlignment="Top" >
             <Rectangle Height="1" 
-                               Margin=" 0,0,0,30" 
+                               Margin=" 0,0,0,15" 
                                VerticalAlignment="Bottom" 
                                Opacity="0.7"
                                Fill="{ThemeResource DoubanForeground08}"/>
-            <Rectangle Margin="0,0,0,0" Height=" 30" VerticalAlignment="Bottom">
+            <Rectangle Margin="0,0,0,0" Height=" 15" VerticalAlignment="Bottom">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                         <GradientStopCollection >

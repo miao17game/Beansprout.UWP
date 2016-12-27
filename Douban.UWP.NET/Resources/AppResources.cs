@@ -44,7 +44,10 @@ namespace Douban.UWP.NET.Resources {
         }
 
         private static bool _isFirstOpen = true;
-        public static bool IsFirstOpen { get { return _isFirstOpen; } set { _isFirstOpen = value; } }
+        public static bool IsFirstOpen {
+            get { return _isFirstOpen; }
+            set { _isFirstOpen = value; }
+        }
 
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }
