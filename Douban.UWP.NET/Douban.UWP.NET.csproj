@@ -138,6 +138,9 @@
     <Compile Include="Pages\UserInfoPage.xaml.cs">
       <DependentUpon>UserInfoPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\WebContentPage.xaml.cs">
+      <DependentUpon>WebContentPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WebViewPage.xaml.cs">
       <DependentUpon>WebViewPage.xaml</DependentUpon>
     </Compile>
@@ -229,6 +232,10 @@
     <Page Include="Pages\UserInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\WebContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\WebViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>

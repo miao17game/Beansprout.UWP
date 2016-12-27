@@ -17,8 +17,10 @@
 
     <Grid Background="{ThemeResource DoubanBackground04}">
 
-        <ListView Name="IndexList" ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
-                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" >
+        <ListView Name="IndexList" IsItemClickEnabled="True" SelectionMode="None"
+                  ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
+                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                  ItemClick="IndexList_ItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:IndexItem">
                     <control:IndexDesContainer x:Name="ItemSingleton" 

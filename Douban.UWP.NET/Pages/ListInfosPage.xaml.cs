@@ -109,6 +109,15 @@ namespace Douban.UWP.NET.Pages {
             return await FetchMessageFromAPIAsync(string.Format(Host, date));
         }
 
+        private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as IndexItem;
+            NavigateToBase?.Invoke(
+                sender,
+                new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null },
+                GetFrameInstance(Core.Models.NavigateType.ItemClick),
+                GetPageType(Core.Models.NavigateType.ItemClick));
+        }
+
         public async void Test() {
             var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/rexxar/api/v2/user/155291175/reviews?type=movie&start=0&count=20&ck=JJBh&for_mobile=1");
             JObject jo = JObject.Parse(result);

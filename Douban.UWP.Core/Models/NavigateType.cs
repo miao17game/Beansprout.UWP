@@ -12,5 +12,6 @@ namespace Douban.UWP.Core.Models {
         Settings,
         Login,
         UserInfo,
+        ItemClick,
     }
 }

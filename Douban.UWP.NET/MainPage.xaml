@@ -286,12 +286,27 @@
                    DisplayMode="CompactOverlay"
                    OpenPaneLength="300"
                    CompactPaneLength="70"
+                   PaneBackground="Transparent"
                    PaneClosed="NavigationSplit_PaneClosed">
             <SplitView.Pane>
 
                 <!--#region HamburgerList-->
-                <RelativePanel Background="{ThemeResource DoubanForeground05}">
-                    <Button Name="HamburgerButton"
+                <Grid>
+                    <Rectangle Margin="0,0,0,0" Width="30" HorizontalAlignment="Right">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
+                                <GradientStopCollection >
+                                    <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                    <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                    <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                    <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                    <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <RelativePanel Background="{ThemeResource DoubanForeground05}" Margin="0,0,30,0">
+                        <Button Name="HamburgerButton"
                             Content="&#xE700;"
                             Width="70"
                             Height="70"
@@ -299,7 +314,7 @@
                             Click="HamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
-                    <Button Name="LoginButton" 
+                        <Button Name="LoginButton" 
                             Height="70" 
                             Margin="3,0,0,0"
                             Click="LoginButton_Click"
@@ -307,16 +322,16 @@
                             Style="{StaticResource MainPageButtonBackHamburgerStyle}"
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" >
-                        <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
-                            <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                <Ellipse Name="LoginUserIcon" Fill="#707070" Width="40" Height="40" />
-                                <TextBlock Name="LoginUserText" Text="&#xE13D;" 
+                            <Grid>
+                                <Grid Width="48" Height="48" HorizontalAlignment="Left">
+                                    <Ellipse Name="LoginUserIcon" Fill="#707070" Width="40" Height="40" />
+                                    <TextBlock Name="LoginUserText" Text="&#xE13D;" 
                                             Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
                                             Foreground="{ThemeResource AppPersonalTextColorPure}"
                                             Style="{ThemeResource CenterContentTextBlock}"
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
-                            </Grid>
-                            <TextBlock Name="LoginUserBlock" 
+                                </Grid>
+                                <TextBlock Name="LoginUserBlock" 
                                        x:Uid="LoginPanel"
                                        FontWeight="Bold"
                                        Margin=" 60,0,0,0"
@@ -324,24 +339,24 @@
                                        Foreground="{ThemeResource AppPersonalTextColorPure}"
                                        FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
                                        Style="{ThemeResource CenterContentTextBlock}"/>
-                        </Grid>
-                    </Button>
-                    <ListBox Name="HamburgerListBox" 
+                            </Grid>
+                        </Button>
+                        <ListBox Name="HamburgerListBox" 
                              Background="Transparent"
                              Margin="0,0,0,70"
                              RelativePanel.Below="LoginButton"
                              SelectionChanged="HamburgerListBox_SelectionChanged"
                              ItemsSource="{Binding Source={StaticResource NaviBarResouces}}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="model:NavigationBar">
-                                <Grid>
-                                    <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                        <Rectangle Fill="{
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="model:NavigationBar">
+                                    <Grid>
+                                        <Grid Width="48" Height="48" HorizontalAlignment="Left">
+                                            <Rectangle Fill="{
                                             Binding ElementName=ModelTitle, 
                                             Path=Text, 
                                             Converter={StaticResource ColorConverter}}" 
                                                  Width="40" Height="40" RadiusX="10" RadiusY="10"/>
-                                        <TextBlock  Text="{
+                                            <TextBlock  Text="{
                                             Binding ElementName=ModelTitle, 
                                             Path=Text, 
                                             Converter={StaticResource IconConverter}}" 
@@ -349,39 +364,41 @@
                                                     Style="{ThemeResource CenterContentTextBlock}"
                                                     Foreground="{ThemeResource AppPersonalTextColorPure}"
                                                     FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
-                                    </Grid>
-                                    <TextBlock  Name="ModelTitle" Text="{Binding Title}" 
+                                        </Grid>
+                                        <TextBlock  Name="ModelTitle" Text="{Binding Title}" 
                                                 Margin=" 60,0,0,0" FontSize="16"
                                                 Foreground="{ThemeResource AppPersonalTextColorPure}"
                                                 Style="{ThemeResource CenterContentTextBlock}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    <Button Name="SettingsButton" 
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Name="SettingsButton" 
                             Height="70" Margin="3,0,0,0"
                             Click="SettingsButton_Click" 
                             RelativePanel.AlignBottomWithPanel="True"
                             Style="{StaticResource MainPageButtonBackHamburgerStyle}"
                             HorizontalAlignment="Left" 
                             VerticalAlignment="Bottom" >
-                        <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
-                            <Grid Width="48" Height="48" HorizontalAlignment="Left">
-                                <Rectangle Fill="#EB3557" Width="40" Height="40" RadiusX="10" RadiusY="10" />
-                                <TextBlock  Text="&#xE115;" 
+                            <Grid Width="{Binding OpenPaneLength, ElementName=OutsideSplitView}">
+                                <Grid Width="48" Height="48" HorizontalAlignment="Left">
+                                    <Rectangle Fill="#EB3557" Width="40" Height="40" RadiusX="10" RadiusY="10" />
+                                    <TextBlock  Text="&#xE115;" 
                                             Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
                                             Foreground="{ThemeResource AppPersonalTextColorPure}"
                                             Style="{ThemeResource CenterContentTextBlock}"
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
-                            </Grid>
-                            <TextBlock  x:Uid="SettingButton"
+                                </Grid>
+                                <TextBlock  x:Uid="SettingButton"
                                         Margin=" 60,0,0,0" FontSize="16"
                                         Foreground="{ThemeResource AppPersonalTextColorPure}"
                                         FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
                                         Style="{ThemeResource CenterContentTextBlock}"/>
-                        </Grid>
-                    </Button>
-                </RelativePanel>
+                            </Grid>
+                        </Button>
+                    </RelativePanel>
+
+                </Grid>
                 <!--#endregion-->
 
             </SplitView.Pane>

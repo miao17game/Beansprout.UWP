@@ -58,6 +58,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="ContainerImage.(FrameworkElement.Width)" Value="160"/>
+                        <Setter Target="ContainerImage.(FrameworkElement.Height)" Value="160"/>
                         <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="270"/>
                         <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="270"/>
                         <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="270"/>
@@ -83,6 +85,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="ContainerImage.(FrameworkElement.Width)" Value="160"/>
+                        <Setter Target="ContainerImage.(FrameworkElement.Height)" Value="160"/>
                         <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="350"/>
                         <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="350"/>
                         <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="350"/>
@@ -108,9 +112,11 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="300"/>
-                        <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="300"/>
-                        <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="300"/>
+                        <Setter Target="ContainerImage.(FrameworkElement.Width)" Value="160"/>
+                        <Setter Target="ContainerImage.(FrameworkElement.Height)" Value="160"/>
+                        <Setter Target="ContainerImage2.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="Image_temp_01.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="Image_temp_02.(FrameworkElement.Height)" Value="270"/>
                         <Setter Target="Image_temp_01.(Grid.Column)" Value="1"/>
                         <Setter Target="Image_temp_02.(Grid.Column)" Value="2"/>
                         <Setter Target="Image_temp_01.(Grid.RowSpan)" Value="2"/>

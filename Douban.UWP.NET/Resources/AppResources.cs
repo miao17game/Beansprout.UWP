@@ -85,6 +85,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.Index, typeof(ListInfosPage)},
+                    { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
                 };
                 return pagesMaps;
@@ -104,8 +105,9 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.Settings, MainLeftPartFrame},
                         { NavigateType.Login, MainLoginFrame},
                         { NavigateType.UserInfo, MainContentFrame},
-                        { NavigateType.Webview, MainLeftPartFrame},
                         { NavigateType.Index, MainLeftPartFrame},
+                        { NavigateType.ItemClick, MainContentFrame},
+                        { NavigateType.Webview, MainLeftPartFrame},
                     };
                     return frameMaps;
                 }).Invoke();

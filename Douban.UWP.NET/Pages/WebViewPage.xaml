@@ -12,7 +12,7 @@
 
     </base:BaseContentPage.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground04}" >
+    <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
 
         <Grid.Transitions>
             <TransitionCollection>
@@ -25,6 +25,11 @@
                  DOMContentLoaded="Scroll_DOMContentLoaded"
                  NavigationStarting="Scroll_NavigationStarting"
                  ContentLoading="Scroll_ContentLoading"/>
+
+        <Border Height="20" Width="60" HorizontalAlignment="Right" Margin="0,0,5,5"
+                    VerticalAlignment="Bottom"  CornerRadius="2" Background="{ThemeResource DoubanForeground}">
+            <TextBlock Text="开发中" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="White"/>
+        </Border>
 
         <Image Name="doubanRing"  Width="70" Height=" 70"  Visibility="Visible" Source="/Assets/loading_green.gif" />
 
