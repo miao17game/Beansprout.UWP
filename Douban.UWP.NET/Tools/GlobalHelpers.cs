@@ -88,7 +88,7 @@ namespace Douban.UWP.NET.Tools {
             bool isDivideScreen,
             double rangeNumber = 800) {
             if (matchNumber > rangeNumber && !IsMobile && isDivideScreen)
-                currentPage.Margin = new Thickness(3, 0, 0, 0);
+                currentPage.Margin = new Thickness(1, 0, 0, 0);
             else
                 currentPage.Margin = new Thickness(0, 0, 0, 0);
         }

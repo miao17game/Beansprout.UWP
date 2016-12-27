@@ -34,34 +34,17 @@ namespace Douban.UWP.NET.Resources {
         #region Global Resources Properties
 
         public static bool IsGlobalDark { get { return (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true; } }
-
-        private static bool? _isDivideScreen;
-        public static bool IsDivideScreen {
-            get {
-                return _isDivideScreen ?? new Func<bool>(() => {
-                    _isDivideScreen = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
-                    return (bool)_isDivideScreen;
-                }).Invoke();
-            }
-            set { _isDivideScreen = value; }
-        }
-
-        private static double? _divideNumber;
-        public static double DivideNumber {
-            get {
-                return _divideNumber ?? new Func<double>(() => {
-                    _divideNumber = (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6;
-                    return (double)_divideNumber;
-                }).Invoke();
-            }
-            set { _divideNumber = value; }
-        }
+        public static bool IsDivideScreen { get { return (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true; }}
+        public static double DivideNumber { get { return (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6; }}
 
         private static LoginStatusBag _loginStatus = new LoginStatusBag();
         public static LoginStatusBag LoginStatus {
             get { return _loginStatus; }
             set { _loginStatus = value; }
         }
+
+        private static bool _isFirstOpen = true;
+        public static bool IsFirstOpen { get { return _isFirstOpen; } set { _isFirstOpen = value; } }
 
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }

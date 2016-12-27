@@ -223,10 +223,10 @@
                     <StackPanel>
 
                         <TextBlock Margin="10,5,10,5" x:Uid="VersionMessageFor" 
-                                   FontWeight="ExtraBold" Name="VersionMessage" FontSize="23"/>
+                                   FontWeight="Bold" Name="VersionMessage" FontSize="23"/>
 
                         <TextBlock Margin="10,5,10,0" x:Uid="AboutDoubanUWP"
-                                   FontWeight="ExtraBold" FontSize="16"/>
+                                   FontWeight="Bold" FontSize="16"/>
 
                         <Rectangle Height="1" Margin=" 10,5,10,0">
                             <Rectangle.Fill>
@@ -259,6 +259,21 @@
 
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
+                            
+                            <Run Text="Version：1.1.* / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="应用商店Beta第一版" /><LineBreak/>
+                            <Run Text="注：* 将在应用封包时确定，格式为'hhMM'" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.0.13 / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="诸多UI细节改进" /><LineBreak/>
+                            <Run Text="应用图像资源添加完成" /><LineBreak/>
+                            <Run Text="提交商店准备，进入Beta阶段" /><LineBreak/><LineBreak/>
+                            
+                             <Run Text="Version：1.0.12 / 2016.10.26" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="诸多UI细节改进" /><LineBreak/>
+                            <Run Text="目前大多内容仍然为网页嵌套" /><LineBreak/>
+                            <Run Text="推荐条目跳转内容Web嵌套" /><LineBreak/>
+                            <Run Text="未来将进行本地化" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.0.11 / 2016.10.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="首页功能加入中" /><LineBreak/><LineBreak/>
@@ -297,7 +312,7 @@
             </PivotItem>
             <!--#endregion-->
             
-            <!--#region About GuaPi-->
+            <!--#region About Douban-->
             <PivotItem Name="AboutENRZ" x:Uid="SettPageItem_AboutDouban" >
                 <ScrollViewer>
                     <StackPanel>
@@ -305,15 +320,17 @@
                                Source="/Assets/Square310x310Logo.scale-200.png" 
                                Margin="0,-110"/>
 
-                        <TextBlock x:Uid="AboutDouban01" FontWeight="ExtraBold" 
+                        <TextBlock x:Uid="AboutDouban01" FontWeight="Bold" 
                                    FontSize="18" HorizontalAlignment="Center"/>
                         <TextBlock Margin="10,5,10,5" FontSize="14" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
-                        <Run x:Uid="AboutDouban02"/><LineBreak/>
+                            <Run x:Uid="AboutDouban02"/><LineBreak/><LineBreak/>
+                             <Run x:Uid="AboutDouban06"/><LineBreak/><LineBreak/>
+                             <Run x:Uid="AboutDouban07"/><LineBreak/>
                         <LineBreak/>
                         </TextBlock>
 
-                        <TextBlock x:Uid="AboutDouban03" FontWeight="ExtraBold" 
+                        <TextBlock x:Uid="AboutDouban03" FontWeight="Bold" 
                                    FontSize="18" HorizontalAlignment="Center"/>
                         <TextBlock Margin="10,5,10,5" FontSize="14" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
@@ -323,13 +340,6 @@
                         <LineBreak/>
                         </TextBlock>
 
-                        <TextBlock x:Uid="AboutDouban06" FontWeight="ExtraBold" 
-                                   FontSize="18" HorizontalAlignment="Center"/>
-                        <TextBlock Margin="10,5,10,5" FontSize="14" FontWeight="Thin"
-                               TextWrapping="WrapWholeWords">
-                        <Run x:Uid="AboutDouban07"/><LineBreak/>
-                        </TextBlock>
-                        
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
@@ -447,7 +457,7 @@
             <!--#endregion-->
 
             <!--#region Privacy Policy -->
-            <PivotItem Name="PrivacyPolicy" x:Uid="SettPageItem_PrivacyPolicy" >
+            <PivotItem Name="PrivacyPolicy" x:Uid="SettPageItem_PrivacyPolicy" Visibility="Collapsed">
                 <Grid>
                     <WebView Source="http://noodlesblog.azurewebsites.net/post/2016/10/20/lnu-education-management"
                          DefaultBackgroundColor="{ThemeResource DoubanBackground04}"

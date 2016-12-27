@@ -24,6 +24,7 @@ using Douban.UWP.Core.Tools;
 using HtmlAgilityPack;
 using Windows.UI.Xaml.Media.Imaging;
 using Douban.UWP.NET.Tools;
+using System.Reflection;
 #endregion
 
 namespace Douban.UWP.NET {
@@ -126,7 +127,10 @@ namespace Douban.UWP.NET {
                 e.Handled = true;
                 return;
             } else {
-                // do nothing...
+                var cont_pg = ContentFrame.Content;
+                if(cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
+                    (cont_pg as BaseContentPage).PageSlideOutStart(VisibleWidth > 800 ? false : true);
+                }
             }
             e.Handled = true;
         }
@@ -162,7 +166,6 @@ namespace Douban.UWP.NET {
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
             DoubanLoading.SetVisibility(true);
-            HamburgerListBox.SelectedIndex = -1;
             NavigationSplit.IsPaneOpen = false;
             if (!IsLogined) 
                 await TryLoginAsync();

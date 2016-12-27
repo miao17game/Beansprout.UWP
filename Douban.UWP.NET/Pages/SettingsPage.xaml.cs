@@ -163,7 +163,6 @@ namespace Douban.UWP.NET.Pages {
 
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
-            AppResources.IsDivideScreen = sender.IsOn;
             var CF = AppResources.MainContentFrame;
             if (CF.Content == null)
                 return;

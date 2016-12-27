@@ -166,31 +166,31 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban01.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Origin of the Douban</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban02.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>How often do the endless cover in a bookstore in a daze? Or head up to escape from a video store with a variety? Broadband download and online shopping comes after, even in the smallest towns, your options have increased as hundreds of thousands of every day. That there must be something you love, but in all likelihood they will unknowingly pass your way. Media let the eye-opening movie everywhere, for what is only suitable for a group of people but appeared to be inadequate. Moreover, different strokes, to each their own, regardless of TV entertainment how fair and diligent editors and newspaper book reviews writers, are impossible for all their help as well.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban03.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Participation in the Douban</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban04.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Douban with no editorial writers, no special article, no 600-line Home and beats the latest topics. Watercress book collection even did not impose the "standard." All the content here, sorting, filtering, and sorting members and decisions are the same as you. Comment a "useful", its ranking will automatically rise to stick "the love of my daughter" to a book, which will appear in the tag for the entire website. Watercress believe in people power, the judgment of the majority, and digital wisdom. Through the Web site and constantly improve the algorithm behind the scenes, orderly and useful structure arising from numerous special and lovely personality.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban05.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Douban watercress daily every development manager is the user, shared his beloved discovery, also benefit from your participation. We encourage you to click on member name or avatar to visit other people's personal home pages, and enrich their collections or comment. These are the watercress on the most important and useful content.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban06.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Douban sponsors found that most people do choose the most effective help from friends, family and co-workers. Feel free to recommend one or two sentences, not only pass their own true feelings, also contain tastes to you judge and then filter. They will not recommend parenting book to bachelors, nor to bring MOM back naked. It is regrettable that, you all my friends and family together, and have heard the remains limited. Also, most people with similar tastes, but often is not.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban07.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>If you can not make them, but know the taste of tens of thousands of people, and can quickly find the most like-minded of mouth magic must be magnified a hundredfold, to which everyone can help. Watercress with a wish. Watercress is not directed against any specific groups of people, trying to pack Nano Barilla. Tall, short, fat and thin, snow and Pakistan, watercress help you through your favorite things to find like-minded people, and then they find a lot of good things.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP.Text" xml:space="preserve">
@@ -198,19 +198,19 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess01.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Melon UWP Wallace a Douban developed a third party application is still in the early stages of development, features close to the original, but as features are added, more localized Web view, application performance to a new level, experience more intact.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess02.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>Douban official V2 API has stopped due to public and only available are incomplete, Douban groups API was completely blocked, so there is a lot of work needs to be done, watercress APP developers will try to carry out more functions.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess03.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>That's all, thanks.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess04.Text" xml:space="preserve">
-    <value>PlaceHolder</value>
+    <value>2016.12.20  --  http://bing.com/translator</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="Alipay.Text" xml:space="preserve">
@@ -330,7 +330,7 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="SettPageItem_AboutDouban.Header" xml:space="preserve">
-    <value>About GuaPi UWP</value>
+    <value>About Douban</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="SettPageItem_AboutMe.Header" xml:space="preserve">
@@ -496,5 +496,9 @@
   <data name="GoodNoon" xml:space="preserve">
     <value>Enjoy yourself!</value>
     <comment>UserControl</comment>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>GUAPI UWP</value>
+    <comment>Manifest</comment>
   </data>
 </root>

@@ -297,7 +297,7 @@ namespace Douban.UWP.NET.Pages {
                                              </head><body>" + htmlBodyContent + "</body></html>");
             var rootNode = doc.DocumentNode;
             var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
-            var mobileCheck = rootNode.SelectSingleNode("//div[@id='TalionNav']");
+            var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
             if (pcCheck == null && mobileCheck == null) {// login failed.
                 ReportHelper.ReportAttention(GetUIString("LoginFailed"));
             } else {

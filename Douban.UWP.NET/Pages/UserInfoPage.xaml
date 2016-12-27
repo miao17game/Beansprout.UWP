@@ -470,6 +470,10 @@
                             Click="BaseHamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                    <Border Height="20" Width="60" HorizontalAlignment="Right" Margin="0,0,10,5"
+                    VerticalAlignment="Bottom"  CornerRadius="2" Background="{ThemeResource DoubanForeground}">
+                        <TextBlock Text="开发中" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="White"/>
+                    </Border>
                 </Grid>
 
                 <Grid Name="DescriptionGrid" Height="320">

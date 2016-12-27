@@ -166,31 +166,31 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban01.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>豆瓣的来历</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban02.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>你经常对着书店里的绵绵不绝的封面发呆吗？或者头晕脑涨地从音像店的琳琅满目中逃出？宽带下载和网上购物降临之后，即使在最小的城镇，你的选择也在每天成百上千地增加。这其中一定有你会喜爱的东西，但十有八九它们会在不知不觉中和你擦肩而过。媒体让老少咸宜的大片无处不在，对只适合一群人的东西却显得力不从心。而且，萝卜青菜，各有所爱，不管电视的娱乐编辑和报纸的书评作家多么公正和勤勉，他们的帮助都不可能对所有人同样有效。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban03.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>参与豆瓣</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban04.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>豆瓣没有编辑写手，没有特约文章，没有六百行的首页和跳动的最新专题。豆瓣的藏书甚至没有强加给你的“标准分类”。这里所有的内容，分类，筛选，排序都由和你一样的成员产生和决定。给评论一个“有用”，它的排位会自动上升；贴“我女儿的最爱”给一本书，它会在整个网站的标签分类中出现。豆瓣相信大众的力量，多数人的判断，和数字的智慧。通过网站幕后不断完善之中的算法，有序和有益的结构会从无数特异而可爱的个性中产生。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban05.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>豆瓣网站的每个开发管理者也都是豆瓣每日的用户，分享着自己心爱的发现，也从你的参与中受益。我们鼓励你通过点击成员的名号或头像访问别人的个人主页，并充实自己的收藏或评论。这些是豆瓣上最重要和有益的内容。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban06.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>豆瓣的发起者发现，对多数人做选择最有效的帮助其实来自亲友和同事。随意的一两句推荐，不但传递了他们自己真实的感受，也包含了对你口味的判断和随之而行的筛选。他们不会向单身汉推荐育儿大全，也不会给老妈带回赤裸特工。遗憾的是，你我所有的亲友加起来，听过看过的仍然有限。而且，口味最类似的人却往往是陌路。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDouban07.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>如果能不一一结交，却知道成千上万人的口味，能从中间迅速找到最臭味相投的，口口相传的魔力一定能放大百倍，对其中每一个人都多少会有帮助。豆瓣随着这一个愿望产生。豆瓣不针对任何特定的人群，力图包纳百味。无论高矮胖瘦，白雪巴人，豆瓣帮助你通过你喜爱的东西找到志同道合者，然后通过他们找到更多的好东西。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP.Text" xml:space="preserve">
@@ -198,19 +198,19 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess01.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>瓜皮UWP 是 Wallace 开发的一款豆瓣第三方应用，目前还在开发早期阶段，功能接近原始，但是随着功能的不断加入，Web视图更多的本地化，应用性能将上一个台阶，体验将越发完好。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess02.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>由于豆瓣官方的V2 API 已经停止公开，仅存可用的也是残缺不全，豆瓣小组的API完全被封锁，所以还有很多努力需要做，开发者会尽可能的实现更多的豆瓣APP功能。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess03.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>大家多多理解，感谢。</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess04.Text" xml:space="preserve">
-    <value>占位</value>
+    <value>2016.12.20</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="Alipay.Text" xml:space="preserve">
@@ -330,7 +330,7 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="SettPageItem_AboutDouban.Header" xml:space="preserve">
-    <value>关于瓜皮UWP</value>
+    <value>关于豆瓣</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="SettPageItem_AboutMe.Header" xml:space="preserve">
@@ -495,5 +495,9 @@
   <data name="GoodNoon" xml:space="preserve">
     <value>中午好！</value>
     <comment>UserControl</comment>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>瓜皮 UWP</value>
+    <comment>Manifest</comment>
   </data>
 </root>

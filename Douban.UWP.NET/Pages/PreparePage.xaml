@@ -98,7 +98,7 @@
             <Image Name="LogeImage" Stretch="Uniform" 
                    RelativePanel.AlignVerticalCenterWithPanel="True"
                    RelativePanel.AlignHorizontalCenterWithPanel="True"
-                   Source="ms-appx:///Assets/620_2.png" />
+                   Source="ms-appx:///Assets/SplashScreen.scale-200.png" />
         </RelativePanel>
         <Grid Grid.Row="2" Grid.Column="1" >
             <ProgressBar Name="progressBar" 

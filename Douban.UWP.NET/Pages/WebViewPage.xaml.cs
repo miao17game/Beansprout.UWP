@@ -39,6 +39,9 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+            DoubanLoading.SetVisibility(false);
+            IncrementalLoadingBorder.SetVisibility(true);
+            IncrementalLoading.SetVisibility(true);
             var args = e.Parameter as NavigateParameter;
             currentUri = args.ToUri;
             Scroll.Source = currentUri;
@@ -55,7 +58,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Scroll_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args) {
-            doubanRing.SetVisibility(false);
+            IncrementalLoadingBorder.SetVisibility(false);
         }
 
         #endregion
