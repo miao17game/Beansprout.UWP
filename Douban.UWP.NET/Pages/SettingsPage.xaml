@@ -260,7 +260,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.1.* / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.2.* / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复WebContent页面内容排版错误" /><LineBreak/>
+                            <Run Text="修复并增加隐私策略'" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.1.1604 / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="应用商店Beta第一版" /><LineBreak/>
                             <Run Text="注：* 将在应用封包时确定，格式为'hhMM'" /><LineBreak/><LineBreak/>
                             
@@ -457,9 +461,9 @@
             <!--#endregion-->
 
             <!--#region Privacy Policy -->
-            <PivotItem Name="PrivacyPolicy" x:Uid="SettPageItem_PrivacyPolicy" Visibility="Collapsed">
+            <PivotItem Name="PrivacyPolicy" x:Uid="SettPageItem_PrivacyPolicy" >
                 <Grid>
-                    <WebView Source="http://noodlesblog.azurewebsites.net/post/2016/10/20/lnu-education-management"
+                    <WebView Source="http://wallacesun.azurewebsites.net/guapi-uwp-privacy-policy/"
                          DefaultBackgroundColor="{ThemeResource DoubanBackground04}"
                              ContentLoading="WebView_ContentLoading" 
                              DOMContentLoaded="WebView_DOMContentLoaded"
