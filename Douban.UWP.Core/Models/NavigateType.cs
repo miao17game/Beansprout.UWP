@@ -8,6 +8,7 @@ namespace Douban.UWP.Core.Models {
     public enum NavigateType {
         NULL,
         Index,
+        Movie,
         Webview,
         Settings,
         Login,

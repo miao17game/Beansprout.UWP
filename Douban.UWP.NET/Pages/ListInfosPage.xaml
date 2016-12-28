@@ -27,6 +27,7 @@
                                                Margin="0,5,0,3"
                                                Background="{ThemeResource DoubanBackground04}"
                                                PanelType ="{Binding Type}"
+                                               ThisDate ="{Binding ThisDate}"
                                                Title="{x:Bind Title}" 
                                                HasCover="{x:Bind HasCover}"
                                                Cover="{x:Bind Cover}" 
@@ -48,7 +49,6 @@
         <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
             <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
         </Border>
-        
 
     </Grid>
 </Page>

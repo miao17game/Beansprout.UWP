@@ -110,6 +110,8 @@
     <Compile Include="Models\DataFetchType.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
+    <Compile Include="Models\ListModel\MovieGroupItem.cs" />
+    <Compile Include="Models\ListModel\MovieItem.cs" />
     <Compile Include="Models\ListModel\IndexItem.cs" />
     <Compile Include="Models\LoginModels\LoginReturnBag.cs" />
     <Compile Include="Models\LoginModels\LoginStatusBag.cs" />
@@ -118,6 +120,7 @@
     <Compile Include="Models\NavigationBar.cs" />
     <Compile Include="Models\ReturnParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\APITest.cs" />
     <Compile Include="Tools\CacheSelect.cs" />
     <Compile Include="Tools\CipherEncryptionHelper.cs" />
     <Compile Include="Tools\ConstFields.cs" />

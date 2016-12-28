@@ -38,7 +38,7 @@ namespace Douban.UWP.NET.Pages {
             if (IsFirstOpen) { IsFirstOpen = false; }
         }
 
-        private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target) {
+        private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {
             ICollection<IndexItem> list = new List<IndexItem>();
             try {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
@@ -57,6 +57,11 @@ namespace Douban.UWP.NET.Pages {
                     return list;
                 }
                 if (feeds.HasValues) {
+                    list.Add(new IndexItem {
+                        Type = IndexItem.ItemType.DateBlock,
+                        ThisDate = DateTime.Now.AddDays(-offset).ToString("yyyy-MM-dd") ,
+                        MorePictures = new List<Uri> { new Uri(NoPictureUrl), new Uri(NoPictureUrl) }
+                    });
                     feeds.Children().ToList().ForEach(singleton => {
                         try {
                             var author = singleton["author"];
@@ -65,7 +70,7 @@ namespace Douban.UWP.NET.Pages {
                             var morePic = singleton["more_pic_urls"];
                             IList<Uri> more_pic = new List<Uri>();
                             if (morePic.HasValues) { morePic.ToList().ForEach(pic => { if (pic.Value<string>() != "") { more_pic.Add(new Uri(pic.Value<string>())); } }); } 
-                            else { more_pic.Add(new Uri("https://www.none.com/no.jpg")); more_pic.Add(new Uri("https://www.none.com/no.jpg")); }
+                            else { more_pic.Add(new Uri(NoPictureUrl)); more_pic.Add(new Uri(NoPictureUrl)); }
                             var type =
                             singleton["cover_url"].Value<string>() == "" ? IndexItem.ItemType.Paragraph :
                             singleton["photos_count"].Value<uint>() == 0 ? IndexItem.ItemType.Normal :
@@ -108,11 +113,13 @@ namespace Douban.UWP.NET.Pages {
             IncrementalLoadingBorder.SetVisibility(true);
             var date = DateTime.Now.AddDays(1-offset).ToString("yyyy-MM-dd");
             var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
-            return await FetchMessageFromAPIAsync(string.Format(Host, date));
+            return await FetchMessageFromAPIAsync(string.Format(Host, date), offset);
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as IndexItem;
+            if (item == null || item.Type == IndexItem.ItemType.DateBlock)
+                return;
             NavigateToBase?.Invoke(
                 sender,
                 new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null },
@@ -120,14 +127,8 @@ namespace Douban.UWP.NET.Pages {
                 GetPageType(Core.Models.NavigateType.ItemClick));
         }
 
-        public async void Test() {
-            var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/rexxar/api/v2/user/155291175/reviews?type=movie&start=0&count=20&ck=JJBh&for_mobile=1");
-            JObject jo = JObject.Parse(result);
-            Debug.WriteLine(jo.ToString());
-        }
-
         #region Properties
-
+        private string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
         #endregion
 
     }

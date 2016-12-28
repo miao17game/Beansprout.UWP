@@ -137,101 +137,107 @@
         </VisualStateManager.VisualStateGroups>
         <!--#endregion-->
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin=" 0,3,0,4">
-            <Ellipse Width="20" Height="20">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding AuthorAvatar}"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            <TextBlock Text="{Binding AuthorName}" VerticalAlignment="Center" FontSize="12" FontWeight="Thin" Margin="5,0,0,0"/>
-        </StackPanel>
-
-        <TextBlock Text="{Binding ColumnName}" VerticalAlignment="Center" HorizontalAlignment="Right" 
-                   Margin=" 0,3,5,0" FontSize="12" Foreground="#CC808080" FontWeight="Thin"/>
-
-        <TextBlock Name="P_C_Flag" Text="{Binding PanelType}" Visibility="Collapsed"/>
-
-        <Grid Name="ConatinerGrid" Grid.Row="1" Margin="0,5,0,5"
-              Visibility="{Binding ElementName=P_C_Flag, Path=Text, ConverterParameter=Gallary, Converter={StaticResource SelfVisibilityConverter}}">
-
+        <Grid Name="UnDateGrid" Visibility="{Binding ElementName=P_C_Flag, Path=Text, ConverterParameter=DateBlock, Converter={StaticResource SelfVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
 
-            <TextBlock Name="H_C_Flag" Text="{Binding HasCover}" Visibility="Collapsed"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin=" 0,3,0,4">
+                <Ellipse Width="20" Height="20">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding AuthorAvatar}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="{Binding AuthorName}" VerticalAlignment="Center" FontSize="12" FontWeight="Thin" Margin="5,0,0,0"/>
+            </StackPanel>
 
-            <Image Name="ContainerImage" Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2" Margin="0,5,0,0" 
+            <TextBlock Text="{Binding ColumnName}" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                   Margin=" 0,3,5,0" FontSize="12" Foreground="#CC808080" FontWeight="Thin"/>
+
+            <TextBlock Name="P_C_Flag" Text="{Binding PanelType}" Visibility="Collapsed"/>
+
+            <Grid Name="ConatinerGrid" Grid.Row="1" Margin="0,5,0,5"
+              Visibility="{Binding ElementName=P_C_Flag, Path=Text, ConverterParameter=Gallary, Converter={StaticResource SelfVisibilityConverter}}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Name="H_C_Flag" Text="{Binding HasCover}" Visibility="Collapsed"/>
+
+                <Image Name="ContainerImage" Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2" Margin="0,5,0,0" 
                    Width="200" Height="200" VerticalAlignment="Top" HorizontalAlignment="Right" Stretch="UniformToFill" 
                    Visibility="{Binding ElementName=H_C_Flag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}"/>
 
-            <TextBlock Name="TitleBlock" Text="{Binding Title}" TextWrapping="WrapWholeWords" 
+                <TextBlock Name="TitleBlock" Text="{Binding Title}" TextWrapping="WrapWholeWords" 
                        Margin="0,5,5,0" FontSize="18" />
-            <TextBlock Name="SummaryBlock" Text="{Binding Description}" Grid.Row="1" TextWrapping="WrapWholeWords" 
+                <TextBlock Name="SummaryBlock" Text="{Binding Description}" Grid.Row="1" TextWrapping="WrapWholeWords" 
                        Foreground="#CC808080" Margin=" 0,10,5,10" FontSize="14" />
 
-        </Grid>
-
-        <Grid Name="ConatinerGrid2" Grid.Row="1" Margin="0,5,0,5" 
-              Visibility="{Binding ElementName=ConatinerGrid, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Image Name="ContainerImage2" Source="{Binding Cover}" Grid.Column="0" Grid.RowSpan="2"
-                   Margin="0,5,0,0" Height="240" HorizontalAlignment="Stretch" Stretch="Fill"/>
-
-            <Image Name="Image_temp_01" Source="{Binding MorePictures[0]}" Grid.Column="1" Margin="0,5,0,0" Stretch="Fill"/>
-
-            <TextBlock Name="M_P_Flag" Text="{Binding PicturesCount}" Visibility="Collapsed"/>
-
-            <Grid Name="Image_temp_02"  Grid.Column="1" Grid.Row="1">
-                <Image  Source="{Binding MorePictures[1]}" Stretch="Fill"/>
-                <Rectangle Fill="Black" Opacity="0.35"/>
-                <TextBlock Name="temp_block_0_2" Foreground="White" Text="{Binding ElementName=M_P_Flag, Path=Text ,Converter={StaticResource BinaryConverter}, ConverterParameter=-3}"
-                           HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
             </Grid>
 
-            <TextBlock Name="TitleBlock2" Text="{Binding Title}" TextWrapping="WrapWholeWords" 
+            <Grid Name="ConatinerGrid2" Grid.Row="1" Margin="0,5,0,5" 
+              Visibility="{Binding ElementName=ConatinerGrid, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Name="ContainerImage2" Source="{Binding Cover}" Grid.Column="0" Grid.RowSpan="2"
+                   Margin="0,5,0,0" Height="240" HorizontalAlignment="Stretch" Stretch="Fill"/>
+
+                <Image Name="Image_temp_01" Source="{Binding MorePictures[0]}" Grid.Column="1" Margin="0,5,0,0" Stretch="Fill"/>
+
+                <TextBlock Name="M_P_Flag" Text="{Binding PicturesCount}" Visibility="Collapsed"/>
+
+                <Grid Name="Image_temp_02"  Grid.Column="1" Grid.Row="1">
+                    <Image  Source="{Binding MorePictures[1]}" Stretch="Fill"/>
+                    <Rectangle Fill="Black" Opacity="0.35"/>
+                    <TextBlock Name="temp_block_0_2" Foreground="White" Text="{Binding ElementName=M_P_Flag, Path=Text ,Converter={StaticResource BinaryConverter}, ConverterParameter=-3}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                </Grid>
+
+                <TextBlock Name="TitleBlock2" Text="{Binding Title}" TextWrapping="WrapWholeWords" 
                        Margin="0,5,5,0" FontSize="18" Grid.Row="2" Grid.ColumnSpan="2" />
-            <TextBlock Name="SummaryBlock2" Text="{Binding Description}" Grid.Row="3" Grid.ColumnSpan="2"  TextWrapping="WrapWholeWords" 
+                <TextBlock Name="SummaryBlock2" Text="{Binding Description}" Grid.Row="3" Grid.ColumnSpan="2"  TextWrapping="WrapWholeWords" 
                        Foreground="#CC808080" Margin=" 0,10,5,10" FontSize="14" />
 
-        </Grid>
+            </Grid>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2">
-            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE006;" VerticalAlignment="Center" Margin="2,0,3,0"/>
-            <TextBlock Text="{Binding LikersCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
-            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE134;" VerticalAlignment="Center" Margin="8,0,3,0"/>
-            <TextBlock Text="{Binding CommentCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
-        </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2">
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE006;" VerticalAlignment="Center" Margin="2,0,3,0"/>
+                <TextBlock Text="{Binding LikersCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE134;" VerticalAlignment="Center" Margin="8,0,3,0"/>
+                <TextBlock Text="{Binding CommentCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
+            </StackPanel>
 
-        <Button Name="ClickButton"
+            <Button Name="ClickButton"
                 Grid.RowSpan="3"
                 Style="{ThemeResource ButtonNoAnyShapeStyle}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Visibility="{Binding ClickVisible}"/>
-        
+        </Grid>
+
+        <Border Name="DateGrid" Visibility="{Binding ElementName=UnDateGrid, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}">
+            <TextBlock Text="{Binding ThisDate}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10,5,10"/>
+        </Border>
+
     </Grid>
 </UserControl>

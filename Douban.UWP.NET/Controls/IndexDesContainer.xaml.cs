@@ -22,6 +22,12 @@ namespace Douban.UWP.NET.Controls {
             InnerButton = this.ClickButton;
         }
 
+        public static readonly DependencyProperty ThisDateProperty = DependencyProperty.Register("ThisDate", typeof(string), typeof(IndexDesContainer), null);
+        public string ThisDate {
+            get { return GetValue(ThisDateProperty) as string; }
+            set { SetValue(ThisDateProperty, value); }
+        }
+
         public static readonly DependencyProperty AuthorNameProperty = DependencyProperty.Register("AuthorName", typeof(string), typeof(IndexDesContainer), null);
         public string AuthorName {
             get { return GetValue(AuthorNameProperty) as string; }

@@ -71,6 +71,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.Index, typeof(ListInfosPage)},
+                    { NavigateType.Movie, typeof(MovieIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
                 };
@@ -92,6 +93,7 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.Login, MainLoginFrame},
                         { NavigateType.UserInfo, MainContentFrame},
                         { NavigateType.Index, MainLeftPartFrame},
+                        { NavigateType.Movie, MainLeftPartFrame},
                         { NavigateType.ItemClick, MainContentFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
                     };
@@ -119,7 +121,7 @@ namespace Douban.UWP.NET.Resources {
                         new NavigationBar {
                             Title = GetUIString("DB_MOVIE"),
                             PathUri = new Uri("https://movie.douban.com/"),
-                            NaviType = NavigateType.Webview
+                            NaviType = NavigateType.Movie
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_MUSIC"),

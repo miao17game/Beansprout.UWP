@@ -9,6 +9,8 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public ItemType Type { get; set; }
 
+        public string ThisDate { get; set; }
+
         public uint ID { get; set; }
 
         public uint ReadCount { get; set; }
@@ -63,7 +65,7 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         #endregion
 
-        public enum ItemType { Normal, Gallary, Paragraph }
+        public enum ItemType { Normal, Gallary, Paragraph, DateBlock }
 
     }
 }
