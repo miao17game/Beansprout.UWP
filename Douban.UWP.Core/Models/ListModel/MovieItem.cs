@@ -23,6 +23,8 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public object Price { get; set; }
 
+        public string DispatchUrl { get; set; }
+
         public string PathUrl { get; set; }
 
         public string PathInnerUri { get; set; }

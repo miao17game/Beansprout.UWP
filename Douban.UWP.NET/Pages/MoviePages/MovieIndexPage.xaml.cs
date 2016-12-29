@@ -30,9 +30,13 @@ namespace Douban.UWP.NET.Pages {
             this.InitializeComponent();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e) {
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             DoubanLoading.SetVisibility(false);
+            InitWhenNavigatedAsync();
+        }
+
+        private async void InitWhenNavigatedAsync() {
             var InThearerResult = await SetGridViewResourcesAsync("movie_showing");
             InTheaterResources.Source = InThearerResult != null ? InThearerResult.Items : null;
             var WatchOnlineResult = await SetGridViewResourcesAsync("movie_free_stream");
@@ -42,6 +46,7 @@ namespace Douban.UWP.NET.Pages {
             var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/movie/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
+            StopLoadingAnimation();
         }
 
         private void SetWrapPanelResources(string webResult) {
@@ -116,7 +121,7 @@ namespace Douban.UWP.NET.Pages {
                     "frodo.douban.com",
                     "https://m.douban.com/movie/");
                 if (result == null) {
-                    FireLoadingAnimations("WebActionError");
+                    ReportWhenGoesWrong("WebActionError");
                     return gmodel;
                 }
                 JObject jo = JObject.Parse(result.Substring(7, result.Length - 8));
@@ -130,7 +135,7 @@ namespace Douban.UWP.NET.Pages {
         private MovieGroupItem SetGroupResources(JObject jObject, MovieGroupItem gModel) {
             var sub_collection = jObject["subject_collection"];
             if (sub_collection == null || !sub_collection.HasValues) {
-                FireLoadingAnimations("FetchJsonDataError");
+                ReportWhenGoesWrong("FetchJsonDataError");
                 return gModel;
             }
             try {
@@ -142,7 +147,7 @@ namespace Douban.UWP.NET.Pages {
         private MovieGroupItem SetSingletonResources(JObject jObject, MovieGroupItem gModel) {
             var feeds = jObject["subject_collection_items"];
             if (feeds == null || !feeds.HasValues) {
-                FireLoadingAnimations("FetchJsonDataError");
+                ReportWhenGoesWrong("FetchJsonDataError");
                 return gModel;
             }
             if (feeds.HasValues)
@@ -150,8 +155,11 @@ namespace Douban.UWP.NET.Pages {
             return gModel;
         }
 
-        private void FireLoadingAnimations(string UIString) {
+        private void ReportWhenGoesWrong(string UIString) {
             ReportHelper.ReportAttention(GetUIString(UIString));
+        }
+
+        private void StopLoadingAnimation() {
             DoubanLoading.SetVisibility(false);
             IncrementalLoadingBorder.SetVisibility(false);
         }
