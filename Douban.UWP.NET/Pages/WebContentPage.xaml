@@ -113,7 +113,7 @@
                        Text="CONTENT" FontSize="20"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
-                       Foreground="{ThemeResource DoubanTextColor02}"/>
+                       Foreground="White"/>
         </Border>
         <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
@@ -121,7 +121,7 @@
                             Width="70"
                             Height="70"
                             Click="BaseHamburgerButton_Click"
-                            Foreground="{ThemeResource DoubanTextColor02}"
+                            Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
         <Grid Name="LineGrid" Height="85" VerticalAlignment="Top" >
             <Rectangle Height="1" 

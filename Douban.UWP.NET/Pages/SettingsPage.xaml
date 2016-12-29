@@ -260,7 +260,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.2.* / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.3.* / 2016.10.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="完成Movie主页的本地化工作" /><LineBreak/>
+                            <Run Text="调整了Index主页的UI细节'" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.2.2222 / 2016.10.28" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复WebContent页面内容排版错误" /><LineBreak/>
                             <Run Text="修复并增加隐私策略'" /><LineBreak/><LineBreak/>
                             

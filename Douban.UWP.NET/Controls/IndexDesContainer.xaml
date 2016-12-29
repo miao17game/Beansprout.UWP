@@ -142,6 +142,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin=" 0,3,0,4">
@@ -220,7 +221,7 @@
 
             </Grid>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2" Margin="0,0,0,5">
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE006;" VerticalAlignment="Center" Margin="2,0,3,0"/>
                 <TextBlock Text="{Binding LikersCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE134;" VerticalAlignment="Center" Margin="8,0,3,0"/>
@@ -233,11 +234,47 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Visibility="{Binding ClickVisible}"/>
+
+            <Grid Grid.Row="3"  Margin="-12,0,-12,-5" Background="{ThemeResource DoubanBackground05}" Height="10">
+                <Rectangle Margin="0,0,0,0" Height=" 10" VerticalAlignment="Bottom">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+            
         </Grid>
 
-        <Border Name="DateGrid" Visibility="{Binding ElementName=UnDateGrid, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}">
-            <TextBlock Text="{Binding ThisDate}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10,5,10"/>
-        </Border>
+        <Grid Name="DateGrid" Visibility="{Binding ElementName=UnDateGrid, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding ThisDate}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,10,5,20"/>
+            <Grid Grid.Row="1"  Margin="-12,0,-12,-5" Background="{ThemeResource DoubanBackground05}" Height="10">
+                <Rectangle Margin="0,0,0,0" Height=" 10" VerticalAlignment="Bottom">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </Grid>
 
     </Grid>
 </UserControl>

@@ -14,5 +14,8 @@ namespace Douban.UWP.Core.Models {
         Login,
         UserInfo,
         ItemClick,
+        DouList,
+        MovieContent,
+        MovieFilter
     }
 }

@@ -501,4 +501,32 @@
     <value>GUAPI UWP</value>
     <comment>Manifest</comment>
   </data>
+  <data name="NoStarValue.Text" xml:space="preserve">
+    <value>No Value</value>
+    <comment>Controls</comment>
+  </data>
+  <data name="InTheaterGroup.Text" xml:space="preserve">
+    <value>Hot in theater</value>
+    <comment>MovieIndexPage</comment>
+  </data>
+  <data name="LatestGroup.Text" xml:space="preserve">
+    <value>New express</value>
+    <comment>MovieIndexPage</comment>
+  </data>
+  <data name="WatchOnlineGroup.Text" xml:space="preserve">
+    <value>Free online</value>
+    <comment>MovieIndexPage</comment>
+  </data>
+  <data name="MoreButton.Content" xml:space="preserve">
+    <value>More</value>
+    <comment>MovieIndexPage</comment>
+  </data>
+  <data name="FilterGroup.Text" xml:space="preserve">
+    <value>Type filter</value>
+    <comment>MovieIndexPage</comment>
+  </data>
+  <data name="FindGoodGroup.Text" xml:space="preserve">
+    <value>Find good movies</value>
+    <comment>MovieIndexPage</comment>
+  </data>
 </root>

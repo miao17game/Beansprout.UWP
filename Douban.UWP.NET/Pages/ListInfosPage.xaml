@@ -24,7 +24,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:IndexItem">
                     <control:IndexDesContainer x:Name="ItemSingleton" 
-                                               Margin="0,5,0,3"
+                                               Margin="0,5,0,0"
                                                Background="{ThemeResource DoubanBackground04}"
                                                PanelType ="{Binding Type}"
                                                ThisDate ="{Binding ThisDate}"

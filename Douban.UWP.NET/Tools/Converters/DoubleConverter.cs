@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Wallace.UWP.Helpers;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Douban.UWP.Tools.Converters {
-    public class SelfVisibilityConverter : IValueConverter {
+    public class DoubleConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
-            return ConvertToVisibility(value.ToString(), parameter.ToString());
+            return ToValueCode(System.Convert.ToDouble(value));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             throw new NotImplementedException();
         }
 
-        private Visibility ConvertToVisibility(string value, string parameter) { return parameter == value ? Visibility.Collapsed : Visibility.Visible; }
+        private double ToValueCode(double num) {
+            return (double)(((int)(num * 10000)) / 1000) / 10;
+        }
     }
 }

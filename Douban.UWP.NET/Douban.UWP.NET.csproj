@@ -104,6 +104,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BaseContentPage.cs" />
+    <Compile Include="Controls\FiveStarControl.xaml.cs">
+      <DependentUpon>FiveStarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IndexDesContainer.xaml.cs">
       <DependentUpon>IndexDesContainer.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,9 @@
     <Compile Include="Controls\ToastSmooth.xaml.cs">
       <DependentUpon>ToastSmooth.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\WrapPanel\MyPanel.cs" />
+    <Compile Include="Controls\WrapPanel\OrientedSize.cs" />
+    <Compile Include="Controls\WrapPanel\WrapPanel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -125,7 +131,7 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\MovieIndexPage.xaml.cs">
+    <Compile Include="Pages\MoviePages\MovieIndexPage.xaml.cs">
       <DependentUpon>MovieIndexPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PreparePage.xaml.cs">
@@ -152,6 +158,8 @@
     <Compile Include="Tools\Converters\IconConverter.cs" />
     <Compile Include="Tools\Converters\HasCoverConverter.cs" />
     <Compile Include="Tools\Converters\SelfVisibilityConverter.cs" />
+    <Compile Include="Tools\Converters\StarSizeColorConverter.cs" />
+    <Compile Include="Tools\Converters\DoubleConverter.cs" />
     <Compile Include="Tools\GlobalHelpers.cs" />
     <Compile Include="Tools\DoubanIncrementalContext.cs" />
     <Compile Include="Tools\ReportHelper.cs" />
@@ -228,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FiveStarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\IndexDesContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -256,7 +268,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MovieIndexPage.xaml">
+    <Page Include="Pages\MoviePages\MovieIndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

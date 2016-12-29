@@ -311,7 +311,6 @@ namespace Douban.UWP.NET.Pages {
                     null,
                     GetFrameInstance(NavigateType.UserInfo),
                     GetPageType(NavigateType.UserInfo));
-                NavigateTitleBlock.Text = LoginStatus.UserName;
             }
         }
 

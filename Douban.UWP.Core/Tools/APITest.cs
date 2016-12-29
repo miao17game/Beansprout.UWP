@@ -11,7 +11,7 @@ namespace Douban.UWP.Core.Tools {
     public static class APITest {
 
         public static async void Test() {
-            var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://frodo.douban.com/jsonp/subject_collection/movie_showing/items?os=windows&callback=jsonp1&start=0&count=8&loc_id=108288&_=1482936121486");
+            var result = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/rexxar/api/v2/movie/26382689/interests?count=4&order_by=hot&start=0&ck=17fl&for_mobile=1");
             JObject jo = JObject.Parse(result);
             Debug.WriteLine(jo.ToString());
         }

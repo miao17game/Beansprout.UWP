@@ -417,7 +417,7 @@
                                    HorizontalAlignment="Center" 
                                    VerticalAlignment="Center"
                                    FontWeight="Bold"
-                                   Foreground="{ThemeResource DoubanTextColor02}"/>
+                                   Foreground="White"/>
                     </Border>
 
                     <Grid Name="LineGrid" Height="70" VerticalAlignment="Top" Canvas.ZIndex="1">
@@ -449,7 +449,7 @@
                             FontWeight="ExtraBold"
                             Click="HamburgerButton_Click"
                             Canvas.ZIndex="1"
-                            Foreground="{ThemeResource DoubanTextColor02}"
+                            Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
 
                     <Frame Name="BasePartFrame" Margin="0,70,0,0"/>

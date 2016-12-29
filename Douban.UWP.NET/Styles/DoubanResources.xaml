@@ -61,7 +61,7 @@
             <!--DoubanForeground02 Dark Gray Black -->
             <SolidColorBrush x:Key="DoubanForeground02" Color="#CC202020"/>
             <!--DoubanForeground03 White Gray FirstMainColor -->
-            <SolidColorBrush x:Key="DoubanForeground03" Color="#E5E5E5"/>
+            <SolidColorBrush x:Key="DoubanForeground03" Color="#31A79B"/>
             <!--DoubanForeground04 Dark Gray Black -->
             <SolidColorBrush x:Key="DoubanForeground04" Color="#CC202020"/>
             <!--DoubanForeground05 Green Black HamburgerMainColor -->
@@ -82,7 +82,7 @@
             <!--DoubanBackground04 White Almost -->
             <SolidColorBrush x:Key="DoubanBackground04" Color="#FCFCFC"/>
             <!--DoubanBackground05 White Gray -->
-            <SolidColorBrush x:Key="DoubanBackground05" Color="#EDEDED"/>
+            <SolidColorBrush x:Key="DoubanBackground05" Color="#EFEFEF"/>
 
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>

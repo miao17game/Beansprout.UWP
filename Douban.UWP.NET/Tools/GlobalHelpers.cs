@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Resources;
 using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace Douban.UWP.NET.Tools {
     public static class GlobalHelpers {
@@ -93,9 +94,31 @@ namespace Douban.UWP.NET.Tools {
                 currentPage.Margin = new Thickness(0, 0, 0, 0);
         }
 
-        #region Handler of ListView Scroll 
+        public static SolidColorBrush GetColorRandom(int num) {
+            return new SolidColorBrush() {
+                Color =
+                num == 0 ? Color.FromArgb(255, 244, 78, 97) :
+                num == 1 ? Color.FromArgb(255, 255, 193, 63) :
+                num == 2 ? Color.FromArgb(255, 49, 199, 155) :
+                num == 3 ? Color.FromArgb(255, 255, 63, 138) :
+                num == 4 ? Color.FromArgb(255, 255, 120, 63) :
+                num == 5 ? Color.FromArgb(255, 255, 67, 63) :
+                num == 6 ? Color.FromArgb(255, 222, 135, 119) :
+                num == 7 ? Color.FromArgb(255, 53, 132, 154) :
+                num == 8 ? Color.FromArgb(255, 75, 21, 173) :
+                num == 9 ? Color.FromArgb(255, 217, 6, 94) :
+                num == 10 ? Color.FromArgb(255, 60, 188, 98) :
+                num == 11 ? Color.FromArgb(255, 97, 17, 171) :
+                num == 12 ? Color.FromArgb(255, 254, 183, 8) :
+                num == 13 ? Color.FromArgb(255, 69, 90, 172) :
+                num == 14 ? Color.FromArgb(255, 141, 4, 33) :
+                Color.FromArgb(255, 82, 82, 82)
+            };
+        } 
 
-        public static ScrollViewer GetScrollViewer(DependencyObject depObj) {
+            #region Handler of ListView Scroll 
+
+            public static ScrollViewer GetScrollViewer(DependencyObject depObj) {
             if (depObj is ScrollViewer)
                 return depObj as ScrollViewer;
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {

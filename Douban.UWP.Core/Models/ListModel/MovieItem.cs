@@ -33,7 +33,7 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public IList<string> Actors { get; set; }
 
-        public IList<object> Actions { get; set; }
+        public IList<string> Actions { get; set; }
 
         public string Description { get; set; }
 

@@ -74,6 +74,9 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Movie, typeof(MovieIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
+                    { NavigateType.DouList, typeof(WebContentPage)},
+                    { NavigateType.MovieContent, typeof(WebContentPage)},
+                    { NavigateType.MovieFilter, typeof(WebContentPage)},
                 };
                 return pagesMaps;
             }).Invoke(); }
@@ -96,6 +99,9 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.Movie, MainLeftPartFrame},
                         { NavigateType.ItemClick, MainContentFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
+                        { NavigateType.DouList, MainContentFrame},
+                        { NavigateType.MovieContent, MainContentFrame},
+                        { NavigateType.MovieFilter, MainContentFrame},
                     };
                     return frameMaps;
                 }).Invoke();
