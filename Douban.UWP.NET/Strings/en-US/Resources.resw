@@ -529,4 +529,8 @@
     <value>Find good movies</value>
     <comment>MovieIndexPage</comment>
   </data>
+  <data name="DB_PREPARE_TITLE_SUMMARY.Text" xml:space="preserve">
+    <value>Our Spiritual Corner</value>
+    <comment>PreparePage</comment>
+  </data>
 </root>

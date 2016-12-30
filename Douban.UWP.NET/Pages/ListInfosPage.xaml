@@ -15,7 +15,7 @@
         <Converters:IListToListConverter x:Key="IListToListConverter"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground04}">
+    <Grid Background="{ThemeResource DoubanBackground05}">
 
         <ListView Name="IndexList" IsItemClickEnabled="True" SelectionMode="None"
                   ItemsSource="{Binding Source={StaticResource ListViewResources}}" 
@@ -24,7 +24,6 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:IndexItem">
                     <control:IndexDesContainer x:Name="ItemSingleton" 
-                                               Margin="0,5,0,0"
                                                Background="{ThemeResource DoubanBackground04}"
                                                PanelType ="{Binding Type}"
                                                ThisDate ="{Binding ThisDate}"

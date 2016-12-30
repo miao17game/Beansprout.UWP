@@ -528,4 +528,8 @@
     <value>发现好电影</value>
     <comment>MovieIndexPage</comment>
   </data>
+  <data name="DB_PREPARE_TITLE_SUMMARY.Text" xml:space="preserve">
+    <value>我们的精神角落</value>
+    <comment>PreparePage</comment>
+  </data>
 </root>

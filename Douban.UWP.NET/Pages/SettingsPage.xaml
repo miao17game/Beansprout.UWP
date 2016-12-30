@@ -17,7 +17,6 @@
         </Style>
         <Style x:Key="TitleTextStyle" TargetType="TextBlock" >
             <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="Foreground" Value="{ThemeResource AppPersonalTextColorPure02}"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -105,7 +104,7 @@
                         
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
-                            <TextBlock x:Uid="VisualOptions" FontWeight="Bold"
+                            <TextBlock x:Uid="VisualOptions" FontWeight="Black"
                                    Style="{StaticResource SummaryTextStyle}"/>
                             <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
                         </StackPanel>
@@ -158,7 +157,7 @@
                         
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
-                            <TextBlock x:Uid="LanguageOptions" FontWeight="Bold"
+                            <TextBlock x:Uid="LanguageOptions" FontWeight="Black"
                                    Style="{StaticResource SummaryTextStyle}"/>
                             <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
                         </StackPanel>
@@ -181,7 +180,7 @@
 
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
-                            <TextBlock x:Uid="OtherOptions" FontWeight="Bold"
+                            <TextBlock x:Uid="OtherOptions" FontWeight="Black"
                                    Style="{StaticResource SummaryTextStyle}"/>
                             <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
                         </StackPanel>
@@ -260,13 +259,19 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.3.* / 2016.10.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.4.* / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="更新启动背景和文案" /><LineBreak/>
+                            <Run Text="主页UI细节调优" /><LineBreak/>
+                            <Run Text="修复了Movie详情页面唤醒知乎UWP的故障" /><LineBreak/>
+                            <Run Text="莫名其妙就唤醒了我也是一脸懵逼🐸" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.3.2339 / 2016.10.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成Movie主页的本地化工作" /><LineBreak/>
-                            <Run Text="调整了Index主页的UI细节'" /><LineBreak/><LineBreak/>
+                            <Run Text="调整了Index主页的UI细节" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.2.2222 / 2016.10.28" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复WebContent页面内容排版错误" /><LineBreak/>
-                            <Run Text="修复并增加隐私策略'" /><LineBreak/><LineBreak/>
+                            <Run Text="修复并增加隐私策略" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.1.1604 / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="应用商店Beta第一版" /><LineBreak/>

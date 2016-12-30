@@ -173,7 +173,9 @@
   <ItemGroup>
     <Content Include="Assets\188.jpg" />
     <Content Include="Assets\213.jpg" />
+    <Content Include="Assets\2132.jpg" />
     <Content Include="Assets\231.jpg" />
+    <Content Include="Assets\2312.jpg" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\BadgeLogo.scale-150.png" />

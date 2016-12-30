@@ -149,14 +149,14 @@
                 <Border Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                     <TextBlock FontSize="16" x:Uid="FilterGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                 </Border>
-                <Border Background="{ThemeResource DoubanBackground05}">
+                <Border >
                     <GridView x:Name="FilterGridView" 
                           SelectionMode="None"
                           IsItemClickEnabled="True" 
                           ItemClick="FilterGridView_ItemClick"
                           ItemsSource="{Binding Source={StaticResource FilterResources}}"
                           VerticalAlignment="Top"
-                          Margin="3,0,0,0">
+                          Margin="3,10,0,0">
                         <GridView.ItemTemplate>
                             <DataTemplate  x:DataType="model:MovieItem">
                                 <Border Height="40" Width="80" BorderBrush="#31A79B" BorderThickness="1" CornerRadius="3">
@@ -173,12 +173,12 @@
                     </GridView>
                 </Border>
 
-                <Border Height="40">
+                <Border Height="40" Background="{ThemeResource DoubanBackground05}">
                     <TextBlock FontSize="16" x:Uid="FindGoodGroup" 
                                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                 </Border>
                 <WP:MyPanel x:Name="WrapPanel" Width="{Binding ActualWidth, ElementName=stackPanel, Mode=OneWay}" 
-                             MaxHeight=" 200" Margin=" 0,0,0,0"></WP:MyPanel>
+                             MaxHeight=" 200" Margin=" 0,10,0,0"></WP:MyPanel>
 
             </StackPanel>
         </ScrollViewer>

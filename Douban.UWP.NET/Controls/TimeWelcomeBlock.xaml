@@ -9,7 +9,7 @@
     d:DesignHeight="150"
     d:DesignWidth="400">
 
-    <Grid Name="Main" MaxHeight="100" MaxWidth="300" CornerRadius="5" Opacity="0.7">
+    <Grid Name="Main" MaxHeight="100" MaxWidth="300" CornerRadius="5" Opacity="1">
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
 

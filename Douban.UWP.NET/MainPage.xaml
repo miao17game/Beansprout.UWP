@@ -292,7 +292,7 @@
 
                 <!--#region HamburgerList-->
                 <Grid>
-                    <Rectangle Margin="0,0,0,0" Width="30" HorizontalAlignment="Right">
+                    <Rectangle Margin="0,0,0,0" Width="15" HorizontalAlignment="Right">
                         <Rectangle.Fill>
                             <LinearGradientBrush StartPoint="1,0" EndPoint="0,0">
                                 <GradientStopCollection >
@@ -305,15 +305,16 @@
                             </LinearGradientBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-                    <RelativePanel Background="{ThemeResource DoubanForeground05}" Margin="0,0,30,0">
+                    <RelativePanel Background="{ThemeResource DoubanForeground05}" Margin="0,0,15,0">
                         <Button Name="HamburgerButton"
-                            Content="&#xE700;"
-                            Width="70"
-                            Height="70"
-                            FontWeight="ExtraBold"
-                            Click="HamburgerButton_Click"
-                            Foreground="White"
-                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                                Content="&#xE746;"
+                                FontSize="26"
+                                Width="70"
+                                Height="70"
+                                FontWeight="Bold"
+                                Click="HamburgerButton_Click"
+                                Foreground="White"
+                                Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
                         <Button Name="LoginButton" 
                             Height="70" 
                             Margin="3,0,0,0"
@@ -420,7 +421,9 @@
                                    Foreground="White"/>
                     </Border>
 
-                    <Grid Name="LineGrid" Height="70" VerticalAlignment="Top" Canvas.ZIndex="1">
+                    <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
+
+                    <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
                         <Rectangle Height="1" 
                                Margin=" 0,0,0,0" 
                                VerticalAlignment="Bottom" 
@@ -440,19 +443,18 @@
                             </Rectangle.Fill>
                         </Rectangle>
                     </Grid>
-                    
+
                     <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
-                            Content="&#xE700;"
+                            Content="&#xE746;"
+                            FontSize="26"
                             Width="70"
                             Height="70"
-                            FontWeight="ExtraBold"
+                            FontWeight="Bold"
                             Click="HamburgerButton_Click"
                             Canvas.ZIndex="1"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
-
-                    <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
 
                     <ProgressRing Name="baseListRing" Width="70" Height=" 70" IsActive="False"
                                   Foreground="{ThemeResource DoubanForeground01}"/>

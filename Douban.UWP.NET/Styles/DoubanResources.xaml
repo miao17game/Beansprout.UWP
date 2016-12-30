@@ -71,7 +71,7 @@
             <!--DoubanForeground07 Gray SecondBorderColor -->
             <SolidColorBrush x:Key="DoubanForeground07" Color="#F0F0F0"/>
             <!--DoubanForeground08 Yellow Strong ThirdBorderColor -->
-            <SolidColorBrush x:Key="DoubanForeground08" Color="#D0FE9A04"/>
+            <SolidColorBrush x:Key="DoubanForeground08" Color="#31A79B"/>
 
             <!--DoubanBackground01 White Almost -->
             <SolidColorBrush x:Key="DoubanBackground01" Color="#FCFCFC"/>
