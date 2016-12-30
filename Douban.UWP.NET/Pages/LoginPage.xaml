@@ -1175,10 +1175,18 @@
                     </Grid>
                     <!--#endregion-->
 
+                    <!-- VerificationCode Image -->
+                    <Border Name="VerificationCodeBorder" 
+                            RelativePanel.Below="PasswordGrid" 
+                            RelativePanel.AlignRightWithPanel="True"
+                            Visibility="Visible">
+                        <Image Name="VerificationCodeImage" MaxWidth="175" Margin="5"/>
+                    </Border>
+
                     <!--#region VerificationCode-->
                     <Grid Name="VerificationCodeGrid" 
                           Visibility="Collapsed"
-                                  RelativePanel.Below="PasswordGrid"
+                                  RelativePanel.Below="VerificationCodeBorder"
                                   Height=" 55" 
                                   Margin="5,5,5,10" 
                                   RelativePanel.AlignLeftWithPanel="True"
@@ -1212,10 +1220,6 @@
                                  Name="VerificationCodeBox"
                                  GotFocus="VerificationCodeBox_GotFocus" 
                                  LostFocus="VerificationCodeBox_LostFocus"/>
-                        <!-- VerificationCode Image -->
-                        <Border Name="VerificationCodeBorder" Visibility="Visible" Grid.Column="2">
-                            <Image Name="VerificationCodeImage" MaxWidth="175" Margin="5"/>
-                        </Border>
                     </Grid>
                     <!--#endregion-->
 

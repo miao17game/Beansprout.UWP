@@ -259,7 +259,10 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.4.* / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                             <Run Text="Version：1.5.* / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="紧急修复Mobile登陆验证码输入问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.4.1507 / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="更新启动背景和文案" /><LineBreak/>
                             <Run Text="主页UI细节调优" /><LineBreak/>
                             <Run Text="修复了Movie详情页面唤醒知乎UWP的故障" /><LineBreak/>

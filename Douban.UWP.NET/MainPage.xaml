@@ -308,7 +308,6 @@
                     <RelativePanel Background="{ThemeResource DoubanForeground05}" Margin="0,0,15,0">
                         <Button Name="HamburgerButton"
                                 Content="&#xE746;"
-                                FontSize="26"
                                 Width="70"
                                 Height="70"
                                 FontWeight="Bold"
@@ -447,7 +446,6 @@
                     <Button Name="BaseHamburgerButton"
                             VerticalAlignment="Top"
                             Content="&#xE746;"
-                            FontSize="26"
                             Width="70"
                             Height="70"
                             FontWeight="Bold"
