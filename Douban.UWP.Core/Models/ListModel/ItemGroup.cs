@@ -5,11 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models.ListModel {
-    public class MovieItem : ListItemBase {
+    public class ItemGroup<T> : ItemGroupBase {
 
-        public IList<string> Directors { get; set; }
-
-        public IList<string> Actors { get; set; }
+        public new IList<T> Items { get; set; }
 
     }
 }

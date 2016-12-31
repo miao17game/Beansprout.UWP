@@ -1,0 +1,191 @@
+﻿<Page
+    x:Class="Douban.UWP.NET.Pages.MusicIndexPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Pages"
+    xmlns:MSControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:control ="using:Douban.UWP.NET.Controls"
+    xmlns:WP ="using:Douban.UWP.NET.Controls.WrapPanel"
+    xmlns:model="using:Douban.UWP.Core.Models.ListModel"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="InTheaterResources"/>
+        <CollectionViewSource x:Name="WatchOnlineResources"/>
+        <CollectionViewSource x:Name="LatestResources"/>
+        <CollectionViewSource x:Name="FilterResources"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource DoubanBackground04}">
+
+        <ScrollViewer>
+            <StackPanel x:Name="stackPanel" SizeChanged="StackPanel_SizeChanged">
+                <StackPanel>
+                    <Grid Background="{ThemeResource DoubanBackground05}" Height="40">
+                        <TextBlock FontSize="16" x:Uid="MusicChineseGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                        <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                    </Grid>
+                    <GridView x:Name="InTheaterGridView" 
+                  SelectionMode="None" IsItemClickEnabled="True" 
+                  ItemClick="GridView_ItemClick"
+                  Style="{ThemeResource ENRZGridViewStyle}"
+                  ItemsSource="{Binding Source={StaticResource InTheaterResources}}"
+                  VerticalAlignment="Top"
+                  Margin="0,0,0,0"
+                  Height="200">
+                        <GridView.ItemTemplate>
+                            <DataTemplate  x:DataType="model:MovieItem">
+                                <Grid Height="190" Width="160" Margin="-2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding CoverUrl}"
+                               Stretch="Fill"
+                               Grid.Row="0"/>
+                                    <TextBlock Text="{Binding Title}"
+                                   Margin="3,0,5,0"
+                                   FontSize="12"
+                                   Grid.Row="1" 
+                                   TextWrapping="WrapWholeWords"
+                                   VerticalAlignment="Top"/>
+                                    <control:FiveStarControl FontSize="16" 
+                                                     Margin="3,0,5,0"
+                                                     Grid.Row="2" 
+                                                     Height="30"
+                                                     RatingValue ="{Binding RatingValue}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                    <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
+                        <TextBlock FontSize="16" x:Uid="MusicOccidentGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                        <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                    </Grid>
+                    <GridView x:Name="WatchOnlineGridView" 
+                  SelectionMode="None" IsItemClickEnabled="True" 
+                  ItemClick="GridView_ItemClick"
+                  Style="{ThemeResource ENRZGridViewStyle}"
+                  ItemsSource="{Binding Source={StaticResource WatchOnlineResources}}"
+                  VerticalAlignment="Top"
+                  Margin="0,0,0,0"
+                  Height="200">
+                        <GridView.ItemTemplate>
+                            <DataTemplate  x:DataType="model:MovieItem">
+                                <Grid Height="190" Width="160" Margin="-2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding CoverUrl}"
+                               Stretch="Fill"
+                               Grid.Row="0"/>
+                                    <TextBlock Text="{Binding Title}"
+                                   Margin="3,0,5,0"
+                                   FontSize="12"
+                                   Grid.Row="1" 
+                                   TextWrapping="WrapWholeWords"
+                                   VerticalAlignment="Top"/>
+                                    <control:FiveStarControl FontSize="16" 
+                                                     Margin="3,0,5,0"
+                                                     Grid.Row="2" 
+                                                     Height="30"
+                                                     RatingValue ="{Binding RatingValue}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                    <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
+                        <TextBlock FontSize="16" x:Uid="MusicJapanKoreaGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                        <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                    </Grid>
+                    <GridView x:Name="LatestGridView" 
+                  SelectionMode="None" IsItemClickEnabled="True" 
+                  ItemClick="GridView_ItemClick"
+                  Style="{ThemeResource ENRZGridViewStyle}"
+                  ItemsSource="{Binding Source={StaticResource LatestResources}}"
+                  VerticalAlignment="Top"
+                  Margin="0,00,0,0"
+                  Height="200">
+                        <GridView.ItemTemplate>
+                            <DataTemplate  x:DataType="model:MovieItem">
+                                <Grid Height="190" Width="160" Margin="-2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="{Binding CoverUrl}"
+                               Stretch="Fill"
+                               Grid.Row="0"/>
+                                    <TextBlock Text="{Binding Title}"
+                                   Margin="3,0,5,0"
+                                   FontSize="12"
+                                   Grid.Row="1" 
+                                   TextWrapping="WrapWholeWords"
+                                   VerticalAlignment="Top"/>
+                                    <control:FiveStarControl FontSize="16" 
+                                                     Margin="3,0,5,0"
+                                                     Grid.Row="2" 
+                                                     Height="30"
+                                                     RatingValue ="{Binding RatingValue}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </StackPanel>
+
+                <Border Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
+                    <TextBlock FontSize="16" x:Uid="MusicFilterGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                </Border>
+                <Border >
+                    <GridView x:Name="FilterGridView" 
+                          SelectionMode="None"
+                          IsItemClickEnabled="True" 
+                          ItemClick="FilterGridView_ItemClick"
+                          ItemsSource="{Binding Source={StaticResource FilterResources}}"
+                          VerticalAlignment="Top"
+                          Margin="3,10,0,0">
+                        <GridView.ItemTemplate>
+                            <DataTemplate  x:DataType="model:MovieItem">
+                                <Border Height="40" Width="80" BorderBrush="#31A79B" BorderThickness="1" CornerRadius="3">
+                                    <TextBlock Text="{Binding GroupName}"
+                                               Margin="7,0,5,0"
+                                               FontSize="15"
+                                               Foreground="#31A79B" 
+                                               FontWeight="Bold"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"/>
+                                </Border>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Border>
+
+                <Border Height="40" Background="{ThemeResource DoubanBackground05}">
+                    <TextBlock FontSize="16" x:Uid="FindGoodMusicGroup" 
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
+                </Border>
+                <WP:MyPanel x:Name="WrapPanel" Width="{Binding ActualWidth, ElementName=stackPanel, Mode=OneWay}" 
+                             MaxHeight=" 200" Margin=" 0,10,0,0"></WP:MyPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
+            <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
+        </Border>
+
+    </Grid>
+</Page>

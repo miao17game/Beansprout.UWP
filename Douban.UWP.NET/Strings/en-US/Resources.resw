@@ -194,11 +194,11 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP.Text" xml:space="preserve">
-    <value>About GuaPi UWP ( Douban 3rd party )</value>
+    <value>About Beansprout UWP ( Douban 3rd party )</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess01.Text" xml:space="preserve">
-    <value>Melon UWP Wallace a Douban developed a third party application is still in the early stages of development, features close to the original, but as features are added, more localized Web view, application performance to a new level, experience more intact.</value>
+    <value>Beansprout UWP Wallace a Douban developed a third party application is still in the early stages of development, features close to the original, but as features are added, more localized Web view, application performance to a new level, experience more intact.</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="AboutDoubanUWP_mess02.Text" xml:space="preserve">
@@ -294,7 +294,7 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="Feedback_Subject" xml:space="preserve">
-    <value>Guapi For Win10 Feedback</value>
+    <value>Beansprout For Win10 Feedback</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="Feedback_Version" xml:space="preserve">
@@ -318,7 +318,7 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="ProgressRoute.Text" xml:space="preserve">
-    <value>Development progress</value>
+    <value>Development progress（only in zh-CN）</value>
     <comment>SettingsPage</comment>
   </data>
   <data name="ReStartToChangeLanguage" xml:space="preserve">
@@ -354,11 +354,11 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="VersionMessage" xml:space="preserve">
-    <value>Version</value>
+    <value>Version : </value>
     <comment>SettingsPage</comment>
   </data>
   <data name="VersionMessageFor.Text" xml:space="preserve">
-    <value>Version</value>
+    <value>Version : </value>
     <comment>SettingsPage</comment>
   </data>
   <data name="VisualOptions.Text" xml:space="preserve">
@@ -378,7 +378,7 @@
     <comment>MainPage</comment>
   </data>
   <data name="DB_PREPARE_TITLE.Text" xml:space="preserve">
-    <value>GUAPI UWP</value>
+    <value>Beansprout UWP</value>
     <comment>PreparePage</comment>
   </data>
   <data name="Douban_Login_Abort.Content" xml:space="preserve">
@@ -498,7 +498,7 @@
     <comment>UserControl</comment>
   </data>
   <data name="AppName" xml:space="preserve">
-    <value>GUAPI UWP</value>
+    <value>Beansprout UWP</value>
     <comment>Manifest</comment>
   </data>
   <data name="NoStarValue.Text" xml:space="preserve">
@@ -532,5 +532,45 @@
   <data name="DB_PREPARE_TITLE_SUMMARY.Text" xml:space="preserve">
     <value>Our Spiritual Corner</value>
     <comment>PreparePage</comment>
+  </data>
+  <data name="BookFictionGroup.Text" xml:space="preserve">
+    <value>Hot books | Fiction</value>
+    <comment>BookIndexPage</comment>
+  </data>
+  <data name="BookFilterGroup.Text" xml:space="preserve">
+    <value>Books filter</value>
+    <comment>BookIndexPage</comment>
+  </data>
+  <data name="BookMarketGroup.Text" xml:space="preserve">
+    <value>Douban paper books</value>
+    <comment>BookIndexPage</comment>
+  </data>
+  <data name="BookUnFictionGroup.Text" xml:space="preserve">
+    <value>Hot books | Unfiction</value>
+    <comment>BookIndexPage</comment>
+  </data>
+  <data name="FindGoodBookGroup.Text" xml:space="preserve">
+    <value>Find good books</value>
+    <comment>BookIndexPage</comment>
+  </data>
+  <data name="FindGoodMusicGroup.Text" xml:space="preserve">
+    <value>Find good music</value>
+    <comment>MusicIndexPage</comment>
+  </data>
+  <data name="MusicChineseGroup.Text" xml:space="preserve">
+    <value>China new music</value>
+    <comment>MusicIndexPage</comment>
+  </data>
+  <data name="MusicFilterGroup.Text" xml:space="preserve">
+    <value>Music filter</value>
+    <comment>MusicIndexPage</comment>
+  </data>
+  <data name="MusicJapanKoreaGroup.Text" xml:space="preserve">
+    <value>Japan/Korea new music</value>
+    <comment>MusicIndexPage</comment>
+  </data>
+  <data name="MusicOccidentGroup.Text" xml:space="preserve">
+    <value>Occident new music</value>
+    <comment>MusicIndexPage</comment>
   </data>
 </root>

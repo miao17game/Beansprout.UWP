@@ -259,7 +259,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                             <Run Text="Version：1.5.* / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.6.* / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="完成应用程序名称的修改" /><LineBreak/>
+                            <Run Text="完成Book和Music主页Native化" /><LineBreak/>
+                            <Run Text="修复一些其他异常" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.5.2115/ 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急修复Mobile登陆验证码输入问题" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.4.1507 / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models.ListModel {
-    public class MovieItem : ListItemBase {
+    public class BookItem : ListItemBase {
 
-        public IList<string> Directors { get; set; }
+        public new object ReleaseDate { get; set; }
 
-        public IList<string> Actors { get; set; }
+        public new string ID { get; set; }
 
     }
 }

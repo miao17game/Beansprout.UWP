@@ -131,6 +131,12 @@
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\BookPages\BookIndexPage.xaml.cs">
+      <DependentUpon>BookIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MusicPages\MusicIndexPage.xaml.cs">
+      <DependentUpon>MusicIndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MoviePages\MovieIndexPage.xaml.cs">
       <DependentUpon>MovieIndexPage.xaml</DependentUpon>
     </Compile>
@@ -269,6 +275,14 @@
     <Page Include="Pages\LoginPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\BookPages\BookIndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MusicPages\MusicIndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MoviePages\MovieIndexPage.xaml">
       <SubType>Designer</SubType>

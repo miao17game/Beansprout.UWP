@@ -25,8 +25,8 @@ using Douban.UWP.Core.Models;
 
 namespace Douban.UWP.NET.Pages {
 
-    public sealed partial class MovieIndexPage : Page {
-        public MovieIndexPage() {
+    public sealed partial class BookIndexPage : Page {
+        public BookIndexPage() {
             this.InitializeComponent();
         }
 
@@ -37,13 +37,13 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void InitWhenNavigatedAsync() {
-            var InThearerResult = await SetGridViewResourcesAsync("movie_showing");
+            var InThearerResult = await SetGridViewResourcesAsync("book_fiction");
             InTheaterResources.Source = InThearerResult != null ? InThearerResult.Items : null;
-            var WatchOnlineResult = await SetGridViewResourcesAsync("movie_free_stream");
+            var WatchOnlineResult = await SetGridViewResourcesAsync("book_nonfiction");
             WatchOnlineResources.Source = WatchOnlineResult != null ? WatchOnlineResult.Items : null;
-            var LatestResult = await SetGridViewResourcesAsync("movie_latest");
+            var LatestResult = await SetGridViewResourcesAsync("market_product_book");
             LatestResources.Source = LatestResult != null ? LatestResult.Items : null;
-            var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/movie/");
+            var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/book/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
             StopLoadingAnimation();
@@ -52,7 +52,7 @@ namespace Douban.UWP.NET.Pages {
         private void SetWrapPanelResources(string webResult) {
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
-            var wrapList = new List<ItemGroup<MovieItem>>();
+            var wrapList = new List<ItemGroup<BookItem>>();
             var lis = doc.DocumentNode
                     .SelectSingleNode("//section[@class='interests']")
                     .SelectSingleNode("div[@class='section-content']")
@@ -61,7 +61,7 @@ namespace Douban.UWP.NET.Pages {
             lis.ToList().ForEach(singleton => {
                 var actionL = singleton.SelectSingleNode("a");
                 if (actionL != null)
-                    wrapList.Add(new ItemGroup<MovieItem> { GroupName = actionL.InnerText, GroupPathUrl = actionL.Attributes["href"].Value, });
+                    wrapList.Add(new ItemGroup<BookItem> { GroupName = actionL.InnerText, GroupPathUrl = actionL.Attributes["href"].Value, });
             });
             var randomer = new Random();
             wrapList.ForEach(i => {
@@ -85,7 +85,7 @@ namespace Douban.UWP.NET.Pages {
         private void SetFilterResources(string webResult) {
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
-            var filterList = new List<ItemGroup<MovieItem>>();
+            var filterList = new List<ItemGroup<BookItem>>();
             var lis = doc.DocumentNode
                     .SelectSingleNode("//section[@class='types']")
                     .SelectSingleNode("div[@class='section-content']")
@@ -94,12 +94,12 @@ namespace Douban.UWP.NET.Pages {
             lis.ToList().ForEach(singleton => {
                 var actionL = singleton.SelectSingleNode("a");
                 if (actionL != null)
-                    filterList.Add(new ItemGroup<MovieItem> { GroupName = actionL.InnerText, GroupPathUrl = "https://m.douban.com" + actionL.Attributes["href"].Value, });
+                    filterList.Add(new ItemGroup<BookItem> { GroupName = actionL.InnerText, GroupPathUrl = "https://m.douban.com" + actionL.Attributes["href"].Value, });
             });
             FilterResources.Source = filterList;
         }
 
-        private async Task<ItemGroup<MovieItem>> SetGridViewResourcesAsync(string groupName) {
+        private async Task<ItemGroup<BookItem>> SetGridViewResourcesAsync(string groupName) {
             return await FetchMessageFromAPIAsync(
                 formatAPI: FormatPath,
                 group: groupName,
@@ -107,19 +107,19 @@ namespace Douban.UWP.NET.Pages {
                 loc_id: "108288");
         }
 
-        private async Task<ItemGroup<MovieItem>> FetchMessageFromAPIAsync(
+        private async Task<ItemGroup<BookItem>> FetchMessageFromAPIAsync(
             string formatAPI, 
             string group,
             string loc_id,
             uint start = 0, 
             uint count = 8, 
             int offset = 0) {
-            var gmodel = default(ItemGroup<MovieItem>);
+            var gmodel = default(ItemGroup<BookItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
                     "frodo.douban.com",
-                    "https://m.douban.com/movie/");
+                    "https://m.douban.com/book/");
                 if (result == null) {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
@@ -132,19 +132,23 @@ namespace Douban.UWP.NET.Pages {
             return gmodel;
         }
 
-        private ItemGroup<MovieItem> SetGroupResources(JObject jObject, ItemGroup<MovieItem> gModel) {
+        private ItemGroup<BookItem> SetGroupResources(JObject jObject, ItemGroup<BookItem> gModel) {
             var sub_collection = jObject["subject_collection"];
             if (sub_collection == null || !sub_collection.HasValues) {
                 ReportWhenGoesWrong("FetchJsonDataError");
                 return gModel;
             }
             try {
-                gModel = DataProcess.SetGroupItem<MovieItem>(jObject, sub_collection);
+                gModel = DataProcess.SetGroupItem<BookItem>(jObject, sub_collection);
             } catch { /* Ignore, item error. */ }
             return gModel;
         }
 
-        private ItemGroup<MovieItem> SetSingletonResources(JObject jObject, ItemGroup<MovieItem> gModel) {
+        private ItemGroup<BookItem> SetSingletonResources(JObject jObject, ItemGroup<BookItem> gModel) {
+            var header = jObject["header"];
+            if (header != null && header.HasValues) {
+                DataProcess.SetEachSingleton(gModel, header);
+            }
             var feeds = jObject["subject_collection_items"];
             if (feeds == null || !feeds.HasValues) {
                 ReportWhenGoesWrong("FetchJsonDataError");
@@ -169,7 +173,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as MovieItem;
+            var item = e.ClickedItem as BookItem;
             if (item == null || item.PathUrl == null)
                 return;
             NavigateToBase?.Invoke(
@@ -180,7 +184,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void FilterGridView_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as ItemGroup<MovieItem>;
+            var item = e.ClickedItem as ItemGroup<BookItem>;
             if (item == null || item.GroupPathUrl == null)
                 return;
             NavigateToBase?.Invoke(
@@ -196,7 +200,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Properties
 
-        string FormatPath = "https://frodo.douban.com/jsonp/subject_collection/{0}/items?os=windows&callback=jsonp3&start={1}&count={2}&loc_id={3}&_={4}";
+        string FormatPath = "https://frodo.douban.com/jsonp/subject_collection/{0}/items?os=android&callback=jsonp3&start={1}&count={2}&loc_id={3}&_={4}";
 
         #endregion
         

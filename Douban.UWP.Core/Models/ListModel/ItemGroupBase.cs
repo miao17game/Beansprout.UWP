@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models.ListModel {
-    public class MovieGroupItem {
+    public class ItemGroupBase {
 
         public uint NowCount { get; set; }
 
@@ -29,7 +29,7 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public bool HasCover { get; set; }
 
-        public IList<MovieItem> Items { get; set; }
+        public virtual IList<object> Items { get; set; }
 
     }
 }

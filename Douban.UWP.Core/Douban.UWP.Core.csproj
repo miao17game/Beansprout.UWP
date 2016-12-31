@@ -110,6 +110,10 @@
     <Compile Include="Models\DataFetchType.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
+    <Compile Include="Models\ListModel\MusicItem.cs" />
+    <Compile Include="Models\ListModel\BookItem.cs" />
+    <Compile Include="Models\ListModel\GroupItemBase.cs" />
+    <Compile Include="Models\ListModel\ListItemBase.cs" />
     <Compile Include="Models\ListModel\MovieGroupItem.cs" />
     <Compile Include="Models\ListModel\MovieItem.cs" />
     <Compile Include="Models\ListModel\IndexItem.cs" />

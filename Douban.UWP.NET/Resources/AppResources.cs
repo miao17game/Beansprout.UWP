@@ -72,11 +72,17 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.Index, typeof(ListInfosPage)},
                     { NavigateType.Movie, typeof(MovieIndexPage)},
+                    { NavigateType.Book, typeof(BookIndexPage)},
+                    { NavigateType.Music, typeof(MusicIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
                     { NavigateType.DouList, typeof(WebContentPage)},
                     { NavigateType.MovieContent, typeof(WebContentPage)},
                     { NavigateType.MovieFilter, typeof(WebContentPage)},
+                    { NavigateType.BookContent, typeof(WebContentPage)},
+                    { NavigateType.BookFilter, typeof(WebContentPage)},
+                    { NavigateType.MusicContent, typeof(WebContentPage)},
+                    { NavigateType.MusicFilter, typeof(WebContentPage)},
                 };
                 return pagesMaps;
             }).Invoke(); }
@@ -97,11 +103,17 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.UserInfo, MainContentFrame},
                         { NavigateType.Index, MainLeftPartFrame},
                         { NavigateType.Movie, MainLeftPartFrame},
+                        { NavigateType.Book, MainLeftPartFrame},
+                        { NavigateType.Music, MainLeftPartFrame},
                         { NavigateType.ItemClick, MainContentFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
                         { NavigateType.DouList, MainContentFrame},
                         { NavigateType.MovieContent, MainContentFrame},
                         { NavigateType.MovieFilter, MainContentFrame},
+                        { NavigateType.BookContent, MainContentFrame},
+                        { NavigateType.BookFilter, MainContentFrame},
+                        { NavigateType.MusicContent, MainContentFrame},
+                        { NavigateType.MusicFilter, MainContentFrame},
                     };
                     return frameMaps;
                 }).Invoke();
@@ -121,18 +133,18 @@ namespace Douban.UWP.NET.Resources {
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_BOOK"),
-                            PathUri = new Uri("https://book.douban.com/"),
-                            NaviType = NavigateType.Webview,
+                            PathUri = new Uri("https://m.douban.com/book/"),
+                            NaviType = NavigateType.Book,
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_MOVIE"),
-                            PathUri = new Uri("https://movie.douban.com/"),
+                            PathUri = new Uri("https://m.douban.com/movie/"),
                             NaviType = NavigateType.Movie
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_MUSIC"),
-                            PathUri = new Uri("https://music.douban.com/"),
-                            NaviType = NavigateType.Webview
+                            PathUri = new Uri("https://m.douban.com/music/"),
+                            NaviType = NavigateType.Music
                             },
                         new NavigationBar {
                             Title = GetUIString("DB_LOCATION"),
@@ -141,12 +153,12 @@ namespace Douban.UWP.NET.Resources {
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_GROUP"),
-                            PathUri = new Uri("https://www.douban.com/group/"),
+                            PathUri = new Uri("https://m.douban.com/group/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_READ"),
-                            PathUri = new Uri("https://read.douban.com/?dcs=top-nav&amp;dcm=douban"),
+                            PathUri = new Uri("https://read.douban.com/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {

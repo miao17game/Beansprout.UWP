@@ -21,7 +21,6 @@
         </Grid.Transitions>
 
         <WebView Name="Scroll" 
-                 DefaultBackgroundColor="{ThemeResource DoubanBackground04}" 
                  DOMContentLoaded="Scroll_DOMContentLoaded"
                  NavigationStarting="Scroll_NavigationStarting"
                  ContentLoading="Scroll_ContentLoading"/>

@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 namespace Douban.UWP.Core.Models {
     public enum NavigateType {
         NULL,
-        Index,
-        Movie,
-        Webview,
-        Settings,
         Login,
         UserInfo,
+        Index,
+        Movie,
+        Book,
+        Music,
+        Settings,
+        Webview,
         ItemClick,
         DouList,
         MovieContent,
-        MovieFilter
+        MovieFilter,
+        BookContent,
+        BookFilter,
+        MusicContent,
+        MusicFilter,
     }
 }
