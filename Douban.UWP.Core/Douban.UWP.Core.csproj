@@ -112,9 +112,9 @@
     <Compile Include="Models\InfosListItem.cs" />
     <Compile Include="Models\ListModel\MusicItem.cs" />
     <Compile Include="Models\ListModel\BookItem.cs" />
-    <Compile Include="Models\ListModel\GroupItemBase.cs" />
+    <Compile Include="Models\ListModel\ItemGroupBase.cs" />
     <Compile Include="Models\ListModel\ListItemBase.cs" />
-    <Compile Include="Models\ListModel\MovieGroupItem.cs" />
+    <Compile Include="Models\ListModel\ItemGroup.cs" />
     <Compile Include="Models\ListModel\MovieItem.cs" />
     <Compile Include="Models\ListModel\IndexItem.cs" />
     <Compile Include="Models\LoginModels\LoginReturnBag.cs" />
