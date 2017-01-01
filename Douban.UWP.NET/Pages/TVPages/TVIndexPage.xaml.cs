@@ -25,8 +25,8 @@ using Douban.UWP.Core.Models;
 
 namespace Douban.UWP.NET.Pages {
 
-    public sealed partial class MovieIndexPage : Page {
-        public MovieIndexPage() {
+    public sealed partial class TVIndexPage : Page {
+        public TVIndexPage() {
             this.InitializeComponent();
         }
 
@@ -37,13 +37,13 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void InitWhenNavigatedAsync() {
-            var InThearerResult = await SetGridViewResourcesAsync("movie_showing");
-            InTheaterResources.Source = InThearerResult != null ? InThearerResult.Items : null;
-            var WatchOnlineResult = await SetGridViewResourcesAsync("movie_free_stream");
-            WatchOnlineResources.Source = WatchOnlineResult != null ? WatchOnlineResult.Items : null;
-            var LatestResult = await SetGridViewResourcesAsync("movie_latest");
-            LatestResources.Source = LatestResult != null ? LatestResult.Items : null;
-            var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/movie/");
+            var TVDomesticResult = await SetGridViewResourcesAsync("tv_domestic");
+            TVDomesticResources.Source = TVDomesticResult != null ? TVDomesticResult.Items : null;
+            var TVVarietyShowResult = await SetGridViewResourcesAsync("tv_variety_show");
+            TVVarietyShowResources.Source = TVVarietyShowResult != null ? TVVarietyShowResult.Items : null;
+            var TVAmericanResult = await SetGridViewResourcesAsync("tv_american");
+            TVAmericanResources.Source = TVAmericanResult != null ? TVAmericanResult.Items : null;
+            var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/tv/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
             StopLoadingAnimation();
@@ -69,7 +69,7 @@ namespace Douban.UWP.NET.Pages {
                 var button = new Button { Content = i.GroupName, Background = new SolidColorBrush(Colors.Transparent), Foreground = color };
                 button.Click += (obj, args) => NavigateToBase?.Invoke(
                     null,
-                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl), Title = i.GroupName },
+                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl) , Title = i.GroupName},
                     GetFrameInstance(NavigateType.DouList),
                     GetPageType(NavigateType.DouList));
                 WrapPanel.Children.Add(new Border {
@@ -119,7 +119,7 @@ namespace Douban.UWP.NET.Pages {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
                     "frodo.douban.com",
-                    "https://m.douban.com/movie/");
+                    "https://m.douban.com/tv/");
                 if (result == null) {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
@@ -170,9 +170,9 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
-                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MOVIE") },
-                GetFrameInstance(NavigateType.MovieFilter),
-                GetPageType(NavigateType.MovieFilter));
+                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MORE") },
+                GetFrameInstance(NavigateType.TVFilter),
+                GetPageType(NavigateType.TVFilter));
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -182,8 +182,8 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter { ToUri = new Uri(item.PathUrl), Title = item.Title },
-                GetFrameInstance(NavigateType.MovieContent),
-                GetPageType(NavigateType.MovieContent));
+                GetFrameInstance(NavigateType.TVContent),
+                GetPageType(NavigateType.TVContent));
         }
 
         private void FilterGridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -193,8 +193,8 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter { ToUri = new Uri(item.GroupPathUrl), Title = item.GroupName },
-                GetFrameInstance(NavigateType.MovieFilter),
-                GetPageType(NavigateType.MovieFilter));
+                GetFrameInstance(NavigateType.TVFilter),
+                GetPageType(NavigateType.TVFilter));
         }
 
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e) {

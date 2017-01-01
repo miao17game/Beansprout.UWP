@@ -146,7 +146,7 @@
     <comment>MainPage</comment>
   </data>
   <data name="DB_MORE" xml:space="preserve">
-    <value>More</value>
+    <value>TV</value>
     <comment>MainPage</comment>
   </data>
   <data name="DB_MOVIE" xml:space="preserve">
@@ -572,5 +572,25 @@
   <data name="MusicOccidentGroup.Text" xml:space="preserve">
     <value>Occident new music</value>
     <comment>MusicIndexPage</comment>
+  </data>
+  <data name="FindGoodTVGroup.Text" xml:space="preserve">
+    <value>Find good TV programs</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVAmericanGroup.Text" xml:space="preserve">
+    <value>Nice US programs in recent</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVChineseGroup.Text" xml:space="preserve">
+    <value>Nice CN programs in recent</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVFilterGroup.Text" xml:space="preserve">
+    <value>TV Filter</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVShowGroup.Text" xml:space="preserve">
+    <value>Nice TV-Show in recent</value>
+    <comment>TVIndexPage</comment>
   </data>
 </root>

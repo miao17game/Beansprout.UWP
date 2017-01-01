@@ -13,9 +13,9 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="InTheaterResources"/>
-        <CollectionViewSource x:Name="WatchOnlineResources"/>
-        <CollectionViewSource x:Name="LatestResources"/>
+        <CollectionViewSource x:Name="MusicChineseResources"/>
+        <CollectionViewSource x:Name="MusicOccidentResources"/>
+        <CollectionViewSource x:Name="MusicJAndKResources"/>
         <CollectionViewSource x:Name="FilterResources"/>
     </Page.Resources>
 
@@ -26,15 +26,15 @@
                 <StackPanel>
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40">
                         <TextBlock FontSize="16" x:Uid="MusicChineseGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
-                        <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click"
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newchinese"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="InTheaterGridView" 
                   SelectionMode="None" IsItemClickEnabled="True" 
                   ItemClick="GridView_ItemClick"
                   Style="{ThemeResource ENRZGridViewStyle}"
-                  ItemsSource="{Binding Source={StaticResource InTheaterResources}}"
+                  ItemsSource="{Binding Source={StaticResource MusicChineseResources}}"
                   VerticalAlignment="Top"
                   Margin="0,0,0,0"
                   Height="200">
@@ -67,14 +67,14 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="MusicOccidentGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newwestern"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="WatchOnlineGridView" 
                   SelectionMode="None" IsItemClickEnabled="True" 
                   ItemClick="GridView_ItemClick"
                   Style="{ThemeResource ENRZGridViewStyle}"
-                  ItemsSource="{Binding Source={StaticResource WatchOnlineResources}}"
+                  ItemsSource="{Binding Source={StaticResource MusicOccidentResources}}"
                   VerticalAlignment="Top"
                   Margin="0,0,0,0"
                   Height="200">
@@ -107,14 +107,14 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="MusicJapanKoreaGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newjapankorean"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="LatestGridView" 
                   SelectionMode="None" IsItemClickEnabled="True" 
                   ItemClick="GridView_ItemClick"
                   Style="{ThemeResource ENRZGridViewStyle}"
-                  ItemsSource="{Binding Source={StaticResource LatestResources}}"
+                  ItemsSource="{Binding Source={StaticResource MusicJAndKResources}}"
                   VerticalAlignment="Top"
                   Margin="0,00,0,0"
                   Height="200">

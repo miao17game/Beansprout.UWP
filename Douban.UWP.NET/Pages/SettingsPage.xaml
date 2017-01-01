@@ -259,7 +259,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.6.* / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.7.* / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="增加电视栏目并完成Index本地化" /><LineBreak/>
+                            <Run Text="内容页面标题功能加入" /><LineBreak/>
+                            <Run Text="栏目中More按钮功能已经实现" /><LineBreak/>
+                            <Run Text="修复上个版本的一些页面问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.6.2116 / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成应用程序名称的修改" /><LineBreak/>
                             <Run Text="完成Book和Music主页Native化" /><LineBreak/>
                             <Run Text="修复一些其他异常" /><LineBreak/><LineBreak/>

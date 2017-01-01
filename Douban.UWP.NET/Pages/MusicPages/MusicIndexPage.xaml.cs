@@ -37,12 +37,12 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void InitWhenNavigatedAsync() {
-            var InThearerResult = await SetGridViewResourcesAsync("music_chinese");
-            InTheaterResources.Source = InThearerResult != null ? InThearerResult.Items : null;
-            var WatchOnlineResult = await SetGridViewResourcesAsync("music_occident");
-            WatchOnlineResources.Source = WatchOnlineResult != null ? WatchOnlineResult.Items : null;
-            var LatestResult = await SetGridViewResourcesAsync("music_japan_korea");
-            LatestResources.Source = LatestResult != null ? LatestResult.Items : null;
+            var MusicChineseResult = await SetGridViewResourcesAsync("music_chinese");
+            MusicChineseResources.Source = MusicChineseResult != null ? MusicChineseResult.Items : null;
+            var MusicOccidentResult = await SetGridViewResourcesAsync("music_occident");
+            MusicOccidentResources.Source = MusicOccidentResult != null ? MusicOccidentResult.Items : null;
+            var MusicJAndKResult = await SetGridViewResourcesAsync("music_japan_korea");
+            MusicJAndKResources.Source = MusicJAndKResult != null ? MusicJAndKResult.Items : null;
             var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/music/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
@@ -52,7 +52,7 @@ namespace Douban.UWP.NET.Pages {
         private void SetWrapPanelResources(string webResult) {
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
-            var wrapList = new List<ItemGroup<BookItem>>();
+            var wrapList = new List<ItemGroup<MusicItem>>();
             var lis = doc.DocumentNode
                     .SelectSingleNode("//section[@class='interests']")
                     .SelectSingleNode("div[@class='section-content']")
@@ -61,7 +61,7 @@ namespace Douban.UWP.NET.Pages {
             lis.ToList().ForEach(singleton => {
                 var actionL = singleton.SelectSingleNode("a");
                 if (actionL != null)
-                    wrapList.Add(new ItemGroup<BookItem> { GroupName = actionL.InnerText, GroupPathUrl = actionL.Attributes["href"].Value, });
+                    wrapList.Add(new ItemGroup<MusicItem> { GroupName = actionL.InnerText, GroupPathUrl = actionL.Attributes["href"].Value, });
             });
             var randomer = new Random();
             wrapList.ForEach(i => {
@@ -69,7 +69,7 @@ namespace Douban.UWP.NET.Pages {
                 var button = new Button { Content = i.GroupName, Background = new SolidColorBrush(Colors.Transparent), Foreground = color };
                 button.Click += (obj, args) => NavigateToBase?.Invoke(
                     null,
-                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl) },
+                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl) , Title =i.GroupName},
                     GetFrameInstance(NavigateType.DouList),
                     GetPageType(NavigateType.DouList));
                 WrapPanel.Children.Add(new Border {
@@ -85,7 +85,7 @@ namespace Douban.UWP.NET.Pages {
         private void SetFilterResources(string webResult) {
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
-            var filterList = new List<ItemGroup<BookItem>>();
+            var filterList = new List<ItemGroup<MusicItem>>();
             var lis = doc.DocumentNode
                     .SelectSingleNode("//section[@class='types']")
                     .SelectSingleNode("div[@class='section-content']")
@@ -94,12 +94,12 @@ namespace Douban.UWP.NET.Pages {
             lis.ToList().ForEach(singleton => {
                 var actionL = singleton.SelectSingleNode("a");
                 if (actionL != null)
-                    filterList.Add(new ItemGroup<BookItem> { GroupName = actionL.InnerText, GroupPathUrl = "https://m.douban.com" + actionL.Attributes["href"].Value, });
+                    filterList.Add(new ItemGroup<MusicItem> { GroupName = actionL.InnerText, GroupPathUrl = "https://m.douban.com" + actionL.Attributes["href"].Value, });
             });
             FilterResources.Source = filterList;
         }
 
-        private async Task<ItemGroup<BookItem>> SetGridViewResourcesAsync(string groupName) {
+        private async Task<ItemGroup<MusicItem>> SetGridViewResourcesAsync(string groupName) {
             return await FetchMessageFromAPIAsync(
                 formatAPI: FormatPath,
                 group: groupName,
@@ -107,14 +107,14 @@ namespace Douban.UWP.NET.Pages {
                 loc_id: "108288");
         }
 
-        private async Task<ItemGroup<BookItem>> FetchMessageFromAPIAsync(
+        private async Task<ItemGroup<MusicItem>> FetchMessageFromAPIAsync(
             string formatAPI, 
             string group,
             string loc_id,
             uint start = 0, 
             uint count = 8, 
             int offset = 0) {
-            var gmodel = default(ItemGroup<BookItem>);
+            var gmodel = default(ItemGroup<MusicItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
@@ -132,19 +132,19 @@ namespace Douban.UWP.NET.Pages {
             return gmodel;
         }
 
-        private ItemGroup<BookItem> SetGroupResources(JObject jObject, ItemGroup<BookItem> gModel) {
+        private ItemGroup<MusicItem> SetGroupResources(JObject jObject, ItemGroup<MusicItem> gModel) {
             var sub_collection = jObject["subject_collection"];
             if (sub_collection == null || !sub_collection.HasValues) {
                 ReportWhenGoesWrong("FetchJsonDataError");
                 return gModel;
             }
             try {
-                gModel = DataProcess.SetGroupItem<BookItem>(jObject, sub_collection);
+                gModel = DataProcess.SetGroupItem<MusicItem>(jObject, sub_collection);
             } catch { /* Ignore, item error. */ }
             return gModel;
         }
 
-        private ItemGroup<BookItem> SetSingletonResources(JObject jObject, ItemGroup<BookItem> gModel) {
+        private ItemGroup<MusicItem> SetSingletonResources(JObject jObject, ItemGroup<MusicItem> gModel) {
             var feeds = jObject["subject_collection_items"];
             if (feeds == null || !feeds.HasValues) {
                 ReportWhenGoesWrong("FetchJsonDataError");
@@ -165,27 +165,34 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void MoreButton_Click(object sender, RoutedEventArgs e) {
-
+            var path = (sender as Button).CommandParameter as string;
+            if (path == null)
+                return;
+            NavigateToBase?.Invoke( // change loc_id to adjust location.
+                null,
+                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MUSIC") },
+                GetFrameInstance(NavigateType.MusicFilter),
+                GetPageType(NavigateType.MusicFilter));
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as BookItem;
+            var item = e.ClickedItem as MusicItem;
             if (item == null || item.PathUrl == null)
                 return;
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.PathUrl) },
+                new NavigateParameter { ToUri = new Uri(item.PathUrl) , Title = item.Title },
                 GetFrameInstance(NavigateType.MovieContent),
                 GetPageType(NavigateType.MovieContent));
         }
 
         private void FilterGridView_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as ItemGroup<BookItem>;
+            var item = e.ClickedItem as ItemGroup<MusicItem>;
             if (item == null || item.GroupPathUrl == null)
                 return;
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) },
+                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) , Title = item.GroupName },
                 GetFrameInstance(NavigateType.MovieFilter),
                 GetPageType(NavigateType.MovieFilter));
         }

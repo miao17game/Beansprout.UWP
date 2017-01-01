@@ -146,7 +146,7 @@
     <comment>MainPage</comment>
   </data>
   <data name="DB_MORE" xml:space="preserve">
-    <value>更多</value>
+    <value>电视</value>
     <comment>MainPage</comment>
   </data>
   <data name="DB_MOVIE" xml:space="preserve">
@@ -571,5 +571,25 @@
   <data name="MusicOccidentGroup.Text" xml:space="preserve">
     <value>欧美新碟榜</value>
     <comment>MusicIndexPage</comment>
+  </data>
+  <data name="FindGoodTVGroup.Text" xml:space="preserve">
+    <value>发现好电视剧</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVAmericanGroup.Text" xml:space="preserve">
+    <value>近期值得看的美剧</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVChineseGroup.Text" xml:space="preserve">
+    <value>近期值得看的国产剧</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVFilterGroup.Text" xml:space="preserve">
+    <value>分类浏览</value>
+    <comment>TVIndexPage</comment>
+  </data>
+  <data name="TVShowGroup.Text" xml:space="preserve">
+    <value>近期值得看的综艺节目</value>
+    <comment>TVIndexPage</comment>
   </data>
 </root>

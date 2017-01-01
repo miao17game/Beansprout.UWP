@@ -37,12 +37,12 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void InitWhenNavigatedAsync() {
-            var InThearerResult = await SetGridViewResourcesAsync("book_fiction");
-            InTheaterResources.Source = InThearerResult != null ? InThearerResult.Items : null;
-            var WatchOnlineResult = await SetGridViewResourcesAsync("book_nonfiction");
-            WatchOnlineResources.Source = WatchOnlineResult != null ? WatchOnlineResult.Items : null;
-            var LatestResult = await SetGridViewResourcesAsync("market_product_book");
-            LatestResources.Source = LatestResult != null ? LatestResult.Items : null;
+            var BookFictionResult = await SetGridViewResourcesAsync("book_fiction");
+            BookFictionResources.Source = BookFictionResult != null ? BookFictionResult.Items : null;
+            var BookNonfictionResult = await SetGridViewResourcesAsync("book_nonfiction");
+            BookNonfictionResources.Source = BookNonfictionResult != null ? BookNonfictionResult.Items : null;
+            var MPBookResult = await SetGridViewResourcesAsync("market_product_book");
+            MPBookResources.Source = MPBookResult != null ? MPBookResult.Items : null;
             var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/book/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
@@ -69,7 +69,7 @@ namespace Douban.UWP.NET.Pages {
                 var button = new Button { Content = i.GroupName, Background = new SolidColorBrush(Colors.Transparent), Foreground = color };
                 button.Click += (obj, args) => NavigateToBase?.Invoke(
                     null,
-                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl) },
+                    new NavigateParameter { ToUri = new Uri(i.GroupPathUrl), Title = i.GroupName },
                     GetFrameInstance(NavigateType.DouList),
                     GetPageType(NavigateType.DouList));
                 WrapPanel.Children.Add(new Border {
@@ -169,7 +169,14 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void MoreButton_Click(object sender, RoutedEventArgs e) {
-
+            var path = (sender as Button).CommandParameter as string;
+            if (path == null)
+                return;
+            NavigateToBase?.Invoke( // change loc_id to adjust location.
+                null,
+                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_BOOK") },
+                GetFrameInstance(NavigateType.BookFilter),
+                GetPageType(NavigateType.BookFilter));
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -178,9 +185,9 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.PathUrl) },
-                GetFrameInstance(NavigateType.MovieContent),
-                GetPageType(NavigateType.MovieContent));
+                new NavigateParameter { ToUri = new Uri(item.PathUrl), Title = item.Title },
+                GetFrameInstance(NavigateType.BookContent),
+                GetPageType(NavigateType.BookContent));
         }
 
         private void FilterGridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -189,9 +196,9 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) },
-                GetFrameInstance(NavigateType.MovieFilter),
-                GetPageType(NavigateType.MovieFilter));
+                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) , Title = item.GroupName },
+                GetFrameInstance(NavigateType.BookFilter),
+                GetPageType(NavigateType.BookFilter));
         }
 
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e) {

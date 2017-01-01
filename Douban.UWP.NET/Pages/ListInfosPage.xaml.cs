@@ -122,7 +122,7 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke(
                 sender,
-                new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null },
+                new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null , Title = item.Title},
                 GetFrameInstance(Core.Models.NavigateType.ItemClick),
                 GetPageType(Core.Models.NavigateType.ItemClick));
         }

@@ -45,12 +45,19 @@ namespace Douban.UWP.NET.Pages {
             IncrementalLoadingBorder.SetVisibility(true);
             IncrementalLoading.SetVisibility(true);
             var args = e.Parameter as NavigateParameter;
+            if (args == null)
+                return;
+            if (args.Title != null)
+                navigateTitlePath.Text = args.Title;
             currentUri = args.ToUri;
             Scroll.Source = currentUri;
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
-            PageSlideOutStart(VisibleWidth > 800 ? false : true);
+            if (Scroll.CanGoBack)
+                Scroll.GoBack();
+            else
+                PageSlideOutStart(VisibleWidth > 800 ? false : true);
         }
 
         #region Web Events

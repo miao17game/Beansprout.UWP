@@ -134,6 +134,9 @@
     <Compile Include="Pages\BookPages\BookIndexPage.xaml.cs">
       <DependentUpon>BookIndexPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TVPages\TVIndexPage.xaml.cs">
+      <DependentUpon>TVIndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MusicPages\MusicIndexPage.xaml.cs">
       <DependentUpon>MusicIndexPage.xaml</DependentUpon>
     </Compile>
@@ -280,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\TVPages\TVIndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\MusicPages\MusicIndexPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -337,6 +344,7 @@
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

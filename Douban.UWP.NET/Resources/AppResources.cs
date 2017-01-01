@@ -72,6 +72,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.Index, typeof(ListInfosPage)},
                     { NavigateType.Movie, typeof(MovieIndexPage)},
+                    { NavigateType.TV, typeof(TVIndexPage)},
                     { NavigateType.Book, typeof(BookIndexPage)},
                     { NavigateType.Music, typeof(MusicIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
@@ -83,6 +84,8 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.BookFilter, typeof(WebContentPage)},
                     { NavigateType.MusicContent, typeof(WebContentPage)},
                     { NavigateType.MusicFilter, typeof(WebContentPage)},
+                    { NavigateType.TVContent, typeof(WebContentPage)},
+                    { NavigateType.TVFilter, typeof(WebContentPage)},
                 };
                 return pagesMaps;
             }).Invoke(); }
@@ -103,6 +106,7 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.UserInfo, MainContentFrame},
                         { NavigateType.Index, MainLeftPartFrame},
                         { NavigateType.Movie, MainLeftPartFrame},
+                        { NavigateType.TV, MainLeftPartFrame},
                         { NavigateType.Book, MainLeftPartFrame},
                         { NavigateType.Music, MainLeftPartFrame},
                         { NavigateType.ItemClick, MainContentFrame},
@@ -114,6 +118,8 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.BookFilter, MainContentFrame},
                         { NavigateType.MusicContent, MainContentFrame},
                         { NavigateType.MusicFilter, MainContentFrame},
+                        { NavigateType.TVContent, MainContentFrame},
+                        { NavigateType.TVFilter, MainContentFrame},
                     };
                     return frameMaps;
                 }).Invoke();
@@ -137,6 +143,11 @@ namespace Douban.UWP.NET.Resources {
                             NaviType = NavigateType.Book,
                         },
                         new NavigationBar {
+                            Title = GetUIString("DB_MORE"),
+                            PathUri = new Uri("https://www.douban.com/"),
+                            NaviType = NavigateType.TV
+                        },
+                        new NavigationBar {
                             Title = GetUIString("DB_MOVIE"),
                             PathUri = new Uri("https://m.douban.com/movie/"),
                             NaviType = NavigateType.Movie
@@ -153,7 +164,7 @@ namespace Douban.UWP.NET.Resources {
                         },
                         new NavigationBar {
                             Title = GetUIString("DB_GROUP"),
-                            PathUri = new Uri("https://m.douban.com/group/"),
+                            PathUri = new Uri("https://www.douban.com/group/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
@@ -174,11 +185,6 @@ namespace Douban.UWP.NET.Resources {
                         new NavigationBar {
                             Title = GetUIString("DB_MARKET"),
                             PathUri = new Uri("https://market.douban.com/?utm_campaign=douban_top_nav&amp;utm_source=douban&amp;utm_medium=pc_web"),
-                            NaviType = NavigateType.Webview
-                        },
-                        new NavigationBar {
-                            Title = GetUIString("DB_MORE"),
-                            PathUri = new Uri("https://www.douban.com/"),
                             NaviType = NavigateType.Webview
                         },
                     };
