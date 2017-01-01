@@ -27,10 +27,9 @@ using Douban.UWP.Core.Models.LoginModels;
 
 namespace Douban.UWP.NET.Pages {
 
-    public sealed partial class LoginPage : BaseContentPage {
-        public LoginPage() {
+    public sealed partial class TokenLoginPage : BaseContentPage {
+        public TokenLoginPage() {
             this.InitializeComponent();
-            NativeLoginPanel.SetVisibility(false);
         }
 
         #region Events
@@ -46,7 +45,6 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            InnerWebView.Source = new Uri("https://accounts.douban.com/login");
 
             PasswordCheckBox.IsChecked = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsSavePassword) ?? false;
             AutoLoginCheckBox.IsChecked = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsAutoLogin) ?? false;
@@ -60,53 +58,6 @@ namespace Douban.UWP.NET.Pages {
         private void MainPopupGrid_SizeChanged(object sender, SizeChangedEventArgs e) {
 
         }
-
-        #region WebView Events
-
-        private void InnerWebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
-
-        }
-
-        private void InnerWebView_NavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args) {
-
-        }
-
-        private void InnerWebView_ContentLoading(WebView sender, WebViewContentLoadingEventArgs args) {
-
-        }
-
-        private async void InnerWebView_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
-            WebRing.IsActive = false;
-            NativeLoginPanel.SetVisibility(true);
-            try { await GetVerificationCodeAsync(); } catch { /* ignore */}
-            try {
-                await AskWebViewToCallbackAsync();
-            } catch(Exception e) {
-                Debug.WriteLine("error:\n" + e.StackTrace);
-            }
-        }
-
-        /// <summary>
-        /// receive message when the js in the webview send message to window.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnScriNotifypt(object sender, NotifyEventArgs e) {
-
-            var check = default(string[]);
-            try {
-                check = JsonHelper.FromJson<string[]>(e.Value);
-            } catch(System.Runtime.Serialization.SerializationException) { check = null; }
-
-            if (check != null) {
-                CheckIfLoginSucceed(check[1]);
-            } else {
-                VerificationCodeGrid.SetVisibility(true);
-                VerificationCodeImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(JsonHelper.FromJson<string>(e.Value)));
-            }
-        }
-
-        #endregion
 
         #endregion
 
@@ -221,7 +172,47 @@ namespace Douban.UWP.NET.Pages {
             // set the abort button with keybord-focus, so that the vitual keyboad in the mobile device with disappear.
             Abort.Focus(FocusState.Keyboard);
 
-            await InsertLoginMessageAsync(user, pass, VerificationCodeBorder.Visibility == Visibility.Visible ? VerificationCodeBox.Text : null, isAuto.Value);
+            var result = await DoubanWebProcess.PostDoubanResponseAsync(
+                path: "https://frodo.douban.com/service/auth2/token",
+                host: "frodo.douban.com",
+                reffer: null,
+                content:
+                new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>> {
+                    new KeyValuePair<string, string>("client_id","0dad551ec0f84ed02907ff5c42e8ec70"),
+                    new KeyValuePair<string, string>("client_secret","9e8bb54dc3288cdf"),
+                    new KeyValuePair<string, string>("redirect_uri","frodo://app/oauth/callback/"),
+                    new KeyValuePair<string, string>("grant_type","password"),
+                    new KeyValuePair<string, string>("username", user),
+                    new KeyValuePair<string, string>("password", pass),
+                    //new KeyValuePair<string, string>("apiKey","0dad551ec0f84ed02907ff5c42e8ec70"),
+                    new KeyValuePair<string, string>("os_rom","android"),
+                }),
+                isMobileDevice: true);
+
+            var tokenReturn = default(APITokenReturn);
+            try {
+                JObject jo = JObject.Parse(result);
+                tokenReturn = new APITokenReturn {
+                    AccessToken = jo["access_token"].Value<string>(),
+                    RefreshToken = jo["refresh_token"].Value<string>(),
+                    ExpiresIn = jo["expires_in"].Value<string>(),
+                    UserId = jo["douban_user_id"].Value<string>(),
+                    UserName = jo["douban_user_name"].Value<string>(),
+                };
+                MainLoginPopup.IsOpen = false;
+                try {
+                    await MainPage.SetUserStatusAsync(tokenReturn.UserId);
+                    //await MainPage.SetUserStatusAsync("155845973");
+                    NavigateToBase?.Invoke(
+                    null,
+                    null,
+                    GetFrameInstance(NavigateType.UserInfo),
+                    GetPageType(NavigateType.UserInfo));
+                } catch { /* Ignore. */ }
+            } catch {
+                ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+            }
+            
         }
 
         #endregion
@@ -229,66 +220,10 @@ namespace Douban.UWP.NET.Pages {
         #region Login Status Changed
 
         /// <summary>
-        /// insert id and password into webview from popup, and after that, click the submit button.
-        /// </summary>
-        /// <param name="user">your cache id</param>
-        /// <param name="pass">your cache password</param>
-        /// <returns></returns>
-        private async Task InsertLoginMessageAsync(string user, string pass, string code = null, bool auto = false) {
-            try { // insert js and run it, so that we can insert message into the target place and click the submit button.
-                var autoToLogin = auto ? "checked" : "";
-                var newJSFounction = $@"
-                            var node_list = document.getElementsByTagName('input');
-                                for (var i = 0; i < node_list.length; i++) {"{"}
-                                var node = node_list[i];
-                                    if (node.getAttribute('type') == 'submit') 
-                                        node.click();
-                                    if (node.id == 'email') 
-                                        node.innerText = '{user}';
-                                    if (node.id == 'password') 
-                                        node.innerText = '{pass}';
-                                    if (node.name == 'form_email') 
-                                        node.setAttribute('value', '{user}');
-                                    if (node.name == 'form_password') 
-                                        node.setAttribute('value', '{pass}');
-                                    if (node.id == 'captcha_field') 
-                                        node.innerText = '{code}';
-                                    if (node.id == 'remember') 
-                                        node.setAttribute('checked', '{autoToLogin}');
-                                {"}"} ";
-                await InnerWebView.InvokeScriptAsync("eval", new[] { newJSFounction });
-            } catch (Exception) { // if any error throws, reset the UI and report errer.
-                Submit.IsEnabled = true;
-                SubitRing.IsActive = false;
-                ReportHelper.ReportAttention("Error");
-            }
-        }
-
-        private async Task GetVerificationCodeAsync() { // js to callback
-            var js = @"var node = document.getElementById('captcha_image');
-                             var src = node.getAttribute('src');
-                             window.external.notify(JSON.stringify(src));";
-            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
-        }
-
-        /// <summary>
-        /// send message to windows so that we can get message of login-success whether or not.
-        /// </summary>
-        /// <returns></returns>
-        private async Task AskWebViewToCallbackAsync() { // js to callback
-            var js = @"window.external.notify(
-                                    JSON.stringify(
-                                        new Array (
-                                            document.body.innerText,
-                                            document.body.innerHTML)));";
-            await InnerWebView.InvokeScriptAsync("eval", new[] { js });
-        }
-
-        /// <summary>
         /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
         /// </summary>
         /// <param name="htmlContent">html of websites</param>
-        private async void CheckIfLoginSucceed(string htmlBodyContent) {
+        private void CheckIfLoginSucceed(string htmlBodyContent) {
             var doc = new HtmlDocument();
             doc.LoadHtml(@"<html>
                                              <head>
@@ -296,94 +231,23 @@ namespace Douban.UWP.NET.Pages {
                                              <link href='style.css' rel='stylesheet' type='text/css'>
                                              <script language='JavaScript1.2' src='nocache.js'></script >
                                              </head><body>" + htmlBodyContent + "</body></html>");
-            //var rootNode = doc.DocumentNode;
-            //var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
-            //var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
-            //if (pcCheck == null && mobileCheck == null) {// login failed.
-            //    ReportHelper.ReportAttention(GetUIString("LoginFailed"));
-            if (htmlBodyContent.Contains("验证码") || htmlBodyContent.Contains("账号")) {// login failed.
+            var rootNode = doc.DocumentNode;
+            var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
+            var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
+            if (pcCheck == null && mobileCheck == null) {// login failed.
                 ReportHelper.ReportAttention(GetUIString("LoginFailed"));
             } else {
                 // login successful...
                 MainLoginPopup.IsOpen = false;
                 try {
-                    var result = await DoubanWebProcess.PostDoubanResponseAsync(
-                        path: "https://frodo.douban.com/service/auth2/token",
-                        host: "frodo.douban.com",
-                        reffer: null,
-                        content:
-                        new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>> {
-                            new KeyValuePair<string, string>("client_id","0dad551ec0f84ed02907ff5c42e8ec70"),
-                            new KeyValuePair<string, string>("client_secret","9e8bb54dc3288cdf"),
-                            new KeyValuePair<string, string>("redirect_uri","frodo://app/oauth/callback/"),
-                            new KeyValuePair<string, string>("grant_type","password"),
-                            new KeyValuePair<string, string>("username", EmailBox.Text),
-                            new KeyValuePair<string, string>("password", PasswordBox.Password),
-                            new KeyValuePair<string, string>("os_rom","android"),
-                        }),
-                        isMobileDevice: true);
-                    var tokenReturn = default(APITokenReturn);
-                    try {
-                        JObject jo = JObject.Parse(result);
-                        tokenReturn = new APITokenReturn {
-                            AccessToken = jo["access_token"].Value<string>(),
-                            RefreshToken = jo["refresh_token"].Value<string>(),
-                            ExpiresIn = jo["expires_in"].Value<string>(),
-                            UserId = jo["douban_user_id"].Value<string>(),
-                            UserName = jo["douban_user_name"].Value<string>(),
-                        };
-                        MainLoginPopup.IsOpen = false;
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, tokenReturn.UserId);
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.AccessToken, tokenReturn.AccessToken);
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.RefreshToken, tokenReturn.RefreshToken);
-                        await MainPage.SetUserStatusAsync(tokenReturn.UserId);
-                        NavigateToBase?.Invoke(
-                        null,
-                        null,
-                        GetFrameInstance(NavigateType.UserInfo),
-                        GetPageType(NavigateType.UserInfo));
-                    } catch {/* Ignore. */ }
-                } catch {
-                    try {
-                        MainPage.SetUserStatus(doc);
-                    } catch {/* Ignore. */  }
-                }
-                NavigateToBase?.Invoke(
+                    MainPage.SetUserStatus(doc);
+                    NavigateToBase?.Invoke(
                     null,
                     null,
                     GetFrameInstance(NavigateType.UserInfo),
                     GetPageType(NavigateType.UserInfo));
+                } catch { /* Ignore. */ }
             }
-        }
-
-        /// <summary>
-        /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
-        /// </summary>
-        /// <param name="htmlContent">html of websites</param>
-        private void CheckIfLoginSucceed(LoginReturnBag loginReturn) {
-            
-        }
-
-        /// <summary>
-        /// Go back to the page which navigate you to come here.
-        /// </summary>
-        private void RedirectToPageBefore() {
-           
-        }
-
-        /// <summary>
-        /// redirect to login when login-error throws.
-        /// </summary>
-        private void RedirectToLoginAgain() {
-            
-        }
-
-        /// <summary>
-        /// save status message in MainPage to be controlled.
-        /// </summary>
-        /// <param name="item"></param>
-        private void SaveLoginStatus(HtmlNode item, HttpCookie cookie) {
-            
         }
 
         private string[] ForFetchTokenDecryption() {

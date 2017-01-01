@@ -19,10 +19,15 @@ namespace Douban.UWP.Tools.Converters {
 
         private Brush ToValueCode(uint num, double value) {
             return
-                value/10 - 0.2<= 0 ? num <= 1 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) :
+                value/10 - 0.1<= 0 ? num >= 1 ? new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) : new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) :
+                value / 10 - 0.2 <= 0 ? num <= 1 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) :
+                 value / 10 - 0.3 <= 0 ? num >= 2 ? new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) : new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) :
                 value / 10 - 0.4 <= 0  ? num <= 2 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) :
+                value / 10 - 0.5 <= 0 ? num >= 3 ? new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) : new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) :
                 value / 10 - 0.6 <= 0 ? num <= 3 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) :
+                value / 10 - 0.7 <= 0 ? num >= 4 ? new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) : new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) :
                 value / 10 - 0.8 <= 0 ? num <= 4 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) :
+                value / 10 - 0.9 <= 0 ? num >= 5 ? new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)) : new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) :
                 num <= 5 ? new SolidColorBrush(Color.FromArgb(255, 254, 183, 8)) : new SolidColorBrush(Color.FromArgb(255, 200, 200, 200));
         }
     }

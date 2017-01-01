@@ -203,7 +203,7 @@
         </Style>
     </Base:BaseContentPage.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
+    <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged">
 
         <!--#region StateTriggers-->
         <VisualStateManager.VisualStateGroups>
@@ -222,8 +222,13 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
                         <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="300"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
@@ -281,8 +286,13 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="FlowLayoutButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
                         <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="360"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="120"/>
@@ -439,7 +449,7 @@
 
                 <Grid Name="HeadGrid" Height="420" VerticalAlignment="Top" Background="Black">
 
-                    <Image Source="/Assets/188.jpg" Stretch="UniformToFill" Opacity="0.8"/>
+                    <Image Name="BackgroundImage" Source="/Assets/188.jpg" Stretch="UniformToFill" Opacity="0.8"/>
                     <StackPanel Name="HeadContainerStack" VerticalAlignment="Bottom" Margin="0,0,0,10">
                         <Border x:Name="border" CornerRadius="75" Background="White" Width="150" Height="150" Margin="0,0,0,20">
                             <Ellipse Name="HeadUserImage" Width="140" Height="140" >
@@ -470,13 +480,28 @@
                             Click="BaseHamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                    <Button Name="FlowLayoutButton"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Content="&#xE10C;"
+                            Width="70"
+                            Height="70"
+                            FontWeight="Black"
+                            Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Uid="LogoutText" Name="LogoutButton" Click="LogoutButton_Click"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                     <Border Height="20" Width="60" HorizontalAlignment="Right" Margin="0,0,10,5"
                     VerticalAlignment="Bottom"  CornerRadius="2" Background="{ThemeResource DoubanForeground}">
                         <TextBlock Text="开发中" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="White"/>
                     </Border>
                 </Grid>
 
-                <Grid Name="DescriptionGrid" Height="320">
+                <Grid Background="{ThemeResource DoubanBackground04}" Name="DescriptionGrid" Height="320" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="2*"/>
                         <RowDefinition Height="1.5*"/>
@@ -492,8 +517,11 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.RowSpan="2" VerticalAlignment="Center">
-                            <TextBlock Name="UserNameBlock" FontWeight="Bold" Foreground="{ThemeResource DoubanTextColor03}"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Name="UserNameBlock" FontWeight="Bold" Foreground="{ThemeResource DoubanTextColor03}"
                                    Text="User" FontSize="50" Margin="15,0,0,0"/>
+                                <TextBlock Name="GenderBlock" FontFamily="Segoe MDL2 Assets" Text="&#xEA8C;" VerticalAlignment="Center" FontSize="14" Margin="7,5,0,0"/>
+                            </StackPanel>
                             <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="SemiBold" 
                                    Text="Location" FontSize="35" Margin="15,0,0,5" Foreground="#808080"/>
                         </StackPanel>
@@ -535,75 +563,125 @@
 
                 </Grid>
 
-                <Rectangle Fill="#AAA0A0A0" Height="1" Visibility="Visible" Opacity="0.4" Margin="10,10,10,0"/>
+                <Grid Background="{ThemeResource DoubanBackground04}">
+                    <Rectangle Fill="#AAA0A0A0" Height="0.5" Visibility="Visible" Opacity="0.3" Margin="0,0,0,0" VerticalAlignment="Top" />
+                    <Grid Name="SelectGrid" Height="110" Margin="0,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
 
-                <Grid Name="SelectGrid" Height="120" Margin="0,10,0,0">
+                        <Grid Name="G_B_GRID">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Name="BroadcastNumber" Text="--" Style="{ThemeResource NumberBlockStyle}"/>
+                                <TextBlock Name="BroadcastBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="GB" x:Uid="Broadcast_Name" Margin="0,10,0,0"/>
+                            </StackPanel>
+                            <Button Name="BroadcastButton" Grid.RowSpan="2"  Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
+                        </Grid>
+
+                        <Grid Name="DIARY_GRID" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Name="DiaryNumber" Text="--" Style="{ThemeResource NumberBlockStyle}" />
+                                <TextBlock Name="DiaryBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="DIARY" x:Uid="Diary_Name" Margin="0,10,0,0"/>
+                            </StackPanel>
+                            <Button Name="DiaryButton" Grid.RowSpan="2" Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
+                        </Grid>
+
+                        <Grid Name="PHOTOS_GRID" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Name="PhotosNumber" Text="--" Style="{ThemeResource NumberBlockStyle}"/>
+                                <TextBlock Name="PhotosBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="PHOTO" x:Uid="Photos_Name" Margin="0,10,0,0"/>
+                            </StackPanel>
+                            <Button Name="PhotosButton" Grid.RowSpan="2" Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
+                        </Grid>
+
+                        <Grid Name="B_M_GRID" Grid.Column="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Name="BookMovieNumber" Text="--" Style="{ThemeResource NumberBlockStyle}" />
+                                <TextBlock Name="BookMovieBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="BM" x:Uid="BookMovie_Name" Margin="0,10,0,0"/>
+                            </StackPanel>
+                            <Button Name="BookMovieButton" Grid.RowSpan="2"  Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
+                        </Grid>
+
+                        <Grid Name="GROUPS_GRID" Grid.Column="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Name="GroupsNumber" Text="--" Style="{ThemeResource NumberBlockStyle}" />
+                                <TextBlock Name="GroupsBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="GROUP" x:Uid="Group_Name" Margin="0,10,0,0"/>
+                            </StackPanel>
+                            <Button Name="GroupsButton" Grid.RowSpan="2" Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+                
+                <Grid  Background="{ThemeResource DoubanBackground04}" Margin="0,20,0,0" Name="FollowGrid" Height="110" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Grid Name="G_B_GRID">
+                    <Grid Name="FOLLOWING_GRID">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Name="BroadcastNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}"/>
-                            <TextBlock Name="BroadcastBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
-                                   Text="GB" x:Uid="Broadcast_Name"/>
+                            <TextBlock Name="FollowingNumber" Text="--" Style="{ThemeResource NumberBlockStyle}"/>
+                            <TextBlock Name="FollowingBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="FOLLOWING" x:Uid="Following_Name" Margin="0,10,0,0"/>
                         </StackPanel>
+                        <Button Name="FollowingButton" Grid.RowSpan="2"  Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
                     </Grid>
 
-                    <Grid Name="DIARY_GRID" Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Name="DiaryNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
-                            <TextBlock Name="DiaryBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
-                                   Text="DIARY" x:Uid="Diary_Name"/>
-                        </StackPanel>
-                    </Grid>
+                    <Rectangle Grid.Column="1" Margin="0,20,0,20" Fill="#AAA0A0A0" Width="0.5"/>
 
-                    <Grid Name="PHOTOS_GRID" Grid.Column="2">
+                    <Grid Name="FOLLOWERS_GRID" Grid.Column="2">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Name="PhotosNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}"/>
-                            <TextBlock Name="PhotosBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
-                                   Text="PHOTO" x:Uid="Photos_Name"/>
+                            <TextBlock Name="FollowersNumber" Text="--" Style="{ThemeResource NumberBlockStyle}"/>
+                            <TextBlock Name="FollowersBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
+                                   Text="FOLLOWERS" x:Uid="Followers_Name" Margin="0,10,0,0"/>
                         </StackPanel>
-                    </Grid>
-
-                    <Grid Name="B_M_GRID" Grid.Column="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Name="BookMovieNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
-                            <TextBlock Name="BookMovieBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
-                                   Text="BM" x:Uid="BookMovie_Name"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid Name="GROUPS_GRID" Grid.Column="4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <TextBlock Name="GroupsNumber" Text="Number" Style="{ThemeResource NumberBlockStyle}" />
-                            <TextBlock Name="GroupsBlock" Grid.Row="1" Style="{ThemeResource NameItemBlockStyle}"
-                                   Text="GROUP" x:Uid="Group_Name"/>
-                        </StackPanel>
+                        <Button Name="FollowersButton" Grid.RowSpan="2"  Click="Button_Click" 
+                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ButtonNoAnyShapeStyle}"/>
                     </Grid>
 
                 </Grid>

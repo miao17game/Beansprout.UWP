@@ -61,7 +61,10 @@ namespace Douban.UWP.NET.Controls {
         private void DoublAnimationSlideOut_Completed(object sender, object e) {
             storyToSideGridOut.Stop();
             doubleAnimation.Completed -= DoublAnimation_Completed;
-            AppResources.MainContentFrame.Content = null;
+            //if (isMobile)
+            //    AppResources.MainContentFrame.Navigate(typeof(BlankPage));
+            //else
+                AppResources.MainContentFrame.Content = null;
         }
 
         private void DoublAnimation_Completed(object sender, object e) {
@@ -70,6 +73,7 @@ namespace Douban.UWP.NET.Controls {
         }
 
         public virtual void PageSlideOutStart(bool isToLeft) {
+            //isMobile = isToLeft;
             InitSlideOutBoard(isToLeft);
             storyToSideGridOut.Begin();
         }
@@ -81,6 +85,7 @@ namespace Douban.UWP.NET.Controls {
         #endregion
 
         #region Properties
+        //internal bool isMobile = false;
         internal bool isFirstLoaded = true;
         internal bool isDivideScreen = true;
         internal DataFetchType thisPageType;

@@ -39,7 +39,22 @@ namespace Douban.UWP.NET.Pages {
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             DoubanLoading.SetVisibility(false);
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(LoginStatus.BigHeadUrl) };
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)) };
+            if (LoginStatus.APIUserinfos != null ) {
+                var status = LoginStatus.APIUserinfos;
+                BroadcastNumber.Text = status.StatusesCount.ToString();
+                PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
+                DiaryNumber.Text = status.NotesCount.ToString();
+                GroupsNumber.Text = status.JoinedGroupCount.ToString();
+                BookMovieNumber.Text = status.CollectedSubjectsCount.ToString();
+                FollowingNumber.Text = status.FollowingCount.ToString();
+                FollowersNumber.Text = status.FollowersCount.ToString();
+                GenderBlock.Foreground = status.Gender == "M" ? 
+                    new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) : 
+                    new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
+                if (status.ProfileBannerLarge != null)
+                    BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.ProfileBannerLarge));
+            }
             UserNameBlock.Text = LoginStatus.UserName;
             LocationBlock.Text = LoginStatus.LocationString;
             DescriptionBlock.Text = LoginStatus.Description;
@@ -92,6 +107,41 @@ namespace Douban.UWP.NET.Pages {
 
         private void FlowButton_Click(object sender, RoutedEventArgs e) {
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            switch((sender as Button).Name) {
+                case "BroadcastButton":
+
+                    break;
+                case "DiaryButton":
+
+                    break;
+                case "PhotosButton":
+
+                    break;
+                case "BookMovieButton":
+
+                    break;
+                case "GroupsButton":
+
+                    break;
+                case "FollowingButton":
+
+                    break;
+                case "FollowersButton":
+
+                    break;
+                default:break;
+            }
+        }
+
+        private async void LogoutButton_Click(object sender, RoutedEventArgs e) {
+            var path = "https://www.douban.com/accounts/logout?source=main";
+            await DoubanWebProcess.GetDoubanResponseAsync(path);
+            SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
+            GlobalHelpers.ResetLoginStatus();
+            PageSlideOutStart(VisibleWidth > 800 ? false : true);
         }
     }
 }

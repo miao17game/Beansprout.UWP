@@ -30,6 +30,7 @@
         <uap:Rule Match="http://www.douban.com/" Type="include" WindowsRuntimeAccess="none" />
         <uap:Rule Match="https://www.accounts.douban.com/" Type="include" WindowsRuntimeAccess="none" />
         <uap:Rule Match="https://m.douban.com/" Type="include" WindowsRuntimeAccess="none" />
+        <uap:Rule Match="https://accounts.douban.com/login" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
     </Application>
   </Applications>

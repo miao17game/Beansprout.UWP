@@ -1,4 +1,5 @@
 ﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
 
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Resources;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using Newtonsoft.Json.Linq;
 
 namespace Douban.UWP.NET.Tools {
     public static class GlobalHelpers {
@@ -24,19 +26,81 @@ namespace Douban.UWP.NET.Tools {
                     .SelectSingleNode("a")
                     .SelectSingleNode("img");
             var basic_info_div = doc.DocumentNode.SelectSingleNode("//div[@class='basic-info']");
-            var bigHead = basic_info_div != null ? new Uri(basic_info_div.SelectSingleNode("img[@class='userface']").Attributes["src"].Value) : null;
+            var bigHead = basic_info_div != null ? basic_info_div.SelectSingleNode("img[@class='userface']").Attributes["src"].Value : null;
             var user_info_div = doc.DocumentNode.SelectSingleNode("//div[@class='user-info']");
-            var location = user_info_div != null ? new Uri(user_info_div.SelectSingleNode("a").Attributes["href"].Value) : null;
+            var location = user_info_div != null ? user_info_div.SelectSingleNode("a").Attributes["href"].Value : null;
             var location_string = user_info_div != null ? user_info_div.SelectSingleNode("a").InnerText : null;
             var des_span = doc.DocumentNode.SelectSingleNode("//span[@id='intro_display']");
             return new LoginStatusBag {
-                ImageUrl = new Uri(ima.Attributes["src"].Value),
+                ImageUrl = ima.Attributes["src"].Value,
                 UserName = ima.Attributes["alt"].Value,
                 Description = des_span != null ? des_span.InnerText : GetUIString("Lazy_for_no_description"),
                 BigHeadUrl = bigHead,
                 LocationString = location_string,
                 LocationUrl = location,
             };
+        }
+
+        public static LoginStatusBag GetLoginStatus(string webResult) {
+            JObject jo = JObject.Parse(webResult);
+            var loc = jo["loc"];
+            var banners = jo["profile_banner"];
+            return new LoginStatusBag {
+                UserName = jo["name"].Value<string>(),
+                BigHeadUrl = jo["large_avatar"].Value<string>(),
+                Description = jo["intro"].Value<string>(),
+                ImageUrl = jo["avatar"].Value<string>(),
+                LocationString = loc.HasValues ? loc["name"].Value<string>() : null,
+                LocationUrl = null,
+                APIUserinfos = new APIUserinfos {
+                    AbstractName = jo["abstract"].Value<string>(),
+                    ArkPublishedCount = jo["ark_published_count"].Value<uint>(),
+                    Avatar = jo["avatar"].Value<string>(),
+                    Birthday = jo["birthday"].Value<string>(),
+                    CanDonate = jo["can_donate"].Value<bool>(),
+                    CanSetOriginal = jo["can_set_original"].Value<bool>(),
+                    CollectedSubjectsCount = jo["collected_subjects_count"].Value<uint>(),
+                    DramasCount = jo["dramas_count"].Value<uint>(),
+                    Followed = jo["followed"].Value<bool>(),
+                    FollowersCount = jo["followers_count"].Value<uint>(),
+                    FollowingCount = jo["following_count"].Value<uint>(),
+                    FollowingDouListCount = jo["following_doulist_count"].Value<uint>(),
+                    Gender = jo["gender"].Value<string>(),
+                    GroupChatCount = jo["group_chat_count"].Value<uint>(),
+                    HasUserHotModule = jo["has_user_hot_module"].Value<bool>(),
+                    ID = jo["id"].Value<string>(),
+                    InBlackList = jo["in_blacklist"].Value<bool>(),
+                    Introductions = jo["intro"].Value<string>(),
+                    IsNormal = jo["is_normal"].Value<bool>(),
+                    JoinedGroupCount = jo["joined_group_count"].Value<uint>(),
+                    Kind = jo["kind"].Value<string>(),
+                    LargeAvatar = jo["large_avatar"].Value<string>(),
+                    LocationID = loc.HasValues? loc["id"].Value<string>():null,
+                    LocationName = loc.HasValues? loc["name"].Value<string>():null,
+                    LocationUid = loc.HasValues? loc["uid"].Value<string>():null,
+                    NotesCount = jo["notes_count"].Value<uint>(),
+                    OwnedDouListCount = jo["owned_doulist_count"].Value<uint>(),
+                    PhotoAlbumsCount = jo["photo_albums_count"].Value<uint>(),
+                    ProfileBannerLarge = banners.HasValues? banners["large"].Value<string>():null,
+                    ProfileBannerNormal = banners.HasValues ? banners["normal"].Value<string>() : null,
+                    RegisterTime = jo["reg_time"].Value<string>(),
+                    Remark = jo["remark"].Value<string>(),
+                    SetiChannelCount = jo["seti_channel_count"].Value<uint>(),
+                    StatusesCount = jo["statuses_count"].Value<uint>(),
+                    Type = jo["type"].Value<string>(),
+                    UpdatedProfile = jo["updated_profile"].Value<bool>(),
+                    Uri = jo["uri"].Value<string>(),
+                    Url = jo["url"].Value<string>(),
+                    UserHotModuleEnabled = jo["user_hot_module_enabled"].Value<bool>(),
+                    UserUid = jo["uid"].Value<string>(),
+                    VerifyReason = jo["verify_reason"].Value<string>(),
+                    VerifyType = jo["verify_type"].Value<string>(),
+                }
+            };
+        }
+
+        public static void ResetLoginStatus() {
+            Current.ResetUserStatus();
         }
 
         /// <summary>
@@ -58,18 +122,18 @@ namespace Douban.UWP.NET.Tools {
 
             if (IsMobile) {
                 currentFramePage.Width = VisibleWidth;
-                AppResources.Current.Frame.SizeChanged += (sender, args) => { currentFramePage.Width = VisibleWidth; };
+                Current.Frame.SizeChanged += (sender, args) => { currentFramePage.Width = VisibleWidth; };
             } else {
                 if (!isDivideScreen) {
                     currentFramePage.Width = VisibleWidth;
-                    AppResources.Current.Frame.SizeChanged += (sender, args) => { currentFramePage.Width = VisibleWidth; };
+                    Current.Frame.SizeChanged += (sender, args) => { currentFramePage.Width = VisibleWidth; };
                     return;
                 }
                 if (divideNum <= 0 || divideNum > 1)
                     divideNum = defaultDivide;
                 var nowWidth = VisibleWidth;
                 currentFramePage.Width = nowWidth > rangeNum ? divideNum * nowWidth : nowWidth;
-                AppResources.Current.Frame.SizeChanged += (sender, args) => {
+                Current.Frame.SizeChanged += (sender, args) => {
                     var nowWidthEx = VisibleWidth;
                     currentFramePage.Width = nowWidthEx > rangeNum ? divideNum * nowWidthEx : nowWidthEx;
                 };

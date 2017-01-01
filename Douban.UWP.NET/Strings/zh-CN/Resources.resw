@@ -592,4 +592,20 @@
     <value>近期值得看的综艺节目</value>
     <comment>TVIndexPage</comment>
   </data>
+  <data name="Followers_Name.Text" xml:space="preserve">
+    <value>被关注</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="Following_Name.Text" xml:space="preserve">
+    <value>关注</value>
+    <comment>UserInfosPage</comment>
+  </data>
+  <data name="LogoutText.Text" xml:space="preserve">
+    <value>退出当前账号</value>
+    <comment>UserInfoPage</comment>
+  </data>
+  <data name="LoginPanelCode" xml:space="preserve">
+    <value>未登录</value>
+    <comment>MainPage</comment>
+  </data>
 </root>

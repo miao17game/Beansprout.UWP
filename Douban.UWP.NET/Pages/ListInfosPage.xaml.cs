@@ -22,6 +22,7 @@ using Douban.UWP.NET.Tools;
 using System.Threading.Tasks;
 using Douban.UWP.NET.Controls;
 using System.Diagnostics;
+using Douban.UWP.Core.Models.ImageModels;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -36,6 +37,35 @@ namespace Douban.UWP.NET.Pages {
             DoubanLoading.SetVisibility(false);
             welcomeBlk.SetVisibility(IsFirstOpen);
             if (IsFirstOpen) { IsFirstOpen = false; }
+            SetFlipResourcesAsync();
+        }
+
+        public async void SetFlipResourcesAsync() {
+            try {
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(
+                    path : "https://m.douban.com/rexxar/api/v2/promos?page=selection", 
+                    host: "m.douban.com",
+                    reffer: null);
+                JObject jo = JObject.Parse(result);
+                var promos = jo["promos"];
+                if (promos.HasValues) {
+                    var newList = new List<PromosItem>();
+                    promos.Children().ToList().ForEach(singleton => {
+                        var notif = singleton["notification"];
+                        newList.Add(new PromosItem {
+                            ImageSrc = new Uri(singleton["image"].Value<string>()),
+                            Image = singleton["image"].Value<string>(),
+                            NotificationCount = notif.HasValues ? notif["count"].Value<uint>() : 0,
+                            NotificationVersion = notif.HasValues ? notif["version"].Value<string>() : null,
+                            Tag = singleton["tag"].Value<string>(),
+                            Text = singleton["text"].Value<string>(),
+                            Uri = singleton["uri"].Value<string>(),
+                            ID = singleton["id"].Value<string>(),
+                        });
+                    });
+                    FlipResouces.Source = newList;
+                }
+            } catch { /* Ignore */}
         }
 
         private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {
@@ -127,7 +157,22 @@ namespace Douban.UWP.NET.Pages {
                 GetPageType(Core.Models.NavigateType.ItemClick));
         }
 
+        private void ScrollViewerChangedForFlip(object sender, ScrollViewerViewChangedEventArgs e) {
+            try {
+                if ((sender as ScrollViewer).VerticalOffset <= 240)
+                    MyFlip.Margin = new Thickness(0, -(sender as ScrollViewer).VerticalOffset, 0, 0);
+                if ((sender as ScrollViewer).VerticalOffset > 240)
+                    MyFlip.Margin = new Thickness(0, -240, 0, 0);
+            } catch { Debug.WriteLine("Save scroll positions error."); }
+        }
+
+        private void IndexList_Loaded(object sender, RoutedEventArgs e) {
+            scroll = GlobalHelpers.GetScrollViewer(IndexList);
+            scroll.ViewChanged += ScrollViewerChangedForFlip;
+        }
+
         #region Properties
+        private ScrollViewer scroll;
         private string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
         #endregion
 

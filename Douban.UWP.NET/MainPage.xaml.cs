@@ -81,27 +81,31 @@ namespace Douban.UWP.NET {
 
         private async Task TryLoginAsync(bool isInit = false) {
             try {
-                LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
-                if (LoginButton == null) {
-                    ReportHelper.ReportAttention(GetUIString("WebActionError"));
-                    return;
-                }
-                var doc = new HtmlDocument();
-                doc.LoadHtml(LoginResult);
-                if (doc.DocumentNode.SelectSingleNode("//div[@class='top-nav-info']") != null) {
-
+                if (isInit) {
+                    var userId = SettingsHelper.ReadSettingsValue(SettingsSelect.UserID) as string;
+                    if (userId == "LOGOUT")
+                        return;
+                    LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
+                    if (LoginResult == null) {
+                        ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                        return;
+                    }
+                    var doc = new HtmlDocument();
+                    doc.LoadHtml(LoginResult);
+                    if (doc.DocumentNode.SelectSingleNode("//div[@class='top-nav-info']") == null) {
+                        SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
+                        return;
+                    }
                     try {
-                        SetUserStatus(doc);
+                        await SetUserStatusAsync(userId);
                     } catch { /* Ignore. */ }
-
                     IsLogined = true;
-                    if (!isInit)
+                } else {
+                    if (!IsLogined) {
+                        NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
+                        ImagePopup.IsOpen = true;
+                    } else
                         NavigateToUserInfoPage();
-                    return;
-                }
-                if (!isInit) {
-                    NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
-                    ImagePopup.IsOpen = true;
                 }
             } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
         }
@@ -111,10 +115,29 @@ namespace Douban.UWP.NET {
         }
 
         public static void SetUserStatus(HtmlDocument doc) {
-            LoginStatus = Tools.GlobalHelpers.GetLoginStatus(doc);
+            LoginStatus = GlobalHelpers.GetLoginStatus(doc);
             Current.LoginUserBlock.Text = LoginStatus.UserName;
-            Current.LoginUserText.Text = "";
-            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(LoginStatus.ImageUrl) };
+            Current.LoginUserText.SetVisibility(false);
+            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(LoginStatus.ImageUrl)) };
+        }
+
+        public static async Task SetUserStatusAsync(string uid) {
+            var result = await DoubanWebProcess.GetAPIResponseAsync(
+                path : "https://m.douban.com/rexxar/api/v2/user/" + uid,
+                host : "m.douban.com",
+                reffer : "https://m.douban.com/mine/");
+            LoginStatus = GlobalHelpers.GetLoginStatus(result);
+            Current.LoginUserBlock.Text = LoginStatus.UserName;
+            Current.LoginUserText.SetVisibility(false);
+            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(LoginStatus.APIUserinfos.LargeAvatar)) };
+        }
+
+        public void ResetUserStatus() {
+            IsLogined = false;
+            LoginStatus = new LoginStatusBag();
+            LoginUserBlock.Text = GetUIString("LoginPanelCode");
+            LoginUserText.SetVisibility(true);
+            LoginUserIcon.Fill = new SolidColorBrush(Windows.UI.Colors.Gray);
         }
 
         #endregion
@@ -167,10 +190,7 @@ namespace Douban.UWP.NET {
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
             DoubanLoading.SetVisibility(true);
             NavigationSplit.IsPaneOpen = false;
-            if (!IsLogined) 
-                await TryLoginAsync();
-            else 
-                NavigateToUserInfoPage();
+            await TryLoginAsync();
             DoubanLoading.SetVisibility(false);
         }
 
@@ -272,7 +292,6 @@ namespace Douban.UWP.NET {
         #region Properties and state
 
         private bool isNeedClose = false;
-        private bool isInitLogin = false;
         public const string HomeHost = "https://www.douban.com/";
         public const string HomeHostInsert = "https://www.douban.com";
 

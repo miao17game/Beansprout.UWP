@@ -407,6 +407,8 @@
                 <!--#region BaseListContent-->
                 <Grid>
 
+                    <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
+
                     <Border Name="BasePartBorder" 
                             Background="{ThemeResource DoubanForeground03}" 
                             Height="70" 
@@ -419,8 +421,6 @@
                                    FontWeight="Bold"
                                    Foreground="White"/>
                     </Border>
-
-                    <Frame Name="BasePartFrame" Margin="0,70,0,0"/>
 
                     <Grid Name="LineGrid" Height="70" VerticalAlignment="Top">
                         <Rectangle Height="1" 

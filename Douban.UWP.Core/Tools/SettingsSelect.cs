@@ -12,5 +12,8 @@
         public const string IsAutoLogin = "AUTO_LOGIN_MODE";
         public const string PasswordKey = "PASSWORD_KEY";
         public const string PasswordVector = "PASSWORD_VECTOR";
+        public const string AccessToken = "ACCESS_TOKEN";
+        public const string RefreshToken = "REFRESH_TOKEN";
+        public const string UserID = "USER_ID";
     }
 }
