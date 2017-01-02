@@ -1,0 +1,195 @@
+﻿<UserControl
+    x:Class="Douban.UWP.NET.Controls.LifeStreamSingleton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
+    mc:Ignorable="d"
+   d:DesignHeight="300"
+    d:DesignWidth="600">
+
+    <UserControl.Resources>
+        <Converters:SelfVisibilityConverter x:Key="SelfVisibilityConverter"/>
+        <Converters:DeVisibilityConverter x:Key="DeVisibilityConverter"/>
+        <Converters:HasCoverConverter x:Key="HasCoverConverter"/>
+        <Converters:BinaryConverter x:Key="BinaryConverter"/>
+        <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <Converters:ValueConverter x:Key="ValueConverter"/>
+        <Converters:DateTimeConverter x:Key="DateTimeConverter"/>
+    </UserControl.Resources>
+
+    <Grid Name="Main" Background="{Binding Background}" BorderBrush="#CCA0A0A0" BorderThickness="0">
+
+        <!--#region StateTriggers-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Mobile360">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile480">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="361"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Desktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="400" MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_Tablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="700" MinWindowWidth="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_LightTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--#endregion-->
+
+        <TextBlock Name="TypeFlag" Text="{Binding Type}" Visibility="Collapsed"/>
+        <TextBlock Name="HasCoverFlag" Text="{Binding HasCover}" Visibility="Collapsed"/>
+        <TextBlock Name="HasImagesFlag" Text="{Binding HasImages}" Visibility="Collapsed"/>
+        <TextBlock Name="HasAlbumFlag" Text="{Binding HasAlbum}" Visibility="Collapsed"/>
+
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <TextBlock Text="{Binding Activity}" VerticalAlignment="Center" HorizontalAlignment="Left" 
+                           FontSize="12" FontWeight="Thin" Margin=" 5,3,0,0" Foreground="#CC808080" />
+                <TextBlock Text="{Binding Time, Converter={StaticResource DateTimeConverter}}" VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           Margin=" 0,3,5,0" FontSize="12" Foreground="#CC808080" FontWeight="Thin"/>
+            </Grid>
+
+            <!--#region Card-->
+            <Grid Name="CardGrid" Grid.Row="1" Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5"
+                  Visibility="{Binding ElementName=TypeFlag, Path=Text, ConverterParameter=Card, Converter={StaticResource VisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Ellipse Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Margin="5"
+                         Visibility="{Binding ElementName=HasCoverFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+                    <Ellipse.Fill>
+                        <ImageBrush ImageSource="{Binding Cover}"/>
+                    </Ellipse.Fill>
+                </Ellipse>
+                <TextBlock Text="{Binding Title}" FontSize="18" Grid.Column="1" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Description}" Grid.ColumnSpan="2" Grid.Row="1" Foreground="#CC808080" 
+                           TextWrapping="WrapWholeWords" MaxHeight="170" Margin="5" FontSize="14"/>
+            </Grid>
+            <!--#endregion -->
+
+            <!--#region Article-->
+            <Grid Name="ArticleGrid" Grid.Row="1" Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5"
+                  Visibility="{Binding ElementName=TypeFlag, Path=Text, ConverterParameter=Article, Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2"
+                           MaxHeight="120" HorizontalAlignment="Stretch" Stretch="UniformToFill"
+                           Visibility="{Binding ElementName=HasCoverFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}"/>
+                <TextBlock Text="{Binding Title}" FontSize="18" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Abstract}" Grid.Row="1" Foreground="#CC808080" 
+                           TextWrapping="Wrap" MaxHeight="240" Margin="5,5,25,5" FontSize="14"/>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Status-->
+            <Grid Name="StatusGrid" Grid.Row="1" Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" SizeChanged="StatusGrid_SizeChanged"
+                Visibility="{Binding ElementName=TypeFlag, Path=Text, ConverterParameter=Status, Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding Text}" Grid.Row="0" Foreground="#CC808080" 
+                           TextWrapping="WrapWholeWords" MaxHeight="240" Margin="5" FontSize="14"/>
+
+                <GridView x:Name="GridView01" IsItemClickEnabled="False" SelectionMode="None" Grid.Row="1" Margin="0,5,0,5"
+                          ItemsSource="{Binding MorePictures}" Width="{Binding ActualWidth, ElementName=StatusGrid}" 
+                          Visibility="{Binding ElementName=HasImagesFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="135" Height="135">
+                                <Image Source="{Binding Normal}"/>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Album-->
+            <Grid Name="AlbumGrid" Grid.Row="1" Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" SizeChanged="AlbumGrid_SizeChanged"
+                Visibility="{Binding ElementName=TypeFlag, Path=Text, ConverterParameter=Album, Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <GridView x:Name="GridView02" IsItemClickEnabled="False" SelectionMode="None" Grid.RowSpan="2" 
+                          ItemsSource="{Binding AlbumList}" Width="{Binding ActualWidth, ElementName=AlbumGrid}" Margin="0,5,0,5"
+                          Visibility="{Binding ElementName=HasAlbumFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="135">
+                                <Image Source="{Binding Normal}"/>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+
+            </Grid>
+            <!--#endregion-->
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2" Margin="5,0,10,0">
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE006;" VerticalAlignment="Center" Margin="0,0,3,0"/>
+                <TextBlock Text="{Binding LikersCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE134;" VerticalAlignment="Center" Margin="8,0,3,0"/>
+                <TextBlock Text="{Binding CommentsCount}" VerticalAlignment="Center" Margin="2,0,3,0"/>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

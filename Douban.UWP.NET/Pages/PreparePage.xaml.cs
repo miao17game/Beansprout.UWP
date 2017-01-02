@@ -42,8 +42,10 @@ namespace Douban.UWP.NET.Pages {
             isColorfulOrNot = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsColorfulOrNot) ?? false;
             isDarkOrNot= (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? false;
             if (StatusBarInit.HaveAddMobileExtensions()) { StatusBarInit.InitInnerMobileStatusBar(true); }
-            StatusBarInit.InitDesktopStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            StatusBarInit.InitMobileStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            //StatusBarInit.InitDesktopStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            //StatusBarInit.InitMobileStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            StatusBarInit.InitDesktopStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            StatusBarInit.InitMobileStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
             InitSliderTimer();
             OutIMG.BeginTime = new TimeSpan(0, 0, 0, 0, 800);
             OutREC.BeginTime = new TimeSpan(0, 0, 0, 0, 800);

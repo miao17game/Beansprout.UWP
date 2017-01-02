@@ -259,64 +259,72 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.7.* / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.8.* / 2017.1.*" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="大量改进" /><LineBreak/>
+                            <Run Text="主页加入顶部图片" /><LineBreak/>
+                            <Run Text="改用Auth2.0Token混合登录" /><LineBreak/>
+                            <Run Text="个人中心功能开始增加" /><LineBreak/>
+                            <Run Text="修复了一些小问题" /><LineBreak/>
+                            <Run Text="商店审核团队新年放假，更新久久不能过审😶🙄" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.7.2226 / 2016.12.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="增加电视栏目并完成Index本地化" /><LineBreak/>
                             <Run Text="内容页面标题功能加入" /><LineBreak/>
                             <Run Text="栏目中More按钮功能已经实现" /><LineBreak/>
                             <Run Text="修复上个版本的一些页面问题" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.6.2116 / 2016.10.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.6.2116 / 2016.12.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成应用程序名称的修改" /><LineBreak/>
                             <Run Text="完成Book和Music主页Native化" /><LineBreak/>
                             <Run Text="修复一些其他异常" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.5.2115/ 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.5.2115/ 2016.12.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急修复Mobile登陆验证码输入问题" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.4.1507 / 2016.10.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.4.1507 / 2016.12.30" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="更新启动背景和文案" /><LineBreak/>
                             <Run Text="主页UI细节调优" /><LineBreak/>
                             <Run Text="修复了Movie详情页面唤醒知乎UWP的故障" /><LineBreak/>
                             <Run Text="莫名其妙就唤醒了我也是一脸懵逼🐸" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.3.2339 / 2016.10.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.3.2339 / 2016.12.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成Movie主页的本地化工作" /><LineBreak/>
                             <Run Text="调整了Index主页的UI细节" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.2.2222 / 2016.10.28" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.2.2222 / 2016.12.28" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复WebContent页面内容排版错误" /><LineBreak/>
                             <Run Text="修复并增加隐私策略" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.1.1604 / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.1.1604 / 2016.12.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="应用商店Beta第一版" /><LineBreak/>
                             <Run Text="注：* 将在应用封包时确定，格式为'hhMM'" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.13 / 2016.10.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.13 / 2016.12.27" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="诸多UI细节改进" /><LineBreak/>
                             <Run Text="应用图像资源添加完成" /><LineBreak/>
                             <Run Text="提交商店准备，进入Beta阶段" /><LineBreak/><LineBreak/>
                             
-                             <Run Text="Version：1.0.12 / 2016.10.26" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                             <Run Text="Version：1.0.12 / 2016.12.26" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="诸多UI细节改进" /><LineBreak/>
                             <Run Text="目前大多内容仍然为网页嵌套" /><LineBreak/>
                             <Run Text="推荐条目跳转内容Web嵌套" /><LineBreak/>
                             <Run Text="未来将进行本地化" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.11 / 2016.10.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.11 / 2016.12.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="首页功能加入中" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.7 / 2016.10.24" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.7 / 2016.12.24" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="个人主页功能加入中" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.6 / 2016.10.23" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.6 / 2016.12.23" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="细节修改" /><LineBreak/>
                             <Run Text="适配Mobile的登陆配置" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.3 / 2016.10.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.3 / 2016.12.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="登录功能完成" /><LineBreak/>
                             <Run Text="可以记录登录状态" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.2 / 2016.10.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.2 / 2016.12.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="内容先期Web嵌套已完成" /><LineBreak/>
                             <Run Text="分屏模式开关加入" /><LineBreak/>
                             <Run Text="分屏尺寸调整功能加入" /><LineBreak/>
@@ -326,10 +334,10 @@
                             <Run Text="必要信息填入" /><LineBreak/>
                             <Run Text="UI调整优化" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.1 / 2016.10.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.1 / 2016.12.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="主外观框架开发完成" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：1.0.0 / 2016.10.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.0.0 / 2016.12.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="GuaPi For Windows10 (3rd-Party Douban) 正式进入开发阶段" /><LineBreak/><LineBreak/>
                             
                         </TextBlock>

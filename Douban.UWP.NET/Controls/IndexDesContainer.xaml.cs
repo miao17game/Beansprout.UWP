@@ -70,19 +70,19 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(ColumnNameProperty, value); }
         }
 
-        public static readonly DependencyProperty LikersCountProperty = DependencyProperty.Register("LikersCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create(0));
+        public static readonly DependencyProperty LikersCountProperty = DependencyProperty.Register("LikersCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
         public uint LikersCount {
             get { return (uint)GetValue(LikersCountProperty); }
             set { SetValue(LikersCountProperty, value); }
         }
 
-        public static readonly DependencyProperty PicturesCountProperty = DependencyProperty.Register("PicturesCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create(0));
+        public static readonly DependencyProperty PicturesCountProperty = DependencyProperty.Register("PicturesCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
         public uint PicturesCount {
             get { return (uint)GetValue(PicturesCountProperty); }
             set { SetValue(PicturesCountProperty, value); }
         }
 
-        public static readonly DependencyProperty CommentCountProperty = DependencyProperty.Register("CommentCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create(0));
+        public static readonly DependencyProperty CommentCountProperty = DependencyProperty.Register("CommentCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
         public uint CommentCount {
             get { return (uint)GetValue(CommentCountProperty); }
             set { SetValue(CommentCountProperty, value); }

@@ -608,4 +608,24 @@
     <value>未登录</value>
     <comment>MainPage</comment>
   </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>天前</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>小时前</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>分钟前</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>秒前</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>未知异常</value>
+    <comment>App</comment>
+  </data>
 </root>

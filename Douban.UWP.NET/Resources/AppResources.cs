@@ -33,9 +33,38 @@ namespace Douban.UWP.NET.Resources {
 
         #region Global Resources Properties
 
-        public static bool IsGlobalDark { get { return (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true; } }
-        public static bool IsDivideScreen { get { return (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true; }}
-        public static double DivideNumber { get { return (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6; }}
+        private static bool? isGlobalDark;
+        public static bool IsGlobalDark {
+            get {
+                return isGlobalDark ?? new Func<bool>(() => {
+                    isGlobalDark = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true;
+                    return isGlobalDark.Value;
+                }).Invoke();
+            }
+            set { isGlobalDark = value; }
+        }
+
+        private static bool? isDivideScreen;
+        public static bool IsDivideScreen {
+            get {
+                return isDivideScreen ?? new Func<bool>(()=> {
+                    isDivideScreen = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
+                    return isDivideScreen.Value;
+                }).Invoke();
+            }
+            set { isDivideScreen = value; }
+        }
+
+        private static double? divideNumber;
+        public static double DivideNumber {
+            get {
+                return divideNumber ?? new Func<double>(() => {
+                    divideNumber = (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6;
+                    return divideNumber.Value;
+                }).Invoke();
+            }
+            set { divideNumber = value; }
+        }
 
         private static LoginStatusBag _loginStatus = new LoginStatusBag();
         public static LoginStatusBag LoginStatus {

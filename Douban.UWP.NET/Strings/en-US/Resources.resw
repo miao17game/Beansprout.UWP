@@ -609,4 +609,24 @@
     <value>Click here to Login</value>
     <comment>MainPage</comment>
   </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>Days ago.</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>Hours ago.</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>Minutes ago.</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>Seconds ago.</value>
+    <comment>DateTimeConverter</comment>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Unhandled Exception</value>
+    <comment>App</comment>
+  </data>
 </root>

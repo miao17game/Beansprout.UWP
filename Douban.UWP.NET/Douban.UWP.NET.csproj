@@ -110,6 +110,9 @@
     <Compile Include="Controls\IndexDesContainer.xaml.cs">
       <DependentUpon>IndexDesContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LifeStreamSingleton.xaml.cs">
+      <DependentUpon>LifeStreamSingleton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ScheduleTip.xaml.cs">
       <DependentUpon>ScheduleTip.xaml</DependentUpon>
     </Compile>
@@ -166,12 +169,17 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.cs" />
+    <Compile Include="Tools\Converters\DateTimeConverter.cs" />
     <Compile Include="Tools\Converters\ColorConverter.cs" />
     <Compile Include="Tools\Converters\BinaryConverter.cs" />
+    <Compile Include="Tools\Converters\IListToListPicConverter.cs" />
+    <Compile Include="Tools\Converters\IListToListPicBaseConverter.cs" />
     <Compile Include="Tools\Converters\IListToListConverter.cs" />
     <Compile Include="Tools\Converters\DeVisibilityConverter.cs" />
     <Compile Include="Tools\Converters\IconConverter.cs" />
     <Compile Include="Tools\Converters\HasCoverConverter.cs" />
+    <Compile Include="Tools\Converters\ValueConverter.cs" />
+    <Compile Include="Tools\Converters\VisibilityConverter.cs" />
     <Compile Include="Tools\Converters\SelfVisibilityConverter.cs" />
     <Compile Include="Tools\Converters\StarSizeColorConverter.cs" />
     <Compile Include="Tools\Converters\DoubleConverter.cs" />
@@ -258,6 +266,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\IndexDesContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LifeStreamSingleton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

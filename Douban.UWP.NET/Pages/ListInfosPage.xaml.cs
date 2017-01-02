@@ -64,8 +64,15 @@ namespace Douban.UWP.NET.Pages {
                         });
                     });
                     FlipResouces.Source = newList;
+                    InitFlipTimer(newList);
                 }
             } catch { /* Ignore */}
+        }
+
+        private void InitFlipTimer(List<PromosItem> list) {
+            DispatcherTimer timer = new DispatcherTimer{ Interval = new TimeSpan(0, 0, 0, 7) };
+            timer.Tick += (obj, args) => { if (MyFlip.SelectedIndex < list.Count - 1) MyFlip.SelectedIndex++; else MyFlip.SelectedIndex = 0; };
+            timer.Start();
         }
 
         private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {

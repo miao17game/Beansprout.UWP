@@ -100,8 +100,10 @@ namespace Douban.UWP.NET.Pages {
                 timerForSlider.Interval = new TimeSpan(0, 0, 0, 0, 200);
                 timerForSlider.Start();
             }
-            if (!isInitSliderValueOrNot)
+            if (!isInitSliderValueOrNot) {
+                AppResources.DivideNumber = e.NewValue / 100;
                 SettingsHelper.SaveSettingsValue(SettingsSelect.SplitViewMode, e.NewValue / 100);
+            }
         }
 
         private async void CacheClearBtn_Click(object sender, RoutedEventArgs e) {
@@ -153,15 +155,19 @@ namespace Douban.UWP.NET.Pages {
         #region Toggle Events
 
         private void OnThemeSwitchToggled(ToggleSwitch sender) {
+            AppResources.IsGlobalDark = sender.IsOn;
             SettingsHelper.SaveSettingsValue(SettingsConstants.IsDarkThemeOrNot, sender.IsOn);
             AppResources.Current.RequestedTheme = sender.IsOn ? ElementTheme.Dark : ElementTheme.Light;
             if (isInitViewOrNot)
                 return;
-            StatusBarInit.InitDesktopStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            StatusBarInit.InitMobileStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            //StatusBarInit.InitDesktopStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            //StatusBarInit.InitMobileStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            StatusBarInit.InitDesktopStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            StatusBarInit.InitMobileStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
         }
 
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
+            AppResources.IsDivideScreen = sender.IsOn;
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
             var CF = AppResources.MainContentFrame;
             if (CF.Content == null)
