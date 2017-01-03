@@ -75,6 +75,21 @@ namespace Douban.UWP.NET.Pages {
             timer.Start();
         }
 
+        private void FlipInnerButton_Click(object sender, RoutedEventArgs e) {
+            var path = (sender as Button).CommandParameter as string;
+            var text = (sender as Button).Content as string;
+            if (path == null)
+                return;
+            var succeed = Uri.TryCreate(path, UriKind.RelativeOrAbsolute, out var newUri);
+            if (!succeed)
+                return;
+            NavigateToBase?.Invoke(
+                sender,
+                new Core.Models.NavigateParameter { ToUri = newUri, Title = text },
+                GetFrameInstance(Core.Models.NavigateType.ItemClick),
+                GetPageType(Core.Models.NavigateType.ItemClick));
+        }
+
         private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {
             ICollection<IndexItem> list = new List<IndexItem>();
             try {

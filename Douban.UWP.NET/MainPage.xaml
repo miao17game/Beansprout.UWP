@@ -471,7 +471,7 @@
         </SplitView>
 
         <Rectangle Name="SlideAnimaRec" 
-                   Width="50" Fill="Black"
+                   Width="20" Fill="Black"
                    HorizontalAlignment="Left"
                    Margin="0,120,0,70"
                    Opacity="0" 

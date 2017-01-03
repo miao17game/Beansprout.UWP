@@ -41,13 +41,13 @@
                                            Foreground="#EFEFEF"
                                            Margin="5"/>
                             </Border>
-                            <!--<Button Content="{Binding Path}" 
-                                    CommandParameter="{Binding ID}"
+                            <Button Content="{Binding Text}" 
+                                    CommandParameter="{Binding Uri}"
                                     Background="Transparent"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Click="FlipInnerButton_Click"
-                                    Opacity="0"/>-->
+                                    Opacity="0"/>
                         </Grid>
                     </DataTemplate>
                 </FlipView.ItemTemplate>

@@ -35,6 +35,11 @@ namespace Douban.UWP.NET.Pages {
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
         }
 
+        public override void PageSlideOutStart(bool isToLeft) {
+            base.PageSlideOutStart(isToLeft);
+            Scroll.Navigate(new Uri("https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg"));
+        }
+
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
         }
