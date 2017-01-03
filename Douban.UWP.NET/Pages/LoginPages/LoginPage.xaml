@@ -963,6 +963,31 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
+                        <Setter Target="AccText.(FrameworkElement.Margin)">
+                            <Setter.Value>0</Setter.Value>
+                        </Setter>
+                        <Setter Target="OutGrid.(FrameworkElement.Margin)">
+                            <Setter.Value>5</Setter.Value>
+                        </Setter>
+                        <Setter Target="EmailGrid.(FrameworkElement.Margin)">
+                            <Setter.Value>5</Setter.Value>
+                        </Setter>
+                        <Setter Target="PasswordGrid.(FrameworkElement.Margin)">
+                            <Setter.Value>5</Setter.Value>
+                        </Setter>
+                        <Setter Target="VerificationCodeGrid.(FrameworkElement.Margin)">
+                            <Setter.Value>5</Setter.Value>
+                        </Setter>
+                        <Setter Target="PasswordCheckBox.(FrameworkElement.Margin)">
+                            <Setter.Value>8,5</Setter.Value>
+                        </Setter>
+                        <Setter Target="AutoLoginCheckBox.(FrameworkElement.Margin)">
+                            <Setter.Value>8,5</Setter.Value>
+                        </Setter> 
+                        <Setter Target="announceText.(TextBlock.FontSize)" Value="12"/>
+                        <Setter Target="AccText.(TextBlock.FontSize)" Value="18"/>
+                        <Setter Target="AccTextSummary.(TextBlock.FontSize)" Value="12"/>
+
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Mobile480">

@@ -50,6 +50,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void SetWrapPanelResources(string webResult) {
+            if (webResult == null)
+                return;
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
             var wrapList = new List<ItemGroup<MovieItem>>();
@@ -83,6 +85,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void SetFilterResources(string webResult) {
+            if (webResult == null)
+                return;
             var doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(webResult);
             var filterList = new List<ItemGroup<MovieItem>>();

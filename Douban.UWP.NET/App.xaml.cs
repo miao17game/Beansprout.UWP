@@ -1,14 +1,17 @@
-﻿using Douban.UWP.NET.Controls;
+﻿using Douban.UWP.Core.Tools;
+using Douban.UWP.NET.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Wallace.UWP.Helpers;
 using Wallace.UWP.Helpers.Tools;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Globalization;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -53,6 +56,7 @@ namespace Douban.UWP.NET {
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e) {
 
+            InitAppStateWhenFirstDeployment();
             RegisterExceptionHandlingSynchronizationContext();
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -82,6 +86,16 @@ namespace Douban.UWP.NET {
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
+            }
+        }
+
+        private static void InitAppStateWhenFirstDeployment() {
+            if ((bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsFirstLoadApp) ?? true) {
+                ApplicationLanguages.PrimaryLanguageOverride =
+                    (string)SettingsHelper.ReadSettingsValue(SettingsSelect.Language) ??
+                    ConstFields.Chinese_CN;
+                SettingsHelper.SaveSettingsValue(SettingsSelect.Language, ConstFields.Chinese_CN);
+                SettingsHelper.SaveSettingsValue(SettingsSelect.IsFirstLoadApp, false);
             }
         }
 

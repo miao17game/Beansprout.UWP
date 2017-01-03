@@ -197,7 +197,6 @@
         </Style>
         <Style x:Key="NameItemBlockStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="Foreground" Value="#808080"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
@@ -250,7 +249,7 @@
                         <Setter Target="TalkButton.(FrameworkElement.Height)" Value="30"/>
                         <Setter Target="WatchButton.(FrameworkElement.Height)" Value="30"/>
                         <Setter Target="FlowButton.(FrameworkElement.Height)" Value="30"/>
-                        <Setter Target="TalkButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="TalkButton.(Control.FontSize)" Value="13"/>
                         <Setter Target="TalkButton.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>3,0</Thickness>
@@ -267,7 +266,7 @@
                                 <Thickness>0,0,10,0</Thickness>
                             </Setter.Value>
                         </Setter>
-                        <Setter Target="FlowButton.(Control.FontSize)" Value="13"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="7"/>
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="20"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
@@ -331,7 +330,7 @@
                                 <Thickness>0,0,10,0</Thickness>
                             </Setter.Value>
                         </Setter>
-                        <Setter Target="FlowButton.(Control.FontSize)" Value="17"/>
+                        <Setter Target="FlowButton.(Control.FontSize)" Value="15"/>
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="20"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="12"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
@@ -496,7 +495,7 @@
                                    Text="User" FontSize="50" Margin="15,0,0,0"/>
                                     <TextBlock Name="GenderBlock" FontFamily="Segoe MDL2 Assets" Text="&#xEA8C;" VerticalAlignment="Center" FontSize="14" Margin="7,5,0,0"/>
                                 </StackPanel>
-                                <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="SemiBold" 
+                                <TextBlock Name="LocationBlock" Grid.Row="1" FontWeight="Bold" 
                                    Text="Location" FontSize="35" Margin="15,0,0,5" Foreground="#808080"/>
                             </StackPanel>
                         </Grid>
@@ -509,15 +508,15 @@
                             </Grid.ColumnDefinitions>
                             <Button Name="TalkButton" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource SpecialButtonAbort}" x:Uid="TalkButton"
-                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="SemiBold" 
+                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="Bold" 
                                 Content="SX" Click="TalkButton_Click"/>
                             <Button Name="WatchButton" Grid.Column="1" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource SpecialButtonSubmit}" x:Uid="WatchButton"
-                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="SemiBold" 
+                                Height="70" Margin="10,0,5,0" FontSize="35" FontWeight="Bold" 
                                 Content="GZ" Click="WatchButton_Click"/>
                             <Button Name="FlowButton" Grid.Column="2" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource SpecialButtonSubmit}" FontFamily="Segoe MDL2 Assets"
-                                Height="70" Margin=" 0,0,10,0" FontSize="35"  FontWeight="SemiBold" 
+                                Height="70" Margin=" 0,0,10,0" FontSize="35"  FontWeight="Bold" 
                                 Content="&#xE011;" Click="FlowButton_Click"/>
                         </Grid>
 
@@ -669,7 +668,7 @@
                     <ListView Name="ContentList" IsItemClickEnabled="True" SelectionMode="None"
                               ItemsSource="{Binding Source={StaticResource ListResources}}" 
                               ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
-                              ItemClick="ContentList_ItemClick">
+                              ItemClick="ContentList_ItemClick" >
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="LSM:LifeStreamItem">
                                 <controls:LifeStreamSingleton x:Name="Singleton"

@@ -41,13 +41,12 @@ namespace Douban.UWP.NET.Pages {
             this.InitializeComponent();
             Current = this;
             this.NavigationCacheMode = NavigationCacheMode.Required;
-            InitSettingsPageState();
         }
         #endregion
 
         #region Events
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            
+            InitSettingsPageState();
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e) {

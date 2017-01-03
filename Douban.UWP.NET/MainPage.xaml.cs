@@ -83,7 +83,7 @@ namespace Douban.UWP.NET {
             try {
                 if (isInit) {
                     var userId = SettingsHelper.ReadSettingsValue(SettingsSelect.UserID) as string;
-                    if (userId == "LOGOUT")
+                    if (userId == null || userId == "LOGOUT" )
                         return;
                     LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
                     if (LoginResult == null) {

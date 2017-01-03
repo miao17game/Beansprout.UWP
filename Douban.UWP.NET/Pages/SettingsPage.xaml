@@ -259,12 +259,16 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.8.* / 2017.1.*" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.9.* / 2017.1.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="尝试解决Native优化链异常" /><LineBreak/>
+                            <Run Text="调整低分辨率适配" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.8.1848-1853 / 2017.1.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="大量改进" /><LineBreak/>
                             <Run Text="主页加入顶部图片" /><LineBreak/>
                             <Run Text="改用Auth2.0Token混合登录" /><LineBreak/>
                             <Run Text="个人中心功能开始增加" /><LineBreak/>
-                            <Run Text="修复了一些小问题" /><LineBreak/>
+                            <Run Text="修复了一些小问题，提升异常的捕获能力" /><LineBreak/>
                             <Run Text="商店审核团队新年放假，更新久久不能过审😶🙄" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.7.2226 / 2016.12.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
