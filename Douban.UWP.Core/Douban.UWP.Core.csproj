@@ -112,9 +112,13 @@
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
     <Compile Include="Models\LifeStreamModels\AuthorStatus.cs" />
+    <Compile Include="Models\LifeStreamModels\InfosItemBase.cs" />
     <Compile Include="Models\LifeStreamModels\LifeStreamItem.cs" />
     <Compile Include="Models\LifeStreamModels\PictureItem.cs" />
     <Compile Include="Models\LifeStreamModels\PictureItemBase.cs" />
+    <Compile Include="Models\LifeStreamModels\StatusCard.cs" />
+    <Compile Include="Models\LifeStreamModels\StatusEntity.cs" />
+    <Compile Include="Models\LifeStreamModels\StatusItem.cs" />
     <Compile Include="Models\ListModel\MusicItem.cs" />
     <Compile Include="Models\ListModel\BookItem.cs" />
     <Compile Include="Models\ListModel\ItemGroupBase.cs" />

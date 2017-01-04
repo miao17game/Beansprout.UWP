@@ -259,7 +259,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.9.* / 2017.1.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.10.* / 2017.1.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="个人主页完成控件模板化" /><LineBreak/>
+                            <Run Text="个人主页广播分页功能完成" /><LineBreak/>
+                            <Run Text="修复了登陆的一些小问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.9.2219 / 2017.1.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="尝试解决Native优化链异常" /><LineBreak/>
                             <Run Text="调整低分辨率适配" /><LineBreak/><LineBreak/>
                             

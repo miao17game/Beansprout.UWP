@@ -628,4 +628,12 @@
     <value>未知异常</value>
     <comment>App</comment>
   </data>
+  <data name="SHOULD_STOP" xml:space="preserve">
+    <value>没有更多了</value>
+    <comment>MyStatusPage</comment>
+  </data>
+  <data name="add_a_status" xml:space="preserve">
+    <value>发了一条广播</value>
+    <comment>MyStatusPage</comment>
+  </data>
 </root>

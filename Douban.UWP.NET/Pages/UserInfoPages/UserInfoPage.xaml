@@ -206,6 +206,12 @@
             <Setter Property="Foreground" Value="{ThemeResource DoubanTextColor03}"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
+        <Storyboard x:Name="EnterPopupBorder">
+            <FadeInThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
+        <Storyboard x:Name="OutPopupBorder">
+            <FadeOutThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
     </Base:BaseContentPage.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged">
@@ -756,6 +762,77 @@
         <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
             <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
         </Border>
+
+        <!--#region Content popup-->
+        <Border x:Name="PopupBackBorder"
+                Background="{ThemeResource DQDPopupBackColor}"
+                Visibility="Collapsed"
+                Margin="0,-16,0,0"/>
+
+        <Popup x:Name="InnerContentPanel" 
+               Margin="0,100,0,0"
+               IsOpen="False"
+               IsLightDismissEnabled="True"
+               SizeChanged="PopupAllComments_SizeChanged"
+               Closed="PopupAllComments_Closed">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition 
+                        FromHorizontalOffset="0" 
+                        FromVerticalOffset="300"/>
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Grid x:Name="InnerGrid"
+                  Background="{ThemeResource DoubanForeground03}"
+                  Width="{Binding ActualWidth, ElementName=PopupAllComments, Mode=OneWay}"
+                  Height="{Binding ActualHeight, ElementName=PopupAllComments, Mode=OneWay}"
+                  VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="1" Background="{ThemeResource DoubanBackground05}">
+                    <Frame Name="ContentFrame"/>
+                </Border>
+                <Button x:Name="CloseAllComsBtn"
+                        VerticalAlignment="Top"
+                        Height="30"
+                        Content="&#xE96E;"
+                        FontSize="22"
+                        FontFamily="Segoe MDL2 Assets"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                        Foreground="White"
+                        Click="CloseAllComsBtn_Click"/>
+                <Rectangle Margin="0,0,0,-10" Height="10" VerticalAlignment="Bottom">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Margin="0,-10,0,0" Height="10" VerticalAlignment="Top">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </Popup>
+        <!--#endregion-->
 
     </Grid>
 </Base:BaseContentPage>

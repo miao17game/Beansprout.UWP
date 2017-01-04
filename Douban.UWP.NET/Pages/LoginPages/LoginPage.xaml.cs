@@ -99,7 +99,7 @@ namespace Douban.UWP.NET.Pages {
             } catch(System.Runtime.Serialization.SerializationException) { check = null; }
 
             if (check != null) {
-                CheckIfLoginSucceed(check[1]);
+                CheckIfLoginSucceedAsync(check[1]);
             } else {
                 VerificationCodeGrid.SetVisibility(true);
                 VerificationCodeImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(JsonHelper.FromJson<string>(e.Value)));
@@ -288,7 +288,7 @@ namespace Douban.UWP.NET.Pages {
         /// if login failed, re-navigate to the target Uri, otherwise, show status detail of you.
         /// </summary>
         /// <param name="htmlContent">html of websites</param>
-        private async void CheckIfLoginSucceed(string htmlBodyContent) {
+        private async void CheckIfLoginSucceedAsync(string htmlBodyContent) {
             var doc = new HtmlDocument();
             doc.LoadHtml(@"<html>
                                              <head>
@@ -336,7 +336,8 @@ namespace Douban.UWP.NET.Pages {
                         SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, tokenReturn.UserId);
                         SettingsHelper.SaveSettingsValue(SettingsSelect.AccessToken, tokenReturn.AccessToken);
                         SettingsHelper.SaveSettingsValue(SettingsSelect.RefreshToken, tokenReturn.RefreshToken);
-                        await MainPage.SetUserStatusAsync(tokenReturn.UserId);
+                        try { await MainPage.SetUserStatusAsync(tokenReturn.UserId); } catch { /* Ignore */ }
+                        IsLogined = true;
                         NavigateToBase?.Invoke(
                         null,
                         null,

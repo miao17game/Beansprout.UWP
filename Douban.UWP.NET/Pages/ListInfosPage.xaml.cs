@@ -90,8 +90,8 @@ namespace Douban.UWP.NET.Pages {
                 GetPageType(Core.Models.NavigateType.ItemClick));
         }
 
-        private async Task<ICollection<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {
-            ICollection<IndexItem> list = new List<IndexItem>();
+        private async Task<IList<IndexItem>> FetchMessageFromAPIAsync(string target, int offset = 0) {
+            IList<IndexItem> list = new List<IndexItem>();
             try {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
@@ -161,7 +161,7 @@ namespace Douban.UWP.NET.Pages {
             return list;
         }
 
-        private async Task<ICollection<IndexItem>> FetchMoreResources(int offset) {
+        private async Task<IList<IndexItem>> FetchMoreResources(int offset) {
             IncrementalLoadingBorder.SetVisibility(true);
             var date = DateTime.Now.AddDays(1-offset).ToString("yyyy-MM-dd");
             var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";

@@ -1,0 +1,52 @@
+﻿<Base:BaseContentPage
+    x:Class="Douban.UWP.NET.Pages.MyStatusPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Pages"
+    xmlns:Base="using:Douban.UWP.NET.Controls"
+    xmlns:controls="using:Douban.UWP.NET.Controls"
+    xmlns:LSM="using:Douban.UWP.Core.Models.LifeStreamModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
+    mc:Ignorable="d">
+
+    <Base:BaseContentPage.Resources>
+        <CollectionViewSource x:Name="ListResources"/>
+        <Converters:IListToListPicBaseConverter x:Key="IListToListPicBaseConverter"/>
+        <Converters:IListToListPicConverter x:Key="IListToListPicConverter"/>
+    </Base:BaseContentPage.Resources>
+
+    <Grid Background="{ThemeResource DoubanBackground05}" >
+
+        <ListView Name="ContentList" IsItemClickEnabled="True" SelectionMode="None"
+                              ItemsSource="{Binding Source={StaticResource ListResources}}" 
+                              ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                              ItemClick="ContentList_ItemClick" >
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="LSM:StatusItem">
+                    <controls:StatusPanel x:Name="Singleton"
+                                          Background="{ThemeResource DoubanBackground04}" 
+                                          Margin="0,0,0,5"
+                                          Avatar="{Binding Author.Avatar}"
+                                          Text="{x:Bind Text}"
+                                          Time="{x:Bind Time}"
+                                          Activity="{x:Bind Activity}"
+                                          LikersCount="{x:Bind LikersCounts}"
+                                          CommentsCount="{x:Bind CommentsCounts}"
+                                          HasText="{x:Bind HasText}"
+                                          HasImages="{x:Bind HasImages}"
+                                          HasCard="{x:Bind HasCard}"
+                                          ResharesCount="{x:Bind ResharesCounts}"
+                                          Card ="{x:Bind Card}"
+                                          MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
+            <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
+        </Border>
+
+    </Grid>
+</Base:BaseContentPage>

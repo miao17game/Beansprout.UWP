@@ -29,7 +29,7 @@ namespace Douban.UWP.NET.Tools {
         }
 
         uint wholeCount = 0;
-        public delegate Task<ICollection<T>> FetchDataCallbackHandler(int offset);
+        public delegate Task<IList<T>> FetchDataCallbackHandler(int offset);
         public FetchDataCallbackHandler FetchCallback;
         private int offset;
         private InitSelector InitType;

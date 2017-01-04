@@ -27,9 +27,9 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(ActivityProperty, value); }
         }
 
-        public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(LifeStreamItem.JsonType), typeof(LifeStreamSingleton), PropertyMetadata.Create(LifeStreamItem.JsonType.Undefined));
-        public LifeStreamItem.JsonType Type {
-            get { return (LifeStreamItem.JsonType)GetValue(TypeProperty); }
+        public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(InfosItemBase.JsonType), typeof(LifeStreamSingleton), PropertyMetadata.Create(LifeStreamItem.JsonType.Undefined));
+        public InfosItemBase.JsonType Type {
+            get { return (InfosItemBase.JsonType)GetValue(TypeProperty); }
             set { SetValue(TypeProperty, value); }
         }
 

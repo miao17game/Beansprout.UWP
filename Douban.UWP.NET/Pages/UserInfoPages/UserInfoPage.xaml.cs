@@ -42,7 +42,6 @@ namespace Douban.UWP.NET.Pages {
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             DoubanLoading.SetVisibility(false);
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)) };
             UserNameBlock.Text = LoginStatus.UserName;
             LocationBlock.Text = LoginStatus.LocationString;
             DescriptionBlock.Text = LoginStatus.Description;
@@ -81,30 +80,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
-            switch ((sender as Button).Name) {
-                case "BroadcastButton":
-
-                    break;
-                case "DiaryButton":
-
-                    break;
-                case "PhotosButton":
-
-                    break;
-                case "BookMovieButton":
-
-                    break;
-                case "GroupsButton":
-
-                    break;
-                case "FollowingButton":
-
-                    break;
-                case "FollowersButton":
-
-                    break;
-                default: break;
-            }
+            RunButtonClick((sender as Button).Name);
+            OpenInnerContent();
         }
 
         private async void LogoutButton_Click(object sender, RoutedEventArgs e) {
@@ -117,6 +94,25 @@ namespace Douban.UWP.NET.Pages {
 
         private void ContentList_ItemClick(object sender, ItemClickEventArgs e) {
 
+        }
+
+        private void PopupAllComments_SizeChanged(object sender, SizeChangedEventArgs e) {
+            InnerGrid.Width = (sender as Popup).ActualWidth;
+            InnerGrid.Height = (sender as Popup).ActualHeight;
+        }
+
+        private void CloseAllComsBtn_Click(object sender, RoutedEventArgs e) {
+            InnerContentPanel.IsOpen = false;
+        }
+
+        private void PopupAllComments_Closed(object sender, object e) {
+            OutPopupBorder.Completed += OnOutPopupBorderOut;
+            OutPopupBorder.Begin();
+        }
+
+        private void OnOutPopupBorderOut(object sender, object e) {
+            OutPopupBorder.Completed -= OnOutPopupBorderOut;
+            PopupBackBorder.SetVisibility(false);
         }
 
         private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
@@ -144,6 +140,7 @@ namespace Douban.UWP.NET.Pages {
             GenderBlock.Foreground = status.Gender == "M" ?
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)) };
             if (status.ProfileBannerLarge != null)
                 BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.ProfileBannerLarge));
             await SetListResourcesAsync(status.UserUid);
@@ -200,36 +197,36 @@ namespace Douban.UWP.NET.Pages {
 
         #region Set Comment Content
 
-        private void SetSpecialContent(List<LifeStreamItem> newList, JToken content, LifeStreamItem.JsonType type, LifeStreamItem itemToAdd) {
+        private void SetSpecialContent(List<LifeStreamItem> newList, JToken content, InfosItemBase.JsonType type, LifeStreamItem itemToAdd) {
             try {
                 switch (type) {
-                    case LifeStreamItem.JsonType.Status:
+                    case InfosItemBase.JsonType.Status:
                         SetStatusContent(content, itemToAdd);
                         break;
-                    case LifeStreamItem.JsonType.Article:
+                    case InfosItemBase.JsonType.Article:
                         SetArticleContent(content, itemToAdd);
                         break;
-                    case LifeStreamItem.JsonType.Card:
+                    case InfosItemBase.JsonType.Card:
                         SetCardContent(content, itemToAdd);
                         break;
-                    case LifeStreamItem.JsonType.Album:
+                    case InfosItemBase.JsonType.Album:
                         SetAlbumContent(content, itemToAdd);
                         break;
-                    case LifeStreamItem.JsonType.Undefined:
+                    case InfosItemBase.JsonType.Undefined:
                         break;
                 }
             } finally { newList.Add(itemToAdd); }
         }
 
-        private LifeStreamItem.JsonType InitLifeStreamType(JToken singleton) {
-            return singleton["type"].Value<string>() == "card" ? LifeStreamItem.JsonType.Card :
-            singleton["type"].Value<string>() == "status" ? LifeStreamItem.JsonType.Status :
-            singleton["type"].Value<string>() == "album" ? LifeStreamItem.JsonType.Album :
-            singleton["type"].Value<string>() == "article" ? LifeStreamItem.JsonType.Article :
-            LifeStreamItem.JsonType.Undefined;
+        private InfosItemBase.JsonType InitLifeStreamType(JToken singleton) {
+            return singleton["type"].Value<string>() == "card" ? InfosItemBase.JsonType.Card :
+            singleton["type"].Value<string>() == "status" ? InfosItemBase.JsonType.Status :
+            singleton["type"].Value<string>() == "album" ? InfosItemBase.JsonType.Album :
+            singleton["type"].Value<string>() == "article" ? InfosItemBase.JsonType.Article :
+            InfosItemBase.JsonType.Undefined;
         }
 
-        private LifeStreamItem InitLifeStreamItem(JToken singleton, LifeStreamItem.JsonType type) {
+        private LifeStreamItem InitLifeStreamItem(JToken singleton, InfosItemBase.JsonType type) {
             double time = default(double);
             try { time = (DateTime.Parse(singleton["time"].Value<string>())- new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0 ; }
             return new LifeStreamItem {
@@ -371,12 +368,42 @@ namespace Douban.UWP.NET.Pages {
 
         #endregion
 
+        public void OpenInnerContent() {
+            InnerContentPanel.IsOpen = true;
+            PopupBackBorder.SetVisibility(true);
+            EnterPopupBorder.Begin();
+        }
+
+        public string  CreateAPITargetByUid(string format, string uid) {
+            return string.Format(format, uid);
+        }
+
+        public void Navigate() {
+            ContentFrame.Navigate(typeof(MyStatusPage));
+        }
+
         #endregion
 
         #region Properties and state
+
         private enum ContentType { None = 0, String = 1, Image = 2, Gif = 3, Video = 4, Flash = 5, SelfUri = 6 }
+
+        private void RunButtonClick(string name) { if (EventMap.ContainsKey(name)) EventMap[name].Invoke(); }
+        private IDictionary<string, Action> eventMap;
+        private IDictionary<string, Action> EventMap {
+            get {
+                return eventMap ?? new Func<IDictionary<string, Action>>(() => {
+                    return eventMap = new Dictionary<string, Action> {
+                        {BroadcastButton.Name, Navigate},
+                    };
+                }).Invoke();
+            }
+        }
+
         private const string APIFormat = "https://m.douban.com/rexxar/api/v2/user/{0}/lifestream?slice=recent-{1}&hot=false&filter_after=&count={2}&for_mobile=1";
+        private const string StatusAPIFormat = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?for_mobile=1";
         private const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
+
         #endregion
 
     }
