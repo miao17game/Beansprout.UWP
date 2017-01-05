@@ -636,4 +636,16 @@
     <value>发了一条广播</value>
     <comment>MyStatusPage</comment>
   </data>
+  <data name="TPTITLE_Title.Text" xml:space="preserve">
+    <value>透明磁贴</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="TPTITLE_Title_Pin.Content" xml:space="preserve">
+    <value>Pin到开始屏幕</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="TPTITLE_Title_Summary.Text" xml:space="preserve">
+    <value>透明第二磁贴</value>
+    <comment>SettingsPage</comment>
+  </data>
 </root>

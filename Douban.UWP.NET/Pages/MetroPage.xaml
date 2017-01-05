@@ -1,0 +1,228 @@
+﻿<Page
+    x:Class="Douban.UWP.NET.Pages.MetroPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Pages"
+    xmlns:model ="using:Douban.UWP.Core.Models"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.NET.Tools.Converters"
+    xmlns:MSControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="GridViewResources"/>
+        <Converters:IconConverter x:Key="IconConverter"/>
+        <Converters:ColorConverter x:Key="ColorConverter"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="Grid_SizeChanged">
+        
+        <!--#region Adaptive triggars-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Mobile360">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+                        <Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>
+                        <Setter Target="LogeImage.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,40</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
+                            <Setter.Value>20,40,20,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="MoreStack.(GrameworkElement.Margin)" >
+                            <Setter.Value>20,0,20,20</Setter.Value>
+                        </Setter>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.DesiredWidth)" Value="100"/>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.ItemHeight)" Value="100"/>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile480">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="361"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+                        <Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>
+                        <Setter Target="LogeImage.(FrameworkElement.Margin)">
+                            <Setter.Value>
+                                <Thickness>0,0,0,60</Thickness>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
+                            <Setter.Value>30,60,30,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="MoreStack.(GrameworkElement.Margin)" >
+                            <Setter.Value>30,0,30,20</Setter.Value>
+                        </Setter>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Desktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="400" MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+                        <Setter Target="LogeImage.(FrameworkElement.Source)" Value="/Assets/SplashScreen.scale-200.png"/>
+                        <Setter Target="LogeImage.(FrameworkElement.Width)" Value="600"/>
+                        <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
+                            <Setter.Value>60,100,60,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="MoreStack.(GrameworkElement.Margin)" >
+                            <Setter.Value>60,0,60,20</Setter.Value>
+                        </Setter>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.DesiredWidth)" Value="180"/>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.ItemHeight)" Value="180"/>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--#endregion-->
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Image Name="BackImage" Source="ms-appx:///Assets/231.jpg" Stretch="UniformToFill" Grid.ColumnSpan="3" Grid.RowSpan="3" >
+            <interactivity:Interaction.Behaviors>
+                <behaviors:Blur x:Name="BlurBehavior"
+                                                Value="30"
+                                                Duration="0"
+                                                Delay="0"
+                                                AutomaticallyStart="True"/>
+            </interactivity:Interaction.Behaviors>
+        </Image>
+
+        <Rectangle Grid.ColumnSpan="3" Grid.RowSpan="3" Opacity="0.8" Fill="{ThemeResource DoubanShadow01}"/>
+
+        <Grid Grid.Column="1" Grid.Row="2" Margin="0,-120,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Image Name="LogeImage" Width="90" 
+                       Stretch="Uniform" VerticalAlignment="Top"
+                       Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" />
+            <StackPanel Grid.Row="1" Margin="0,-50,0,0">
+                <TextBlock x:Uid="DB_PREPARE_TITLE" Margin="0,0,0,0"
+                       Foreground="White" FontSize="20" 
+                       HorizontalAlignment="Center"
+                       FontFamily="{ThemeResource PhoneFontFamilySemiLight}"/>
+                <TextBlock x:Uid="DB_PREPARE_TITLE_SUMMARY" Margin="0,0,0,0"
+                       Foreground="White" FontSize="13" 
+                       HorizontalAlignment="Center"
+                       FontFamily="{ThemeResource PhoneFontFamilySemiLight}"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Name="MoreStack" Grid.Row="2" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="15,40,15,0" >
+            <Button Name="LoginButton" 
+                            Height="70" 
+                            Margin="3,0,0,0"
+                            Click="LoginButton_ClickAsync"
+                            Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Bottom" >
+                <Grid>
+                    <Grid Width="48" Height="48" HorizontalAlignment="Right">
+                        <Ellipse Name="LoginUserIcon" Fill="#707070" Width="40" Height="40" />
+                        <TextBlock Name="LoginUserText" Text="&#xE13D;" 
+                                            Width="50" FontSize="22" Margin=" -1.5,-0.5,0,0"
+                                            Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                            Style="{ThemeResource CenterContentTextBlock}"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                    </Grid>
+                    <TextBlock Name="LoginUserBlock" 
+                                       x:Uid="LoginPanel"
+                                       FontWeight="Bold"
+                                       Margin=" 0,0,60,0"
+                                       FontSize="16"
+                                       Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                       FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
+                                       Style="{ThemeResource CenterContentTextBlock}"/>
+                </Grid>
+            </Button>
+
+            <Button Name="SettingsButton" 
+                            Height="70" Margin="3,0,0,0"
+                            Click="SettingsButton_Click" 
+                            Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Bottom" >
+                <Grid >
+                    <Grid Width="48" Height="48" HorizontalAlignment="Right">
+                        <Rectangle Fill="#383838" Width="40" Height="40" RadiusX="30" RadiusY="30" />
+                        <TextBlock  Text="&#xE15E;" 
+                                            Width="50" FontSize="22" Margin=" -1,-0.5,0,0"
+                                            Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                            Style="{ThemeResource CenterContentTextBlock}"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                    </Grid>
+                    <TextBlock  x:Uid="SettingButton" 
+                                    Margin=" 0,0,60,0" 
+                                    FontSize="16"
+                                    Foreground="White"
+                                    FontFamily="{ThemeResource PhoneFontFamilySemiLight}"
+                                    Style="{ThemeResource CenterContentTextBlock}"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+
+        <MSControls:AdaptiveGridView
+            Name="MetroGridView" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="15,40,15,0" 
+            ItemHeight="150" DesiredWidth="150" IsItemClickEnabled="True"
+            SelectionMode="None" ItemClick="MetroGridView_ItemClick"
+            ItemContainerStyle="{ThemeResource SpecialGridViewItemExpanded}"
+            ItemsSource="{Binding Source={StaticResource GridViewResources}}">
+            <MSControls:AdaptiveGridView.ItemTemplate>
+                <DataTemplate x:DataType="model:NavigationBar">
+                    <Grid x:Name="InnerGrid" CornerRadius="1" Margin="7" Background="{Binding Title, Converter={StaticResource ColorConverter}}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{Binding Title, Converter={StaticResource IconConverter}}" x:Name="TextIcon"
+                                   Width="50" FontSize="48" Margin="0,-30,0,0" Grid.Row="1" Grid.Column="1"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                   Style="{ThemeResource CenterContentTextBlock}"
+                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+
+                        <TextBlock  Name="ModelTitle" Text="{Binding Title}" Margin="0,0,0,8"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    FontSize="16" Grid.Row="2" Grid.ColumnSpan="3"
+                                    Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                    Style="{ThemeResource CenterContentTextBlock}"/>
+
+                    </Grid>
+                </DataTemplate>
+            </MSControls:AdaptiveGridView.ItemTemplate>
+        </MSControls:AdaptiveGridView>
+
+    </Grid>
+</Page>

@@ -149,6 +149,9 @@
     <Compile Include="Pages\BookPages\BookIndexPage.xaml.cs">
       <DependentUpon>BookIndexPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MetroPage.xaml.cs">
+      <DependentUpon>MetroPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\TVPages\TVIndexPage.xaml.cs">
       <DependentUpon>TVIndexPage.xaml</DependentUpon>
     </Compile>
@@ -326,6 +329,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\MetroPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\TVPages\TVIndexPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -377,6 +384,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Douban.UWP.BackgroundTasks\Douban.UWP.BackgroundTasks.csproj">
+      <Project>{04380151-2edf-4235-8da0-31d29a9cef37}</Project>
+      <Name>Douban.UWP.BackgroundTasks</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Douban.UWP.Core\Douban.UWP.Core.csproj">
       <Project>{b3bcaa1f-f21c-42b7-b3c6-a07759826272}</Project>
       <Name>Douban.UWP.Core</Name>

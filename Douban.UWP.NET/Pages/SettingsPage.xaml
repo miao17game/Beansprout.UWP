@@ -184,6 +184,26 @@
                                    Style="{StaticResource SummaryTextStyle}"/>
                             <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
                         </StackPanel>
+
+                        <Grid Margin="10,10,10,0" >
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Uid="TPTITLE_Title"
+                                   Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock x:Uid="TPTITLE_Title_Summary"
+                                           Style="{StaticResource SummaryTextStyle}"/>
+                            </StackPanel>
+                            <Grid HorizontalAlignment="Right">
+                                <Button Name="SecondTitleBtn" 
+                                        x:Uid="TPTITLE_Title_Pin"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,5,0"
+                                        Style="{StaticResource SpecialButtonAbort}" 
+                                        Background="{ThemeResource DoubanForeground01}"
+                                        VerticalAlignment="Stretch"
+                                        Click="SecondTitleBtn_ClickAsync"/>
+                            </Grid>
+                        </Grid>
+                        
                         <Grid Margin="10,10,10,0" >
                             <StackPanel Orientation="Vertical">
                                 <TextBlock x:Uid="AppCache"
@@ -259,7 +279,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.10.* / 2017.1.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.11.* / 2017.1.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="PC平台加入Metro风格起始页" /><LineBreak/>
+                            <Run Text="添加动态磁贴功能并支持透明磁贴" /><LineBreak/>
+                            <Run Text="加入动态磁贴后台服务" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.10.2658 / 2017.1.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="个人主页完成控件模板化" /><LineBreak/>
                             <Run Text="个人主页广播分页功能完成" /><LineBreak/>
                             <Run Text="修复了登陆的一些小问题" /><LineBreak/><LineBreak/>

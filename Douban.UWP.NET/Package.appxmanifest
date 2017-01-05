@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Douban.UWP.NET.App">
-      <uap:VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="GUAPI UWP" BackgroundColor="#31C79B">
+      <uap:VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="GUAPI UWP" BackgroundColor="#383838">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png" ShortName="ms-resource:AppName">
           <uap:ShowNameOnTiles>
             <uap:ShowOn Tile="square150x150Logo" />
@@ -23,7 +23,7 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#31C79B" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#383838" />
       </uap:VisualElements>
       <uap:ApplicationContentUriRules>
         <uap:Rule Match="https://www.douban.com/" Type="include" WindowsRuntimeAccess="none" />
@@ -32,6 +32,18 @@
         <uap:Rule Match="https://m.douban.com/" Type="include" WindowsRuntimeAccess="none" />
         <uap:Rule Match="https://accounts.douban.com/login" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
+      <Extensions>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ServicingComplete">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>

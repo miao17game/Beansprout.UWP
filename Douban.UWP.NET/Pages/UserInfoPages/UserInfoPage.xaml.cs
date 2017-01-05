@@ -37,6 +37,17 @@ namespace Douban.UWP.NET.Pages {
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
         }
 
+        public override void DoWorkWhenAnimationCompleted() {
+            if (VisibleWidth > 800) {
+                if (IsDivideScreen)
+                    MainContentFrame.Navigate(typeof(MetroPage));
+                else
+                    MainContentFrame.Content = null;
+            }
+            else
+                MainContentFrame.Content = null;
+        }
+
         #region Events
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {

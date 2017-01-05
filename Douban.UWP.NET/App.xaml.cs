@@ -1,4 +1,5 @@
-﻿using Douban.UWP.Core.Tools;
+﻿using Douban.Core.NET.Tools;
+using Douban.UWP.Core.Tools;
 using Douban.UWP.NET.Controls;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,7 @@ namespace Douban.UWP.NET {
         /// 将在启动应用程序以打开特定文件等情况下使用。
         /// </summary>
         /// <param name="e">有关启动请求和过程的详细信息。</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e) {
+        protected override async void OnLaunched(LaunchActivatedEventArgs e) {
 
             InitAppStateWhenFirstDeployment();
             RegisterExceptionHandlingSynchronizationContext();
@@ -87,7 +88,12 @@ namespace Douban.UWP.NET {
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
             }
-        }
+
+            try {
+                await TilesHelper.GetNewsAsync();
+            } catch { /* Ignore */ }
+
+    }
 
         private static void InitAppStateWhenFirstDeployment() {
             if ((bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsFirstLoadApp) ?? true) {

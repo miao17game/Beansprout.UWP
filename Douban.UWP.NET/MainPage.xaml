@@ -153,7 +153,7 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged">
+    <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged" Loaded="Grid_Loaded">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -243,9 +243,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Visible"/>
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
-                            <Setter.Value>70,120,0,70</Setter.Value>
+                            <Setter.Value>0,120,0,70</Setter.Value>
                         </Setter>
 
                     </VisualState.Setters>
@@ -256,9 +256,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Visible"/>
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
-                            <Setter.Value>70,120,0,70</Setter.Value>
+                            <Setter.Value>0,120,0,70</Setter.Value>
                         </Setter>
                         <Setter Target="SlideAnimaRec.(UIElement.Visibility)" Value="Collapsed"/>
 
@@ -270,9 +270,9 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Collapsed"/>
+                        <Setter Target="BaseHamburgerButton.(UIElement.Visibility)" Value="Visible"/>
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
-                            <Setter.Value>70,120,0,70</Setter.Value>
+                            <Setter.Value>0,120,0,70</Setter.Value>
                         </Setter>
 
                     </VisualState.Setters>
@@ -283,7 +283,7 @@
 
         <SplitView Name="NavigationSplit" 
                    Grid.Column="0"
-                   DisplayMode="CompactOverlay"
+                   DisplayMode="Overlay"
                    OpenPaneLength="300"
                    CompactPaneLength="70"
                    PaneBackground="Transparent"

@@ -25,6 +25,7 @@ using HtmlAgilityPack;
 using Windows.UI.Xaml.Media.Imaging;
 using Douban.UWP.NET.Tools;
 using System.Reflection;
+using Windows.ApplicationModel.Background;
 #endregion
 
 namespace Douban.UWP.NET {
@@ -32,6 +33,7 @@ namespace Douban.UWP.NET {
     public sealed partial class MainPage : Page {
         public MainPage() {
             this.InitializeComponent();
+            Current = this;
             PrepareFrame.Navigate(typeof(PreparePage));
             SetControlAccessEnabled();
             InitMainPageState();
@@ -49,10 +51,10 @@ namespace Douban.UWP.NET {
             Window.Current.SetTitleBar(BasePartBorder);
             var isDarkOrNot = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true;
             RequestedTheme = isDarkOrNot ? ElementTheme.Dark : ElementTheme.Light;
+            RegisterAllTaskAsync();
         }
 
         private void SetControlAccessEnabled() {
-            Current = this;
             NavigateTitleBlock = this.navigateTitlePath;
             HamburgerBox = this.HamburgerListBox;
             MainLeftPartFrame = this.BasePartFrame;
@@ -110,6 +112,10 @@ namespace Douban.UWP.NET {
             } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
         }
 
+        public static void OpenLoginPopup() {
+            Current.ImagePopup.IsOpen = true;
+        }
+
         private void NavigateToUserInfoPage() {
             NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
         }
@@ -140,6 +146,13 @@ namespace Douban.UWP.NET {
             LoginUserIcon.Fill = new SolidColorBrush(Windows.UI.Colors.Gray);
         }
 
+        private async void GetResources() {
+            NaviBarResouces.Source = HamburgerResList;
+            await TryLoginAsync(true);
+            if (VisibleWidth > 800 && IsDivideScreen)
+                ContentFrame.Navigate(typeof(MetroPage));
+        }
+
         #endregion
 
         #region Events
@@ -151,8 +164,12 @@ namespace Douban.UWP.NET {
                 return;
             } else {
                 var cont_pg = ContentFrame.Content;
-                if(cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
+                if (cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
                     (cont_pg as BaseContentPage).PageSlideOutStart(VisibleWidth > 800 ? false : true);
+                } else if (cont_pg.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
+                    if (!isNeedClose) { InitCloseAppTask(); } else { Application.Current.Exit(); }
+                    e.Handled = true;
+                    return;
                 }
             }
             e.Handled = true;
@@ -216,11 +233,27 @@ namespace Douban.UWP.NET {
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             ImagePopup.Width = (sender as Grid).ActualWidth;
             ImagePopup.Height = (sender as Grid).ActualHeight;
+            if (ContentFrame.Content == null) {
+                if (VisibleWidth > 800 && IsDivideScreen)
+                    ContentFrame.Navigate(typeof(MetroPage));
+            } else {
+                var cont_pg = ContentFrame.Content;
+                if (cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
+                    return;
+                } else if (cont_pg.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
+                    if(VisibleWidth < 800)
+                        ContentFrame.Content = null;
+                }
+            }
         }
 
         private void ImagePopup_SizeChanged(object sender, SizeChangedEventArgs e) {
             ImagePopupBorder.Width = (sender as Popup).ActualWidth;
             ImagePopupBorder.Height = (sender as Popup).ActualHeight;
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e) {
+            
         }
 
         #endregion
@@ -282,11 +315,53 @@ namespace Douban.UWP.NET {
             OnPaneIsOpened();
         }
 
-        private async void GetResources() {
-            NaviBarResouces.Source = HamburgerResList;
-            await TryLoginAsync(true);
+        #endregion
+
+        #region BackgroundTasks Methods
+        private const string liveTitleTask = "LIVE_TITLE_TASK";
+        private const string ToastBackgroundTask = "TOAST_BACKGROUND_TASK";
+        private const string ServiceCompleteTask = "SERVICE_COMPLETE_TASK";
+
+        private async void RegisterAllTaskAsync() {
+            var status = await BackgroundExecutionManager.RequestAccessAsync();
+            if (status == BackgroundAccessStatus.Unspecified || status == BackgroundAccessStatus.DeniedBySystemPolicy || status == BackgroundAccessStatus.DeniedByUser) { return; }
+            foreach (var item in BackgroundTaskRegistration.AllTasks) {
+                if (item.Value.Name == liveTitleTask)
+                    item.Value.Unregister(true);
+                if (item.Value.Name == ToastBackgroundTask)
+                    item.Value.Unregister(true);
+                if (item.Value.Name == ServiceCompleteTask)
+                    item.Value.Unregister(true);
+            }
+            RegisterServiceCompleteTask();
+            RegisterLiveTitleTask();
         }
 
+        private void RegisterLiveTitleTask() {
+            var taskBuilder = new BackgroundTaskBuilder {
+                Name = liveTitleTask,
+                TaskEntryPoint = typeof(BackgroundTasks.TitleBackgroundUpdateTask).FullName
+            };
+            taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+            taskBuilder.SetTrigger(new TimeTrigger(180, false));
+            var register = taskBuilder.Register();
+        }
+
+        private void RegisterServiceCompleteTask() {
+            var taskBuilder = new BackgroundTaskBuilder {
+                Name = ServiceCompleteTask,
+                TaskEntryPoint = typeof(BackgroundTasks.ServicingComplete).FullName
+            };
+            taskBuilder.SetTrigger(new SystemTrigger(SystemTriggerType.ServicingComplete, false));
+            var register = taskBuilder.Register();
+        }
+
+        public static BackgroundTaskRegistration FindTask(string taskName) {
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                if (cur.Value.Name == taskName)
+                    return (BackgroundTaskRegistration)(cur.Value);
+            return null;
+        }
         #endregion
 
         #region Properties and state
@@ -296,6 +371,5 @@ namespace Douban.UWP.NET {
         public const string HomeHostInsert = "https://www.douban.com";
 
         #endregion
-
     }
 }

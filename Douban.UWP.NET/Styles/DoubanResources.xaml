@@ -34,6 +34,9 @@
             <!--DoubanBackground05 Dark Gray Black -->
             <SolidColorBrush x:Key="DoubanBackground05" Color="#121212"/>
 
+            <!--DoubanShadow01 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanShadow01" Color="#20000000"/>
+
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>
             <!--DoubanTextColor02 White -->
@@ -83,6 +86,9 @@
             <SolidColorBrush x:Key="DoubanBackground04" Color="#FCFCFC"/>
             <!--DoubanBackground05 White Gray -->
             <SolidColorBrush x:Key="DoubanBackground05" Color="#EFEFEF"/>
+
+            <!--DoubanShadow01 Dark Gray Black -->
+            <SolidColorBrush x:Key="DoubanShadow01" Color="#20FFFFFF"/>
 
             <!--DoubanTextColor01 Black -->
             <SolidColorBrush x:Key="DoubanTextColor01" Color="#CC202020"/>

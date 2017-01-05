@@ -113,6 +113,18 @@ namespace Douban.UWP.NET.Pages {
             ClearRing.IsActive = false;
         }
 
+        private async void SecondTitleBtn_ClickAsync(object sender, RoutedEventArgs e) {
+            Windows.UI.StartScreen.SecondaryTile tile = Douban.Core.NET.Tools.TilesHelper.GenerateSecondaryTile("SecondaryTitle", "Beansprout UWP", Colors.Transparent);
+            tile.VisualElements.ShowNameOnSquare150x150Logo =
+                tile.VisualElements.ShowNameOnSquare310x310Logo =
+                tile.VisualElements.ShowNameOnWide310x150Logo =
+                true;
+            await tile.RequestCreateAsync();
+            try {
+                await Douban.Core.NET.Tools.TilesHelper.GetNewsAsync();
+            } catch { /* Ignore */ }
+        }
+
         private void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args) {
             
         }
@@ -131,10 +143,10 @@ namespace Douban.UWP.NET.Pages {
 
         private async void InitSettingsPageState() {
             VersionMessage.Text = GetUIString("VersionMessage") + Utils.GetAppVersion();
-            ThemeSwitch.IsOn = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true;
             LanguageCombox.SelectedItem = GetComboItemFromTag((string)SettingsHelper.ReadSettingsValue(SettingsSelect.Language) ?? ConstFields.English_US);
-            ScreenSwitch.IsOn = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsDivideScreen) ?? true;
-            SplitSizeSlider.Value = 100 * ((double?)SettingsHelper.ReadSettingsValue(SettingsSelect.SplitViewMode) ?? 0.6);
+            ThemeSwitch.IsOn = AppResources.IsGlobalDark;
+            ScreenSwitch.IsOn = AppResources.IsDivideScreen;
+            SplitSizeSlider.Value = 100 * AppResources.DivideNumber;
             ScreenSwitch.IsEnabled = !IsMobile;
             SplitSizeSlider.IsEnabled = !IsMobile;
             await ShowCacheSize();
@@ -144,7 +156,7 @@ namespace Douban.UWP.NET.Pages {
             var CF = AppResources.MainContentFrame;
             if (CF.Content == null)
                 return;
-            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name || CF.Content.GetType().GetTypeInfo().Name == typeof(MetroPage).Name)
                 GlobalHelpers.DivideWindowRange(
                     CF.Content as Page,
                     divideNum: value / 100,
@@ -159,8 +171,6 @@ namespace Douban.UWP.NET.Pages {
             AppResources.Current.RequestedTheme = sender.IsOn ? ElementTheme.Dark : ElementTheme.Light;
             if (isInitViewOrNot)
                 return;
-            //StatusBarInit.InitDesktopStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            //StatusBarInit.InitMobileStatusBar(!sender.IsOn, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
             StatusBarInit.InitDesktopStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
             StatusBarInit.InitMobileStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
         }
@@ -169,13 +179,27 @@ namespace Douban.UWP.NET.Pages {
             AppResources.IsDivideScreen = sender.IsOn;
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
             var CF = AppResources.MainContentFrame;
-            if (CF.Content == null)
-                return;
-            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+            if (CF.Content == null) {
+                if (sender.IsOn && VisibleWidth > 800)
+                    AppResources.MainContentFrame.Navigate(typeof(MetroPage));
+                else
+                    return;
+            }
+            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
                 GlobalHelpers.DivideWindowRange(
                     CF.Content as Page,
                     divideNum: AppResources.DivideNumber,
                     isDivideScreen: AppResources.IsDivideScreen);
+            } else if (CF.Content.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
+                GlobalHelpers.DivideWindowRange(
+                    CF.Content as Page,
+                    divideNum: AppResources.DivideNumber,
+                    isDivideScreen: AppResources.IsDivideScreen);
+                if (sender.IsOn)
+                    return;
+                else
+                    AppResources.MainContentFrame.Content = null;
+            }
         }
 
         #endregion
@@ -289,6 +313,5 @@ namespace Douban.UWP.NET.Pages {
         public static SettingsPage Current;
         public delegate void SwitchEventHandler(string instance);
         #endregion
-
     }
 }

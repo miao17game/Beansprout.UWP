@@ -637,4 +637,16 @@
     <value>Add a status</value>
     <comment>MyStatusPage</comment>
   </data>
+  <data name="TPTITLE_Title.Text" xml:space="preserve">
+    <value>Transparent Title</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="TPTITLE_Title_Pin.Content" xml:space="preserve">
+    <value>Pin to Start</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="TPTITLE_Title_Summary.Text" xml:space="preserve">
+    <value>The sencondary transparent title</value>
+    <comment>SettingsPage</comment>
+  </data>
 </root>

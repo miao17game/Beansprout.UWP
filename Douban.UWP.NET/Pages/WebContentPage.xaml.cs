@@ -35,6 +35,16 @@ namespace Douban.UWP.NET.Pages {
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
         }
 
+        public override void DoWorkWhenAnimationCompleted() {
+            if (VisibleWidth > 800) {
+                if (IsDivideScreen)
+                    MainContentFrame.Navigate(typeof(MetroPage));
+                else
+                    MainContentFrame.Content = null;
+            } else
+                MainContentFrame.Content = null;
+        }
+
         public override void PageSlideOutStart(bool isToLeft) {
             base.PageSlideOutStart(isToLeft);
             Scroll.Navigate(new Uri("https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg"));
