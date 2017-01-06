@@ -17,7 +17,7 @@ namespace Wallace.UWP.Helpers {
         /// <summary>
         /// 读取缓存文件 ///
         /// </summary>
-        public static async Task<string> ReadResetCacheValue ( string key ) {
+        public static async Task<string> ReadResetCacheValueAsync ( string key ) {
             var localFolder = ApplicationData . Current . LocalCacheFolder;
             StorageFile file = default ( StorageFile );
             try {
@@ -42,7 +42,7 @@ namespace Wallace.UWP.Helpers {
         /// <summary>
         /// 设置缓存文件 ///
         /// </summary>
-        public static async Task SaveCacheValue ( string key , object value ) {
+        public static async Task SaveCacheValueAsync ( string key , object value ) {
             var localFolder = ApplicationData . Current . LocalCacheFolder;
             StorageFile file = default ( StorageFile );
             switch ( key ) {
@@ -64,7 +64,7 @@ namespace Wallace.UWP.Helpers {
         /// <summary>
         /// 读取特殊缓存文件 ///
         /// </summary>
-        public static async Task<string> ReadSpecificCacheValue ( string key ) {
+        public static async Task<string> ReadSpecificCacheValueAsync ( string key ) {
             var localFolder = ApplicationData . Current . LocalCacheFolder;
             StorageFile file = default ( StorageFile );
             try {
@@ -77,10 +77,11 @@ namespace Wallace.UWP.Helpers {
         /// <summary>
         /// 设置特殊缓存文件 ///
         /// </summary>
-        public static async Task SaveSpecificCacheValue( string key , object value ) {
+        public static async Task SaveSpecificCacheValueAsync( string key , object value ) {
             var localFolder = ApplicationData . Current . LocalCacheFolder;
             StorageFile file = default ( StorageFile );
             file = await localFolder . CreateFileAsync ( key + "_cache.txt" , CreationCollisionOption . ReplaceExisting );
+            Debug.WriteLine(value);
             await FileIO . WriteTextAsync ( file , value . ToString ( ) );
         }
     }

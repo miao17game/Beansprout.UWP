@@ -33,6 +33,7 @@ namespace Douban.UWP.NET.Tools.Converters {
                 title == GetUIString("DB_DONGXI") ? Color.FromArgb(255, 178, 145, 175) :
                 title == GetUIString("DB_MARKET") ? Color.FromArgb(255, 202, 0, 62) :
                 title == GetUIString("DB_MORE") ? Color.FromArgb(255, 130, 150, 190) :
+                title == GetUIString("AddMetroItem") ? Color.FromArgb(255, 82, 82, 82) :
                 Color.FromArgb(255, 82, 82, 82);
             return result;
         }

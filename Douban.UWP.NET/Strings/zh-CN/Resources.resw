@@ -648,4 +648,8 @@
     <value>透明第二磁贴</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="AddMetroItem" xml:space="preserve">
+    <value>增删磁贴</value>
+    <comment>MetroPage</comment>
+  </data>
 </root>

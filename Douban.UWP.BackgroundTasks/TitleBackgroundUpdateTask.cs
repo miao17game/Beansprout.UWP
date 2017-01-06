@@ -26,9 +26,7 @@ namespace Douban.UWP.BackgroundTasks {
         private IAsyncOperation<string> GetLatestNews() {
             try {
                 return AsyncInfo.Run(token => TilesHelper.GetNewsAsync());
-            } catch (Exception) {
-                // ignored
-            }
+            } catch (Exception) { /* ignored */ }
             return null;
         }
 

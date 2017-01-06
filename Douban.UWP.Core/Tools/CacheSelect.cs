@@ -6,5 +6,8 @@ using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Tools {
     public class CacheSelect {
+
+        public const string MetroList = "METRO_LIST";
+
     }
 }

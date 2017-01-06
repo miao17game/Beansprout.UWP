@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{04380151-2EDF-4235-8DA0-31D29A9CEF37}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Douban.UWP.BackgroundTasks</RootNamespace>
     <AssemblyName>Douban.UWP.BackgroundTasks</AssemblyName>
@@ -111,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicingComplete.cs" />
     <Compile Include="TitleBackgroundUpdateTask.cs" />
+    <Compile Include="ToastBackgroundPushTask.cs" />
     <EmbeddedResource Include="Properties\Douban.UWP.BackgroundTasks.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -118,9 +119,16 @@
       <Project>{B3BCAA1F-F21C-42B7-B3C6-A07759826272}</Project>
       <Name>Douban.UWP.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wallace.UWP.Helpers\Wallace.UWP.Helpers.csproj">
+      <Project>{76018C20-874F-4D6D-9C30-23A82D347E41}</Project>
+      <Name>Wallace.UWP.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

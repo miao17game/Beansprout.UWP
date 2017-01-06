@@ -32,7 +32,7 @@ namespace Douban.UWP.NET.Pages {
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            GridViewResources.Source = HamburgerResList;
+            InitContentResourcesAsync();
             if (!IsLogined)
                 await TryLoginAsync(true);
             SetUserStatus();
@@ -47,17 +47,35 @@ namespace Douban.UWP.NET.Pages {
             GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
         }
 
-        private void MetroGridView_ItemClick(object sender, ItemClickEventArgs e) {
+        private async void MetroGridView_ItemClickAsync(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as NavigationBar;
             if (item == null)
                 return;
-            DoubanLoading.SetVisibility(true);
-            NavigateTitleBlock.Text = item.Title;
-            NavigateToBase?.Invoke(
-                sender,
-                new NavigateParameter { ToUri = item != null ? item.PathUri : null },
-                GetFrameInstance(item.NaviType),
-                GetPageType(item.NaviType));
+            if(item.NaviType == NavigateType.A_D_T) {
+                await ReadCacheAsync();
+                OpenInnerContent();
+            } else {
+                DoubanLoading.SetVisibility(true);
+                NavigateTitleBlock.Text = item.Title;
+                NavigateToBase?.Invoke(
+                    sender,
+                    new NavigateParameter { ToUri = item != null ? item.PathUri : null },
+                    GetFrameInstance(item.NaviType),
+                    GetPageType(item.NaviType));
+            }
+        }
+
+        private async Task ReadCacheAsync() {
+            var res = HamburgerResList.ToList();
+            var result = await CacheHelpers.ReadSpecificCacheValueAsync(CacheSelect.MetroList);
+            var cache = default(List<string>);
+            try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
+            if (cache == null) {
+                SelectResources.Source = res.Where(i => i.NaviType != NavigateType.A_D_T).Select(singleton => new MetroChangeItem { Title = singleton.Title, Selected = true });
+            } else {
+                SelectResources.Source = res.Where(i => i.NaviType != NavigateType.A_D_T).Select(singleton => new MetroChangeItem { Title = singleton.Title, Selected = cache.Contains(singleton.Title) });
+            }
+            forCache = (SelectResources.Source as IEnumerable<MetroChangeItem>).ToList();
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) {
@@ -115,5 +133,64 @@ namespace Douban.UWP.NET.Pages {
                 LoginUserIcon.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.Avatar)) };
         }
 
+        private async void InitContentResourcesAsync() {
+            var res = HamburgerResList.ToList();
+            var result = await CacheHelpers.ReadSpecificCacheValueAsync(CacheSelect.MetroList);
+            var cache = default(List<string>);
+            try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
+            if (cache != null) {
+                res = res.Where(i => cache.Contains(i.Title)).ToList();
+            } 
+            res.Add(new NavigationBar { Title = GetUIString("AddMetroItem"), NaviType = NavigateType.A_D_T });
+            GridViewResources.Source = res;
+        }
+
+        private void PopupAllComments_SizeChanged(object sender, SizeChangedEventArgs e) {
+            InnerGrid.Width = (sender as Popup).ActualWidth;
+            InnerGrid.Height = (sender as Popup).ActualHeight;
+        }
+
+        private void CloseAllComsBtn_Click(object sender, RoutedEventArgs e) {
+            InnerContentPanel.IsOpen = false;
+        }
+
+        private void PopupAllComments_Closed(object sender, object e) {
+            OutPopupBorder.Completed += OnOutPopupBorderOut;
+            OutPopupBorder.Begin();
+        }
+
+        private void OnOutPopupBorderOut(object sender, object e) {
+            OutPopupBorder.Completed -= OnOutPopupBorderOut;
+            PopupBackBorder.SetVisibility(false);
+        }
+
+        public void OpenInnerContent() {
+            InnerContentPanel.IsOpen = true;
+            PopupBackBorder.SetVisibility(true);
+            EnterPopupBorder.Begin();
+        }
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e) {
+            var name = (sender as CheckBox).CommandParameter as string;
+            if ((sender as CheckBox).IsChecked != null && (sender as CheckBox).IsChecked.Value)
+                forCache.Add(new MetroChangeItem { Title = name, Selected = true });
+            else
+                forCache.RemoveAll(i => i.Title == name);
+        }
+
+        private async void Submit_ClickAsync(object sender, RoutedEventArgs e) {
+            await CacheHelpers.SaveSpecificCacheValueAsync(CacheSelect.MetroList, JsonHelper.ToJson(forCache.Where(i => i.Selected == true).Select(i => i.Title).ToList()));
+            InnerContentPanel.IsOpen = false;
+            InitContentResourcesAsync();
+        }
+
+        List<MetroChangeItem> forCache = new List<MetroChangeItem>();
+
     }
+
+    public class MetroChangeItem {
+        public string Title { get; set; }
+        public bool Selected { get; set; }
+    }
+
 }

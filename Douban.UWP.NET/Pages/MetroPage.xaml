@@ -14,8 +14,15 @@
 
     <Page.Resources>
         <CollectionViewSource x:Name="GridViewResources"/>
+        <CollectionViewSource x:Name="SelectResources"/>
         <Converters:IconConverter x:Key="IconConverter"/>
         <Converters:ColorConverter x:Key="ColorConverter"/>
+        <Storyboard x:Name="EnterPopupBorder">
+            <FadeInThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
+        <Storyboard x:Name="OutPopupBorder">
+            <FadeOutThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="Grid_SizeChanged">
@@ -189,7 +196,7 @@
         <MSControls:AdaptiveGridView
             Name="MetroGridView" Grid.RowSpan="2" Grid.ColumnSpan="3" Margin="15,40,15,0" 
             ItemHeight="150" DesiredWidth="150" IsItemClickEnabled="True"
-            SelectionMode="None" ItemClick="MetroGridView_ItemClick"
+            SelectionMode="None" ItemClick="MetroGridView_ItemClickAsync"
             ItemContainerStyle="{ThemeResource SpecialGridViewItemExpanded}"
             ItemsSource="{Binding Source={StaticResource GridViewResources}}">
             <MSControls:AdaptiveGridView.ItemTemplate>
@@ -223,6 +230,136 @@
                 </DataTemplate>
             </MSControls:AdaptiveGridView.ItemTemplate>
         </MSControls:AdaptiveGridView>
+
+        <!--#region Content popup-->
+        <Border x:Name="PopupBackBorder"
+                Background="{ThemeResource DQDPopupBackColor}"
+                Grid.RowSpan="3"
+                Grid.ColumnSpan="3"
+                Visibility="Collapsed"
+                Margin="0,-16,0,0"/>
+
+        <Popup x:Name="InnerContentPanel" 
+               Grid.RowSpan="3"
+               Grid.ColumnSpan="3"
+               Margin="0,100,0,0"
+               IsOpen="False"
+               IsLightDismissEnabled="True"
+               SizeChanged="PopupAllComments_SizeChanged"
+               Closed="PopupAllComments_Closed">
+            
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition 
+                        FromHorizontalOffset="0" 
+                        FromVerticalOffset="300"/>
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            
+            <Grid x:Name="InnerGrid"
+                  Background="{ThemeResource DoubanForeground03}"
+                  Width="{Binding ActualWidth, ElementName=PopupAllComments, Mode=OneWay}"
+                  Height="{Binding ActualHeight, ElementName=PopupAllComments, Mode=OneWay}"
+                  VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <Grid Grid.Row="1" Background="{ThemeResource DoubanBackground05}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView IsItemClickEnabled="False" SelectionMode="None" 
+                              ItemsSource="{Binding Source={StaticResource SelectResources}}"
+                              ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="Transparent" BorderBrush="#20808080" BorderThickness="0,0,0,1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox CommandParameter="{Binding Title}" 
+                                              Margin="15,5,-30,5" Click="CheckBox_Click"
+                                              Style="{ThemeResource SpecialCheckBox}"
+                                              Background="{ThemeResource DoubanForeground}"
+                                              VerticalAlignment="Center" IsEnabled="True" 
+                                              IsChecked="{Binding Selected, Mode=TwoWay}"/>
+
+                                    <Border Width=" 70" Height="70" VerticalAlignment="Center"  
+                                            Margin="-30,5,5,5" Grid.Column="1" CornerRadius="3"
+                                            Background="{Binding Title, Converter={StaticResource ColorConverter}}">
+                                        <TextBlock Text="{Binding Title, Converter={StaticResource IconConverter}}" 
+                                                   x:Name="TextIcon" FontSize="36" 
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                   Foreground="{ThemeResource AppPersonalTextColorPure}"
+                                                   Style="{ThemeResource CenterContentTextBlock}"
+                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                                    </Border>
+                                    
+                                    <TextBlock  Name="ModelTitle" Text="{Binding Title}" Margin="5"
+                                                VerticalAlignment="Center" FontSize="16" Grid.Column="2"
+                                                Foreground="{ThemeResource DoubanTextColor02}"
+                                                Style="{ThemeResource CenterContentTextBlock}"/>
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button x:Name="Submit" Grid.Row="1" Margin="10"
+                            Background="{ThemeResource DoubanForeground03}"
+                            HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                            Height="40" Width="80" Content="&#xE10B;"
+                            FontSize="22" FontFamily="Segoe MDL2 Assets"
+                            Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                            Foreground="White" Click="Submit_ClickAsync"/>
+                </Grid>
+                
+                <Button x:Name="CloseAllComsBtn"
+                        VerticalAlignment="Top"
+                        Height="30"
+                        Content="&#xE96E;"
+                        FontSize="22"
+                        FontFamily="Segoe MDL2 Assets"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                        Foreground="White"
+                        Click="CloseAllComsBtn_Click"/>
+                
+                <Rectangle Margin="0,0,0,-10" Height="10" VerticalAlignment="Bottom">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                
+                <Rectangle Margin="0,-10,0,0" Height="10" VerticalAlignment="Top">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </Popup>
+        <!--#endregion-->
 
     </Grid>
 </Page>

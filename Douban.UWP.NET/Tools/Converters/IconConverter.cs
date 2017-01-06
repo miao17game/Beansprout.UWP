@@ -30,6 +30,7 @@ namespace Douban.UWP.NET.Tools.Converters {
                 title == GetUIString("DB_DONGXI") ? char.ConvertFromUtf32(0xED58) :
                 title == GetUIString("DB_MARKET") ? char.ConvertFromUtf32(0xE719) :
                 title == GetUIString("DB_MORE") ? char.ConvertFromUtf32(0xE70A) :
+                title == GetUIString("AddMetroItem") ? char.ConvertFromUtf32(0xE948) :
                 char.ConvertFromUtf32(0xE1F6);
         }
     }

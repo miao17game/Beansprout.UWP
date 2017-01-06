@@ -342,7 +342,7 @@ namespace Douban.UWP.NET {
                 TaskEntryPoint = typeof(BackgroundTasks.TitleBackgroundUpdateTask).FullName
             };
             taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            taskBuilder.SetTrigger(new TimeTrigger(180, false));
+            taskBuilder.SetTrigger(new TimeTrigger(60, false));
             var register = taskBuilder.Register();
         }
 

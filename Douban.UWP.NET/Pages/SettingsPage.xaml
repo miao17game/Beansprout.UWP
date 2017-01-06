@@ -218,7 +218,7 @@
                                         HorizontalAlignment="Right"
                                         Margin="0,0,5,0"
                                         FontSize="16"
-                                        Click="CacheClearBtn_Click"
+                                        Click="CacheClearBtn_ClickAsync"
                                         Style="{StaticResource SpecialButtonAbort}" 
                                         Background="{ThemeResource DoubanForeground01}"
                                         VerticalAlignment="Stretch">
@@ -513,7 +513,7 @@
                             Name="FeedBackBtn" 
                                  Margin="0,10,5,5"
                                 HorizontalAlignment="Center"
-                            Click="FeedBackBtn_Click"/>
+                            Click="FeedBackBtn_ClickAsync"/>
 
                         <StackPanel.Transitions>
                             <TransitionCollection>

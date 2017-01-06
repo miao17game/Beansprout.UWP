@@ -1,5 +1,6 @@
 ﻿#region Using
 using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
 using static Douban.UWP.NET.Pages.SettingsPage.InsideResources;
 
 using Edi.UWP.Helpers;
@@ -24,7 +25,6 @@ using Douban.UWP.NET.Controls;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Douban.UWP.NET.Tools;
-using Douban.UWP.Core.Models;
 using Wallace.UWP.Helpers.Tools;
 using Windows.UI;
 using Wallace.UWP.Helpers;
@@ -40,13 +40,14 @@ namespace Douban.UWP.NET.Pages {
         public SettingsPage() {
             this.InitializeComponent();
             Current = this;
+            InitSettingsPageStateAsync();
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
         #endregion
 
         #region Events
         protected override void OnNavigatedTo(NavigationEventArgs e) {
-            InitSettingsPageState();
+            
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -55,8 +56,8 @@ namespace Douban.UWP.NET.Pages {
                 policyRingDB.SetVisibility(true);
         }
 
-        private async void FeedBackBtn_Click(object sender, RoutedEventArgs e) {
-            await ReportError(null, "N/A", true);
+        private async void FeedBackBtn_ClickAsync(object sender, RoutedEventArgs e) {
+            await ReportErrorAsync(null, "N/A", true);
         }
 
         private void Switch_Toggled(object sender, RoutedEventArgs e) {
@@ -69,7 +70,7 @@ namespace Douban.UWP.NET.Pages {
                     GetComboItemInstance(
                         (e.AddedItems.FirstOrDefault() as ComboBoxItem)
                         .Name as string));
-            SettingsHelper.SaveSettingsValue(SettingsSelect.Language, newLanguage);
+            SaveLanguageSettings(newLanguage);
             if (isInitViewOrNot) { isInitViewOrNot = false; return; }
             Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = newLanguage;
             new ToastSmooth(GetUIString("ReStartToChangeLanguage")).Show();
@@ -99,16 +100,14 @@ namespace Douban.UWP.NET.Pages {
                 timerForSlider.Interval = new TimeSpan(0, 0, 0, 0, 200);
                 timerForSlider.Start();
             }
-            if (!isInitSliderValueOrNot) {
-                AppResources.DivideNumber = e.NewValue / 100;
-                SettingsHelper.SaveSettingsValue(SettingsSelect.SplitViewMode, e.NewValue / 100);
-            }
+            if (!isInitSliderValueOrNot)
+                SaveSplitPercentSetiings(DivideNumber = e.NewValue / 100);
         }
 
-        private async void CacheClearBtn_Click(object sender, RoutedEventArgs e) {
+        private async void CacheClearBtn_ClickAsync(object sender, RoutedEventArgs e) {
             CacheClearBtn.IsEnabled = false;
             ClearRing.IsActive = true;
-            await ClearCacheSize();
+            await ClearCacheSizeAsync();
             CacheClearBtn.IsEnabled = true;
             ClearRing.IsActive = false;
         }
@@ -141,33 +140,29 @@ namespace Douban.UWP.NET.Pages {
 
         #region Methods
 
-        private async void InitSettingsPageState() {
+        private async void InitSettingsPageStateAsync() {
             VersionMessage.Text = GetUIString("VersionMessage") + Utils.GetAppVersion();
             LanguageCombox.SelectedItem = GetComboItemFromTag((string)SettingsHelper.ReadSettingsValue(SettingsSelect.Language) ?? ConstFields.English_US);
-            ThemeSwitch.IsOn = AppResources.IsGlobalDark;
-            ScreenSwitch.IsOn = AppResources.IsDivideScreen;
-            SplitSizeSlider.Value = 100 * AppResources.DivideNumber;
+            ThemeSwitch.IsOn = IsGlobalDark;
+            ScreenSwitch.IsOn = IsDivideScreen;
+            SplitSizeSlider.Value = 100 * DivideNumber;
             ScreenSwitch.IsEnabled = !IsMobile;
             SplitSizeSlider.IsEnabled = !IsMobile;
-            await ShowCacheSize();
+            await ShowCacheSizeAsync();
         }
 
-        private static void ChangeSplitViewWidth(double value) {
-            var CF = AppResources.MainContentFrame;
-            if (CF.Content == null)
+        private void ChangeSplitViewWidth(double value) {
+            var content = MainContentFrame.Content;
+            if (content == null)
                 return;
-            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name || CF.Content.GetType().GetTypeInfo().Name == typeof(MetroPage).Name)
-                GlobalHelpers.DivideWindowRange(
-                    CF.Content as Page,
-                    divideNum: value / 100,
-                    isDivideScreen: Current.ScreenSwitch.IsOn);
+            if (GetParentName(content) == typeof(BaseContentPage).Name || GetTypeName(content) == typeof(MetroPage).Name)
+                AdaptForFrameDivide(content, value / 100, Current.ScreenSwitch.IsOn);
         }
 
         #region Toggle Events
 
         private void OnThemeSwitchToggled(ToggleSwitch sender) {
-            AppResources.IsGlobalDark = sender.IsOn;
-            SettingsHelper.SaveSettingsValue(SettingsConstants.IsDarkThemeOrNot, sender.IsOn);
+            SaveThemeSettings(IsGlobalDark = sender.IsOn);
             AppResources.Current.RequestedTheme = sender.IsOn ? ElementTheme.Dark : ElementTheme.Light;
             if (isInitViewOrNot)
                 return;
@@ -176,29 +171,63 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
-            AppResources.IsDivideScreen = sender.IsOn;
-            SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, sender.IsOn);
-            var CF = AppResources.MainContentFrame;
-            if (CF.Content == null) {
+            SaveDivideSettings(IsDivideScreen = sender.IsOn);
+            DoWorkWhenScreenSwitchToggled(sender, MainContentFrame.Content);
+        }
+
+        #endregion
+
+        #region This Helper
+
+        private string GetTypeName(object obj) {
+            return obj.GetType().GetTypeInfo().Name;
+        }
+
+        private string GetParentName(object obi) {
+            return obi.GetType().GetTypeInfo().BaseType.Name;
+        }
+
+        private void SaveLanguageSettings(string newLanguage) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.Language, newLanguage);
+        }
+
+        private void SaveSplitPercentSetiings(double num) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.SplitViewMode, num);
+        }
+
+        private void SaveDivideSettings(bool isDivideScreen) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, isDivideScreen);
+        }
+
+        private void SaveThemeSettings(bool isDarkOrNot) {
+            SettingsHelper.SaveSettingsValue(SettingsConstants.IsDarkThemeOrNot, isDarkOrNot);
+        }
+
+        private void NavigateToMetroPage() {
+            MainContentFrame.Navigate(typeof(MetroPage));
+        }
+
+        private void ClearMainContentFrame() {
+            MainContentFrame.Content = null;
+        }
+
+        private void AdaptForFrameDivide(object content, double divideNum, bool isDivide) {
+            GlobalHelpers.DivideWindowRange(
+                content as Page,
+                divideNum: DivideNumber,
+                isDivideScreen: IsDivideScreen);
+        }
+
+        private void DoWorkWhenScreenSwitchToggled(ToggleSwitch sender, object content) {
+            if (content == null) {
                 if (sender.IsOn && VisibleWidth > 800)
-                    AppResources.MainContentFrame.Navigate(typeof(MetroPage));
-                else
-                    return;
-            }
-            if (CF.Content.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
-                GlobalHelpers.DivideWindowRange(
-                    CF.Content as Page,
-                    divideNum: AppResources.DivideNumber,
-                    isDivideScreen: AppResources.IsDivideScreen);
-            } else if (CF.Content.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
-                GlobalHelpers.DivideWindowRange(
-                    CF.Content as Page,
-                    divideNum: AppResources.DivideNumber,
-                    isDivideScreen: AppResources.IsDivideScreen);
-                if (sender.IsOn)
-                    return;
-                else
-                    AppResources.MainContentFrame.Content = null;
+                    NavigateToMetroPage();
+            } else if (GetParentName(content) == typeof(BaseContentPage).Name) {
+                AdaptForFrameDivide(content, DivideNumber, IsDivideScreen);
+            } else if (GetTypeName(content) == typeof(MetroPage).Name) {
+                AdaptForFrameDivide(content, DivideNumber, IsDivideScreen);
+                if (!sender.IsOn)
+                    ClearMainContentFrame();
             }
         }
 
@@ -206,7 +235,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Cache Methods
 
-        private async Task ShowCacheSize() {
+        private async Task ShowCacheSizeAsync() {
             var localCF = ApplicationData.Current.LocalCacheFolder;
             var folders = await localCF.GetFoldersAsync();
             double sizeOfCache = 0.00;
@@ -222,7 +251,7 @@ namespace Douban.UWP.NET.Pages {
             CacheSizeTitle.Text = sizeInMb - 0 > 0.00000001 ? sizeInMb.ToString("#.##") + "MB" : "0 MB";
         }
 
-        private async Task ClearCacheSize() {
+        private async Task ClearCacheSizeAsync() {
             var localCF = ApplicationData.Current.LocalCacheFolder;
             var folders = await localCF.GetFoldersAsync();
             foreach (var item in folders) {
@@ -231,7 +260,7 @@ namespace Douban.UWP.NET.Pages {
                     await file.DeleteAsync();
                 }
             }
-            await ShowCacheSize();
+            await ShowCacheSizeAsync();
         }
 
         #endregion
@@ -245,7 +274,7 @@ namespace Douban.UWP.NET.Pages {
         /// <param name="pageSummary"></param>
         /// <param name="includeDeviceInfo"></param>
         /// <returns></returns>
-        public static async Task ReportError(string msg = null, string pageSummary = "N/A", bool includeDeviceInfo = true) {
+        public static async Task ReportErrorAsync(string msg = null, string pageSummary = "N/A", bool includeDeviceInfo = true) {
             var deviceInfo = new EasClientDeviceInformation();
 
             string subject = GetUIString("Feedback_Subject");

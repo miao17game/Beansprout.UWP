@@ -15,5 +15,6 @@
         public const string AccessToken = "ACCESS_TOKEN";
         public const string RefreshToken = "REFRESH_TOKEN";
         public const string UserID = "USER_ID";
+        public const string IsQuietTime = "IS_QUIET_TIME";
     }
 }

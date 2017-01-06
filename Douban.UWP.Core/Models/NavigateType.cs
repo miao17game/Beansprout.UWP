@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace Douban.UWP.Core.Models {
     public enum NavigateType {
         NULL,
+        A_D_T,
         Login,
         UserInfo,
         InfoItemClick,

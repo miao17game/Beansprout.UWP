@@ -649,4 +649,8 @@
     <value>The sencondary transparent title</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="AddMetroItem" xml:space="preserve">
+    <value>Add or Delete</value>
+    <comment>MetroPage</comment>
+  </data>
 </root>
