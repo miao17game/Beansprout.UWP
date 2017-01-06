@@ -30,9 +30,11 @@ namespace Douban.UWP.NET.Pages {
             InitPageState();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e) {
+        protected override async void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             GridViewResources.Source = HamburgerResList;
+            if (!IsLogined)
+                await TryLoginAsync(true);
             SetUserStatus();
         }
 

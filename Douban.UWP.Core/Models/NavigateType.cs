@@ -9,6 +9,7 @@ namespace Douban.UWP.Core.Models {
         NULL,
         Login,
         UserInfo,
+        InfoItemClick,
         Index,
         Movie,
         TV,

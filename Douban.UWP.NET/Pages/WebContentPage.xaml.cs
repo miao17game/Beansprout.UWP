@@ -36,6 +36,10 @@ namespace Douban.UWP.NET.Pages {
         }
 
         public override void DoWorkWhenAnimationCompleted() {
+            if (isFromInfoClick) {
+                (this.Parent as Frame).Content = null;
+                return;
+            }
             if (VisibleWidth > 800) {
                 if (IsDivideScreen)
                     MainContentFrame.Navigate(typeof(MetroPage));
@@ -60,6 +64,7 @@ namespace Douban.UWP.NET.Pages {
             IncrementalLoadingBorder.SetVisibility(true);
             IncrementalLoading.SetVisibility(true);
             var args = e.Parameter as NavigateParameter;
+            isFromInfoClick = args.IsFromInfoClick;
             if (args == null)
                 return;
             if (args.Title != null)
@@ -90,7 +95,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         #endregion
-
+        bool isFromInfoClick = false;
         #endregion
 
     }

@@ -456,7 +456,7 @@
 
         <ScrollViewer Name="Scroll" ViewChanged="Scroll_ViewChanged">
 
-            <RelativePanel Loaded="RelativePanel_Loaded">
+            <RelativePanel Loaded="RelativePanel_LoadedAsync">
 
                 <StackPanel VerticalAlignment="Top" Name="MainStack" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
 
@@ -752,7 +752,7 @@
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="LogoutText" Name="LogoutButton" Click="LogoutButton_Click"/>
+                        <MenuFlyoutItem x:Uid="LogoutText" Name="LogoutButton" Click="LogoutButton_ClickAsync"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -833,6 +833,17 @@
             </Grid>
         </Popup>
         <!--#endregion-->
+
+        <Button x:Name="OpenAllComsBtn" VerticalAlignment="Bottom"
+                Width="60" Height="40" Content="&#xE96D;"
+                FontSize="25" FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Right" Foreground="White"
+                Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                Background="{ThemeResource DoubanForeground03}"
+                Margin="10" Visibility="Collapsed"
+                Click="OpenAllComsBtn_Click"/>
+
+        <Frame Name="DetailsFrame"/>
 
     </Grid>
 </Base:BaseContentPage>

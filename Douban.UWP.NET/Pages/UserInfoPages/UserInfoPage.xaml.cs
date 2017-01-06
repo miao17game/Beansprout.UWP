@@ -23,6 +23,7 @@ using Douban.UWP.Core.Tools;
 using Newtonsoft.Json.Linq;
 using Douban.UWP.Core.Models.LifeStreamModels;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -38,14 +39,19 @@ namespace Douban.UWP.NET.Pages {
         }
 
         public override void DoWorkWhenAnimationCompleted() {
-            if (VisibleWidth > 800) {
-                if (IsDivideScreen)
-                    MainContentFrame.Navigate(typeof(MetroPage));
+            AdaptToClearContentAfterOnBackPressed();
+        }
+
+        public override void PageSlideOutStart(bool isToLeft) {
+            if (DetailsFrame.Content != null) {
+                var pg = DetailsFrame.Content;
+                if (pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+                    (pg as BaseContentPage).PageSlideOutStart(isToLeft);
                 else
-                    MainContentFrame.Content = null;
+                    DetailsFrame.Content = null;
+                return;
             }
-            else
-                MainContentFrame.Content = null;
+            base.PageSlideOutStart(isToLeft);
         }
 
         #region Events
@@ -58,7 +64,9 @@ namespace Douban.UWP.NET.Pages {
             DescriptionBlock.Text = LoginStatus.Description;
         }
 
-        private async void RelativePanel_Loaded(object sender, RoutedEventArgs e) {
+        private async void RelativePanel_LoadedAsync(object sender, RoutedEventArgs e) {
+            UserInfoDetails = this.DetailsFrame;
+            UserInfoPopup = this.InnerContentPanel;
             if (LoginStatus.APIUserinfos != null)
                 await SetStateByLoginStatusAsync();
         }
@@ -69,13 +77,7 @@ namespace Douban.UWP.NET.Pages {
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
-            if(VisibleWidth > 800) {
-                if (DescriptionGrid.Children.Contains(U_L_GRID)) 
-                    AdaptForWidePCMode();
-            } else {
-                if (HeadContainerStack.Children.Contains(U_L_GRID)) 
-                    AdaptForHightMobileMode();
-            }
+            AdaptForScreenSize();
         }
 
         private void TalkButton_Click(object sender, RoutedEventArgs e) {
@@ -92,10 +94,11 @@ namespace Douban.UWP.NET.Pages {
 
         private void Button_Click(object sender, RoutedEventArgs e) {
             RunButtonClick((sender as Button).Name);
+            OpenAllComsBtn.SetVisibility(true);
             OpenInnerContent();
         }
 
-        private async void LogoutButton_Click(object sender, RoutedEventArgs e) {
+        private async void LogoutButton_ClickAsync(object sender, RoutedEventArgs e) {
             var path = "https://www.douban.com/accounts/logout?source=main";
             await DoubanWebProcess.GetDoubanResponseAsync(path);
             SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
@@ -104,7 +107,15 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void ContentList_ItemClick(object sender, ItemClickEventArgs e) {
-
+            var iten = e.ClickedItem as LifeStreamItem;
+            if (iten == null)
+                return;
+            Uri.TryCreate(iten.PathUrl, UriKind.RelativeOrAbsolute, out var uri);
+            NavigateToBase?.Invoke(
+                null, 
+                new NavigateParameter { Title = iten.Title, ToUri = uri, IsFromInfoClick = true }, 
+                DetailsFrame,
+                GetPageType(NavigateType.InfoItemClick));
         }
 
         private void PopupAllComments_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -114,6 +125,10 @@ namespace Douban.UWP.NET.Pages {
 
         private void CloseAllComsBtn_Click(object sender, RoutedEventArgs e) {
             InnerContentPanel.IsOpen = false;
+        }
+
+        private void OpenAllComsBtn_Click(object sender, RoutedEventArgs e) {
+            OpenInnerContent();
         }
 
         private void PopupAllComments_Closed(object sender, object e) {
@@ -379,6 +394,26 @@ namespace Douban.UWP.NET.Pages {
 
         #endregion
 
+        private void AdaptToClearContentAfterOnBackPressed() {
+            if (VisibleWidth > 800) {
+                if (IsDivideScreen)
+                    MainContentFrame.Navigate(typeof(MetroPage));
+                else
+                    MainContentFrame.Content = null;
+            } else
+                MainContentFrame.Content = null;
+        }
+
+        private void AdaptForScreenSize() {
+            if (VisibleWidth > 800) {
+                if (DescriptionGrid.Children.Contains(U_L_GRID))
+                    AdaptForWidePCMode();
+            } else {
+                if (HeadContainerStack.Children.Contains(U_L_GRID))
+                    AdaptForHightMobileMode();
+            }
+        }
+
         public void OpenInnerContent() {
             InnerContentPanel.IsOpen = true;
             PopupBackBorder.SetVisibility(true);
@@ -416,6 +451,5 @@ namespace Douban.UWP.NET.Pages {
         private const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
 
         #endregion
-
     }
 }

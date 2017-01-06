@@ -52,7 +52,16 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void ContentList_ItemClick(object sender, ItemClickEventArgs e) {
-
+            var iten = e.ClickedItem as StatusItem;
+            if (iten == null)
+                return;
+            Uri.TryCreate(string.Format(NavigateUrlFormat, uid, iten.ID), UriKind.RelativeOrAbsolute, out var uri);
+            NavigateToBase?.Invoke(
+                null,
+                new NavigateParameter { Title = iten.Activity, ToUri = uri, IsFromInfoClick = true },
+                UserInfoDetails,
+                GetPageType(NavigateType.InfoItemClick));
+            UserInfoPopup.IsOpen = false;
         }
 
         #endregion
@@ -205,6 +214,7 @@ namespace Douban.UWP.NET.Pages {
         string max_id = "0";
         const string Host = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?max_id={1}&count={2}&for_mobile=1";
         const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
+        const string NavigateUrlFormat = "https://m.douban.com/people/{0}/status/{1}/";
 
         #endregion
 

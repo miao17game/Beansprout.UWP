@@ -25,9 +25,11 @@ namespace Douban.UWP.NET.Resources {
         public static Frame MainContentFrame { get; set; }
         public static Frame MainLeftPartFrame { get; set; }
         public static Frame MainLoginFrame { get; set; }
+        public static Frame UserInfoDetails { get; set; }
         public static ProgressRing BaseListRing { get; set; }
         public static ListBox HamburgerBox { get; set; }
         public static Popup MainLoginPopup { get; set; }
+        public static Popup UserInfoPopup { get; set; }
         public static Image DoubanLoading { get; set; }
         #endregion
 
@@ -99,6 +101,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Settings,typeof(SettingsPage)},
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
+                    { NavigateType.InfoItemClick,typeof(WebContentPage)},
                     { NavigateType.Index, typeof(ListInfosPage)},
                     { NavigateType.Movie, typeof(MovieIndexPage)},
                     { NavigateType.TV, typeof(TVIndexPage)},
@@ -133,6 +136,7 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.Settings, MainLeftPartFrame},
                         { NavigateType.Login, MainLoginFrame},
                         { NavigateType.UserInfo, MainContentFrame},
+                        { NavigateType.InfoItemClick, null},
                         { NavigateType.Index, MainLeftPartFrame},
                         { NavigateType.Movie, MainLeftPartFrame},
                         { NavigateType.TV, MainLeftPartFrame},

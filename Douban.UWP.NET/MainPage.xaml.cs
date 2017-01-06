@@ -39,7 +39,7 @@ namespace Douban.UWP.NET {
             InitMainPageState();
             AdapteVitualNavigationBarIfNeed();
             InitSlideRecState();
-            GetResources();
+            GetResourcesAsync();
         }
 
         #region Methods
@@ -146,11 +146,9 @@ namespace Douban.UWP.NET {
             LoginUserIcon.Fill = new SolidColorBrush(Windows.UI.Colors.Gray);
         }
 
-        private async void GetResources() {
+        private async void GetResourcesAsync() {
             NaviBarResouces.Source = HamburgerResList;
             await TryLoginAsync(true);
-            if (VisibleWidth > 800 && IsDivideScreen)
-                ContentFrame.Navigate(typeof(MetroPage));
         }
 
         #endregion
@@ -253,7 +251,8 @@ namespace Douban.UWP.NET {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
-            
+            if (VisibleWidth > 800 && IsDivideScreen)
+                ContentFrame.Navigate(typeof(MetroPage));
         }
 
         #endregion

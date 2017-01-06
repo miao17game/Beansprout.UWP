@@ -9,5 +9,6 @@ namespace Douban.UWP.Core.Models {
         public Uri ToUri { get; set; }
         public string Title { get; set; }
         public object SpecialParameter { get; set; }
+        public bool IsFromInfoClick { get; set; }
     }
 }
