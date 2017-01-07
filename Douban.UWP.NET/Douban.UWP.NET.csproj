@@ -385,7 +385,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Douban.UWP.BackgroundTasks\Douban.UWP.BackgroundTasks.csproj">
-      <Project>{04380151-2edf-4235-8da0-31d29a9cef37}</Project>
+      <Project>{bc5ff5da-c469-4227-b1a7-de56e381f596}</Project>
       <Name>Douban.UWP.BackgroundTasks</Name>
     </ProjectReference>
     <ProjectReference Include="..\Douban.UWP.Core\Douban.UWP.Core.csproj">

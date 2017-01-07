@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{04380151-2EDF-4235-8DA0-31D29A9CEF37}</ProjectGuid>
+    <ProjectGuid>{BC5FF5DA-C469-4227-B1A7-DE56E381F596}</ProjectGuid>
     <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Douban.UWP.BackgroundTasks</RootNamespace>
@@ -16,6 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -112,24 +113,21 @@
     <Compile Include="ServicingComplete.cs" />
     <Compile Include="TitleBackgroundUpdateTask.cs" />
     <Compile Include="ToastBackgroundPushTask.cs" />
-    <EmbeddedResource Include="Properties\Douban.UWP.BackgroundTasks.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Douban.UWP.Core\Douban.UWP.Core.csproj">
-      <Project>{B3BCAA1F-F21C-42B7-B3C6-A07759826272}</Project>
+      <Project>{b3bcaa1f-f21c-42b7-b3c6-a07759826272}</Project>
       <Name>Douban.UWP.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wallace.UWP.Helpers\Wallace.UWP.Helpers.csproj">
-      <Project>{76018C20-874F-4D6D-9C30-23A82D347E41}</Project>
+      <Project>{76018c20-874f-4d6d-9c30-23a82d347e41}</Project>
       <Name>Wallace.UWP.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
+  <PropertyGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

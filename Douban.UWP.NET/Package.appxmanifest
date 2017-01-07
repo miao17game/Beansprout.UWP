@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="64530WallaceSun.UWP" Publisher="CN=F20CB244-5466-4E73-B935-8A83BABDE8FA" Version="1.11.2032.0" />
+  <Identity Name="64530WallaceSun.UWP" Publisher="CN=F20CB244-5466-4E73-B935-8A83BABDE8FA" Version="1.12.2055.0" />
   <mp:PhoneIdentity PhoneProductId="f8b1a4d3-ca94-49c2-8f25-672e22df9752" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ms-resource:AppName</DisplayName>
