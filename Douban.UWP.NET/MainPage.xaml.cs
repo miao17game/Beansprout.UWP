@@ -209,6 +209,14 @@ namespace Douban.UWP.NET {
             DoubanLoading.SetVisibility(false);
         }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e) {
+            NavigateToBase?.Invoke(
+                null,
+                new NavigateParameter { Title = GetUIString("SEARCH"), ToUri = new Uri("https://m.douban.com/search/") },
+                GetFrameInstance(NavigateType.Search),
+                GetPageType(NavigateType.Search));
+        }
+
         private void NavigationSplit_PaneClosed(SplitView sender, object args) {
             SlideAnimaRec.SetVisibility(true);
             OutBorder.Completed += OnOutBorderOut;
@@ -370,5 +378,6 @@ namespace Douban.UWP.NET {
         public const string HomeHostInsert = "https://www.douban.com";
 
         #endregion
+
     }
 }

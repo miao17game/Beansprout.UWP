@@ -653,4 +653,8 @@
     <value>Add or Delete</value>
     <comment>MetroPage</comment>
   </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>Search</value>
+    <comment>MainPage</comment>
+  </data>
 </root>

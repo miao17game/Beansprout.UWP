@@ -8,6 +8,7 @@ namespace Douban.UWP.Core.Models {
     public enum NavigateType {
         NULL,
         A_D_T,
+        Search,
         Login,
         UserInfo,
         InfoItemClick,

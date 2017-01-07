@@ -23,6 +23,186 @@
         <Storyboard x:Name="OutPopupBorder">
             <FadeOutThemeAnimation Storyboard.TargetName="PopupBackBorder" />
         </Storyboard>
+        <Style x:Key="SpecialButtonSubmit" TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{ThemeResource DoubanForeground05}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground05}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="UseSystemFocusVisuals" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground05}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="rectangleBorder" 
+                                    Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="2"/>
+                            <ContentPresenter x:Name="ContentPresenter"
+    							BorderBrush="Transparent"
+    							BorderThickness="0"
+    							Content="{TemplateBinding Content}"
+    							Background="Transparent"
+    							ContentTransitions="{TemplateBinding ContentTransitions}"
+    							ContentTemplate="{TemplateBinding ContentTemplate}"
+    							Padding="{TemplateBinding Padding}"
+    							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    							AutomationProperties.AccessibilityView="Raw"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SpecialButtonAbort" TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Background" Value="{ThemeResource DoubanBackground04}"/>
+            <Setter Property="Foreground" Value="{ThemeResource DoubanForeground05}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource DoubanForeground05}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="UseSystemFocusVisuals" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="rectangleBorder"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+    											Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+    											Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="rectangleBorder" 
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="2"/>
+                            <ContentPresenter x:Name="ContentPresenter"
+    							BorderBrush="Transparent"
+    							BorderThickness="0"
+    							Content="{TemplateBinding Content}"
+    							Background="Transparent"
+    							ContentTransitions="{TemplateBinding ContentTransitions}"
+    							ContentTemplate="{TemplateBinding ContentTemplate}"
+    							Padding="{TemplateBinding Padding}"
+    							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+    							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+    							AutomationProperties.AccessibilityView="Raw"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" SizeChanged="Grid_SizeChanged">
@@ -81,7 +261,7 @@
                     <VisualState.Setters>
                         
                         <Setter Target="LogeImage.(FrameworkElement.Source)" Value="/Assets/SplashScreen.scale-200.png"/>
-                        <Setter Target="LogeImage.(FrameworkElement.Width)" Value="600"/>
+                        <Setter Target="LogeImage.(FrameworkElement.Width)" Value="200"/>
                         <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
                             <Setter.Value>60,100,60,0</Setter.Value>
                         </Setter>
@@ -100,7 +280,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -112,7 +292,7 @@
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
                                                 Value="30"
-                                                Duration="0"
+                                                Duration="3500"
                                                 Delay="0"
                                                 AutomaticallyStart="True"/>
             </interactivity:Interaction.Behaviors>
@@ -120,15 +300,15 @@
 
         <Rectangle Grid.ColumnSpan="3" Grid.RowSpan="3" Opacity="0.8" Fill="{ThemeResource DoubanShadow01}"/>
 
-        <Grid Grid.Column="1" Grid.Row="2" Margin="0,-120,0,0">
+        <Grid Grid.Column="1" Grid.Row="2" Margin="0,-20,0,30" Opacity="0.6">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Image Name="LogeImage" Width="90" 
+            <Image Name="LogeImage" Width="70" 
                        Stretch="Uniform" VerticalAlignment="Top"
                        Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" />
-            <StackPanel Grid.Row="1" Margin="0,-50,0,0">
+            <StackPanel Grid.Row="1" Margin="0,-10,0,0">
                 <TextBlock x:Uid="DB_PREPARE_TITLE" Margin="0,0,0,0"
                        Foreground="White" FontSize="20" 
                        HorizontalAlignment="Center"
@@ -242,7 +422,7 @@
         <Popup x:Name="InnerContentPanel" 
                Grid.RowSpan="3"
                Grid.ColumnSpan="3"
-               Margin="0,100,0,0"
+               Margin="0,0,0,0"
                IsOpen="False"
                IsLightDismissEnabled="True"
                SizeChanged="PopupAllComments_SizeChanged"
@@ -265,13 +445,15 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Row="1" Background="{ThemeResource DoubanBackground05}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition />
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    <ListView IsItemClickEnabled="False" SelectionMode="None" 
+                    <Border Background="Transparent" BorderBrush="#20808080" BorderThickness="0,0,0,1" Height="70"/>
+                    <ListView IsItemClickEnabled="False" SelectionMode="None" Grid.Row="1"
                               ItemsSource="{Binding Source={StaticResource SelectResources}}"
                               ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" >
                         <ListView.ItemTemplate>
@@ -283,7 +465,7 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
 
-                                    <CheckBox CommandParameter="{Binding Title}" 
+                                    <CheckBox CommandParameter="{Binding Token}" 
                                               Margin="15,5,-30,5" Click="CheckBox_Click"
                                               Style="{ThemeResource SpecialCheckBox}"
                                               Background="{ThemeResource DoubanForeground}"
@@ -300,7 +482,7 @@
                                                    Style="{ThemeResource CenterContentTextBlock}"
                                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
                                     </Border>
-                                    
+
                                     <TextBlock  Name="ModelTitle" Text="{Binding Title}" Margin="5"
                                                 VerticalAlignment="Center" FontSize="16" Grid.Column="2"
                                                 Foreground="{ThemeResource DoubanTextColor02}"
@@ -310,53 +492,44 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    <Button x:Name="Submit" Grid.Row="1" Margin="10"
-                            Background="{ThemeResource DoubanForeground03}"
-                            HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                            Height="40" Width="80" Content="&#xE10B;"
-                            FontSize="22" FontFamily="Segoe MDL2 Assets"
-                            Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="Submit" Margin="10" FontWeight="Bold"
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Center"
+                            Height="50" Content="&#xE10B;"
+                            FontSize="24" FontFamily="Segoe MDL2 Assets"
+                            Style="{StaticResource SpecialButtonSubmit}"
                             Foreground="White" Click="Submit_ClickAsync"/>
+                        <Button x:Name="CloseAllComsBtn" Margin="10"
+                            Grid.Column="1" FontWeight="Bold"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Height="50" Content="&#xE10A;"
+                            FontSize="24" FontFamily="Segoe MDL2 Assets"
+                            Style="{StaticResource SpecialButtonAbort}"
+                            Click="CloseAllComsBtn_Click"/>
+                        <Rectangle Margin="0,-10,0,0" Height="10" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStopCollection >
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                        <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Grid>
+
                 </Grid>
-                
-                <Button x:Name="CloseAllComsBtn"
-                        VerticalAlignment="Top"
-                        Height="30"
-                        Content="&#xE96E;"
-                        FontSize="22"
-                        FontFamily="Segoe MDL2 Assets"
-                        HorizontalAlignment="Stretch"
-                        Style="{StaticResource MainPageButtonBackHamburgerStyle}"
-                        Foreground="White"
-                        Click="CloseAllComsBtn_Click"/>
-                
-                <Rectangle Margin="0,0,0,-10" Height="10" VerticalAlignment="Bottom">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
-                            <GradientStopCollection >
-                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
-                            </GradientStopCollection>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
-                
-                <Rectangle Margin="0,-10,0,0" Height="10" VerticalAlignment="Top">
-                    <Rectangle.Fill>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStopCollection >
-                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
-                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
-                            </GradientStopCollection>
-                        </LinearGradientBrush>
-                    </Rectangle.Fill>
-                </Rectangle>
+
             </Grid>
         </Popup>
         <!--#endregion-->

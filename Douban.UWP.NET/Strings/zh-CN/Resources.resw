@@ -652,4 +652,8 @@
     <value>增删磁贴</value>
     <comment>MetroPage</comment>
   </data>
+  <data name="SEARCH" xml:space="preserve">
+    <value>搜索</value>
+    <comment>MainPage</comment>
+  </data>
 </root>

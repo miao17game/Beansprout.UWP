@@ -193,6 +193,11 @@
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
                             <Setter.Value>0,140,0,70</Setter.Value>
                         </Setter>
+                        <Setter Target="SearchButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="SearchButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="SearchButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
@@ -230,6 +235,11 @@
                         <Setter Target="SlideAnimaRec.(FrameworkElement.Margin)" >
                             <Setter.Value>0,140,0,70</Setter.Value>
                         </Setter>
+                        <Setter Target="SearchButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="SearchButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="SearchButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
@@ -450,6 +460,18 @@
                             Height="70"
                             FontWeight="Bold"
                             Click="HamburgerButton_Click"
+                            Canvas.ZIndex="1"
+                            Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+
+                    <Button Name="SearchButton"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Content="&#xE094;"
+                            Width="70"
+                            Height="70"
+                            FontWeight="Bold"
+                            Click="SearchButton_Click"
                             Canvas.ZIndex="1"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>

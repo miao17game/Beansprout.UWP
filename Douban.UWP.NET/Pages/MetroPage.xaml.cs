@@ -71,9 +71,19 @@ namespace Douban.UWP.NET.Pages {
             var cache = default(List<string>);
             try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
             if (cache == null) {
-                SelectResources.Source = res.Where(i => i.NaviType != NavigateType.A_D_T).Select(singleton => new MetroChangeItem { Title = singleton.Title, Selected = true });
+                SelectResources.Source = res
+                    .Select(singleton => new MetroChangeItem {
+                        Title = singleton.Title,
+                        Token = singleton.IdentityToken,
+                        Selected = true
+                    });
             } else {
-                SelectResources.Source = res.Where(i => i.NaviType != NavigateType.A_D_T).Select(singleton => new MetroChangeItem { Title = singleton.Title, Selected = cache.Contains(singleton.Title) });
+                SelectResources.Source = res
+                    .Select(singleton => new MetroChangeItem {
+                        Title = singleton.Title,
+                        Token = singleton.IdentityToken,
+                        Selected = cache.Contains(singleton.IdentityToken)
+                    });
             }
             forCache = (SelectResources.Source as IEnumerable<MetroChangeItem>).ToList();
         }
@@ -139,7 +149,7 @@ namespace Douban.UWP.NET.Pages {
             var cache = default(List<string>);
             try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
             if (cache != null) {
-                res = res.Where(i => cache.Contains(i.Title)).ToList();
+                res = res.Where(i => cache.Contains(i.IdentityToken)).ToList();
             } 
             res.Add(new NavigationBar { Title = GetUIString("AddMetroItem"), NaviType = NavigateType.A_D_T });
             GridViewResources.Source = res;
@@ -173,13 +183,13 @@ namespace Douban.UWP.NET.Pages {
         private void CheckBox_Click(object sender, RoutedEventArgs e) {
             var name = (sender as CheckBox).CommandParameter as string;
             if ((sender as CheckBox).IsChecked != null && (sender as CheckBox).IsChecked.Value)
-                forCache.Add(new MetroChangeItem { Title = name, Selected = true });
+                forCache.Add(new MetroChangeItem { Token = name, Selected = true });
             else
-                forCache.RemoveAll(i => i.Title == name);
+                forCache.RemoveAll(i => i.Token == name);
         }
 
         private async void Submit_ClickAsync(object sender, RoutedEventArgs e) {
-            await CacheHelpers.SaveSpecificCacheValueAsync(CacheSelect.MetroList, JsonHelper.ToJson(forCache.Where(i => i.Selected == true).Select(i => i.Title).ToList()));
+            await CacheHelpers.SaveSpecificCacheValueAsync(CacheSelect.MetroList, JsonHelper.ToJson(forCache.Where(i => i.Selected == true).Select(i => i.Token).ToList()));
             InnerContentPanel.IsOpen = false;
             InitContentResourcesAsync();
         }
@@ -190,6 +200,7 @@ namespace Douban.UWP.NET.Pages {
 
     public class MetroChangeItem {
         public string Title { get; set; }
+        public string Token { get; set; }
         public bool Selected { get; set; }
     }
 

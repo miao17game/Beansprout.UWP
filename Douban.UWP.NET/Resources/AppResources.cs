@@ -99,6 +99,7 @@ namespace Douban.UWP.NET.Resources {
                 return pagesMaps ?? new Func<IDictionary<NavigateType, Type>>(()=> {
                 pagesMaps = new Dictionary<NavigateType, Type> {
                     { NavigateType.Settings,typeof(SettingsPage)},
+                    { NavigateType.Search,typeof(WebContentPage)},
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.InfoItemClick,typeof(WebContentPage)},
@@ -134,6 +135,7 @@ namespace Douban.UWP.NET.Resources {
                 return frameMaps ?? new Func<IDictionary<NavigateType, Frame>>(()=> {
                     frameMaps = new Dictionary<NavigateType, Frame> {
                         { NavigateType.Settings, MainLeftPartFrame},
+                        { NavigateType.Search, MainContentFrame},
                         { NavigateType.Login, MainLoginFrame},
                         { NavigateType.UserInfo, MainContentFrame},
                         { NavigateType.InfoItemClick, null},
@@ -166,56 +168,67 @@ namespace Douban.UWP.NET.Resources {
                 return navigationListMap ?? new Func<IList<NavigationBar>>(() => {
                     navigationListMap = new List<NavigationBar> {
                         new NavigationBar {
+                            IdentityToken = "DB_INDEX",
                             Title = GetUIString("DB_INDEX"),
                             PathUri = new Uri("https://m.douban.com/"),
                             NaviType = NavigateType.Index,
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_BOOK",
                             Title = GetUIString("DB_BOOK"),
                             PathUri = new Uri("https://m.douban.com/book/"),
                             NaviType = NavigateType.Book,
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_MORE",
                             Title = GetUIString("DB_MORE"),
                             PathUri = new Uri("https://www.douban.com/"),
                             NaviType = NavigateType.TV
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_MOVIE",
                             Title = GetUIString("DB_MOVIE"),
                             PathUri = new Uri("https://m.douban.com/movie/"),
                             NaviType = NavigateType.Movie
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_MUSIC",
                             Title = GetUIString("DB_MUSIC"),
                             PathUri = new Uri("https://m.douban.com/music/"),
                             NaviType = NavigateType.Music
                             },
                         new NavigationBar {
+                            IdentityToken = "DB_LOCATION",
                             Title = GetUIString("DB_LOCATION"),
                             PathUri = new Uri("https://www.douban.com/location/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_GROUP",
                             Title = GetUIString("DB_GROUP"),
                             PathUri = new Uri("https://www.douban.com/group/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_READ",
                             Title = GetUIString("DB_READ"),
                             PathUri = new Uri("https://read.douban.com/"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_FM",
                             Title = GetUIString("DB_FM"),
                             PathUri = new Uri("https://douban.fm/?from_=shire_top_nav"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_DONGXI",
                             Title = GetUIString("DB_DONGXI"),
                             PathUri = new Uri("https://dongxi.douban.com/?dcs=top-nav&amp;dcm=douban"),
                             NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
+                            IdentityToken = "DB_MARKET",
                             Title = GetUIString("DB_MARKET"),
                             PathUri = new Uri("https://market.douban.com/?utm_campaign=douban_top_nav&amp;utm_source=douban&amp;utm_medium=pc_web"),
                             NaviType = NavigateType.Webview

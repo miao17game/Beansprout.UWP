@@ -12,6 +12,7 @@ namespace Douban.UWP.Core.Models {
         #endregion
 
         public string Title { get; set; }
+        public string IdentityToken { get; set; }
         public Uri PathUri { get; set; }
         public NavigateType NaviType { get; set; }
         public DataFetchType FetchType {
