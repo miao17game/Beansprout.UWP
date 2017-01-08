@@ -181,6 +181,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.cs" />
+    <Compile Include="Tools\Converters\WelcomeThisDateConverter.cs" />
+    <Compile Include="Tools\Converters\WelcomeIconConverter.cs" />
+    <Compile Include="Tools\Converters\WelcomeStringConverter.cs" />
     <Compile Include="Tools\Converters\DateTimeConverter.cs" />
     <Compile Include="Tools\Converters\ColorConverter.cs" />
     <Compile Include="Tools\Converters\BinaryConverter.cs" />

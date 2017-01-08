@@ -35,7 +35,6 @@ namespace Douban.UWP.NET.Pages {
             base.OnNavigatedTo(e);
             ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResources);
             DoubanLoading.SetVisibility(false);
-            welcomeBlk.SetVisibility(IsFirstOpen);
             if (IsFirstOpen) { IsFirstOpen = false; }
             SetFlipResourcesAsync();
         }
