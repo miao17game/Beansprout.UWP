@@ -279,7 +279,15 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.12.* / 2017.1.7" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.14.* / 2017.1.9" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="紧急修复登陆异常" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.13.1609 / 2017.1.9" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="优化首页的低分辨率适配" /><LineBreak/>
+                            <Run Text="微调首页UI细节" /><LineBreak/>
+                            <Run Text="完善个人主页日记板块" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.12.2055 / 2017.1.7" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="可以自定义Metro主页磁贴(PC端)" /><LineBreak/>
                             <Run Text="个人主页的广播及动态可以点击交互" /><LineBreak/>
                             <Run Text="主页加入搜索按钮" /><LineBreak/>

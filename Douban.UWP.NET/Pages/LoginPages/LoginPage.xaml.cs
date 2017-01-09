@@ -296,13 +296,14 @@ namespace Douban.UWP.NET.Pages {
                                              <link href='style.css' rel='stylesheet' type='text/css'>
                                              <script language='JavaScript1.2' src='nocache.js'></script >
                                              </head><body>" + htmlBodyContent + "</body></html>");
-            //var rootNode = doc.DocumentNode;
-            //var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
-            //var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
-            //if (pcCheck == null && mobileCheck == null) {// login failed.
-            //    ReportHelper.ReportAttention(GetUIString("LoginFailed"));
-            if (htmlBodyContent.Contains("验证码") || htmlBodyContent.Contains("账号")) {// login failed.
+            var rootNode = doc.DocumentNode;
+            var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
+            var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
+            if (pcCheck == null && mobileCheck == null) {// login failed.
                 ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+                //if (htmlBodyContent.Contains("验证码") || htmlBodyContent.Contains("账号")) {// login failed.
+                //NativeLoginPanel.SetVisibility(false);
+                //ReportHelper.ReportAttention(GetUIString("LoginFailed"));
             } else {
                 // login successful...
                 MainLoginPopup.IsOpen = false;
