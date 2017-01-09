@@ -657,4 +657,8 @@
     <value>Search</value>
     <comment>MainPage</comment>
   </data>
+  <data name="NotePanelInDiariesPage.Activity" xml:space="preserve">
+    <value>Add a note : </value>
+    <comment>MyDiariesPage</comment>
+  </data>
 </root>

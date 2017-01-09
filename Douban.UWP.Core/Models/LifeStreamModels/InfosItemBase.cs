@@ -13,19 +13,11 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         public string LikersCounts { get; set; }
 
-        public string Text { get; set; }
-
         public string Uri { get; set; }
-
-        public string Activity { get; set; }
 
         public string CommentsCounts { get; set; }
 
-        public bool HasImages { get; set; }
-
-        public IList<PictureItemBase> Images { get; set; }
-
-        public enum JsonType { Undefined, Card, Album, Article, Status }
+        public enum JsonType { Undefined, Card, Album, Article, Status, Note }
 
     }
 }

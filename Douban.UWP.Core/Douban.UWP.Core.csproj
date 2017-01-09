@@ -112,6 +112,7 @@
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
     <Compile Include="Models\LifeStreamModels\AuthorStatus.cs" />
+    <Compile Include="Models\LifeStreamModels\DiaryItem.cs" />
     <Compile Include="Models\LifeStreamModels\InfosItemBase.cs" />
     <Compile Include="Models\LifeStreamModels\LifeStreamItem.cs" />
     <Compile Include="Models\LifeStreamModels\PictureItem.cs" />

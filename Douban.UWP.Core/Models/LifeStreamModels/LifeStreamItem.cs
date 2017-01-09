@@ -11,6 +11,8 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         #region Content
 
+        public string Activity { get; set; }
+
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -20,6 +22,12 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
         public bool HasCover { get; set; }
 
         public Uri Cover { get; set; }
+
+        public string Text { get; set; }
+
+        public bool HasImages { get; set; }
+
+        public IList<PictureItemBase> Images { get; set; }
 
         public string Abstract { get; set; }
 

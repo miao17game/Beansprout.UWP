@@ -656,4 +656,8 @@
     <value>搜索</value>
     <comment>MainPage</comment>
   </data>
+  <data name="NotePanelInDiariesPage.Activity" xml:space="preserve">
+    <value>添加了一篇日记</value>
+    <comment>MyDiariesPage</comment>
+  </data>
 </root>

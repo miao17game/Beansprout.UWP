@@ -9,6 +9,8 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         public int ID { get; set; }
 
+        public string Activity { get; set; }
+
         public string ResharesCounts { get; set; }
 
         public string ResharersCounts { get; set; }
@@ -24,6 +26,12 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
         public string ResharedStatus { get; set; }
 
         public bool HasText { get; set; }
+
+        public string Text { get; set; }
+
+        public bool HasImages { get; set; }
+
+        public IList<PictureItemBase> Images { get; set; }
 
         public bool HasCard { get; set; }
 

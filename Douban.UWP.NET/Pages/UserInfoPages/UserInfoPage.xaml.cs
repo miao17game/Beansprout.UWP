@@ -424,8 +424,8 @@ namespace Douban.UWP.NET.Pages {
             return string.Format(format, uid);
         }
 
-        public void Navigate() {
-            ContentFrame.Navigate(typeof(MyStatusPage));
+        public void NavigateTo(Type type) {
+            ContentFrame.Navigate(type);
         }
 
         #endregion
@@ -440,7 +440,8 @@ namespace Douban.UWP.NET.Pages {
             get {
                 return eventMap ?? new Func<IDictionary<string, Action>>(() => {
                     return eventMap = new Dictionary<string, Action> {
-                        {BroadcastButton.Name, Navigate},
+                        {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage))},
+                        {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage))},
                     };
                 }).Invoke();
             }

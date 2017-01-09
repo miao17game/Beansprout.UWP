@@ -31,7 +31,6 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void InitPageState() {
             base.InitPageState();
-            GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
         }
 
@@ -65,6 +64,8 @@ namespace Douban.UWP.NET.Pages {
             IncrementalLoading.SetVisibility(true);
             var args = e.Parameter as NavigateParameter;
             isFromInfoClick = args.IsFromInfoClick;
+            if (!isFromInfoClick)
+                GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
             if (args == null)
                 return;
             if (args.Title != null)
