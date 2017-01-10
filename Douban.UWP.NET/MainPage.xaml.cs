@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Douban.UWP.NET.Tools;
 using System.Reflection;
 using Windows.ApplicationModel.Background;
+using Windows.UI.Xaml.Navigation;
 #endregion
 
 namespace Douban.UWP.NET {
@@ -34,12 +35,6 @@ namespace Douban.UWP.NET {
         public MainPage() {
             this.InitializeComponent();
             Current = this;
-            PrepareFrame.Navigate(typeof(PreparePage));
-            SetControlAccessEnabled();
-            InitMainPageState();
-            AdapteVitualNavigationBarIfNeed();
-            InitSlideRecState();
-            GetResourcesAsync();
         }
 
         #region Methods
@@ -155,9 +150,26 @@ namespace Douban.UWP.NET {
 
         #region Events
 
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            base.OnNavigatedTo(e);
+            PrepareFrame.Navigate(typeof(PreparePage));
+            SetControlAccessEnabled();
+            InitMainPageState();
+            AdapteVitualNavigationBarIfNeed();
+            InitSlideRecState();
+            GetResourcesAsync();
+        }
+
         private void OnBackRequested(object sender, BackRequestedEventArgs e) {
             if (ContentFrame.Content == null) {
-                if (!isNeedClose) { InitCloseAppTask(); } else { Application.Current.Exit(); }
+                if (VisibleWidth <= 800) {
+                    ContentFrame.Navigate(typeof(MetroPage));
+                } else {
+                    if (!isNeedClose)
+                        InitCloseAppTask();
+                    else
+                        Application.Current.Exit();
+                }
                 e.Handled = true;
                 return;
             } else {

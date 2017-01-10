@@ -31,11 +31,13 @@ namespace Douban.UWP.NET.Pages {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e) {
+        protected async override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+            if (IsFirstOpen)
+                await Task.Delay(1000);
+            if (IsFirstOpen) { IsFirstOpen = false; }
             ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResources);
             DoubanLoading.SetVisibility(false);
-            if (IsFirstOpen) { IsFirstOpen = false; }
             SetFlipResourcesAsync();
         }
 

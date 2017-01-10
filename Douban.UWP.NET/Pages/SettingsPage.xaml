@@ -279,7 +279,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.14.* / 2017.1.9" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.15.* / 2017.1.10" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="已为Mobile端实现磁贴主页" /><LineBreak/>
+                            <Run Text="在主页按返回键导航到Metro页" /><LineBreak/>
+                            <Run Text="修复Mobile端的登陆问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.14.1758 / 2017.1.9" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急修复登陆异常" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：1.13.1609 / 2017.1.9" FontSize="15" FontWeight="Medium" /><LineBreak/>

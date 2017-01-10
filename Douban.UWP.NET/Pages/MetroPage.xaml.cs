@@ -27,11 +27,11 @@ namespace Douban.UWP.NET.Pages {
     public sealed partial class MetroPage : Page {
         public MetroPage() {
             this.InitializeComponent();
-            InitPageState();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+            InitPageState();
             InitContentResourcesAsync();
             if (!IsLogined)
                 await TryLoginAsync(true);
@@ -55,6 +55,7 @@ namespace Douban.UWP.NET.Pages {
                 await ReadCacheAsync();
                 OpenInnerContent();
             } else {
+                CloseContentFrameIfNeed();
                 DoubanLoading.SetVisibility(true);
                 NavigateTitleBlock.Text = item.Title;
                 NavigateToBase?.Invoke(
@@ -89,6 +90,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) {
+            CloseContentFrameIfNeed();
             NavigateTitleBlock.Text = GetUIString("Settings");
             NavigateToBase?.Invoke(
                 sender,
@@ -178,6 +180,11 @@ namespace Douban.UWP.NET.Pages {
             InnerContentPanel.IsOpen = true;
             PopupBackBorder.SetVisibility(true);
             EnterPopupBorder.Begin();
+        }
+
+        private void CloseContentFrameIfNeed() {
+            if (VisibleWidth <= 800) 
+                MainContentFrame.Content = null;
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e) {

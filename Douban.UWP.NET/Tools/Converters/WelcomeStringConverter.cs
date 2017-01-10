@@ -22,7 +22,7 @@ namespace Douban.UWP.Tools.Converters {
             var nowHour = DateTime.Now.Hour;
             return nowHour > 3 && nowHour <= 11 ? UWPStates.GetUIString("GoodMorning") :
                 nowHour > 11 && nowHour <= 14 ? UWPStates.GetUIString("GoodNoon") :
-                nowHour > 14 && nowHour <= 18 ? UWPStates.GetUIString("GoodAfternoon") :
+                nowHour > 14 && nowHour < 18 ? UWPStates.GetUIString("GoodAfternoon") :
                 UWPStates.GetUIString("GoodNight");
         }
     }
