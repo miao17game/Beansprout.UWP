@@ -1,35 +1,22 @@
-﻿using Wallace.UWP.Helpers;
+﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
+
 using Wallace.UWP.Helpers.Tools;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Wallace.UWP.Helpers.Controls;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.System.Profile;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Douban.UWP.NET.Pages {
 
     public sealed partial class PreparePage : UpSlidePage {
         private TranslateTransform translateT;
         DispatcherTimer WeocomeTimer;
-        private bool isColorfulOrNot;
         private bool isDarkOrNot;
 
         public PreparePage ( ) {
@@ -39,13 +26,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void MainPage_Loaded(object sender, RoutedEventArgs e) {
-            isColorfulOrNot = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsColorfulOrNot) ?? false;
-            isDarkOrNot= (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? false;
-            if (StatusBarInit.HaveAddMobileExtensions()) { StatusBarInit.InitInnerMobileStatusBar(true); }
-            //StatusBarInit.InitDesktopStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            //StatusBarInit.InitMobileStatusBar(!isDarkOrNot, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            StatusBarInit.InitDesktopStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
-            StatusBarInit.InitMobileStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
             InitSliderTimer();
             OutIMG.BeginTime = new TimeSpan(0, 0, 0, 0, 800);
             OutREC.BeginTime = new TimeSpan(0, 0, 0, 0, 800);
@@ -53,6 +33,10 @@ namespace Douban.UWP.NET.Pages {
             OutREC.SpeedRatio = 0.07;
             OutIMG.Begin();
             OutREC.Begin();
+            isDarkOrNot= IsGlobalDark;
+            if (StatusBarInit.HaveAddMobileExtensions()) { StatusBarInit.InitInnerMobileStatusBar(true); }
+            StatusBarInit.InitDesktopStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
+            StatusBarInit.InitMobileStatusBar(false, Colors.Black, Color.FromArgb(255, 67, 104, 203), Colors.White, Color.FromArgb(255, 202, 0, 62));
         }
 
         private void InitSliderTimer ( ) {
@@ -70,15 +54,18 @@ namespace Douban.UWP.NET.Pages {
             }
         }
 
-        private void SetAnimation ( ) {
-            var storyboard = new Storyboard ( );
-            var doubleanimation = new DoubleAnimation ( ) { Duration = new Duration ( TimeSpan . FromMilliseconds ( 520 ) ) , From = translateT . Y , To = -this.ActualHeight };
-            doubleanimation . EasingFunction = new CubicEase ( ) { EasingMode = EasingMode . EaseOut };
-            doubleanimation . Completed += Doubleanimation_Completed;
-            Storyboard . SetTarget ( doubleanimation , translateT );
-            Storyboard . SetTargetProperty ( doubleanimation , "Y" );
-            storyboard . Children . Add ( doubleanimation );
-            storyboard . Begin ( );
+        private void SetAnimation() {
+            var storyboard = new Storyboard();
+            var doubleanimation = new DoubleAnimation {
+                Duration = new Duration(TimeSpan.FromMilliseconds(520)),
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                From = translateT.Y, To = -this.ActualHeight
+            };
+            doubleanimation.Completed += Doubleanimation_Completed;
+            Storyboard.SetTarget(doubleanimation, translateT);
+            Storyboard.SetTargetProperty(doubleanimation, "Y");
+            storyboard.Children.Add(doubleanimation);
+            storyboard.Begin();
         }
 
         private void Doubleanimation_Completed ( object sender , object e ) {
@@ -87,7 +74,6 @@ namespace Douban.UWP.NET.Pages {
                 this . RenderTransform = new TranslateTransform ( );
             translateT . Y = 0;
             RequestedTheme = isDarkOrNot ? ElementTheme.Dark : ElementTheme.Light;
-            //MainPage.Current.ChangeStatusBar(isColorfulOrNot, isLightOrNot);
         }
     }
 }

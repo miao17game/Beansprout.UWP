@@ -284,8 +284,8 @@
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
                                                 Value="30"
-                                                Duration="3500"
-                                                Delay="0"
+                                                Duration="2000"
+                                                Delay="500"
                                                 AutomaticallyStart="True"/>
             </interactivity:Interaction.Behaviors>
         </Image>

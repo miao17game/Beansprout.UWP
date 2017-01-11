@@ -175,7 +175,7 @@ namespace Douban.UWP.Core.Tools {
                     request.Headers.Host = new Windows.Networking.HostName(host);
                     if (reffer != null)
                         request.Headers.Referer = new Uri(reffer);
-                    request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
+                    request.Headers["User-Agent"] = "Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/14.14263";
                     request.Headers["Connection"] = "Keep-Alive";
                     var result = await httpClient.SendRequestAsync(request);
                     if (allowToRedirect) {

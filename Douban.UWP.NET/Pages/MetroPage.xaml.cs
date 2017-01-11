@@ -5,9 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,10 +29,11 @@ namespace Douban.UWP.NET.Pages {
         protected override async void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             InitPageState();
+            await Task.Delay(500);
             InitContentResourcesAsync();
+            SetUserStatus();
             if (!IsLogined)
                 await TryLoginAsync(true);
-            SetUserStatus();
         }
 
         private void InitPageState() {

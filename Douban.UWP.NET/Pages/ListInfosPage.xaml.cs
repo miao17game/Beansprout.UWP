@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using Douban.UWP.NET.Controls;
 using System.Diagnostics;
 using Douban.UWP.Core.Models.ImageModels;
+using System.Text.RegularExpressions;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -53,14 +54,21 @@ namespace Douban.UWP.NET.Pages {
                     var newList = new List<PromosItem>();
                     promos.Children().ToList().ForEach(singleton => {
                         var notif = singleton["notification"];
+                        var uri = default(string);
+                        try {
+                            var match = new Regex(@"douban://.+").Match(singleton["uri"].Value<string>());
+                            if(match.Length == 0)
+                                uri = singleton["uri"].Value<string>();
+                            else
+                                uri = match.Value.Replace(@"douban://", "https://m.");
+                        } catch { uri = singleton["uri"].Value<string>(); }
                         newList.Add(new PromosItem {
                             ImageSrc = new Uri(singleton["image"].Value<string>()),
                             Image = singleton["image"].Value<string>(),
                             NotificationCount = notif.HasValues ? notif["count"].Value<uint>() : 0,
                             NotificationVersion = notif.HasValues ? notif["version"].Value<string>() : null,
-                            Tag = singleton["tag"].Value<string>(),
                             Text = singleton["text"].Value<string>(),
-                            Uri = singleton["uri"].Value<string>(),
+                            Uri = uri,
                             ID = singleton["id"].Value<string>(),
                         });
                     });

@@ -279,7 +279,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.15.* / 2017.1.10" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.16.* / 2017.1.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复了首页顶部图不加载的问题" /><LineBreak/>
+                            <Run Text="降低了顶部图片点击访问唤起知乎的频率..." /><LineBreak/>
+                            <Run Text="稍微提升Mobile端的动画性能" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.15.1232 / 2017.1.10" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="已为Mobile端实现磁贴主页" /><LineBreak/>
                             <Run Text="在主页按返回键导航到Metro页" /><LineBreak/>
                             <Run Text="修复Mobile端的登陆问题" /><LineBreak/><LineBreak/>

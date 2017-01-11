@@ -84,7 +84,7 @@
                Stretch="UniformToFill">
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
-                                                Value="15.75"
+                                                Value="24"
                                                 Duration="3500"
                                                 Delay="0"
                                                 AutomaticallyStart="True"/>
