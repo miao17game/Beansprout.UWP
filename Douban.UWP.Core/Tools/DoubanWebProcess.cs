@@ -156,7 +156,7 @@ namespace Douban.UWP.Core.Tools {
             return returnString;
         }
 
-        public static async Task<string> GetMDoubanResponseAsync(string path, bool isMobileDevice = false, bool allowToRedirect = true, HttpClient client = null, Encoding ecd = null) {
+        public static async Task<string> GetMDoubanResponseAsync(string path, bool isMobileDevice = true, bool allowToRedirect = true, HttpClient client = null, Encoding ecd = null) {
             return await GetMDoubanResponseAsync(path, "m.douban.com", "https://m.douban.com/", isMobileDevice, allowToRedirect, client, ecd);
         }
 
@@ -164,7 +164,7 @@ namespace Douban.UWP.Core.Tools {
             string path,
             string host ,
             string reffer ,
-            bool isMobileDevice = false,
+            bool isMobileDevice = true,
             bool allowToRedirect = true, 
             HttpClient client = null, 
             Encoding ecd = null) {

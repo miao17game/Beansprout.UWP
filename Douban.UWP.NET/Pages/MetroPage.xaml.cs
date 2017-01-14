@@ -66,9 +66,12 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task ReadCacheAsync() {
             var res = HamburgerResList.ToList();
-            var result = await CacheHelpers.ReadSpecificCacheValueAsync(CacheSelect.MetroList);
+            var result = await GetMetroListAsync();
             var cache = default(List<string>);
-            try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
+            if (result == null || result == "")
+                cache = null;
+            else
+                try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
             if (cache == null) {
                 SelectResources.Source = res
                     .Select(singleton => new MetroChangeItem {
@@ -145,12 +148,14 @@ namespace Douban.UWP.NET.Pages {
 
         private async void InitContentResourcesAsync() {
             var res = HamburgerResList.ToList();
-            var result = await CacheHelpers.ReadSpecificCacheValueAsync(CacheSelect.MetroList);
+            var result = await GetMetroListAsync();
             var cache = default(List<string>);
-            try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
-            if (cache != null) {
-                res = res.Where(i => cache.Contains(i.IdentityToken)).ToList();
-            } 
+            if (result == null || result == "")
+                cache = null;
+            else
+                try { cache = result == null ? null : JsonHelper.FromJson<List<string>>(result); } catch { cache = null; }
+            if (cache != null) 
+                res = res.Where(i => cache.Contains(i.IdentityToken)).ToList();     
             res.Add(new NavigationBar { Title = GetUIString("AddMetroItem"), NaviType = NavigateType.A_D_T });
             GridViewResources.Source = res;
         }
@@ -194,7 +199,9 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void Submit_ClickAsync(object sender, RoutedEventArgs e) {
-            await CacheHelpers.SaveSpecificCacheValueAsync(CacheSelect.MetroList, JsonHelper.ToJson(forCache.Where(i => i.Selected == true).Select(i => i.Token).ToList()));
+            var value = JsonHelper.ToJson(forCache.Where(i => i.Selected == true).Select(i => i.Token).ToList());
+            await CacheHelpers.SaveSpecificCacheValueAsync(CacheSelect.MetroList, value);
+            SetMetroList(value);
             InnerContentPanel.IsOpen = false;
             InitContentResourcesAsync();
         }

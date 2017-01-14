@@ -197,6 +197,7 @@
                                         x:Uid="TPTITLE_Title_Pin"
                                         HorizontalAlignment="Right"
                                         Margin="0,0,5,0"
+                                        FontSize="16"
                                         Style="{StaticResource SpecialButtonAbort}" 
                                         Background="{ThemeResource DoubanForeground01}"
                                         VerticalAlignment="Stretch"
@@ -279,7 +280,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.16.* / 2017.1.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.17.* / 2017.1.14" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="着手本地化内容部分" /><LineBreak/>
+                            <Run Text="提升了Metro页面的性能" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.16.1307 / 2017.1.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复了首页顶部图不加载的问题" /><LineBreak/>
                             <Run Text="降低了顶部图片点击访问唤起知乎的频率..." /><LineBreak/>
                             <Run Text="稍微提升Mobile端的动画性能" /><LineBreak/><LineBreak/>

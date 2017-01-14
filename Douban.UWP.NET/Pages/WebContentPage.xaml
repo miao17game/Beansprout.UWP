@@ -27,7 +27,7 @@
                         <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
-                            <Setter.Value>0,20,0,0</Setter.Value>
+                            <Setter.Value>0,10,0,0</Setter.Value>
                         </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
@@ -51,7 +51,7 @@
                         <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
-                            <Setter.Value>0,20,0,0</Setter.Value>
+                            <Setter.Value>0,10,0,0</Setter.Value>
                         </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
@@ -142,10 +142,11 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Border Height="20" Width="60" HorizontalAlignment="Right" Margin="0,0,3,35"
-                    VerticalAlignment="Bottom"  CornerRadius="2" Background="{ThemeResource DoubanForeground}">
-                <TextBlock Text="开发中" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="White"/>
-            </Border>
+            <Button Height="30" HorizontalAlignment="Right" Margin="0,0,3,35" Name="FullContentBtn"
+                    Style="{StaticResource SpecialButtonAbort}" Background="{ThemeResource DoubanForeground01}"
+                    VerticalAlignment="Bottom" Click="FullContentBtn_Click">
+                <TextBlock Text="查看完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
+            </Button>
         </Grid>
 
         <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">

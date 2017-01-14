@@ -12,6 +12,8 @@ using Douban.UWP.NET.Controls;
 using Douban.UWP.Core.Models;
 using Douban.UWP.NET.Tools;
 using Windows.UI.Xaml;
+using Douban.UWP.Core.Tools;
+using HtmlAgilityPack;
 #endregion
 
 namespace Douban.UWP.NET.Pages {
@@ -59,9 +61,7 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            DoubanLoading.SetVisibility(false);
-            IncrementalLoadingBorder.SetVisibility(true);
-            IncrementalLoading.SetVisibility(true);
+            SetPageLoadingStatus();
             var args = e.Parameter as NavigateParameter;
             isFromInfoClick = args.IsFromInfoClick;
             if (!isFromInfoClick)
@@ -70,7 +70,66 @@ namespace Douban.UWP.NET.Pages {
                 return;
             if (args.Title != null)
                 navigateTitlePath.Text = args.Title;
-            currentUri = args.ToUri;
+            SetWebViewSourceAsync(currentUri = args.ToUri);
+        }
+
+        private async void SetWebViewSourceAsync(Uri uri) {
+            try {
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(result);
+                Scroll.NavigateToString(ConnectString(RemoveString(doc)));
+            } catch {
+                Scroll.Source = uri;
+            }
+        }
+
+        private string RemoveString(HtmlDocument doc) {
+            var value = doc.DocumentNode;
+            var navi = value.SelectSingleNode("//div[@id='TalionNav']");
+            if (navi != null)
+                navi.Remove();
+            var top = value.SelectSingleNode("//section[@class='promo_top_banner']");
+            if (top != null)
+                top.Remove();
+            var tags = value.SelectSingleNode("//section[@class='tags']");
+            if (tags != null)
+                tags.Remove();
+            var comments = value.SelectSingleNode("//section[@class='note-comments']");
+            if (comments != null)
+                comments.Remove();
+            var center = value.SelectSingleNode("//section[@class='center']");
+            if (center != null)
+                center.Remove();
+            var userNote = value.SelectSingleNode("//section[@class='user-notes']");
+            if (userNote != null)
+                userNote.Remove();
+            var relatedMore = value.SelectSingleNode("//section[@class='related-more']");
+            if (relatedMore != null)
+                relatedMore.Remove();
+            var toHomePage = value.SelectSingleNode("//div[@class='tohomepage']");
+            if (toHomePage != null)
+                toHomePage.Remove();
+            var themesWidgets = value.SelectSingleNode("//section[@id='ThemesWidget']");
+            if (themesWidgets != null)
+                themesWidgets.Remove();
+            var downloadApp = value.SelectSingleNode("//div[@class='download-app']");
+            if (downloadApp != null)
+                downloadApp.Remove();
+            return value.InnerHtml;
+        }
+
+        private string ConnectString(string value) {
+            return value;
+        }
+
+        private void SetPageLoadingStatus() {
+            DoubanLoading.SetVisibility(false);
+            IncrementalLoadingBorder.SetVisibility(true);
+            IncrementalLoading.SetVisibility(true);
+        }
+
+        private void FullContentBtn_Click(object sender, RoutedEventArgs e) {
             Scroll.Source = currentUri;
         }
 
@@ -98,6 +157,5 @@ namespace Douban.UWP.NET.Pages {
         #endregion
         bool isFromInfoClick = false;
         #endregion
-
     }
 }

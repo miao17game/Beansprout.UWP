@@ -68,6 +68,15 @@ namespace Douban.UWP.NET.Resources {
             set { divideNumber = value; }
         }
 
+        private static string metroList;
+        public static void SetMetroList(string value) { metroList = value; }
+        public async static Task<string> GetMetroListAsync() {
+            return metroList ?? await new Func<Task<string>>(async () => {
+                metroList = (await CacheHelpers.ReadSpecificCacheValueAsync(CacheSelect.MetroList)) ?? "";
+                return metroList;
+            }).Invoke();
+        }
+
         private static LoginStatusBag _loginStatus = new LoginStatusBag();
         public static LoginStatusBag LoginStatus {
             get { return _loginStatus; }

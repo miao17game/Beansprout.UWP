@@ -174,7 +174,7 @@
                         <Setter Target="LineGrid.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="HamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
-                            <Setter.Value>0,20,0,0</Setter.Value>
+                            <Setter.Value>0,10,0,0</Setter.Value>
                         </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
@@ -216,7 +216,7 @@
                         <Setter Target="LineGrid.(FrameworkElement.Height)" Value="80"/>
                         <Setter Target="HamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
-                            <Setter.Value>0,20,0,0</Setter.Value>
+                            <Setter.Value>0,10,0,0</Setter.Value>
                         </Setter>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
                             <Setter.Value>0,20,0,0</Setter.Value>
