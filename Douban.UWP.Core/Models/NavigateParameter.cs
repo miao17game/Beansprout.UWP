@@ -10,5 +10,6 @@ namespace Douban.UWP.Core.Models {
         public string Title { get; set; }
         public object SpecialParameter { get; set; }
         public bool IsFromInfoClick { get; set; }
+        public bool IsNative { get; set; }
     }
 }

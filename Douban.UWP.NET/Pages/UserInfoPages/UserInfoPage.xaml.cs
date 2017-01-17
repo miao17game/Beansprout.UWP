@@ -200,9 +200,10 @@ namespace Douban.UWP.NET.Pages {
             var newList = new List<LifeStreamItem>();
             try {
                 var items = JObject.Parse(await APIForFetchLifeStreamAsync(uid))["items"];
-                if (items.HasValues) 
-                    items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList)); 
+                if (items.HasValues)
+                    items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
                 ListResources.Source = newList.OrderByDescending(i => i.TimeForOrder);
+            } catch { System.Diagnostics.Debug.WriteLine("SetListResourcesAsync ERROR");
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
@@ -218,7 +219,7 @@ namespace Douban.UWP.NET.Pages {
                 var type = InitLifeStreamType(singleton);
                 var itemToAdd = InitLifeStreamItem(singleton, type);
                 SetSpecialContent(newList, singleton["content"], type, itemToAdd);
-            } catch { /* Ignore */}
+            } catch { System.Diagnostics.Debug.WriteLine("AddEverySingleton ERROR"); }
         }
 
         #region Set Comment Content
@@ -241,6 +242,7 @@ namespace Douban.UWP.NET.Pages {
                     case InfosItemBase.JsonType.Undefined:
                         break;
                 }
+            } catch { System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
             } finally { newList.Add(itemToAdd); }
         }
 
@@ -272,41 +274,49 @@ namespace Douban.UWP.NET.Pages {
         #region Set Special Content
 
         private void SetCardContent(JToken content, LifeStreamItem item) {
-            AddCover(content, item);
-            item.Title = content["title"].Value<string>();
-            item.Description = content["description"].Value<string>();
-            item.Text = content["text"].Value<string>();
+            try {
+                AddCover(content, item);
+                item.Title = content["title"].Value<string>();
+                item.Description = content["description"].Value<string>();
+                item.Text = content["text"].Value<string>();
+            } catch { System.Diagnostics.Debug.WriteLine("SetCardContent ERROR"); }
         }
 
         private void SetArticleContent(JToken content, LifeStreamItem item) {
-            AddCover(content, item);
-            item.Abstract = content["abstract"].Value<string>();
-            item.Title = content["title"].Value<string>();
+            try {
+                AddCover(content, item);
+                item.Abstract = content["abstract"].Value<string>();
+                item.Title = content["title"].Value<string>();
+            } catch { System.Diagnostics.Debug.WriteLine("SetArticleContent ERROR"); }
         }
 
         private void SetStatusContent(JToken content, LifeStreamItem item) {
-            item.Text = content["text"].Value<string>();
-            item.Images = new List<PictureItemBase>();
-            var images = content["images"];
-            if (images.HasValues) {
-                item.HasImages = true;
-                images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
-            } else {
-                item.HasImages = false;
-                item.Images.Add(CreateNoPictureBase());
-            }
+            try {
+                item.Text = content["text"].Value<string>();
+                item.Images = new List<PictureItemBase>();
+                var images = content["images"];
+                if (images.HasValues) {
+                    item.HasImages = true;
+                    images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
+                } else {
+                    item.HasImages = false;
+                    item.Images.Add(CreateNoPictureBase());
+                }
+            } catch { System.Diagnostics.Debug.WriteLine("SetStatusContent ERROR"); }
         }
 
         private void SetAlbumContent(JToken content, LifeStreamItem item) {
-            item.AlbumList = new List<PictureItem>();
-            var photos = content["photos"];
-            if (photos.HasValues) {
-                item.HasAlbum = true;
-                photos.Children().ToList().ForEach(singleton => item.AlbumList.Add(CreatePictureSingleton(item, singleton)));
-            } else {
-                item.HasAlbum = false;
-                item.Images.Add(CreateNoPictureSingleton());
-            }
+            try {
+                item.AlbumList = new List<PictureItem>();
+                var photos = content["photos"];
+                if (photos.HasValues) {
+                    item.HasAlbum = true;
+                    photos.Children().ToList().ForEach(singleton => item.AlbumList.Add(CreatePictureSingleton(item, singleton)));
+                } else {
+                    item.HasAlbum = false;
+                    item.Images.Add(CreateNoPictureSingleton());
+                }
+            } catch { System.Diagnostics.Debug.WriteLine("SetAlbumContent ERROR"); }
         }
 
         #endregion
@@ -356,7 +366,7 @@ namespace Douban.UWP.NET.Pages {
                 Name = author["name"].Value<string>(),
                 Url = author["url"].Value<string>(),
                 Gender = author["gender"].Value<string>(),
-                Abstract = author["abstract"].Value<string>(),
+                //Abstract = author["abstract"].Value<string>(),
                 Uri = author["uri"].Value<string>(),
                 Avatar = author["avatar"].Value<string>(),
                 LargeAvatar = author["large_avatar"].Value<string>(),

@@ -145,7 +145,7 @@
             <Button Height="30" HorizontalAlignment="Right" Margin="0,0,3,35" Name="FullContentBtn"
                     Style="{StaticResource SpecialButtonAbort}" Background="{ThemeResource DoubanForeground01}"
                     VerticalAlignment="Bottom" Click="FullContentBtn_Click">
-                <TextBlock Text="查看完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
+                <TextBlock Text="完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
             </Button>
         </Grid>
 

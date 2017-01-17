@@ -108,13 +108,17 @@ namespace Douban.UWP.NET.Pages {
                 formatAPI: FormatPath,
                 group: groupName,
                 count: 13,
-                loc_id: "108288");
+                loc_id: GetLocalUid());
+        }
+
+        private static string GetLocalUid() {
+            return IsLogined ? LoginStatus.APIUserinfos?.LocationUid : "108288";
         }
 
         private async Task<ItemGroup<BookItem>> FetchMessageFromAPIAsync(
             string formatAPI, 
             string group,
-            string loc_id,
+            string loc_id = "108288",
             uint start = 0, 
             uint count = 8, 
             int offset = 0) {
@@ -122,13 +126,13 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
-                    "frodo.douban.com",
+                    "m.douban.com",
                     "https://m.douban.com/book/");
                 if (result == null) {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
                 }
-                JObject jo = JObject.Parse(result.Substring(7, result.Length - 8));
+                JObject jo = JObject.Parse(result);
                 gmodel = SetGroupResources(jo, gmodel);
                 gmodel = SetSingletonResources(jo, gmodel);
             } catch { ReportHelper.ReportAttention(GetUIString("UnknownError")); }
@@ -211,7 +215,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Properties
 
-        string FormatPath = "https://frodo.douban.com/jsonp/subject_collection/{0}/items?os=android&callback=jsonp3&start={1}&count={2}&loc_id={3}&_={4}";
+        string FormatPath = "https://m.douban.com/rexxar/api/v2/subject_collection/{0}/items?os=android&start={1}&count={2}&loc_id={3}&_={4}";
 
         #endregion
         

@@ -124,9 +124,9 @@ namespace Douban.UWP.NET.Pages {
                         return;
                     }
                     try {
-                        await MainPage.SetUserStatusAsync(userId);
+                        if (!IsLogined) 
+                            await MainPage.SetUserStatusAsync(userId);
                     } catch { /* Ignore. */ }
-                    IsLogined = true;
                 } else {
                     if (!IsLogined) {
                         NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));

@@ -31,25 +31,6 @@ namespace Douban.UWP.NET.Pages {
 
         #region Events
 
-        protected override void InitPageState() {
-            base.InitPageState();
-            GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
-        }
-
-        public override void DoWorkWhenAnimationCompleted() {
-            if (isFromInfoClick) {
-                (this.Parent as Frame).Content = null;
-                return;
-            }
-            if (VisibleWidth > 800) {
-                if (IsDivideScreen)
-                    MainContentFrame.Navigate(typeof(MetroPage));
-                else
-                    MainContentFrame.Content = null;
-            } else
-                MainContentFrame.Content = null;
-        }
-
         public override void PageSlideOutStart(bool isToLeft) {
             base.PageSlideOutStart(isToLeft);
             Scroll.Navigate(new Uri("https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg"));
@@ -70,63 +51,10 @@ namespace Douban.UWP.NET.Pages {
                 return;
             if (args.Title != null)
                 navigateTitlePath.Text = args.Title;
-            SetWebViewSourceAsync(currentUri = args.ToUri);
-        }
-
-        private async void SetWebViewSourceAsync(Uri uri) {
-            try {
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
-                HtmlDocument doc = new HtmlDocument();
-                doc.LoadHtml(result);
-                Scroll.NavigateToString(ConnectString(RemoveString(doc)));
-            } catch {
-                Scroll.Source = uri;
-            }
-        }
-
-        private string RemoveString(HtmlDocument doc) {
-            var value = doc.DocumentNode;
-            var navi = value.SelectSingleNode("//div[@id='TalionNav']");
-            if (navi != null)
-                navi.Remove();
-            var top = value.SelectSingleNode("//section[@class='promo_top_banner']");
-            if (top != null)
-                top.Remove();
-            var tags = value.SelectSingleNode("//section[@class='tags']");
-            if (tags != null)
-                tags.Remove();
-            var comments = value.SelectSingleNode("//section[@class='note-comments']");
-            if (comments != null)
-                comments.Remove();
-            var center = value.SelectSingleNode("//section[@class='center']");
-            if (center != null)
-                center.Remove();
-            var userNote = value.SelectSingleNode("//section[@class='user-notes']");
-            if (userNote != null)
-                userNote.Remove();
-            var relatedMore = value.SelectSingleNode("//section[@class='related-more']");
-            if (relatedMore != null)
-                relatedMore.Remove();
-            var toHomePage = value.SelectSingleNode("//div[@class='tohomepage']");
-            if (toHomePage != null)
-                toHomePage.Remove();
-            var themesWidgets = value.SelectSingleNode("//section[@id='ThemesWidget']");
-            if (themesWidgets != null)
-                themesWidgets.Remove();
-            var downloadApp = value.SelectSingleNode("//div[@class='download-app']");
-            if (downloadApp != null)
-                downloadApp.Remove();
-            return value.InnerHtml;
-        }
-
-        private string ConnectString(string value) {
-            return value;
-        }
-
-        private void SetPageLoadingStatus() {
-            DoubanLoading.SetVisibility(false);
-            IncrementalLoadingBorder.SetVisibility(true);
-            IncrementalLoading.SetVisibility(true);
+            if(args.IsNative)
+                SetWebViewSourceAsync(currentUri = args.ToUri);
+            else
+                Scroll.Source = currentUri = args.ToUri;
         }
 
         private void FullContentBtn_Click(object sender, RoutedEventArgs e) {
@@ -155,6 +83,80 @@ namespace Douban.UWP.NET.Pages {
         }
 
         #endregion
+
+        #endregion
+
+        #region Methods
+
+        protected override void InitPageState() {
+            base.InitPageState();
+            GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
+        }
+
+        public override void DoWorkWhenAnimationCompleted() {
+            if (isFromInfoClick) {
+                (this.Parent as Frame).Content = null;
+                return;
+            }
+            if (VisibleWidth > 800) {
+                if (IsDivideScreen)
+                    MainContentFrame.Navigate(typeof(MetroPage));
+                else
+                    MainContentFrame.Content = null;
+            } else
+                MainContentFrame.Content = null;
+        }
+
+        private async void SetWebViewSourceAsync(Uri uri) {
+            try {
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
+                HtmlDocument doc = new HtmlDocument();
+                doc.LoadHtml(result);
+                var root = doc.DocumentNode;
+                Scroll.NavigateToString(
+                    root.ContainsFormat("div", "class", "rich-note") ? WebStringNative(root.GetHtmlFormat("div", "class", "rich-note")) :
+                    root.ContainsFormat("div", "class", "full") ? WebStringNative(root.GetHtmlFormat("div", "class", "full")) :
+                    ConnectString(RemoveString(doc)));
+            } catch {
+                Scroll.Source = uri;
+            }
+        }
+
+        private string WebStringNative(string value) {
+            return HtmlXHelperExtensions.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark)
+                .Replace(@"<img data-src", @"<img style='max-width:100%' src")
+                .Replace(@"<div class='cc'>", @"<div>")
+                .Replace(@"<table>", @"<table>");
+        }
+
+        private string RemoveString(HtmlDocument doc) {
+            return doc.DocumentNode
+                .RemoveFormat("div", "id", "TalionNav")
+                .RemoveFormat("div", "class", "tohomepage")
+                .RemoveFormat("div", "class", "download-app")
+                .RemoveFormat("section", "class", "promo_top_banner")
+                .RemoveFormat("section", "class", "tags")
+                .RemoveFormat("section", "class", "note-comments")
+                .RemoveFormat("section", "class", "center")
+                .RemoveFormat("section", "class", "user-notes")
+                .RemoveFormat("section", "class", "related-more")
+                .RemoveFormat("section", "id", "ThemesWidget")
+                .InnerHtml;
+        }
+
+        private string ConnectString(string value) {
+            return value;
+        }
+
+        private void SetPageLoadingStatus() {
+            DoubanLoading.SetVisibility(false);
+            IncrementalLoadingBorder.SetVisibility(true);
+            IncrementalLoading.SetVisibility(true);
+        }
+
+        #endregion
+
+        #region Properties
         bool isFromInfoClick = false;
         #endregion
     }

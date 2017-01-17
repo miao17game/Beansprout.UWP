@@ -94,9 +94,9 @@ namespace Douban.UWP.NET {
                         return;
                     }
                     try {
-                        await SetUserStatusAsync(userId);
+                        if (!IsLogined)
+                            await SetUserStatusAsync(userId);
                     } catch { /* Ignore. */ }
-                    IsLogined = true;
                 } else {
                     if (!IsLogined) {
                         NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
@@ -123,14 +123,20 @@ namespace Douban.UWP.NET {
         }
 
         public static async Task SetUserStatusAsync(string uid) {
-            var result = await DoubanWebProcess.GetAPIResponseAsync(
-                path : "https://m.douban.com/rexxar/api/v2/user/" + uid,
-                host : "m.douban.com",
-                reffer : "https://m.douban.com/mine/");
-            LoginStatus = GlobalHelpers.GetLoginStatus(result);
-            Current.LoginUserBlock.Text = LoginStatus.UserName;
-            Current.LoginUserText.SetVisibility(false);
-            Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(LoginStatus.APIUserinfos.LargeAvatar)) };
+            try {
+                var result = await DoubanWebProcess.GetAPIResponseAsync(
+                path: "https://m.douban.com/rexxar/api/v2/user/" + uid,
+                host: "m.douban.com",
+                reffer: "https://m.douban.com/mine/");
+                LoginStatus = GlobalHelpers.GetLoginStatus(result);
+                Current.LoginUserBlock.Text = LoginStatus.UserName;
+                Current.LoginUserText.SetVisibility(false);
+                Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(LoginStatus.APIUserinfos.LargeAvatar)) };
+                IsLogined = true;
+            } catch {
+                SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
+                IsLogined = false;
+            }
         }
 
         public void ResetUserStatus() {

@@ -53,7 +53,7 @@ namespace Douban.UWP.NET.Tools {
                 LocationString = loc.HasValues ? loc["name"].Value<string>() : null,
                 LocationUrl = null,
                 APIUserinfos = new APIUserinfos {
-                    AbstractName = jo["abstract"].Value<string>(),
+                    //AbstractName = jo["abstract"].Value<string>(),
                     ArkPublishedCount = jo["ark_published_count"].Value<uint>(),
                     Avatar = jo["avatar"].Value<string>(),
                     Birthday = jo["birthday"].Value<string>(),

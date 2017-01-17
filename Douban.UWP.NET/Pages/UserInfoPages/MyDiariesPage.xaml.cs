@@ -134,7 +134,7 @@ namespace Douban.UWP.NET.Pages {
                 Name = author["name"].Value<string>(),
                 Url = author["url"].Value<string>(),
                 Gender = author["gender"].Value<string>(),
-                Abstract = author["abstract"].Value<string>(),
+                //Abstract = author["abstract"].Value<string>(),
                 Uri = author["uri"].Value<string>(),
                 Avatar = author["avatar"].Value<string>(),
                 LargeAvatar = author["large_avatar"].Value<string>(),

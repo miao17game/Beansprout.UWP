@@ -141,6 +141,7 @@
     <Compile Include="Tools\ConstFields.cs" />
     <Compile Include="Tools\DataProcess.cs" />
     <Compile Include="Tools\DoubanWebProcess.cs" />
+    <Compile Include="Tools\HtmlXHelperExtensions.cs" />
     <Compile Include="Tools\PersonalExpressions\EscapeReplace.cs" />
     <Compile Include="Tools\SettingsSelect.cs" />
     <Compile Include="Tools\TilesHelper.cs" />
