@@ -1,16 +1,11 @@
 ﻿<base:BaseContentPage
-    x:Class="Douban.UWP.NET.Pages.WebContentPage"
+    x:Class="Douban.UWP.NET.Pages.TypeWebPage.CardWebPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Douban.UWP.NET.Pages"
     xmlns:base="using:Douban.UWP.NET.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <base:BaseContentPage.Resources>
-
-    </base:BaseContentPage.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
 
@@ -100,15 +95,17 @@
         </Grid.Transitions>
 
         <ScrollViewer Name="Scroll" Margin="0,70,0,0">
-            <RelativePanel>
+            <RelativePanel Loaded="RelativePanel_Loaded">
                 <WebView Name="WebView" 
                          RelativePanel.Above="InnerStack"
                          RelativePanel.AlignTopWithPanel="True"
                          RelativePanel.AlignLeftWithPanel="True"
                          RelativePanel.AlignRightWithPanel="True"
-                         DOMContentLoaded="Scroll_DOMContentLoaded"
+                         DOMContentLoaded="Scroll_DOMContentLoadedAsync"
                          NavigationStarting="Scroll_NavigationStarting"
-                         ContentLoading="Scroll_ContentLoading"/>
+                         ContentLoading="Scroll_ContentLoading"
+                         SizeChanged="WebView_SizeChangedAsync"
+                         ScriptNotify="WebView_ScriptNotify"/>
                 <StackPanel Name="InnerStack"
                             RelativePanel.AlignBottomWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"

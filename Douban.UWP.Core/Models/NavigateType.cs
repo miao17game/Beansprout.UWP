@@ -20,6 +20,7 @@ namespace Douban.UWP.Core.Models {
         Settings,
         Webview,
         ItemClick,
+        ItemClickNative,
         DouList,
         MovieContent,
         MovieFilter,

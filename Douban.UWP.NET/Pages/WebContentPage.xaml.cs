@@ -33,7 +33,7 @@ namespace Douban.UWP.NET.Pages {
 
         public override void PageSlideOutStart(bool isToLeft) {
             base.PageSlideOutStart(isToLeft);
-            Scroll.Navigate(new Uri("https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg"));
+            WebView.Navigate(new Uri("https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg"));
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -51,19 +51,19 @@ namespace Douban.UWP.NET.Pages {
                 return;
             if (args.Title != null)
                 navigateTitlePath.Text = args.Title;
-            if(args.IsNative)
+            if(isNative = args.IsNative)
                 SetWebViewSourceAsync(currentUri = args.ToUri);
             else
-                Scroll.Source = currentUri = args.ToUri;
+                WebView.Source = currentUri = args.ToUri;
         }
 
         private void FullContentBtn_Click(object sender, RoutedEventArgs e) {
-            Scroll.Source = currentUri;
+            WebView.Source = currentUri;
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
-            if (Scroll.CanGoBack)
-                Scroll.GoBack();
+            if (WebView.CanGoBack)
+                WebView.GoBack();
             else
                 PageSlideOutStart(VisibleWidth > 800 ? false : true);
         }
@@ -113,20 +113,10 @@ namespace Douban.UWP.NET.Pages {
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(result);
                 var root = doc.DocumentNode;
-                Scroll.NavigateToString(
-                    root.ContainsFormat("div", "class", "rich-note") ? WebStringNative(root.GetHtmlFormat("div", "class", "rich-note")) :
-                    root.ContainsFormat("div", "class", "full") ? WebStringNative(root.GetHtmlFormat("div", "class", "full")) :
-                    ConnectString(RemoveString(doc)));
+                ConnectString(RemoveString(doc));
             } catch {
-                Scroll.Source = uri;
+                WebView.Source = uri;
             }
-        }
-
-        private string WebStringNative(string value) {
-            return HtmlXHelperExtensions.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark)
-                .Replace(@"<img data-src", @"<img style='max-width:100%' src")
-                .Replace(@"<div class='cc'>", @"<div>")
-                .Replace(@"<table>", @"<table>");
         }
 
         private string RemoveString(HtmlDocument doc) {
@@ -141,7 +131,7 @@ namespace Douban.UWP.NET.Pages {
                 .RemoveFormat("section", "class", "user-notes")
                 .RemoveFormat("section", "class", "related-more")
                 .RemoveFormat("section", "id", "ThemesWidget")
-                .InnerHtml;
+                .OuterHtml;
         }
 
         private string ConnectString(string value) {
@@ -158,6 +148,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Properties
         bool isFromInfoClick = false;
+        bool isNative = false;
         #endregion
     }
 }

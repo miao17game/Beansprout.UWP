@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
 using Windows.UI.Xaml;
+using Douban.UWP.NET.Pages.TypeWebPage;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -118,6 +119,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Book, typeof(BookIndexPage)},
                     { NavigateType.Music, typeof(MusicIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
+                    { NavigateType.ItemClickNative, typeof(CardWebPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
                     { NavigateType.DouList, typeof(WebContentPage)},
                     { NavigateType.MovieContent, typeof(WebContentPage)},
@@ -154,6 +156,7 @@ namespace Douban.UWP.NET.Resources {
                         { NavigateType.Book, MainLeftPartFrame},
                         { NavigateType.Music, MainLeftPartFrame},
                         { NavigateType.ItemClick, MainContentFrame},
+                        { NavigateType.ItemClickNative, MainContentFrame},
                         { NavigateType.Webview, MainLeftPartFrame},
                         { NavigateType.DouList, MainContentFrame},
                         { NavigateType.MovieContent, MainContentFrame},

@@ -184,8 +184,8 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 sender,
                 new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null , Title = item.Title, IsNative = true},
-                GetFrameInstance(Core.Models.NavigateType.ItemClick),
-                GetPageType(Core.Models.NavigateType.ItemClick));
+                GetFrameInstance(Core.Models.NavigateType.ItemClickNative),
+                GetPageType(Core.Models.NavigateType.ItemClickNative));
         }
 
         private void ScrollViewerChangedForFlip(object sender, ScrollViewerViewChangedEventArgs e) {

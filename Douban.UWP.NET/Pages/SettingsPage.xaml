@@ -280,7 +280,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.18.* / 2017.1.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.19.* / 2017.1.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="调整新页面布局，增加样式" /><LineBreak/>
+                            <Run Text="完成新页面的分辨率适配" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.18.2013 / 2017.1.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="万恶的豆瓣改了API，爆的一塌糊涂😡🙄" /><LineBreak/>
                             <Run Text="修复了因为API修改导致的错误" /><LineBreak/>
                             <Run Text="主页部分链接彻底本地化" /><LineBreak/>

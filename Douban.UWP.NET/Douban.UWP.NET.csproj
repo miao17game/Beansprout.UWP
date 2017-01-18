@@ -167,6 +167,9 @@
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TypeWebPage\CardWebPage.xaml.cs">
+      <DependentUpon>CardWebPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\UserInfoPages\MyDiariesPage.xaml.cs">
       <DependentUpon>MyDiariesPage.xaml</DependentUpon>
     </Compile>
@@ -265,6 +268,11 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <Content Include="Resources\CSS\DarkTheme.css" />
+    <Content Include="Resources\CSS\DefaultClass.css" />
+    <Content Include="Resources\CSS\Desktop.css" />
+    <Content Include="Resources\CSS\LightTheme.css" />
+    <Content Include="Resources\CSS\MobileDevice.css" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -358,6 +366,10 @@
     <Page Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TypeWebPage\CardWebPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\UserInfoPages\MyDiariesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
