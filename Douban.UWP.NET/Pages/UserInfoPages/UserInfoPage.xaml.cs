@@ -72,7 +72,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
-            PageSlideOutStart(VisibleWidth > 800 ? false : true);
+            PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -103,7 +103,7 @@ namespace Douban.UWP.NET.Pages {
             await DoubanWebProcess.GetDoubanResponseAsync(path);
             SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
             GlobalHelpers.ResetLoginStatus();
-            PageSlideOutStart(VisibleWidth > 800 ? false : true);
+            PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
         }
 
         private void ContentList_ItemClick(object sender, ItemClickEventArgs e) {
@@ -405,17 +405,13 @@ namespace Douban.UWP.NET.Pages {
         #endregion
 
         private void AdaptToClearContentAfterOnBackPressed() {
-            if (VisibleWidth > 800) {
-                if (IsDivideScreen)
-                    MainContentFrame.Navigate(typeof(MetroPage));
-                else
-                    MainContentFrame.Content = null;
-            } else
-                MainContentFrame.Content = null;
+            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
+                MainMetroFrame.Navigate(typeof(MetroPage));
+            MainUserInfosFrame.Content = null;
         }
 
         private void AdaptForScreenSize() {
-            if (VisibleWidth > 800) {
+            if (VisibleWidth > FormatNumber) {
                 if (DescriptionGrid.Children.Contains(U_L_GRID))
                     AdaptForWidePCMode();
             } else {
@@ -441,8 +437,6 @@ namespace Douban.UWP.NET.Pages {
         #endregion
 
         #region Properties and state
-
-        private enum ContentType { None = 0, String = 1, Image = 2, Gif = 3, Video = 4, Flash = 5, SelfUri = 6 }
 
         private void RunButtonClick(string name) { if (EventMap.ContainsKey(name)) EventMap[name].Invoke(); }
         private IDictionary<string, Action> eventMap;

@@ -500,7 +500,10 @@
                    Canvas.ZIndex="1"/>
 
         <Grid Name="ContentGrid" Grid.Column="1" Canvas.ZIndex="2">
-            <Frame Name="ContentFrame"/>
+            <Frame Name="MetroFrame" Navigated="MetroFrame_Navigated"/>
+            <Frame Name="ContentFrame" Navigated="ContentFrame_Navigated"/>
+            <Frame Name="UpContentFrame" Navigated="UpContentFrame_Navigated"/>
+            <Frame Name="UserInfosFrame" Navigated="UserInfosFrame_Navigated"/>
         </Grid>
 
         <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"

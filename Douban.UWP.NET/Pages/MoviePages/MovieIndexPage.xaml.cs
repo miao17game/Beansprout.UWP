@@ -72,7 +72,7 @@ namespace Douban.UWP.NET.Pages {
                 button.Click += (obj, args) => NavigateToBase?.Invoke(
                     null,
                     new NavigateParameter { ToUri = new Uri(i.GroupPathUrl), Title = i.GroupName },
-                    GetFrameInstance(NavigateType.DouList),
+                    GetFrameInstance(FrameType.Content),
                     GetPageType(NavigateType.DouList));
                 WrapPanel.Children.Add(new Border {
                     CornerRadius = new CornerRadius(3),
@@ -179,7 +179,7 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
                 new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MOVIE") },
-                GetFrameInstance(NavigateType.MovieFilter),
+                GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieFilter));
         }
 
@@ -190,7 +190,7 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter { ToUri = new Uri(item.PathUrl), Title = item.Title },
-                GetFrameInstance(NavigateType.MovieContent),
+                GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieContent));
         }
 
@@ -201,7 +201,7 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter { ToUri = new Uri(item.GroupPathUrl), Title = item.GroupName },
-                GetFrameInstance(NavigateType.MovieFilter),
+                GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieFilter));
         }
 

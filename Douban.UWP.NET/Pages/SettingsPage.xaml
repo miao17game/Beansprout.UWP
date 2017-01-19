@@ -280,7 +280,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.19.* / 2017.1.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.20.* / 2017.1.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="重构应用程序部分结构" /><LineBreak/>
+                            <Run Text="强化页面切换逻辑和性能" /><LineBreak/>
+                            <Run Text="实现Native页面点赞和Native导航" /><LineBreak/>
+                            <Run Text="解决手机端Native页面滑动失效的问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.19.2133 / 2017.1.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="调整新页面布局，增加样式" /><LineBreak/>
                             <Run Text="完成新页面的分辨率适配" /><LineBreak/><LineBreak/>
                             

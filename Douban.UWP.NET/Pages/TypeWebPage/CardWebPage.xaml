@@ -105,7 +105,7 @@
                          NavigationStarting="Scroll_NavigationStarting"
                          ContentLoading="Scroll_ContentLoading"
                          SizeChanged="WebView_SizeChangedAsync"
-                         ScriptNotify="WebView_ScriptNotify"/>
+                         ScriptNotify="WebView_ScriptNotifyAsync"/>
                 <StackPanel Name="InnerStack"
                             RelativePanel.AlignBottomWithPanel="True"
                             RelativePanel.AlignLeftWithPanel="True"
@@ -157,6 +157,40 @@
                 <TextBlock Text="完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
             </Button>
         </Grid>
+
+        <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"
+               SizeChanged="ImagePopup_SizeChanged">
+            <Border Name="ImagePopupBorder"
+                    Width="{Binding ActualWidth, ElementName=ImagePopup, Mode=OneWay}" 
+                    Height="{Binding ActualHeight, ElementName=ImagePopup, Mode=OneWay}" 
+                    Background="{ThemeResource DQDPopupBackColor}">
+                <Grid>
+                    <Button Name="ImageControlButton" 
+                            Background="Transparent"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                            HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Stretch"
+                            Click="ImageControlButton_Click" 
+                            ManipulationMode="Scale">
+                        <Image Name="ImageScreen" Margin="40"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"/>
+                    </Button>
+                    <Button Name="ImageSaveButton" 
+                            Height="50" Width="50"
+                            Background="#404040"
+                            Foreground="White" 
+                            Content="&#xE105;" 
+                            FontSize="27"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Margin="0,0,30,30" 
+                            CommandParameter=""
+                            Click="ImageSaveButton_ClickAsync"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+                </Grid>
+            </Border>
+        </Popup>
 
         <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
             <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>

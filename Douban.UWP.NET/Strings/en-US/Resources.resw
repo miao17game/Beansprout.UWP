@@ -661,4 +661,12 @@
     <value>Add a note : </value>
     <comment>MyDiariesPage</comment>
   </data>
+  <data name="SaveImageSuccess" xml:space="preserve">
+    <value>Picture saved.</value>
+    <comment>CardWebPage</comment>
+  </data>
+  <data name="LinkContent" xml:space="preserve">
+    <value>Link View</value>
+    <comment>CardWebPage</comment>
+  </data>
 </root>

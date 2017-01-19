@@ -54,10 +54,10 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static string SetHtmlChildren(string bodyContent, bool isGlobalDark) {
-            return CreateHead(CreateCss(default_css)) + CreateBody(SetThemeStyle(isGlobalDark) + bodyContent);
+            return CreateHead(CreateCss(default_css) + SetDefaultJs()) + CreateBody(SetThemeStyle(isGlobalDark) + bodyContent);
         }
 
-        public static string SetThemeStyle(bool isGlobalDark) {
+        private static string SetThemeStyle(bool isGlobalDark) {
             return CreateCss(@"
                 body{
                 font-family:Segoe UI;
@@ -66,6 +66,18 @@ namespace Douban.UWP.Core.Tools {
                 color: #" + (isGlobalDark ? "fff" : "202020") + @";
                 }
             "  + GetCopyrightAndLike() + GetHeaderCss() + GetTagsAndAuthorCss());
+        }
+
+        private static string SetDefaultJs() {
+            return CreateJs(@"
+                function send_path_url(path){
+                    window.external.notify(JSON.stringify(path));
+                }
+        ");
+        } 
+
+        public static string CreateJs(string js) {
+            return $@"<script type='text/javascript'>{js}</script> ";
         }
 
         public static string CreateCss(string css) {

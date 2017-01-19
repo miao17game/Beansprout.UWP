@@ -342,7 +342,7 @@ namespace Douban.UWP.NET.Pages {
                         NavigateToBase?.Invoke(
                         null,
                         null,
-                        GetFrameInstance(NavigateType.UserInfo),
+                        GetFrameInstance(FrameType.UserInfos),
                         GetPageType(NavigateType.UserInfo));
                     } catch {/* Ignore. */ }
                 } catch {
@@ -353,7 +353,7 @@ namespace Douban.UWP.NET.Pages {
                 NavigateToBase?.Invoke(
                     null,
                     null,
-                    GetFrameInstance(NavigateType.UserInfo),
+                    GetFrameInstance(FrameType.UserInfos),
                     GetPageType(NavigateType.UserInfo));
             }
         }

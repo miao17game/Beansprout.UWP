@@ -114,7 +114,7 @@ namespace Douban.UWP.NET.Tools {
         public static void DivideWindowRange(
             Page currentFramePage,
             double divideNum,
-            double rangeNum = 800,
+            double rangeNum = FormatNumber,
             double defaultDivide = 0.6,
             bool isDivideScreen = true) {
 
@@ -151,7 +151,7 @@ namespace Douban.UWP.NET.Tools {
             Page currentPage,
             double matchNumber,
             bool isDivideScreen,
-            double rangeNumber = 800) {
+            double rangeNumber = FormatNumber) {
             if (matchNumber > rangeNumber && !IsMobile && isDivideScreen)
                 currentPage.Margin = new Thickness(1, 0, 0, 0);
             else

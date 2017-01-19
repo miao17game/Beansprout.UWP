@@ -48,7 +48,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
-            PageSlideOutStart(VisibleWidth > 800 ? false : true);
+            PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
         }
 
         private void ContentList_ItemClick(object sender, ItemClickEventArgs e) {

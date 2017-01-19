@@ -44,8 +44,8 @@ namespace Douban.UWP.NET.Pages {
             base.OnNavigatedTo(e);
             SetPageLoadingStatus();
             var args = e.Parameter as NavigateParameter;
-            isFromInfoClick = args.IsFromInfoClick;
-            if (!isFromInfoClick)
+            frameType = args.FrameType;
+            if (isFromInfoClick = args.IsFromInfoClick)
                 GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
             if (args == null)
                 return;
@@ -65,7 +65,7 @@ namespace Douban.UWP.NET.Pages {
             if (WebView.CanGoBack)
                 WebView.GoBack();
             else
-                PageSlideOutStart(VisibleWidth > 800 ? false : true);
+                PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
         }
 
         #region Web Events
@@ -98,13 +98,9 @@ namespace Douban.UWP.NET.Pages {
                 (this.Parent as Frame).Content = null;
                 return;
             }
-            if (VisibleWidth > 800) {
-                if (IsDivideScreen)
-                    MainContentFrame.Navigate(typeof(MetroPage));
-                else
-                    MainContentFrame.Content = null;
-            } else
-                MainContentFrame.Content = null;
+            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
+                MainMetroFrame.Navigate(typeof(MetroPage));
+            GetFrameInstance(frameType).Content = null;
         }
 
         private async void SetWebViewSourceAsync(Uri uri) {
@@ -149,6 +145,7 @@ namespace Douban.UWP.NET.Pages {
         #region Properties
         bool isFromInfoClick = false;
         bool isNative = false;
+        FrameType frameType;
         #endregion
     }
 }

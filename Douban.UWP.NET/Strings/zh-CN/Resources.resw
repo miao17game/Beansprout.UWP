@@ -660,4 +660,12 @@
     <value>添加了一篇日记</value>
     <comment>MyDiariesPage</comment>
   </data>
+  <data name="SaveImageSuccess" xml:space="preserve">
+    <value>图片保存成功</value>
+    <comment>CardWebPage</comment>
+  </data>
+  <data name="LinkContent" xml:space="preserve">
+    <value>链接内容</value>
+    <comment>CardWebPage</comment>
+  </data>
 </root>

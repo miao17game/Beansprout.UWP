@@ -23,6 +23,9 @@ namespace Douban.UWP.NET.Resources {
         #region Controls Management
         public static TextBlock NavigateTitleBlock { get; set; }
         public static MainPage Current { get; set; }
+        public static Frame MainMetroFrame { get; set; }
+        public static Frame MainUpContentFrame { get; set; }
+        public static Frame MainUserInfosFrame { get; set; }
         public static Frame MainContentFrame { get; set; }
         public static Frame MainLeftPartFrame { get; set; }
         public static Frame MainLoginFrame { get; set; }
@@ -90,6 +93,7 @@ namespace Douban.UWP.NET.Resources {
             set { _isFirstOpen = value; }
         }
 
+        public const double FormatNumber = 800;
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }
 
@@ -130,6 +134,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.MusicFilter, typeof(WebContentPage)},
                     { NavigateType.TVContent, typeof(WebContentPage)},
                     { NavigateType.TVFilter, typeof(WebContentPage)},
+                    { NavigateType.Undefined, typeof(WebContentPage)},
                 };
                 return pagesMaps;
             }).Invoke(); }
@@ -139,36 +144,21 @@ namespace Douban.UWP.NET.Resources {
 
         #region Frame
 
-        public static Frame GetFrameInstance(NavigateType type) { return FrameMaps.ContainsKey(type) ? FrameMaps[type] : null; }
-        static private IDictionary<NavigateType, Frame> frameMaps;
-        public static IDictionary<NavigateType, Frame> FrameMaps {
+        public static Frame GetFrameInstance(FrameType type) { return FramesMaps.ContainsKey(type) ? FramesMaps[type] : null; }
+        static private IDictionary<FrameType, Frame> framesMaps;
+        public static IDictionary<FrameType, Frame> FramesMaps {
             get {
-                return frameMaps ?? new Func<IDictionary<NavigateType, Frame>>(()=> {
-                    frameMaps = new Dictionary<NavigateType, Frame> {
-                        { NavigateType.Settings, MainLeftPartFrame},
-                        { NavigateType.Search, MainContentFrame},
-                        { NavigateType.Login, MainLoginFrame},
-                        { NavigateType.UserInfo, MainContentFrame},
-                        { NavigateType.InfoItemClick, null},
-                        { NavigateType.Index, MainLeftPartFrame},
-                        { NavigateType.Movie, MainLeftPartFrame},
-                        { NavigateType.TV, MainLeftPartFrame},
-                        { NavigateType.Book, MainLeftPartFrame},
-                        { NavigateType.Music, MainLeftPartFrame},
-                        { NavigateType.ItemClick, MainContentFrame},
-                        { NavigateType.ItemClickNative, MainContentFrame},
-                        { NavigateType.Webview, MainLeftPartFrame},
-                        { NavigateType.DouList, MainContentFrame},
-                        { NavigateType.MovieContent, MainContentFrame},
-                        { NavigateType.MovieFilter, MainContentFrame},
-                        { NavigateType.BookContent, MainContentFrame},
-                        { NavigateType.BookFilter, MainContentFrame},
-                        { NavigateType.MusicContent, MainContentFrame},
-                        { NavigateType.MusicFilter, MainContentFrame},
-                        { NavigateType.TVContent, MainContentFrame},
-                        { NavigateType.TVFilter, MainContentFrame},
+                return framesMaps ?? new Func<IDictionary<FrameType, Frame>>(() => {
+                    framesMaps = new Dictionary<FrameType, Frame> {
+                        { FrameType.Content, MainContentFrame },
+                        { FrameType.Login, MainLoginFrame },
+                        { FrameType.Metro, MainMetroFrame },
+                        { FrameType.UpContent, MainUpContentFrame },
+                        { FrameType.UserInfos, MainUserInfosFrame },
+                        { FrameType.InfosDeatils, UserInfoDetails },
+                        { FrameType.LeftPart, MainLeftPartFrame },
                     };
-                    return frameMaps;
+                    return framesMaps;
                 }).Invoke();
             }
         }

@@ -54,6 +54,9 @@ namespace Douban.UWP.NET {
             HamburgerBox = this.HamburgerListBox;
             MainLeftPartFrame = this.BasePartFrame;
             MainContentFrame = this.ContentFrame;
+            MainUserInfosFrame = this.UserInfosFrame;
+            MainMetroFrame = this.MetroFrame;
+            MainUpContentFrame = this.UpContentFrame;
             MainLoginFrame = this.LoginPopupFrame;
             BaseListRing = this.baseListRing;
             MainLoginPopup = this.ImagePopup;
@@ -99,7 +102,7 @@ namespace Douban.UWP.NET {
                     } catch { /* Ignore. */ }
                 } else {
                     if (!IsLogined) {
-                        NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
+                        NavigateToBase?.Invoke(null, null, GetFrameInstance(FrameType.Login), GetPageType(NavigateType.Login));
                         ImagePopup.IsOpen = true;
                     } else
                         NavigateToUserInfoPage();
@@ -112,7 +115,7 @@ namespace Douban.UWP.NET {
         }
 
         private void NavigateToUserInfoPage() {
-            NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
+            NavigateToBase?.Invoke(null, null, GetFrameInstance(FrameType.UserInfos), GetPageType(NavigateType.UserInfo));
         }
 
         public static void SetUserStatus(HtmlDocument doc) {
@@ -167,28 +170,32 @@ namespace Douban.UWP.NET {
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e) {
-            if (ContentFrame.Content == null) {
-                if (VisibleWidth <= 800) {
-                    ContentFrame.Navigate(typeof(MetroPage));
-                } else {
-                    if (!isNeedClose)
-                        InitCloseAppTask();
-                    else
-                        Application.Current.Exit();
-                }
-                e.Handled = true;
-                return;
+            if (UserInfosFrame.Content != null) {
+                OutFramePage(UserInfosFrame);
             } else {
-                var cont_pg = ContentFrame.Content;
-                if (cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
-                    (cont_pg as BaseContentPage).PageSlideOutStart(VisibleWidth > 800 ? false : true);
-                } else if (cont_pg.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
-                    if (!isNeedClose) { InitCloseAppTask(); } else { Application.Current.Exit(); }
-                    e.Handled = true;
-                    return;
+                if (UpContentFrame.Content != null) {
+                    OutFramePage(UpContentFrame);
+                } else {
+                    if (ContentFrame.Content != null) {
+                        OutFramePage(ContentFrame);
+                    } else {
+                        if (MetroFrame.Content != null) {
+                            if (!isNeedClose) { InitCloseAppTask(); } else { Application.Current.Exit(); }
+                        } else {
+                            MetroFrame.Navigate(typeof(MetroPage));
+                        }
+                    }
                 }
             }
             e.Handled = true;
+        }
+
+        private void OutFramePage(Frame frame) {
+            var cont_pg = frame.Content;
+            if (cont_pg == null)
+                return;
+            if (cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name)
+                (cont_pg as BaseContentPage).PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
         }
 
         private void HamburgerListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -200,7 +207,7 @@ namespace Douban.UWP.NET {
             NavigateToBase?.Invoke(
                 sender, 
                 new NavigateParameter { ToUri = item != null ? item.PathUri : null }, 
-                GetFrameInstance(item.NaviType),
+                GetFrameInstance(item.FrameType),
                 GetPageType(item.NaviType));
             NavigationSplit.IsPaneOpen = false;
         }
@@ -215,7 +222,7 @@ namespace Douban.UWP.NET {
             NavigateToBase?.Invoke(
                 sender,
                 null,
-                GetFrameInstance(NavigateType.Settings),
+                GetFrameInstance(FrameType.LeftPart),
                 GetPageType(NavigateType.Settings));
             HamburgerListBox.SelectedIndex = -1;
         }
@@ -231,7 +238,7 @@ namespace Douban.UWP.NET {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter { Title = GetUIString("SEARCH"), ToUri = new Uri("https://m.douban.com/search/") },
-                GetFrameInstance(NavigateType.Search),
+                GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.Search));
         }
 
@@ -257,17 +264,9 @@ namespace Douban.UWP.NET {
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             ImagePopup.Width = (sender as Grid).ActualWidth;
             ImagePopup.Height = (sender as Grid).ActualHeight;
-            if (ContentFrame.Content == null) {
-                if (VisibleWidth > 800 && IsDivideScreen)
-                    ContentFrame.Navigate(typeof(MetroPage));
-            } else {
-                var cont_pg = ContentFrame.Content;
-                if (cont_pg.GetType().GetTypeInfo().BaseType.Name == typeof(BaseContentPage).Name) {
-                    return;
-                } else if (cont_pg.GetType().GetTypeInfo().Name == typeof(MetroPage).Name) {
-                    if(VisibleWidth < 800)
-                        ContentFrame.Content = null;
-                }
+            if (UserInfosFrame.Content == null && UpContentFrame.Content == null && ContentFrame.Content == null) {
+                if (VisibleWidth > FormatNumber && IsDivideScreen)
+                    MetroFrame.Navigate(typeof(MetroPage));
             }
         }
 
@@ -277,8 +276,27 @@ namespace Douban.UWP.NET {
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
-            if (VisibleWidth > 800 && IsDivideScreen)
-                ContentFrame.Navigate(typeof(MetroPage));
+            if (VisibleWidth > FormatNumber && IsDivideScreen)
+                MetroFrame.Navigate(typeof(MetroPage));
+        }
+
+        private void MetroFrame_Navigated(object sender, NavigationEventArgs e) {
+            ContentFrame.Content = null;
+            UpContentFrame.Content = null;
+            UserInfosFrame.Content = null;
+        }
+
+        private void ContentFrame_Navigated(object sender, NavigationEventArgs e) {
+            UpContentFrame.Content = null;
+            UserInfosFrame.Content = null;
+        }
+
+        private void UpContentFrame_Navigated(object sender, NavigationEventArgs e) {
+            UserInfosFrame.Content = null;
+        }
+
+        private void UserInfosFrame_Navigated(object sender, NavigationEventArgs e) {
+
         }
 
         #endregion

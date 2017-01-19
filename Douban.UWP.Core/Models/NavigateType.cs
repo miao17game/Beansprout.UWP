@@ -30,5 +30,16 @@ namespace Douban.UWP.Core.Models {
         BookFilter,
         MusicContent,
         MusicFilter,
+        Undefined
+    }
+
+    public enum FrameType {
+        Content,
+        Metro,
+        UpContent,
+        UserInfos,
+        InfosDeatils,
+        LeftPart,
+        Login,
     }
 }

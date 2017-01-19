@@ -54,13 +54,7 @@ namespace Douban.UWP.NET.Pages {
                 OpenInnerContent();
             } else {
                 CloseContentFrameIfNeed();
-                DoubanLoading.SetVisibility(true);
-                NavigateTitleBlock.Text = item.Title;
-                NavigateToBase?.Invoke(
-                    sender,
-                    new NavigateParameter { ToUri = item != null ? item.PathUri : null },
-                    GetFrameInstance(item.NaviType),
-                    GetPageType(item.NaviType));
+                HamburgerBox.SelectedItem = item;
             }
         }
 
@@ -92,11 +86,12 @@ namespace Douban.UWP.NET.Pages {
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e) {
             CloseContentFrameIfNeed();
+            HamburgerBox.SelectedIndex = -1;
             NavigateTitleBlock.Text = GetUIString("Settings");
             NavigateToBase?.Invoke(
                 sender,
                 null,
-                GetFrameInstance(NavigateType.Settings),
+                GetFrameInstance(FrameType.LeftPart),
                 GetPageType(NavigateType.Settings));
         }
 
@@ -126,13 +121,14 @@ namespace Douban.UWP.NET.Pages {
                     try {
                         if (!IsLogined) 
                             await MainPage.SetUserStatusAsync(userId);
+                        SetUserStatus();
                     } catch { /* Ignore. */ }
                 } else {
                     if (!IsLogined) {
-                        NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.Login), GetPageType(NavigateType.Login));
+                        NavigateToBase?.Invoke(null, null, GetFrameInstance(FrameType.Login), GetPageType(NavigateType.Login));
                         MainPage.OpenLoginPopup();
                     } else
-                        NavigateToBase?.Invoke(null, null, GetFrameInstance(NavigateType.UserInfo), GetPageType(NavigateType.UserInfo));
+                        NavigateToBase?.Invoke(null, null, GetFrameInstance(FrameType.UserInfos), GetPageType(NavigateType.UserInfo));
                 }
             } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
         }
@@ -186,8 +182,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void CloseContentFrameIfNeed() {
-            if (VisibleWidth <= 800) 
-                MainContentFrame.Content = null;
+            if (VisibleWidth <= FormatNumber || !IsDivideScreen) 
+                MainMetroFrame.Content = null;
         }
 
         private void CheckBox_Click(object sender, RoutedEventArgs e) {

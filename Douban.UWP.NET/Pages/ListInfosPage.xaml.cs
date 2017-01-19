@@ -95,7 +95,7 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 sender,
                 new Core.Models.NavigateParameter { ToUri = newUri, Title = text },
-                GetFrameInstance(Core.Models.NavigateType.ItemClick),
+                GetFrameInstance(Core.Models.FrameType.Content),
                 GetPageType(Core.Models.NavigateType.ItemClick));
         }
 
@@ -184,7 +184,7 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 sender,
                 new Core.Models.NavigateParameter { ToUri = item.PathUrl != null ? new Uri(item.PathUrl) : null , Title = item.Title, IsNative = true},
-                GetFrameInstance(Core.Models.NavigateType.ItemClickNative),
+                GetFrameInstance(Core.Models.FrameType.Content),
                 GetPageType(Core.Models.NavigateType.ItemClickNative));
         }
 

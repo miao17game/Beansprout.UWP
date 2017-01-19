@@ -152,11 +152,10 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void ChangeSplitViewWidth(double value) {
-            var content = MainContentFrame.Content;
-            if (content == null)
-                return;
-            if (GetParentName(content) == typeof(BaseContentPage).Name || GetTypeName(content) == typeof(MetroPage).Name)
-                AdaptForFrameDivide(content, value / 100, Current.ScreenSwitch.IsOn);
+            SetChangesDone(MainUserInfosFrame, value);
+            SetChangesDone(MainUpContentFrame, value);
+            SetChangesDone(MainContentFrame, value);
+            SetMetroChangesDone(value);
         }
 
         #region Toggle Events
@@ -172,7 +171,7 @@ namespace Douban.UWP.NET.Pages {
 
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
             SaveDivideSettings(IsDivideScreen = sender.IsOn);
-            DoWorkWhenScreenSwitchToggled(sender, MainContentFrame.Content);
+            DoWorkWhenScreenSwitchToggled(sender);
         }
 
         #endregion
@@ -204,11 +203,39 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void NavigateToMetroPage() {
-            MainContentFrame.Navigate(typeof(MetroPage));
+            MainMetroFrame.Navigate(typeof(MetroPage));
         }
 
-        private void ClearMainContentFrame() {
-            MainContentFrame.Content = null;
+        private void ClearFrameContent(Frame frame) {
+            frame.Content = null;
+        }
+
+        private void SetMetroChangesDone(double value) {
+            if (MainMetroFrame.Content == null)
+                return;
+            if (GetTypeName(MainMetroFrame.Content) == typeof(MetroPage).Name)
+                AdaptForFrameDivide(MainMetroFrame.Content, value / 100, Current.ScreenSwitch.IsOn);
+        }
+        private void SetMetroChangesDone() {
+            if (MainMetroFrame.Content == null)
+                return;
+            if (GetTypeName(MainMetroFrame.Content) == typeof(MetroPage).Name)
+                AdaptForFrameDivide(MainMetroFrame.Content, DivideNumber, IsDivideScreen);
+        }
+
+
+        private void SetChangesDone(Frame frame, double value) {
+            if (frame.Content == null)
+                return;
+            if (GetParentName(frame.Content) == typeof(BaseContentPage).Name)
+                AdaptForFrameDivide(frame.Content, value / 100, Current.ScreenSwitch.IsOn);
+        }
+
+        private void SetChangesDone(Frame frame) {
+            if (frame.Content == null)
+                return;
+            if (GetParentName(frame.Content) == typeof(BaseContentPage).Name)
+                AdaptForFrameDivide(frame.Content, DivideNumber, IsDivideScreen);
         }
 
         private void AdaptForFrameDivide(object content, double divideNum, bool isDivide) {
@@ -218,17 +245,13 @@ namespace Douban.UWP.NET.Pages {
                 isDivideScreen: IsDivideScreen);
         }
 
-        private void DoWorkWhenScreenSwitchToggled(ToggleSwitch sender, object content) {
-            if (content == null) {
-                if (sender.IsOn && VisibleWidth > 800)
-                    NavigateToMetroPage();
-            } else if (GetParentName(content) == typeof(BaseContentPage).Name) {
-                AdaptForFrameDivide(content, DivideNumber, IsDivideScreen);
-            } else if (GetTypeName(content) == typeof(MetroPage).Name) {
-                AdaptForFrameDivide(content, DivideNumber, IsDivideScreen);
-                if (!sender.IsOn)
-                    ClearMainContentFrame();
-            }
+        private void DoWorkWhenScreenSwitchToggled(ToggleSwitch sender) {
+            SetChangesDone(MainUserInfosFrame);
+            SetChangesDone(MainUpContentFrame);
+            SetChangesDone(MainContentFrame);
+            SetMetroChangesDone();
+            if (sender.IsOn && VisibleWidth > FormatNumber && MainMetroFrame.Content == null)
+                NavigateToMetroPage();
         }
 
         #endregion
