@@ -280,7 +280,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.20.* / 2017.1.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.21.* / 2017.1.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="初步本地化其他用户的个人主页" /><LineBreak/>
+                            <Run Text="可以保存Native页面的图片到本地" /><LineBreak/>
+                            <Run Text="增加Native导航栏" /><LineBreak/>
+                            <Run Text="优化一些链接的跳转操作" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.20.2130 / 2017.1.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="重构应用程序部分结构" /><LineBreak/>
                             <Run Text="强化页面切换逻辑和性能" /><LineBreak/>
                             <Run Text="实现Native页面点赞和Native导航" /><LineBreak/>

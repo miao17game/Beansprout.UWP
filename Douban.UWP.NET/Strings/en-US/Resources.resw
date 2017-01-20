@@ -669,4 +669,20 @@
     <value>Link View</value>
     <comment>CardWebPage</comment>
   </data>
+  <data name="QQShare.Text" xml:space="preserve">
+    <value>Share in QQ</value>
+    <comment>CardWebPage</comment>
+  </data>
+  <data name="WeiboShare.Text" xml:space="preserve">
+    <value>Share in Weibo</value>
+    <comment>CardWebPage</comment>
+  </data>
+  <data name="WeixinShare.Text" xml:space="preserve">
+    <value>Share in Wechat</value>
+    <comment>CardWebPage</comment>
+  </data>
+  <data name="StillInDeveloping" xml:space="preserve">
+    <value>Still in development...</value>
+    <comment>CardWebPage</comment>
+  </data>
 </root>

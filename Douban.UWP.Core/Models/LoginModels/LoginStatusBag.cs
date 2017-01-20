@@ -9,6 +9,8 @@ namespace Douban.UWP.Core.Models {
 
         public string UserName { get; set; }
 
+        public string UserUid { get; set; }
+
         public string ImageUrl { get; set; }
 
         public string BigHeadUrl { get; set; }

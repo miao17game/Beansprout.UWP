@@ -31,6 +31,12 @@ namespace Douban.UWP.Core.Tools {
             return result != null ? builder.ToString() : "";
         }
 
+        public static HtmlNode SelectSingleNode(this HtmlNode node, string childType, string elementType, string attributeName, bool isIgnoreGeneration = false) {
+            return isIgnoreGeneration ?
+                node.SelectSingleNode($"//{childType}[@{elementType}='{attributeName}']") :
+                node.SelectSingleNode($"{childType}[@{elementType}='{attributeName}']");
+        }
+
         public static HtmlNode RemoveFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
             return isIgnoreGeneration?
                 value.RemoveFormat($"//{childType}[@{elementType}='{attributeName}']"): 

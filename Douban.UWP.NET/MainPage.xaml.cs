@@ -264,7 +264,7 @@ namespace Douban.UWP.NET {
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
             ImagePopup.Width = (sender as Grid).ActualWidth;
             ImagePopup.Height = (sender as Grid).ActualHeight;
-            if (UserInfosFrame.Content == null && UpContentFrame.Content == null && ContentFrame.Content == null) {
+            if (UserInfosFrame.Content == null && UpContentFrame.Content == null && ContentFrame.Content == null && MetroFrame.Content == null) {
                 if (VisibleWidth > FormatNumber && IsDivideScreen)
                     MetroFrame.Navigate(typeof(MetroPage));
             }

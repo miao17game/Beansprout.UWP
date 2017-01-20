@@ -11,11 +11,13 @@ namespace Douban.UWP.Core.Models {
         public object SpecialParameter { get; set; }
         public bool IsFromInfoClick { get; set; }
         public bool IsNative { get; set; }
+        public string UserUid { get; set; }
 
         private FrameType frameType = FrameType.Content;
         public FrameType FrameType {
             get { return frameType; }
             set { frameType = value; }
         }
+
     }
 }

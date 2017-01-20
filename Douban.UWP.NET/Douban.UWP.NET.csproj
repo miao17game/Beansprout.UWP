@@ -137,6 +137,8 @@
     <Compile Include="Controls\BlankPage.xaml.cs">
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorVM.cs" />
+    <Compile Include="Models\ViewModelBase.cs" />
     <Compile Include="Pages\ListInfosPage.xaml.cs">
       <DependentUpon>ListInfosPage.xaml</DependentUpon>
     </Compile>

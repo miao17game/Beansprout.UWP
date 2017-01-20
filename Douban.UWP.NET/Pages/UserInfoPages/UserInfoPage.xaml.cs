@@ -59,16 +59,36 @@ namespace Douban.UWP.NET.Pages {
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             DoubanLoading.SetVisibility(false);
-            UserNameBlock.Text = LoginStatus.UserName;
-            LocationBlock.Text = LoginStatus.LocationString;
-            DescriptionBlock.Text = LoginStatus.Description;
+            var args = e.Parameter as NavigateParameter;
+            if (args == null)
+                return;
+            UserUid = args.UserUid;
+            frameType = args.FrameType;
         }
 
         private async void RelativePanel_LoadedAsync(object sender, RoutedEventArgs e) {
             UserInfoDetails = this.DetailsFrame;
             UserInfoPopup = this.InnerContentPanel;
-            if (LoginStatus.APIUserinfos != null)
-                await SetStateByLoginStatusAsync();
+            if (UserUid == null || UserUid == LoginStatus.UserUid) {
+                UserNameBlock.Text = LoginStatus.UserName;
+                LocationBlock.Text = LoginStatus.LocationString;
+                DescriptionBlock.Text = LoginStatus.Description;
+                if (LoginStatus.APIUserinfos != null)
+                    await SetStateByLoginStatusAsync();
+            } else {
+                try {
+                    var result = await DoubanWebProcess.GetAPIResponseAsync(
+                    path: "https://m.douban.com/rexxar/api/v2/user/" + UserUid,
+                    host: "m.douban.com",
+                    reffer: "https://m.douban.com/mine/");
+                    var resultBag = GlobalHelpers.GetLoginStatus(result);
+                    UserNameBlock.Text = resultBag.UserName;
+                    LocationBlock.Text = resultBag.LocationString;
+                    DescriptionBlock.Text = resultBag.Description;
+                    if (resultBag.APIUserinfos != null)
+                        await SetStateByLoginStatusAsync(resultBag);
+                } catch { /* Ignore */ }
+            }
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
@@ -169,6 +189,24 @@ namespace Douban.UWP.NET.Pages {
             HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)) };
             if (status.ProfileBannerLarge != null)
                 BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.ProfileBannerLarge));
+            await SetListResourcesAsync(status.UserUid);
+        }
+
+        private async Task SetStateByLoginStatusAsync(LoginStatusBag bag) {
+            var status = bag.APIUserinfos;
+            BroadcastNumber.Text = status.StatusesCount.ToString();
+            PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
+            DiaryNumber.Text = status.NotesCount.ToString();
+            GroupsNumber.Text = status.JoinedGroupCount.ToString();
+            BookMovieNumber.Text = status.CollectedSubjectsCount.ToString();
+            FollowingNumber.Text = status.FollowingCount.ToString();
+            FollowersNumber.Text = status.FollowersCount.ToString();
+            GenderBlock.Foreground = status.Gender == "M" ?
+                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
+                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.BigHeadUrl)) };
+            if (status.ProfileBannerLarge != null)
+                BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerLarge));
             await SetListResourcesAsync(status.UserUid);
         }
 
@@ -407,7 +445,7 @@ namespace Douban.UWP.NET.Pages {
         private void AdaptToClearContentAfterOnBackPressed() {
             if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
                 MainMetroFrame.Navigate(typeof(MetroPage));
-            MainUserInfosFrame.Content = null;
+            GetFrameInstance(frameType).Content = null;
         }
 
         private void AdaptForScreenSize() {
@@ -454,6 +492,9 @@ namespace Douban.UWP.NET.Pages {
         private const string APIFormat = "https://m.douban.com/rexxar/api/v2/user/{0}/lifestream?slice=recent-{1}&hot=false&filter_after=&count={2}&for_mobile=1";
         private const string StatusAPIFormat = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?for_mobile=1";
         private const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
+
+        string UserUid;
+        FrameType frameType = FrameType.UserInfos;
 
         #endregion
     }

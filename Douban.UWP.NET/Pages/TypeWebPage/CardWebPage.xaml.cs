@@ -1,4 +1,5 @@
-﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+﻿#region Using
+using static Wallace.UWP.Helpers.Tools.UWPStates;
 using static Douban.UWP.NET.Resources.AppResources;
 
 using Douban.UWP.Core.Tools;
@@ -7,9 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +29,8 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
+using Douban.UWP.NET.Models;
+#endregion
 
 namespace Douban.UWP.NET.Pages.TypeWebPage {
 
@@ -77,6 +77,32 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         private void RelativePanel_Loaded(object sender, RoutedEventArgs e) {
             defaultHeight = (sender as RelativePanel).ActualHeight;
+        }
+
+        private void AuthorLinkBtn_Click(object sender, RoutedEventArgs e) {
+            var uri = (sender as Button).CommandParameter as Uri;
+            if (uri == null)
+                return;
+            var res = new Regex(@"people/.+?/").Match(uri.ToString()).Value;
+            if (res == "")
+                return;
+            NavigateToBase?.Invoke(
+                       null,
+                       new NavigateParameter { FrameType = FrameType.UpContent, UserUid = new Regex(@"[0-9]{5,}").Match(res).Value },
+                       GetFrameInstance(FrameType.UpContent),
+                       GetPageType(NavigateType.UserInfo));
+        }
+
+        private void CommentsBtn_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
+        }
+
+        private void LikedBtn_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
+        }
+
+        private void ShareBtn_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
         }
 
         #endregion
@@ -150,6 +176,55 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
         }
 
+        public override void DoWorkWhenAnimationCompleted() {
+            if (isFromInfoClick) {
+                (this.Parent as Frame).Content = null;
+                return;
+            }
+            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
+                MainMetroFrame.Navigate(typeof(MetroPage));
+            GetFrameInstance(frameType).Content = null;
+        }
+
+        private void SetPageLoadingStatus() {
+            DoubanLoading.SetVisibility(false);
+            IncrementalLoadingBorder.SetVisibility(true);
+            IncrementalLoading.SetVisibility(true);
+        }
+
+        private async void SetWebViewSourceAsync(Uri uri) {
+            try {
+                var result = htmlReturn = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
+                var doc = new HtmlDocument();
+                doc.LoadHtml(result);
+                WebView.NavigateToString(GetContent(doc.DocumentNode));
+                SetAuthorGrid();
+            } catch {
+                WebView.Source = uri;
+            }
+        }
+
+        private void SetAuthorGrid() {
+            try {
+                var docm = new HtmlDocument();
+                docm.LoadHtml(htmlReturn);
+                var author = docm.DocumentNode.SelectSingleNode("section", "class", "author", isIgnoreGeneration: true);
+                var context = BarGrid.DataContext as AuthorVM;
+                if (context == null)
+                    return;
+                var action = author.SelectSingleNode("a", "class", "note-author");
+                Uri.TryCreate(action.SelectSingleNode("img").Attributes["data-src"].Value, UriKind.RelativeOrAbsolute, out var imgUri);
+                Uri.TryCreate(htmlFormatHead + action.Attributes["href"].Value, UriKind.RelativeOrAbsolute, out var linkUri);
+                context.Image = imgUri;
+                context.Link = linkUri;
+                var author_infos = action.SelectSingleNode("div","class","author-info");
+                var author_details = author_infos.SelectSingleNode("div","class","author-details");
+                context.UserName = author_infos.SelectSingleNode("span","class","author-name").InnerText;
+                context.Notes = author_details.SelectSingleNode("span","class","notes").InnerText;
+                context.Albums = author_details.SelectSingleNode("span","class","albums").InnerText;
+            } catch { /* Ignore */ }
+        }
+
         private void WebViewHeightTimerInit() {
             if (timerForWebView == null) {
                 timerForWebView = new DispatcherTimer();
@@ -167,47 +242,37 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             }
         }
 
-        public override void DoWorkWhenAnimationCompleted() {
-            if (isFromInfoClick) {
-                (this.Parent as Frame).Content = null;
-                return;
-            }
-            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
-                MainMetroFrame.Navigate(typeof(MetroPage));
-            GetFrameInstance(frameType).Content = null;
-        }
-
-        private void SetPageLoadingStatus() {
-            DoubanLoading.SetVisibility(false);
-            IncrementalLoadingBorder.SetVisibility(true);
-            IncrementalLoading.SetVisibility(true);
-        }
-
         #region Web Native
 
-        private async void ChangeWebViewHeightAsync() {
-            var js = @"window.external.notify(JSON.stringify('scrollheight:'+document.body.scrollHeight));";
-            await WebView.InvokeScriptAsync("eval", new[] { js });
+        /// <summary>
+        /// Design the javascript for webview when first DOMCompleted.
+        /// </summary>
+        /// <param name="js">scripts</param>
+        private void DefineJsFunction(out string js) {
+            js = DoWorkForActionLink() + DoWorkForImages() + DoWorkForLikeBtn();
+            if (IsMobile)
+                WebView.Height = defaultHeight;
+            else
+                js += DoWorkForScrollHide();
         }
 
-        private async void SetWebViewSourceAsync(Uri uri) {
-            try {
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
-                var doc = new HtmlDocument();
-                doc.LoadHtml(result);
-                WebView.NavigateToString(GetBodyContent(doc.DocumentNode));
-                //InnerStack.Children.Add(new Border { Height = 50, Background = new SolidColorBrush(Colors.Beige) });
-            } catch {
-                WebView.Source = uri;
-            }
-        }
-
-        private string GetBodyContent(HtmlNode node) {
+        /// <summary>
+        /// Get the native-done web string.
+        /// </summary>
+        /// <param name="node">htmlRoot</param>
+        /// <returns></returns>
+        private string GetContent(HtmlNode node) {
             return node.ContainsFormat("div", "class", "rich-note") ? NativeStringConnect(node, node.GetHtmlFormat("div", "class", "rich-note")) :
                 node.ContainsFormat("div", "class", "full") ? NativeStringConnect(node, node.GetHtmlFormat("div", "class", "full")) :
                 ConnectString(RemoveString(node));
         }
 
+        /// <summary>
+        /// Connect body-string and anyother useful html-nodes
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="content">body-content</param>
+        /// <returns></returns>
         private string NativeStringConnect(HtmlNode node, string content) {
             return WebStringNative(
                 //GetSectionByClass(node, "header").Replace("  ", "") +
@@ -215,24 +280,27 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 GetSectionByClass(node, "author").Replace("  ", ""));
         }
 
-        private string GetSectionByClass(HtmlNode node, string className) {
-            return node.GetHtmlFormat("section", "class", className);
-        }
-
-        private string GetDivByClass(HtmlNode node, string className) {
-            return node.GetHtmlFormat("div", "class", className);
-        }
-
+        /// <summary>
+        /// Global Native-work for the web-string.
+        /// </summary>
+        /// <param name="value">web string contrnt</param>
+        /// <returns></returns>
         private string WebStringNative(string value) {
+            var maxWidthPercent = "100";
             return HtmlXHelperExtensions.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark)
-                .Replace(@"<img data-src", @"<img style='max-width:100%' src")  // adapt image size
+                .Replace(@"<img data-src", $@"<img style='max-width:{maxWidthPercent}%' src")  // adapt image size
                 .Replace(@"<div class='cc'>", @"<div>")  // commen div class
-                .Replace(@"href=""/", @"href=""https://m.douban.com/")  // correct url fprmat
+                .Replace(@"href=""/", $@"href=""{htmlFormatHead}")  // correct url fprmat
                 .Replace(@"<div class=""like-btn""", @"<div class=""like-btn"" id='yeslike-btn'")
                 .Replace(@"<div class=""like-btn """, @"<div class=""like-btn"" id='yeslike-btn'")  // add id to like-btn
                 .Replace(@"<div class=""like-btn active""", @"<div class=""like-btn active"" id='dislike-btn'");  // add id to dislike-btn
         }
 
+        /// <summary>
+        /// If can not native-done, try to remove something useless.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         private string RemoveString(HtmlNode node) {
             return node
                 .RemoveFormat("div", "id", "TalionNav")
@@ -248,17 +316,37 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 .OuterHtml;
         }
 
+        /// <summary>
+        /// Connect something, but still in undefined...
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         private string ConnectString(string value) {
             return value;
         }
 
-        private void DefineJsFunction(out string js) {
-            js = DoWorkForActionLink() + DoWorkForImages() + DoWorkForLikeBtn();
-            if (IsMobile)
-                WebView.Height = defaultHeight;
-            else 
-                js += DoWorkForScrollHide();
+        #region Get HtmlNode by Format
+
+        private string GetSectionByClass(HtmlNode node, string className) {
+            return node.GetHtmlFormat("section", "class", className);
         }
+
+        private string GetDivByClass(HtmlNode node, string className) {
+            return node.GetHtmlFormat("div", "class", className);
+        }
+
+        #endregion
+
+        #region Scroll Height Change
+
+        private async void ChangeWebViewHeightAsync() {
+            var js = @"window.external.notify(JSON.stringify('scrollheight:'+document.body.scrollHeight));";
+            await WebView.InvokeScriptAsync("eval", new[] { js });
+        }
+
+        #endregion
+
+        #region Regex of CallBack
 
         private void SetScroolHeight(string callBack) {
             var scrollMatch = new Regex(@"scrollheight:.+").Match(callBack);
@@ -328,6 +416,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                     }
                 } catch { /* Ignore */ }
         }
+
+        #endregion
 
         #region JS Functions
 
@@ -419,6 +509,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         #region Properties
         FrameType frameType;
+        string htmlReturn;
         bool isFromInfoClick = false;
         bool isNative = false;
         bool isDOMLoaded = false;
@@ -426,7 +517,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         bool isChangeFinished = false;
         double defaultHeight;
         DispatcherTimer timerForWebView;
+        const string htmlFormatHead = "https://m.douban.com/";
         #endregion
-
     }
 }
