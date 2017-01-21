@@ -186,7 +186,7 @@ namespace Douban.UWP.NET.Pages {
             GenderBlock.Foreground = status.Gender == "M" ?
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)) };
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)), Stretch=Stretch.UniformToFill };
             if (status.ProfileBannerLarge != null)
                 BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.ProfileBannerLarge));
             await SetListResourcesAsync(status.UserUid);
@@ -204,7 +204,7 @@ namespace Douban.UWP.NET.Pages {
             GenderBlock.Foreground = status.Gender == "M" ?
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.BigHeadUrl)) };
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.BigHeadUrl)), Stretch = Stretch.UniformToFill };
             if (status.ProfileBannerLarge != null)
                 BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerLarge));
             await SetListResourcesAsync(status.UserUid);
@@ -482,8 +482,8 @@ namespace Douban.UWP.NET.Pages {
             get {
                 return eventMap ?? new Func<IDictionary<string, Action>>(() => {
                     return eventMap = new Dictionary<string, Action> {
-                        {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage))},
-                        {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage))},
+                        {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage), new NavigateParameter{ UserUid = UserUid??LoginStatus.UserUid })},
+                        {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage), new NavigateParameter{ UserUid = UserUid??LoginStatus.UserUid  })},
                     };
                 }).Invoke();
             }

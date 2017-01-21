@@ -1,6 +1,7 @@
 ﻿using Douban.Core.NET.Tools;
 using Douban.UWP.Core.Tools;
 using Douban.UWP.NET.Controls;
+using Douban.UWP.NET.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +34,7 @@ namespace Douban.UWP.NET {
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
             e.Handled = true;
-            new ToastSmooth(UWPStates.GetUIString("Error") + ": \n" + e.Exception.Message).Show();
+            ReportHelper.ReportAttentionAsync(UWPStates.GetUIString("Error") + ": \n" + e.Exception.Message);
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace Douban.UWP.NET {
 
         private void SynchronizationContext_UnhandledException(object sender, Wallace.UWP.Helpers.Tools.UnhandledExceptionEventArgs e) {
             e.Handled = true;
-            new ToastSmooth(UWPStates.GetUIString("Error")  + ": \n" + e.Exception.Message).Show();
+            ReportHelper.ReportAttentionAsync(UWPStates.GetUIString("Error")  + ": \n" + e.Exception.Message);
         }
 
         /// <summary>

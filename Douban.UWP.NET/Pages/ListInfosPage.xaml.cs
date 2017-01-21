@@ -104,7 +104,7 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
-                    ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                    ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
                     DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
@@ -112,7 +112,7 @@ namespace Douban.UWP.NET.Pages {
                 JObject jo = JObject.Parse(result);
                 var feeds = jo["recommend_feeds"];
                 if (feeds == null || !feeds.HasValues) {
-                    ReportHelper.ReportAttention(GetUIString("FetchJsonDataError"));
+                    ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError"));
                     DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
@@ -165,7 +165,7 @@ namespace Douban.UWP.NET.Pages {
                         } catch { /* Ignore, item error. */ }
                     });
                 }
-            } catch { ReportHelper.ReportAttention(GetUIString("UnknownError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
             IncrementalLoadingBorder.SetVisibility(false);
             return list;
         }

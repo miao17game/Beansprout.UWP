@@ -14,7 +14,7 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="TextWrapping" Value="WrapWholeWords"/>
+            <Setter Property="TextWrapping" Value="NoWrap"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </base:BaseContentPage.Resources>
@@ -45,6 +45,15 @@
                         <Setter Target="Scroll.(FrameworkElement.Margin)" >
                             <Setter.Value>0,80,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="BarGrid.(FrameworkElement.Height)" Value="100"/>
+                        <Setter Target="ImageEllip.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="ImageEllip.(FrameworkElement.Width)" Value="70"/>
+                        <Setter Target="CommentsBtn.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="ShareBtn.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="LikedBtn.(TextBlock.FontSize)" Value="22"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="13"/>
+                        <Setter Target="NotesBlock.(TextBlock.FontSize)" Value="10"/>
+                        <Setter Target="AlbumsBlock.(TextBlock.FontSize)" Value="10"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -69,6 +78,15 @@
                         <Setter Target="Scroll.(FrameworkElement.Margin)" >
                             <Setter.Value>0,80,0,0</Setter.Value>
                         </Setter>
+                        <Setter Target="BarGrid.(FrameworkElement.Height)" Value="110"/>
+                        <Setter Target="ImageEllip.(FrameworkElement.Height)" Value="75"/>
+                        <Setter Target="ImageEllip.(FrameworkElement.Width)" Value="75"/>
+                        <Setter Target="CommentsBtn.(TextBlock.FontSize)" Value="25"/>
+                        <Setter Target="ShareBtn.(TextBlock.FontSize)" Value="25"/>
+                        <Setter Target="LikedBtn.(TextBlock.FontSize)" Value="25"/>
+                        <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="NotesBlock.(TextBlock.FontSize)" Value="11"/>
+                        <Setter Target="AlbumsBlock.(TextBlock.FontSize)" Value="11"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -106,7 +124,7 @@
             </TransitionCollection>
         </Grid.Transitions>
 
-        <ScrollViewer Name="Scroll" Margin="0,70,0,0">
+        <ScrollViewer Name="Scroll" Margin="0,70,0,0" ViewChanged="Scroll_ViewChanged">
             <RelativePanel Loaded="RelativePanel_Loaded">
                 <WebView Name="WebView" 
                          RelativePanel.Above="InnerStack"
@@ -116,6 +134,7 @@
                          DOMContentLoaded="Scroll_DOMContentLoadedAsync"
                          NavigationStarting="Scroll_NavigationStarting"
                          ContentLoading="Scroll_ContentLoading"
+                         
                          SizeChanged="WebView_SizeChangedAsync"
                          ScriptNotify="WebView_ScriptNotifyAsync"/>
                 <StackPanel Name="InnerStack"
@@ -125,6 +144,7 @@
             </RelativePanel>
         </ScrollViewer>
 
+        <!--#region Head-->
         <Border Name="BasePartBorder" 
                             Background="{ThemeResource DoubanForeground03}" 
                             Height="70" VerticalAlignment="Top">
@@ -149,8 +169,8 @@
                                Margin=" 0,0,0,15" 
                                VerticalAlignment="Bottom" 
                                Opacity="0.7"
-                               Fill="{ThemeResource DoubanForeground08}"/>
-            <Rectangle Margin="0,0,0,0" Height=" 15" VerticalAlignment="Bottom">
+                               Fill="{ThemeResource DoubanForeground03}"/>
+            <Rectangle Margin="0,0,0,8" Height=" 7" VerticalAlignment="Bottom">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                         <GradientStopCollection >
@@ -163,12 +183,23 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Button Height="30" HorizontalAlignment="Right" Margin="0,0,3,35" Name="FullContentBtn"
-                    Style="{StaticResource SpecialButtonAbort}" Background="{ThemeResource DoubanForeground01}"
-                    VerticalAlignment="Bottom" Click="FullContentBtn_Click">
-                <TextBlock Text="完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
+            <Button Name="FullContentBtn"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                    Content="&#xE10C;"
+                    Width="70"
+                    Height="70"
+                    FontWeight="Black"
+                    Foreground="White"
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="完整内容" Click="FullContentBtn_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
         </Grid>
+        <!--#endregion-->
 
         <!--#region Popup-->
         <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"
@@ -206,8 +237,19 @@
         </Popup>
         <!--#endregion-->
 
-        <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
-            <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
+        <Border Name="IncrementalLoadingBorder" 
+                Background="#FC202020" 
+                Opacity="0.5" 
+                Height=" 60" 
+                VerticalAlignment="Bottom">
+            <Image Name="IncrementalLoading" 
+                   Visibility="Visible" 
+                   Source="/Assets/loading_grey.gif" 
+                   Width="30" 
+                   Height="30" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Margin="15"/>
         </Border>
 
         <Grid Name="BarGrid" VerticalAlignment="Bottom" Height="120" DataContext="{StaticResource Author}">
@@ -218,47 +260,7 @@
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="0.8*"/>
             </Grid.ColumnDefinitions>
-            <Rectangle Grid.ColumnSpan="5" Height="100" VerticalAlignment="Bottom" Fill="{ThemeResource DoubanForeground03}"/>
-            <Grid VerticalAlignment="Bottom">
-                <Ellipse Width="90" Height="90" Margin="5" Fill="{ThemeResource DoubanForeground03}"/>
-                <Ellipse Width="80" Height="80" Margin="5" >
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding Image}"/>
-                    </Ellipse.Fill>
-                </Ellipse>
-            </Grid>
-            <Grid Grid.Column="1" Margin="3,20,3,5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1.5*"/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding UserName}" Style="{StaticResource TextBlockCWP}" FontSize="16" Foreground="White"/>
-                <TextBlock Text="{Binding Notes}" Style="{StaticResource TextBlockCWP}" Grid.Row="1"/>
-                <TextBlock Text="{Binding Albums}" Style="{StaticResource TextBlockCWP}" Grid.Row="2"/>
-                <Rectangle Grid.RowSpan="3" Margin="0,7,-3,2" HorizontalAlignment="Right" Width="0.5" Fill="#30eeeeee"/>
-            </Grid>
-            <Button Name="AuthorLinkBtn" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" 
-                        Background="Transparent" Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
-                        Click="AuthorLinkBtn_Click" Grid.ColumnSpan="2" Height="100" CommandParameter="{Binding Link}"/>
-            <Button Name="CommentsBtn" Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Grid.Column="2" 
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" Content="&#xED0C;" 
-                    FontSize="30" Foreground="White" Click="CommentsBtn_Click"/>
-            <Button Name="ShareBtn" Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Grid.Column="3" 
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" Content="&#xE72D;" 
-                    FontSize="30" Foreground="White">
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="WeiboShare" Name="WeiboShare" Click="ShareBtn_Click"/>
-                        <MenuFlyoutItem x:Uid="WeixinShare" Name="WeixinShare" Click="ShareBtn_Click"/>
-                        <MenuFlyoutItem x:Uid="QQShare" Name="QQShare" Click="ShareBtn_Click"/>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <Button Name="LikedBtn" Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Grid.Column="4" 
-                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,20,0,0" Content="&#xEB52;" 
-                    FontSize="30" Foreground="White" Click="LikedBtn_Click"/>
-            <Rectangle Margin="0,5,0,0" Height=" 15" VerticalAlignment="Top" Grid.ColumnSpan="5">
+            <Rectangle Margin="0,13,0,0" Height="7" VerticalAlignment="Top" Grid.ColumnSpan="5">
                 <Rectangle.Fill>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                         <GradientStopCollection >
@@ -271,6 +273,88 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+            <Rectangle Name="BackRect" 
+                       Grid.ColumnSpan="5" 
+                       Margin="0,20,0,0"
+                       VerticalAlignment="Stretch" 
+                       Fill="{ThemeResource DoubanForeground03}"/>
+            <Rectangle Height="1" Grid.ColumnSpan="5"
+                       Margin=" 0,20,0,0" 
+                       VerticalAlignment="Top" 
+                       Opacity="0.7"
+                       Fill="{ThemeResource DoubanForeground03}"/>
+            <Ellipse VerticalAlignment="Center" Name="ImageEllip" Width="80" Height="80" Margin="5,25,5,5" >
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="{Binding Image}"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Grid Grid.Column="1" Margin="3,20,3,5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Name="UserNameBlock"
+                           Text="{Binding UserName}" 
+                           Style="{StaticResource TextBlockCWP}" 
+                           FontSize="16"
+                           Foreground="White"/>
+                <TextBlock Name="NotesBlock"
+                           Text="{Binding Notes}" 
+                           Style="{StaticResource TextBlockCWP}" 
+                           Grid.Row="1"/>
+                <TextBlock Name="AlbumsBlock"
+                           Text="{Binding Albums}" 
+                           Style="{StaticResource TextBlockCWP}" 
+                           Grid.Row="2"/>
+                <Rectangle Grid.RowSpan="3" Margin="0,7,-3,2" HorizontalAlignment="Right" Width="0.5" Fill="#30eeeeee"/>
+            </Grid>
+            <Button Name="AuthorLinkBtn" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Background="Transparent" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Click="AuthorLinkBtn_Click"
+                    Grid.ColumnSpan="2" 
+                    Margin="0,20,0,0" 
+                    CommandParameter="{Binding Link}"/>
+            <Button Name="CommentsBtn" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                    Grid.Column="2" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="0,20,0,0" 
+                    Content="&#xED0C;" 
+                    FontSize="30" 
+                    Foreground="White" 
+                    Click="CommentsBtn_Click"/>
+            <Button Name="ShareBtn" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                    Grid.Column="3" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="0,20,0,0" 
+                    Content="&#xE72D;" 
+                    FontSize="30" 
+                    Foreground="White">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="WeiboShare" Name="WeiboShare" Click="ShareBtn_Click"/>
+                        <MenuFlyoutItem x:Uid="WeixinShare" Name="WeixinShare" Click="ShareBtn_Click"/>
+                        <MenuFlyoutItem x:Uid="QQShare" Name="QQShare" Click="ShareBtn_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <Button Name="LikedBtn" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                    Grid.Column="4" 
+                    HorizontalAlignment="Stretch" 
+                    VerticalAlignment="Stretch" 
+                    Margin="0,20,0,0" 
+                    Content="&#xEB52;" 
+                    FontSize="30"
+                    Foreground="White" 
+                    Click="LikedBtn_ClickAsync"/>
         </Grid>
 
     </Grid>

@@ -210,7 +210,7 @@ namespace Douban.UWP.NET.Pages {
                     GetPageType(NavigateType.UserInfo));
                 } catch { /* Ignore. */ }
             } catch {
-                ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+                ReportHelper.ReportAttentionAsync(GetUIString("LoginFailed"));
             }
             
         }
@@ -235,7 +235,7 @@ namespace Douban.UWP.NET.Pages {
             var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
             var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
             if (pcCheck == null && mobileCheck == null) {// login failed.
-                ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+                ReportHelper.ReportAttentionAsync(GetUIString("LoginFailed"));
             } else {
                 // login successful...
                 MainLoginPopup.IsOpen = false;

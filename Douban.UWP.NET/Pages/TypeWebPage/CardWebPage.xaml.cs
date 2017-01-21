@@ -30,6 +30,9 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Douban.UWP.NET.Models;
+using Windows.Foundation.Metadata;
+using Douban.UWP.BackgroundTasks;
+using Windows.UI.Xaml.Media.Animation;
 #endregion
 
 namespace Douban.UWP.NET.Pages.TypeWebPage {
@@ -94,15 +97,28 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         }
 
         private void CommentsBtn_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void LikedBtn_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
+        private async void LikedBtn_ClickAsync(object sender, RoutedEventArgs e) {
+            var js = @"
+                    var likebtn = document.getElementById('yeslike-btn');
+                    if(likebtn!=null){
+                        likebtn.click();
+                    }
+                    var dislikebtn = document.getElementById('dislike-btn');
+                    if(dislikebtn!=null){
+                        dislikebtn.click();
+                    }";
+            await WebView.InvokeScriptAsync("eval", new[] { js });
         }
 
         private void ShareBtn_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttention(GetUIString("StillInDeveloping"));
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            ChangeBarGridAnima(ref defaultHeight, (sender as ScrollViewer).VerticalOffset);
         }
 
         #endregion
@@ -120,6 +136,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         private async void Scroll_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
             IncrementalLoadingBorder.SetVisibility(false);
             isDOMLoaded = true;
+            InitStoryBoard();
             DefineJsFunction(out var js);
             await sender.InvokeScriptAsync("eval", new[] { js });
         }
@@ -140,12 +157,14 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         private void WebView_ScriptNotifyAsync(object sender, NotifyEventArgs e) {
             var callBack = JsonHelper.FromJson<string>(e.Value);
 
-            Debug.WriteLine("Notify CallBack ---->  :  " + e.Value);
+            //Debug.WriteLine("Notify CallBack ---->  :  " + e.Value);
 
             SetScroolHeight(callBack);
+            SetScroolTop(callBack);
             SetActionLink(callBack);
             SetPictureShow(callBack);
             SetLikeBtnAsync(callBack);
+            SetIsLikedBtnState(callBack);
         }
 
         private async void ImageSaveButton_ClickAsync(object sender, RoutedEventArgs e) {
@@ -170,6 +189,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         #endregion
 
         #region Methods
+
+        #region Commen
 
         protected override void InitPageState() {
             base.InitPageState();
@@ -242,6 +263,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             }
         }
 
+        #endregion
+
         #region Web Native
 
         /// <summary>
@@ -249,7 +272,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// </summary>
         /// <param name="js">scripts</param>
         private void DefineJsFunction(out string js) {
-            js = DoWorkForActionLink() + DoWorkForImages() + DoWorkForLikeBtn();
+            js = DoWorkForActionLink() + DoWorkForImages() + DoWorkForLikeBtn() + DoWorkForMobileScrollEvent();
             if (IsMobile)
                 WebView.Height = defaultHeight;
             else
@@ -325,6 +348,70 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             return value;
         }
 
+        private void ChangeBarGridAnima(ref double oldOne, double newOne) {
+            if (!isMobileAnimaCompleted)
+                return;
+            if (newOne - oldOne < -20 && BarGrid.Visibility == Visibility.Collapsed) {
+                isMobileAnimaCompleted = false;
+                BarGrid.SetVisibility(true);
+                Scroll.ViewChanged -= Scroll_ViewChanged;
+                BtnStackSlideIn.Begin();
+            } else if (newOne - oldOne > 20 && BarGrid.Visibility == Visibility.Visible) {
+                isMobileAnimaCompleted = false;
+                Scroll.ViewChanged -= Scroll_ViewChanged;
+                BtnStackSlideOut.Begin();
+            }
+            oldOne = newOne;
+        }
+
+        private void ChangeLikedBtnStateByBoolen(bool is_liked) {
+            LikedBtn.Foreground = new SolidColorBrush(is_liked ? Color.FromArgb(255, 217, 6, 94) : Colors.White);
+        }
+
+        #region BarGrid Animations
+
+        private void InitStoryBoard() {
+            transToBarGrid = BarGrid.RenderTransform as TranslateTransform;
+            if (transToBarGrid == null) BarGrid.RenderTransform = transToBarGrid = new TranslateTransform();
+
+            doubleAnimation = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(520)),
+                From = 150,
+                To = 0,
+            };
+            doubleAnimation.Completed += DoublAnimationIn_Completed;
+            BtnStackSlideIn = new Storyboard();
+            Storyboard.SetTarget(doubleAnimation, transToBarGrid);
+            Storyboard.SetTargetProperty(doubleAnimation, "Y");
+            BtnStackSlideIn.Children.Add(doubleAnimation);
+
+            doubleAnimation = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(520)),
+                From = 0,
+                To = 150,
+            };
+            doubleAnimation.Completed += DoublAnimationOut_Completed;
+            BtnStackSlideOut = new Storyboard();
+            Storyboard.SetTarget(doubleAnimation, transToBarGrid);
+            Storyboard.SetTargetProperty(doubleAnimation, "Y");
+            BtnStackSlideOut.Children.Add(doubleAnimation);
+        }
+
+        private void DoublAnimationIn_Completed(object sender, object e) {
+            Scroll.ViewChanged += Scroll_ViewChanged;
+            isMobileAnimaCompleted = true;
+        }
+
+        private void DoublAnimationOut_Completed(object sender, object e) {
+            BarGrid.SetVisibility(false);
+            Scroll.ViewChanged += Scroll_ViewChanged;
+            isMobileAnimaCompleted = true;
+        }
+
+        #endregion
+
         #region Get HtmlNode by Format
 
         private string GetSectionByClass(HtmlNode node, string className) {
@@ -358,6 +445,16 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             } catch { /* Ignore */ }
         }
 
+        private void SetScroolTop(string callBack) {
+            var scrollMatch = new Regex(@"scrolltop:.+").Match(callBack);
+            if (scrollMatch.Value == "")
+                return;
+            var formatStr = scrollMatch.Value.Substring(10);
+            try {
+                ChangeBarGridAnima(ref defaultHeight, Convert.ToDouble(formatStr));
+            } catch { /* Ignore */ }
+        }
+
         private void SetActionLink(string callBack) {
             var actionMatch = new Regex(@"actionlink:.+").Match(callBack);
             if (actionMatch.Value == "")
@@ -380,6 +477,15 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             Uri.TryCreate(formatStr, UriKind.Absolute, out var uri);
             if (uri != null)
                 ShowImageInScreen(uri);
+        }
+
+        private void SetIsLikedBtnState(string callBack) {
+            var pictureMatch = new Regex(@"isliked:.+").Match(callBack);
+            if (pictureMatch.Value == "")
+                return;
+            var formatStr = pictureMatch.Value.Substring(8);
+            bool is_liked = Convert.ToBoolean(formatStr);
+            ChangeLikedBtnStateByBoolen(is_liked);
         }
 
         private async void SetLikeBtnAsync(string callBack) {
@@ -413,6 +519,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                             {"}"}
                             ";
                         await WebView.InvokeScriptAsync("eval", new[] { js });
+                        ChangeLikedBtnStateByBoolen(isliked);
                     }
                 } catch { /* Ignore */ }
         }
@@ -448,11 +555,22 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         private static string DoWorkForLikeBtn() {
             return @"
                     var likebtn = document.getElementById('yeslike-btn');
-                    if(likebtn!=null)
+                    if(likebtn!=null){
                         likebtn.setAttribute('onclick','send_path_url(""like-note-link:'+ likebtn.getAttribute('data-url') +'/like"")');
+                        window.external.notify(JSON.stringify('isliked:'+'false'));
+                    }
                     var dislikebtn = document.getElementById('dislike-btn');
-                    if(dislikebtn!=null)
-                        dislikebtn.setAttribute('onclick','send_path_url(""like-note-link:'+ dislikebtn.getAttribute('data-url') +'/unlike"")');";
+                    if(dislikebtn!=null){
+                        dislikebtn.setAttribute('onclick','send_path_url(""like-note-link:'+ dislikebtn.getAttribute('data-url') +'/unlike"")');
+                        window.external.notify(JSON.stringify('isliked:'+'true'));
+                    }";
+        }
+
+        private static string DoWorkForMobileScrollEvent() {
+            return @"
+                    window.onscroll = function () {  
+                        window.external.notify(JSON.stringify('scrolltop:'+document.body.scrollTop));
+                    };";
         }
 
         #endregion
@@ -515,9 +633,15 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         bool isDOMLoaded = false;
         bool isNeedChange = false;
         bool isChangeFinished = false;
+        bool isMobileAnimaCompleted = true;
         double defaultHeight;
         DispatcherTimer timerForWebView;
+        Storyboard BtnStackSlideIn;
+        Storyboard BtnStackSlideOut;
+        DoubleAnimation doubleAnimation;
+        TranslateTransform transToBarGrid;
         const string htmlFormatHead = "https://m.douban.com/";
         #endregion
+
     }
 }

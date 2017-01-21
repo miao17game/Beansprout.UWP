@@ -1,4 +1,7 @@
-﻿using Wallace.UWP.Helpers;
+﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
+
+using Wallace.UWP.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,9 +38,7 @@ namespace Douban.UWP.NET.Controls {
 
         public ToastSmooth ( ) {
             this . InitializeComponent ( );
-            RequestedTheme = (bool?)SettingsHelper.ReadSettingsValue(SettingsConstants.IsDarkThemeOrNot) ?? true ? 
-                ElementTheme.Dark : 
-                ElementTheme.Light;
+            RequestedTheme = IsGlobalDark ? ElementTheme.Dark : ElementTheme.Light;
             DialogPopup = new Popup ( );
             this . Width = Window . Current . Bounds .Width;
             this . Height = Window . Current . Bounds . Height;

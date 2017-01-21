@@ -458,13 +458,26 @@
 
             <RelativePanel Loaded="RelativePanel_LoadedAsync">
 
-                <StackPanel VerticalAlignment="Top" Name="MainStack" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
+                <StackPanel Name="MainStack" 
+                            VerticalAlignment="Top" 
+                            RelativePanel.AlignLeftWithPanel="True" 
+                            RelativePanel.AlignRightWithPanel="True">
 
                     <Grid Name="HeadGrid" Height="420" VerticalAlignment="Top" Background="Black">
 
-                        <Image Name="BackgroundImage" Source="/Assets/188.jpg" Stretch="UniformToFill" Opacity="0.8"/>
-                        <StackPanel Name="HeadContainerStack" VerticalAlignment="Bottom" Margin="0,0,0,10">
-                            <Border x:Name="border" CornerRadius="75" Background="White" Width="150" Height="150" Margin="0,0,0,20">
+                        <Image Name="BackgroundImage" 
+                               Source="/Assets/188.jpg" 
+                               Stretch="UniformToFill" 
+                               Opacity="0.8"/>
+                        <StackPanel Name="HeadContainerStack" 
+                                    VerticalAlignment="Bottom" 
+                                    Margin="0,0,0,10">
+                            <Border x:Name="border" 
+                                    CornerRadius="75" 
+                                    Background="White" 
+                                    Width="150" 
+                                    Height="150" 
+                                    Margin="0,0,0,20">
                                 <Ellipse Name="HeadUserImage" Width="147" Height="147" >
                                     <Ellipse.Fill>
                                         <SolidColorBrush Color="#707070"/>
@@ -473,9 +486,18 @@
                             </Border>
                         </StackPanel>
 
-                        <Border Height="20" Width="60" HorizontalAlignment="Right" Margin="0,0,10,5"
-                                VerticalAlignment="Bottom"  CornerRadius="2" Background="{ThemeResource DoubanForeground}">
-                            <TextBlock Text="开发中" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Foreground="White"/>
+                        <Border Height="20" 
+                                Width="60"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,10,5"
+                                VerticalAlignment="Bottom"  
+                                CornerRadius="2"
+                                Background="{ThemeResource DoubanForeground}">
+                            <TextBlock Text="开发中" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" 
+                                       FontSize="9" 
+                                       Foreground="White"/>
                         </Border>
 
                     </Grid>
@@ -707,7 +729,7 @@
         <Grid VerticalAlignment="Top">
             <Grid Opacity="0" Name="TitleBackRec">
                 <Rectangle Fill="{ThemeResource DoubanForeground03}" />
-                <Rectangle Margin="0,0,0,-15" Height="15" VerticalAlignment="Bottom">
+                <Rectangle Margin="0,0,0,-7" Height="7" VerticalAlignment="Bottom">
                     <Rectangle.Fill>
                         <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                             <GradientStopCollection >
@@ -759,8 +781,19 @@
            
         </Grid>
 
-        <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
-            <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>
+        <Border Name="IncrementalLoadingBorder" 
+                Background="#FC202020" 
+                Opacity="0.5" 
+                Height=" 60" 
+                VerticalAlignment="Bottom">
+            <Image Name="IncrementalLoading" 
+                   Visibility="Visible" 
+                   Source="/Assets/loading_grey.gif" 
+                   Width="30" 
+                   Height="30" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Margin="15"/>
         </Border>
 
         <!--#region Content popup-->
@@ -834,13 +867,19 @@
         </Popup>
         <!--#endregion-->
 
-        <Button x:Name="OpenAllComsBtn" VerticalAlignment="Bottom"
-                Width="60" Height="40" Content="&#xE96D;"
-                FontSize="25" FontFamily="Segoe MDL2 Assets"
-                HorizontalAlignment="Right" Foreground="White"
+        <Button x:Name="OpenAllComsBtn" 
+                VerticalAlignment="Bottom"
+                Width="60"
+                Height="40"
+                Content="&#xE96D;"
+                FontSize="25" 
+                FontFamily="Segoe MDL2 Assets"
+                HorizontalAlignment="Right" 
+                Foreground="White"
                 Style="{StaticResource MainPageButtonBackHamburgerStyle}"
                 Background="{ThemeResource DoubanForeground03}"
-                Margin="10" Visibility="Collapsed"
+                Margin="10" 
+                Visibility="Collapsed"
                 Click="OpenAllComsBtn_Click"/>
 
         <Frame Name="DetailsFrame"/>

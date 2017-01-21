@@ -260,7 +260,7 @@ namespace Douban.UWP.NET.Pages {
             } catch (Exception) { // if any error throws, reset the UI and report errer.
                 Submit.IsEnabled = true;
                 SubitRing.IsActive = false;
-                ReportHelper.ReportAttention("Error");
+                ReportHelper.ReportAttentionAsync("Error");
             }
         }
 
@@ -303,7 +303,7 @@ namespace Douban.UWP.NET.Pages {
             //    ReportHelper.ReportAttention(GetUIString("LoginFailed"));
             if (htmlBodyContent.Contains("验证码")) {// login failed.
                 //NativeLoginPanel.SetVisibility(false);
-                ReportHelper.ReportAttention(GetUIString("LoginFailed"));
+                ReportHelper.ReportAttentionAsync(GetUIString("LoginFailed"));
             } else {
                 // login successful...
                 MainLoginPopup.IsOpen = false;

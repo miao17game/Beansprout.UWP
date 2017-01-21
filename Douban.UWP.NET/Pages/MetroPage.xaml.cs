@@ -109,7 +109,7 @@ namespace Douban.UWP.NET.Pages {
                         return;
                     LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
                     if (LoginResult == null) {
-                        ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                        ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
                         return;
                     }
                     var doc = new HtmlDocument();
@@ -130,7 +130,7 @@ namespace Douban.UWP.NET.Pages {
                     } else
                         NavigateToBase?.Invoke(null, null, GetFrameInstance(FrameType.UserInfos), GetPageType(NavigateType.UserInfo));
                 }
-            } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("WebActionError")); }
         }
 
         public void SetUserStatus() {

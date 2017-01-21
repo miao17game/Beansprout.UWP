@@ -135,7 +135,7 @@ namespace Douban.UWP.NET.Pages {
                 JObject jo = JObject.Parse(result);
                 gmodel = SetGroupResources(jo, gmodel);
                 gmodel = SetSingletonResources(jo, gmodel);
-            } catch { ReportHelper.ReportAttention(GetUIString("UnknownError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
             IncrementalLoadingBorder.SetVisibility(false);
             return gmodel;
         }
@@ -168,7 +168,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void ReportWhenGoesWrong(string UIString) {
-            ReportHelper.ReportAttention(GetUIString(UIString));
+            ReportHelper.ReportAttentionAsync(GetUIString(UIString));
         }
 
         private void StopLoadingAnimation() {

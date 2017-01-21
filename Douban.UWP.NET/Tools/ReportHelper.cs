@@ -15,7 +15,7 @@ namespace Douban.UWP.NET.Tools {
             });
         }
 
-        public static async void ReportAttention(string erroeMessage) {
+        public static async void ReportAttentionAsync(string erroeMessage) {
             await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
                 new ToastSmooth(erroeMessage).Show();
             });

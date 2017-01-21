@@ -437,8 +437,8 @@
                                Margin=" 0,0,0,0" 
                                VerticalAlignment="Bottom" 
                                Opacity="0.7"
-                               Fill="{ThemeResource DoubanForeground08}"/>
-                        <Rectangle Margin="0,0,0,-15" Height=" 15" VerticalAlignment="Bottom">
+                               Fill="{ThemeResource DoubanForeground03}"/>
+                        <Rectangle Margin="0,0,0,-7" Height=" 7" VerticalAlignment="Bottom">
                             <Rectangle.Fill>
                                 <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
                                     <GradientStopCollection >

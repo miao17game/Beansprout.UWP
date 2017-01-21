@@ -87,7 +87,7 @@ namespace Douban.UWP.NET {
                         return;
                     LoginResult = await DoubanWebProcess.GetDoubanResponseAsync("https://douban.com/mine/", false);
                     if (LoginResult == null) {
-                        ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                        ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
                         return;
                     }
                     var doc = new HtmlDocument();
@@ -107,7 +107,7 @@ namespace Douban.UWP.NET {
                     } else
                         NavigateToUserInfoPage();
                 }
-            } catch { ReportHelper.ReportAttention(GetUIString("WebActionError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("WebActionError")); }
         }
 
         public static void OpenLoginPopup() {

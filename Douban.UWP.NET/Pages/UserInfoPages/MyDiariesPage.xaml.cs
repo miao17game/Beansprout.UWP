@@ -41,10 +41,8 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            if (LoginStatus != null && LoginStatus.APIUserinfos != null) {
-                uid = LoginStatus.APIUserinfos.UserUid;
-                ListResources.Source = new DoubanIncrementalContext<DiaryItem>(FetchMoreResourcesAsync);
-            }
+            uid = (e.Parameter as NavigateParameter).UserUid;
+            ListResources.Source = new DoubanIncrementalContext<DiaryItem>(FetchMoreResourcesAsync);
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
@@ -73,7 +71,7 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
-                    ReportHelper.ReportAttention(GetUIString("WebActionError"));
+                    ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
                     DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
@@ -81,18 +79,18 @@ namespace Douban.UWP.NET.Pages {
                 JObject jo = JObject.Parse(result);
                 var notes = jo["notes"];
                 if (notes == null ) {
-                    ReportHelper.ReportAttention(GetUIString("FetchJsonDataError"));
+                    ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError"));
                     DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
                 }
                 if (notes.HasValues) 
                     notes.Children().ToList().ForEach(noteItem => WorkOnEachNote(noteItem, list));
-            } catch { ReportHelper.ReportAttention(GetUIString("UnknownError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
             IncrementalLoadingBorder.SetVisibility(false);
             needContinue = list.Count != 0 ? list.Count == fetchCount : false;
             if(!needContinue)
-                ReportHelper.ReportAttention(GetUIString("SHOULD_STOP"));
+                ReportHelper.ReportAttentionAsync(GetUIString("SHOULD_STOP"));
             startCount += (offset + 1) * fetchCount;
             return list;
         }
