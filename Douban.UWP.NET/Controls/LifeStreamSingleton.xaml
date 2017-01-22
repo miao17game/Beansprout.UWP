@@ -141,7 +141,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding Text}" Grid.Row="0" Foreground="#CC808080" 
+                <TextBlock Text="{Binding Text}" Grid.Row="0" 
                            TextWrapping="WrapWholeWords" MaxHeight="240" Margin="5" FontSize="14"/>
 
                 <GridView x:Name="GridView01" IsItemClickEnabled="False" SelectionMode="None" Grid.Row="1" Margin="0,5,0,5"

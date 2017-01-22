@@ -62,29 +62,29 @@ namespace Douban.UWP.NET.Pages {
             var args = e.Parameter as NavigateParameter;
             if (args == null)
                 return;
-            UserUid = args.UserUid;
+            UserId = args.UserUid;
             frameType = args.FrameType;
         }
 
         private async void RelativePanel_LoadedAsync(object sender, RoutedEventArgs e) {
             UserInfoDetails = this.DetailsFrame;
             UserInfoPopup = this.InnerContentPanel;
-            if (UserUid == null || UserUid == LoginStatus.UserUid) {
+            if (UserId == null || UserId == LoginStatus.UserId) {
                 UserNameBlock.Text = LoginStatus.UserName;
                 LocationBlock.Text = LoginStatus.LocationString;
-                DescriptionBlock.Text = LoginStatus.Description;
+                DescriptionBlock.Text = LoginStatus.Description.Replace("\n"," ");
                 if (LoginStatus.APIUserinfos != null)
                     await SetStateByLoginStatusAsync();
             } else {
                 try {
                     var result = await DoubanWebProcess.GetAPIResponseAsync(
-                    path: "https://m.douban.com/rexxar/api/v2/user/" + UserUid,
-                    host: "m.douban.com",
-                    reffer: "https://m.douban.com/mine/");
+                        path: "https://m.douban.com/rexxar/api/v2/user/" + UserId,
+                        host: "m.douban.com",
+                        reffer: "https://m.douban.com/mine/");
                     var resultBag = GlobalHelpers.GetLoginStatus(result);
                     UserNameBlock.Text = resultBag.UserName;
                     LocationBlock.Text = resultBag.LocationString;
-                    DescriptionBlock.Text = resultBag.Description;
+                    DescriptionBlock.Text = resultBag.Description.Replace("\n", " ");
                     if (resultBag.APIUserinfos != null)
                         await SetStateByLoginStatusAsync(resultBag);
                 } catch { /* Ignore */ }
@@ -175,24 +175,14 @@ namespace Douban.UWP.NET.Pages {
         #region Methods
 
         private async Task SetStateByLoginStatusAsync() {
-            var status = LoginStatus.APIUserinfos;
-            BroadcastNumber.Text = status.StatusesCount.ToString();
-            PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
-            DiaryNumber.Text = status.NotesCount.ToString();
-            GroupsNumber.Text = status.JoinedGroupCount.ToString();
-            BookMovieNumber.Text = status.CollectedSubjectsCount.ToString();
-            FollowingNumber.Text = status.FollowingCount.ToString();
-            FollowersNumber.Text = status.FollowersCount.ToString();
-            GenderBlock.Foreground = status.Gender == "M" ?
-                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
-                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.BigHeadUrl)), Stretch=Stretch.UniformToFill };
-            if (status.ProfileBannerLarge != null)
-                BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(LoginStatus.APIUserinfos.ProfileBannerLarge));
-            await SetListResourcesAsync(status.UserUid);
+            await ReadMessageFromAPIIndosAsync(LoginStatus);
         }
 
         private async Task SetStateByLoginStatusAsync(LoginStatusBag bag) {
+            await ReadMessageFromAPIIndosAsync(bag);
+        }
+
+        private async Task ReadMessageFromAPIIndosAsync(LoginStatusBag bag) {
             var status = bag.APIUserinfos;
             BroadcastNumber.Text = status.StatusesCount.ToString();
             PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
@@ -204,10 +194,13 @@ namespace Douban.UWP.NET.Pages {
             GenderBlock.Foreground = status.Gender == "M" ?
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
                 new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.BigHeadUrl)), Stretch = Stretch.UniformToFill };
             if (status.ProfileBannerLarge != null)
                 BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerLarge));
-            await SetListResourcesAsync(status.UserUid);
+            Uri.TryCreate(bag.BigHeadUrl, UriKind.Absolute, out var head_uri);
+            if (head_uri == null)
+                Uri.TryCreate(bag.ImageUrl, UriKind.Absolute, out head_uri);
+            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(head_uri ?? new Uri(NoPictureUrl)), Stretch = Stretch.UniformToFill };
+            await SetListResourcesAsync(status.ID);
         }
 
         #region Adapt Methods
@@ -482,8 +475,8 @@ namespace Douban.UWP.NET.Pages {
             get {
                 return eventMap ?? new Func<IDictionary<string, Action>>(() => {
                     return eventMap = new Dictionary<string, Action> {
-                        {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage), new NavigateParameter{ UserUid = UserUid??LoginStatus.UserUid })},
-                        {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage), new NavigateParameter{ UserUid = UserUid??LoginStatus.UserUid  })},
+                        {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage), new NavigateParameter{ UserUid = UserId??LoginStatus.UserId })},
+                        {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage), new NavigateParameter{ UserUid = UserId??LoginStatus.UserId  })},
                     };
                 }).Invoke();
             }
@@ -493,7 +486,7 @@ namespace Douban.UWP.NET.Pages {
         private const string StatusAPIFormat = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?for_mobile=1";
         private const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
 
-        string UserUid;
+        string UserId;
         FrameType frameType = FrameType.UserInfos;
 
         #endregion

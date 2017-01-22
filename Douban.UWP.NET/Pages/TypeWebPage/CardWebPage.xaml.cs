@@ -68,7 +68,11 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         }
 
         private void FullContentBtn_Click(object sender, RoutedEventArgs e) {
-            WebView.Source = currentUri;
+            NavigateToBase?.Invoke(
+                       null,
+                       new NavigateParameter { FrameType = FrameType.UpContent, ToUri = currentUri, Title = GetUIString("LinkContent") },
+                       GetFrameInstance(FrameType.UpContent),
+                       GetPageType(NavigateType.Undefined));
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {

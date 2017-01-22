@@ -194,7 +194,7 @@
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="完整内容" Click="FullContentBtn_Click"/>
+                        <MenuFlyoutItem x:Uid="FullWebContent" Click="FullContentBtn_Click"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

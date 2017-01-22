@@ -45,6 +45,12 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(HasTextProperty, value); }
         }
 
+        public static readonly DependencyProperty HasResharedStatusProperty = DependencyProperty.Register("HasResharedStatus", typeof(bool), typeof(StatusPanel), PropertyMetadata.Create(false));
+        public bool HasResharedStatus {
+            get { return (bool)GetValue(HasResharedStatusProperty); }
+            set { SetValue(HasResharedStatusProperty, value); }
+        }
+
         public static readonly DependencyProperty MorePicturesProperty = DependencyProperty.Register("MorePictures", typeof(List<PictureItemBase>), typeof(StatusPanel), null);
         public List<PictureItemBase> MorePictures {
             get { return GetValue(MorePicturesProperty) as List<PictureItemBase>; }
@@ -85,6 +91,12 @@ namespace Douban.UWP.NET.Controls {
         public StatusCard Card {
             get { return GetValue(CardProperty) as StatusCard; }
             set { SetValue(CardProperty, value); }
+        }
+
+        public static readonly DependencyProperty ResharedStatusProperty = DependencyProperty.Register("ResharedStatus", typeof(StatusCard), typeof(StatusPanel), null);
+        public StatusResharedStatus ResharedStatus {
+            get { return GetValue(ResharedStatusProperty) as StatusResharedStatus; }
+            set { SetValue(ResharedStatusProperty, value); }
         }
 
         public static readonly DependencyProperty AvatarProperty = DependencyProperty.Register("Avatar", typeof(string), typeof(StatusPanel), null);

@@ -120,6 +120,7 @@
     <Compile Include="Models\LifeStreamModels\StatusCard.cs" />
     <Compile Include="Models\LifeStreamModels\StatusEntity.cs" />
     <Compile Include="Models\LifeStreamModels\StatusItem.cs" />
+    <Compile Include="Models\LifeStreamModels\StatusResharedStatus.cs" />
     <Compile Include="Models\ListModel\MusicItem.cs" />
     <Compile Include="Models\ListModel\BookItem.cs" />
     <Compile Include="Models\ListModel\ItemGroupBase.cs" />

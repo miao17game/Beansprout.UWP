@@ -280,7 +280,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.21.* / 2017.1.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.22.* / 2017.1.21" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="为Native页面加入滑动动画" /><LineBreak/>
+                            <Run Text="Native点赞功能已经开发完成" /><LineBreak/>
+                            <Run Text="目前用户主页可以显示转播的情况" /><LineBreak/>
+                            <Run Text="改善一些闪退的问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.21.2019 / 2017.1.20" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="初步本地化其他用户的个人主页" /><LineBreak/>
                             <Run Text="可以保存Native页面的图片到本地" /><LineBreak/>
                             <Run Text="增加Native导航栏" /><LineBreak/>

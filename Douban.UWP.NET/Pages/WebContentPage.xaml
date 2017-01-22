@@ -154,10 +154,20 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Button Height="30" HorizontalAlignment="Right" Margin="0,0,3,35" Name="FullContentBtn"
-                    Style="{StaticResource SpecialButtonAbort}" Background="{ThemeResource DoubanForeground01}"
-                    VerticalAlignment="Bottom" Click="FullContentBtn_Click">
-                <TextBlock Text="完整内容" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="11"/>
+            <Button Name="FullContentBtn"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                    Content="&#xE10C;"
+                    Width="70"
+                    Height="70"
+                    FontWeight="Black"
+                    Foreground="White"
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="FullWebContent" Click="FullContentBtn_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
         </Grid>
 

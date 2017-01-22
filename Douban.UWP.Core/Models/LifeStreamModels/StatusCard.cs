@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Douban.UWP.Core.Models.LifeStreamModels {
     public class StatusCard {
 
-        public double Rating { get; set; }
+        public string Rating { get; set; }
 
         public bool HasRating { get; set; }
 

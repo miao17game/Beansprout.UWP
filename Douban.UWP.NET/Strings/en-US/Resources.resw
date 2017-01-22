@@ -685,4 +685,8 @@
     <value>Still in development...</value>
     <comment>CardWebPage</comment>
   </data>
+  <data name="FullWebContent.Text" xml:space="preserve">
+    <value>Show the HTML view</value>
+    <comment>Web-type Pages</comment>
+  </data>
 </root>

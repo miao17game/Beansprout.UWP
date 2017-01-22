@@ -359,8 +359,9 @@
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
                         <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
-                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="800"/>
                         <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="DescriptionBlock.(FrameworkElement.MaxHeight)" Value="80"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>0,0,0,0</Thickness>
@@ -393,8 +394,9 @@
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
                         <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
-                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="800"/>
                         <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="DescriptionBlock.(FrameworkElement.MaxHeight)" Value="80"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>0,0,0,0</Thickness>
@@ -428,8 +430,9 @@
                         <Setter Target="UserNameBlock.(TextBlock.FontSize)" Value="22"/>
                         <Setter Target="LocationBlock.(TextBlock.FontSize)" Value="14"/>
                         <Setter Target="BTN_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
-                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="500"/>
+                        <Setter Target="M_DES_GRID.(FrameworkElement.MaxWidth)" Value="800"/>
                         <Setter Target="SelectGrid.(FrameworkElement.MaxWidth)" Value="800"/>
+                        <Setter Target="DescriptionBlock.(FrameworkElement.MaxHeight)" Value="80"/>
                         <Setter Target="UserNameBlock.(FrameworkElement.Margin)">
                             <Setter.Value>
                                 <Thickness>0,0,0,0</Thickness>
@@ -453,6 +456,12 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         <!--#endregion-->
+
+        <Grid.Transitions>
+            <TransitionCollection>
+                <EntranceThemeTransition FromHorizontalOffset="400"/>
+            </TransitionCollection>
+        </Grid.Transitions>
 
         <ScrollViewer Name="Scroll" ViewChanged="Scroll_ViewChanged">
 
@@ -505,7 +514,7 @@
                     <Grid Background="{ThemeResource DoubanBackground04}" Name="DescriptionGrid" Height="320" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*"/>
-                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"/>
@@ -548,15 +557,26 @@
                                 Content="&#xE011;" Click="FlowButton_Click"/>
                         </Grid>
 
-                        <Grid Name="M_DES_GRID" Grid.Row ="1" Grid.ColumnSpan ="2">
+                        <Grid Name="M_DES_GRID" Grid.Row ="1" Grid.ColumnSpan ="2" Margin=" 5,10,5,10">
                             <Grid >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Name="DescriptionBlock" TextWrapping="WrapWholeWords" Text="PlaceHolder" Margin="15,10,10,5" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column ="1" FontFamily="Segoe MDL2 Assets" Text="&#xE00F;" Foreground="#CC808080"
-                                       FontSize="20"  FontWeight="Black" VerticalAlignment ="Center" Margin="5,10,15,5"/>
+                                <TextBlock Name="DescriptionBlock" 
+                                           TextWrapping="WrapWholeWords" 
+                                           Text="PlaceHolder" 
+                                           FontWeight="Thin"
+                                           Margin="15,10,10,5" 
+                                           MaxHeight="40"/>
+                                <TextBlock Grid.Column ="1"
+                                           FontFamily="Segoe MDL2 Assets" 
+                                           Text="&#xE00F;" 
+                                           Foreground="#CC808080"
+                                           FontSize="20" 
+                                           FontWeight="Black" 
+                                           VerticalAlignment ="Center" 
+                                           Margin="5,10,15,5"/>
                             </Grid>
                             <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                 Style="{ThemeResource MainPageButtonBackHamburgerStyle}" Background="Transparent" />

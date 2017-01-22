@@ -47,7 +47,7 @@ namespace Douban.UWP.NET.Tools {
             var banners = jo["profile_banner"];
             return new LoginStatusBag {
                 UserName = jo["name"].Value<string>(),
-                UserUid = jo["uid"].Value<string>(),
+                UserId = jo["id"].Value<string>(),
                 BigHeadUrl = jo["large_avatar"].Value<string>(),
                 Description = jo["intro"].Value<string>(),
                 ImageUrl = jo["avatar"].Value<string>(),

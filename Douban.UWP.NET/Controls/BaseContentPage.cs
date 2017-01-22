@@ -86,8 +86,6 @@ namespace Douban.UWP.NET.Controls {
         #region Properties
         internal bool isFirstLoaded = true;
         internal bool isDivideScreen = true;
-        internal DataFetchType thisPageType;
-        internal NavigateType thisNaviType;
         internal Uri currentUri;
         private Storyboard storyToSideGrid = new Storyboard();
         public Storyboard storyToSideGridOut = new Storyboard();

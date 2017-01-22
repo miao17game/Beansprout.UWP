@@ -39,6 +39,8 @@
                                           HasCard="{x:Bind HasCard}"
                                           ResharesCount="{x:Bind ResharesCounts}"
                                           Card ="{x:Bind Card}"
+                                          ResharedStatus ="{x:Bind ResharedStatus}"
+                                          HasResharedStatus = "{x:Bind HasResharedStatus}"
                                           MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

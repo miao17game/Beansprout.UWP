@@ -684,4 +684,8 @@
     <value>施工中...</value>
     <comment>CardWebPage</comment>
   </data>
+  <data name="FullWebContent.Text" xml:space="preserve">
+    <value>查看原网页</value>
+    <comment>Web-type Pages</comment>
+  </data>
 </root>

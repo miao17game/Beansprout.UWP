@@ -41,6 +41,7 @@
         <TextBlock Name="HasImagesFlag" Text="{Binding HasImages}" Visibility="Collapsed"/>
         <TextBlock Name="HasCardFlag" Text="{Binding HasCard}" Visibility="Collapsed"/>
         <TextBlock Name="HasTextFlag" Text="{Binding HasText}" Visibility="Collapsed"/>
+        <TextBlock Name="HasResharedStatusFlag" Text="{Binding HasResharedStatus}" Visibility="Collapsed"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -48,21 +49,38 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding Text}" Grid.Row="0" Foreground="#CC808080" 
+            <TextBlock Text="{Binding Text}" Grid.Row="0" 
                        Visibility="{Binding ElementName=HasTextFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}"
                        TextWrapping="WrapWholeWords" MaxHeight="240" Margin="5" FontSize="14"/>
 
             <!--#region Card-->
-            <Grid Name="CardGrid" Grid.Row="1" Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" 
-                Visibility="{Binding ElementName=HasCardFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+            <Grid Name="CardGrid" Grid.Row="1" >
 
-                <local:StatusCardPanel 
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=" auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border Margin="4,10,5, 10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" 
+                        Visibility="{Binding ElementName=HasResharedStatusFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+                    <local:StatusCardPanel Grid.Row="0" 
+                                           HasCover="False" 
+                                           Title="{Binding Path=ResharedStatus.Text}" 
+                                           Abstract="{Binding Path=ResharedStatus.Author.Name}"
+                                           HasRating="false"
+                                           Rating="0"/>
+                </Border>
+
+                <Border Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" 
+                        Visibility="{Binding ElementName=HasCardFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
+                    <local:StatusCardPanel Grid.Row="1" 
                     HasCover="{Binding Path=Card.HasImage}" 
                     Cover="{Binding Path=Card.Image.Large}" 
                     Title="{Binding Path=Card.Title}" 
                     Abstract="{Binding Path=Card.SubTitle}"
                     HasRating="{Binding Path=Card.HasRating}"
                     Rating="{Binding Path=Card.Rating}"/>
+                </Border>
 
             </Grid>
             <!--#endregion-->

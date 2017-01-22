@@ -23,6 +23,7 @@ using Douban.UWP.Core.Tools;
 using Newtonsoft.Json.Linq;
 using Douban.UWP.Core.Models.LifeStreamModels;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -94,28 +95,20 @@ namespace Douban.UWP.NET.Pages {
                                 var images = status["images"];
                                 var entities = status["entities"];
                                 var card = status["card"];
-                                if (author.HasValues)
-                                    item.Author = InitAuthorStatus(author, author["loc"]);
-                                item.Images = new List<PictureItemBase>();
-                                if (images.HasValues) {
-                                    item.HasImages = true;
-                                    images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
-                                } else
-                                    item.Images.Add(CreateNoPictureBase());
-                                if (card.HasValues) {
-                                    item.HasCard = true;
-                                    item.Card = CreateNewCardInstance(card);
-                                    if (card["rating"] != null) {
-                                        item.Card.HasRating = true;
-                                        item.Card.Rating = card["rating"].Value<double>();
-                                    }
-                                }
+                                var reshared_status = status["reshared_status"];
+                                InitAuthorPaty(item, author);
+                                InitImagesPart(item, images);
+                                InitCardPart(item, card);
+                                InitResharedStatusPart(item, reshared_status);
                                 item.Comments = null;
                                 item.Entities = null;
                                 item.ParentStatus = null;
                                 list.Add(item);
                             }
-                        } catch { /* Ignore, item error. */ }
+                        } catch(Exception e) {
+                            Debug.WriteLine(e.StackTrace + Environment.NewLine + "\n Error_json content:\n" + Environment.NewLine);
+                            Debug.WriteLine(singleton["status"]);
+                        }
                     });
                 }
             } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
@@ -126,7 +119,72 @@ namespace Douban.UWP.NET.Pages {
             return list;
         }
 
-        private StatusCard CreateNewCardInstance(JToken card) {
+        private static void InitAuthorPaty(StatusItem item, JToken author) {
+            if (author.HasValues)
+                item.Author = InitAuthorStatus(author, author["loc"]);
+        }
+
+        private static void InitImagesPart(StatusItem item, JToken images) {
+            item.Images = new List<PictureItemBase>();
+            if (images.HasValues) {
+                item.HasImages = true;
+                images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
+            } else
+                item.Images.Add(CreateNoPictureBase());
+        }
+
+        private static void InitCardPart(StatusItem item, JToken card) {
+            if (card.HasValues) {
+                item.HasCard = true;
+                item.Card = CreateNewCardInstance(card);
+                if (card["rating"] != null) {
+                    item.Card.HasRating = true;
+                    item.Card.Rating = card["rating"].Value<string>();
+                }
+            }
+        }
+
+        private static void InitResharedStatusPart(StatusItem item, JToken reshared_status) {
+            if (reshared_status.HasValues) {
+                var status_author = reshared_status["author"];
+                var status_images = reshared_status["images"];
+                item.HasResharedStatus = true;
+                item.ResharedStatus = CreateNewResharedStatusInstance(reshared_status);
+                if (status_author.HasValues)
+                    item.ResharedStatus.Author = InitAuthorStatus(status_author, status_author["loc"]);
+                item.ResharedStatus.Images = new List<PictureItemBase>();
+                if (status_images.HasValues) {
+                    item.ResharedStatus.HasImages = true;
+                    status_images.Children().ToList().ForEach(each => item.ResharedStatus.Images.Add(CreatePictureBaseItem(each)));
+                } else
+                    item.ResharedStatus.Images.Add(CreateNoPictureBase());
+            }
+        }
+
+        private static StatusResharedStatus CreateNewResharedStatusInstance(JToken item) {
+            return new StatusResharedStatus {
+                HasCard = false,
+                HasEntity = false,
+                HasImages = false,
+                ParentStatus = null,
+                Uri = item["uri"].Value<string>(),
+                Text = item["text"].Value<string>(),
+                SubscriptionText = item["subscription_text"].Value<string>(),
+                SharingUrl = item["sharing_url"].Value<string>(),
+                ResharesCount = item["reshares_count"].Value<string>(),
+                ResharersCount = item["resharers_count"].Value<string>(),
+                LikeCount = item["like_count"].Value<string>(),
+                ReshareID = item["reshare_id"].Value<string>(),
+                IsSubscription = item["is_subscription"].Value<bool>(),
+                IsLiked = item["liked"].Value<bool>(),
+                ID = item["id"].Value<string>(),
+                CommentsCount = item["comments_count"].Value<string>(),
+                Activity = item["activity"].Value<string>(),
+                CreateTime = item["activity"].Value<string>()
+            };
+        }
+
+        private static StatusCard CreateNewCardInstance(JToken card) {
             return new StatusCard {
                 HasRating = false,
                 Url = card["url"].Value<string>(),
@@ -138,13 +196,14 @@ namespace Douban.UWP.NET.Pages {
             };
         }
 
-        private StatusItem CreateDefaultStatusItem(JToken status) {
+        private static StatusItem CreateDefaultStatusItem(JToken status) {
             return new StatusItem() {
                 Type = InfosItemBase.JsonType.Status,
                 HasImages = false,
                 HasCard = false,
                 HasComment = false,
                 HasEntity = false,
+                HasResharedStatus = false,
                 HasText = status["text"].Value<string>() == "" ? false : true,
                 Text = status["text"].Value<string>(),
                 ResharesCounts = status["reshares_count"].Value<string>(),
@@ -157,19 +216,19 @@ namespace Douban.UWP.NET.Pages {
                 ReshareID = status["reshare_id"].Value<string>(),
                 Activity = status["activity"].Value<string>() != "" ? status["activity"].Value<string>(): GetUIString("add_a_status"),
                 CommentsCounts = status["comments_count"].Value<string>(),
-                ResharedStatus = status["reshared_status"].Value<string>(),
+                //ResharedStatus = status["reshared_status"].Value<string>(),
                 ID = status["id"].Value<int>()
             };
         }
 
-        private PictureItemBase CreateNoPictureBase() {
+        private static PictureItemBase CreateNoPictureBase() {
             return new PictureItemBase {
                 Normal = new Uri(NoPictureUrl),
                 Large = new Uri(NoPictureUrl),
             };
         }
 
-        private PictureItemBase CreatePictureBaseItem(JToken each) {
+        private static PictureItemBase CreatePictureBaseItem(JToken each) {
             var normal = each["normal"];
             var large = each["large"];
             return new PictureItemBase {
@@ -178,7 +237,7 @@ namespace Douban.UWP.NET.Pages {
             };
         }
 
-        private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
+        private static AuthorStatus InitAuthorStatus(JToken author, JToken location) {
             return new AuthorStatus {
                 Kind = author["kind"].Value<string>(),
                 Name = author["name"].Value<string>(),
@@ -199,7 +258,7 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<IList<StatusItem>> FetchMoreResourcesAsync(int offset) {
             if (max_id == "SHOULD_STOP")
-                return new List<StatusItem>();
+                return empty;
             IncrementalLoadingBorder.SetVisibility(true);
             return await FetchMessageFromAPIAsync(string.Format(Host, uid, max_id, 10));
         }
@@ -213,6 +272,8 @@ namespace Douban.UWP.NET.Pages {
         const string Host = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?max_id={1}&count={2}&for_mobile=1";
         const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
         const string NavigateUrlFormat = "https://m.douban.com/people/{0}/status/{1}/";
+
+        List<StatusItem> empty = new List<StatusItem>();
 
         #endregion
 

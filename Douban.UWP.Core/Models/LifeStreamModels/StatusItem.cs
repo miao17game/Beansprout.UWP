@@ -23,7 +23,9 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         public string ReshareID { get; set; }
 
-        public string ResharedStatus { get; set; }
+        public bool HasResharedStatus { get; set; }
+
+        public StatusResharedStatus ResharedStatus { get; set; }
 
         public bool HasText { get; set; }
 
@@ -46,5 +48,6 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
         public bool HasComment { get; set; }
 
         public IList<object> Comments { get; set; }
+
     }
 }
