@@ -677,7 +677,7 @@
     <comment>CardWebPage</comment>
   </data>
   <data name="WeixinShare.Text" xml:space="preserve">
-    <value>分享到 微信</value>
+    <value>分享到 微信好友</value>
     <comment>CardWebPage</comment>
   </data>
   <data name="StillInDeveloping" xml:space="preserve">
@@ -687,5 +687,11 @@
   <data name="FullWebContent.Text" xml:space="preserve">
     <value>查看原网页</value>
     <comment>Web-type Pages</comment>
+  </data>
+  <data name="OthersShare.Text" xml:space="preserve">
+    <value>更多分享</value>
+  </data>
+  <data name="WeixinTimeLineShare.Text" xml:space="preserve">
+    <value>分享到 朋友圈</value>
   </data>
 </root>

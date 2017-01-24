@@ -33,6 +33,7 @@ using Douban.UWP.NET.Models;
 using Windows.Foundation.Metadata;
 using Douban.UWP.BackgroundTasks;
 using Windows.UI.Xaml.Media.Animation;
+using Wallace.UWP.Helpers.SDK;
 #endregion
 
 namespace Douban.UWP.NET.Pages.TypeWebPage {
@@ -117,8 +118,16 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             await WebView.InvokeScriptAsync("eval", new[] { js });
         }
 
-        private void ShareBtn_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void ShareBtn_ClickAsync(object sender, RoutedEventArgs e) {
+            var name = (sender as MenuFlyoutItem).Name;
+            if (name == "WeixinShare" || name == "WeixinTimeLineShare") {
+                var to_time_line = name == "WeixinShare" ? false : true;
+                var doc = new HtmlDocument();
+                doc.LoadHtml(nativeString);
+                var bytes = await SDKHelpers.ReadResFromImageAsync(thumb);
+                await SDKHelpers.SendWechatShareToUserChoiceRequestAsync(currentUri.ToString(), title, bytes, description, to_time_line);
+            } else
+                ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
@@ -223,10 +232,17 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(result);
                 WebView.NavigateToString(GetContent(doc.DocumentNode));
+                SetTitleAndDescForShare(doc);
                 SetAuthorGrid();
             } catch {
                 WebView.Source = uri;
             }
+        }
+
+        private void SetTitleAndDescForShare(HtmlDocument doc) {
+            try { title = doc.DocumentNode.SelectSingleNode("//title").InnerText.Replace(" ", "").Replace("\n", ""); } catch { title = ""; }
+            try { description = doc.DocumentNode.SelectSingleNode("meta", "name", "description", true).InnerText.Replace(" ", "").Replace("\n", ""); } catch { description = ""; }
+            try { thumb = doc.DocumentNode.SelectSingleNode("meta", "property", "weixin:image", true).Attributes["content"].Value; } catch { thumb = ""; }
         }
 
         private void SetAuthorGrid() {
@@ -301,7 +317,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// <param name="content">body-content</param>
         /// <returns></returns>
         private string NativeStringConnect(HtmlNode node, string content) {
-            return WebStringNative(
+            return nativeString = WebStringNative(
                 //GetSectionByClass(node, "header").Replace("  ", "") +
                 content +
                 GetSectionByClass(node, "author").Replace("  ", ""));
@@ -632,6 +648,10 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         #region Properties
         FrameType frameType;
         string htmlReturn;
+        string nativeString;
+        string description;
+        string title;
+        string thumb;
         bool isFromInfoClick = false;
         bool isNative = false;
         bool isDOMLoaded = false;

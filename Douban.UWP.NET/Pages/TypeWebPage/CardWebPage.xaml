@@ -339,9 +339,14 @@
                     Foreground="White">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="WeiboShare" Name="WeiboShare" Click="ShareBtn_Click"/>
-                        <MenuFlyoutItem x:Uid="WeixinShare" Name="WeixinShare" Click="ShareBtn_Click"/>
-                        <MenuFlyoutItem x:Uid="QQShare" Name="QQShare" Click="ShareBtn_Click"/>
+                        <MenuFlyoutItem x:Uid="WeiboShare" Name="WeiboShare" Click="ShareBtn_ClickAsync"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Uid="WeixinShare" Name="WeixinShare" Click="ShareBtn_ClickAsync"/>
+                        <MenuFlyoutItem x:Uid="WeixinTimeLineShare" Name="WeixinTimeLineShare" Click="ShareBtn_ClickAsync"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Uid="QQShare" Name="QQShare" Click="ShareBtn_ClickAsync"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Uid="OthersShare" Name="OthersShare" Click="ShareBtn_ClickAsync"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

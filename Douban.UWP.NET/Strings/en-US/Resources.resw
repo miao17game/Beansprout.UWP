@@ -670,15 +670,15 @@
     <comment>CardWebPage</comment>
   </data>
   <data name="QQShare.Text" xml:space="preserve">
-    <value>Share in QQ</value>
+    <value>Share to QQ</value>
     <comment>CardWebPage</comment>
   </data>
   <data name="WeiboShare.Text" xml:space="preserve">
-    <value>Share in Weibo</value>
+    <value>Share to Weibo</value>
     <comment>CardWebPage</comment>
   </data>
   <data name="WeixinShare.Text" xml:space="preserve">
-    <value>Share in Wechat</value>
+    <value>Share to Wechat</value>
     <comment>CardWebPage</comment>
   </data>
   <data name="StillInDeveloping" xml:space="preserve">
@@ -688,5 +688,11 @@
   <data name="FullWebContent.Text" xml:space="preserve">
     <value>Show the HTML view</value>
     <comment>Web-type Pages</comment>
+  </data>
+  <data name="OthersShare.Text" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="WeixinTimeLineShare.Text" xml:space="preserve">
+    <value>Share to Wechat TimeLine</value>
   </data>
 </root>

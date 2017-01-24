@@ -70,23 +70,24 @@ namespace Douban.UWP.NET.Pages {
             UserInfoDetails = this.DetailsFrame;
             UserInfoPopup = this.InnerContentPanel;
             if (UserId == null || UserId == LoginStatus.UserId) {
-                UserNameBlock.Text = LoginStatus.UserName;
-                LocationBlock.Text = LoginStatus.LocationString;
-                DescriptionBlock.Text = LoginStatus.Description.Replace("\n"," ");
+                UserNameBlock.Text = LoginStatus.UserName ?? "";
+                LocationBlock.Text = LoginStatus.LocationString ?? "";
+                DescriptionBlock.Text = LoginStatus.Description?.Replace("\n", " ");
                 if (LoginStatus.APIUserinfos != null)
-                    await SetStateByLoginStatusAsync();
+                    SetStateByLoginStatus();
             } else {
                 try {
+                    System.Diagnostics.Debug.WriteLine("User ID : [ " + UserId + " ]");
                     var result = await DoubanWebProcess.GetAPIResponseAsync(
                         path: "https://m.douban.com/rexxar/api/v2/user/" + UserId,
                         host: "m.douban.com",
                         reffer: "https://m.douban.com/mine/");
                     var resultBag = GlobalHelpers.GetLoginStatus(result);
-                    UserNameBlock.Text = resultBag.UserName;
-                    LocationBlock.Text = resultBag.LocationString;
+                    UserNameBlock.Text = resultBag.UserName ?? "";
+                    LocationBlock.Text = resultBag.LocationString ?? "";
                     DescriptionBlock.Text = resultBag.Description.Replace("\n", " ");
                     if (resultBag.APIUserinfos != null)
-                        await SetStateByLoginStatusAsync(resultBag);
+                        SetStateByLoginStatus(resultBag);
                 } catch { /* Ignore */ }
             }
         }
@@ -161,12 +162,17 @@ namespace Douban.UWP.NET.Pages {
             PopupBackBorder.SetVisibility(false);
         }
 
-        private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+        private  void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            var scroll = (sender as ScrollViewer);
             try {
-                if ((sender as ScrollViewer).VerticalOffset <= 300)
-                    TitleBackRec.Opacity = ((sender as ScrollViewer).VerticalOffset) / 300;
+                if (scroll.VerticalOffset <= 300)
+                    TitleBackRec.Opacity = (scroll.VerticalOffset) / 300;
                 else if (TitleBackRec.Opacity < 1)
                     TitleBackRec.Opacity = 1;
+                if ((scroll.ScrollableHeight - scroll.VerticalOffset < 100)) {
+                    listSource?.HasMoreItemsOrNot(true);
+                    listSource?.LoadMoreItemsAsync(0);
+                }
             } catch { /* Ignore */ }
         }
 
@@ -174,33 +180,37 @@ namespace Douban.UWP.NET.Pages {
 
         #region Methods
 
-        private async Task SetStateByLoginStatusAsync() {
-            await ReadMessageFromAPIIndosAsync(LoginStatus);
+        private void SetStateByLoginStatus() {
+            ReadMessageFromAPIInfos(LoginStatus);
         }
 
-        private async Task SetStateByLoginStatusAsync(LoginStatusBag bag) {
-            await ReadMessageFromAPIIndosAsync(bag);
+        private void SetStateByLoginStatus(LoginStatusBag bag) {
+            ReadMessageFromAPIInfos(bag);
         }
 
-        private async Task ReadMessageFromAPIIndosAsync(LoginStatusBag bag) {
+        private void ReadMessageFromAPIInfos(LoginStatusBag bag) {
             var status = bag.APIUserinfos;
-            BroadcastNumber.Text = status.StatusesCount.ToString();
-            PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
-            DiaryNumber.Text = status.NotesCount.ToString();
-            GroupsNumber.Text = status.JoinedGroupCount.ToString();
-            BookMovieNumber.Text = status.CollectedSubjectsCount.ToString();
-            FollowingNumber.Text = status.FollowingCount.ToString();
-            FollowersNumber.Text = status.FollowersCount.ToString();
-            GenderBlock.Foreground = status.Gender == "M" ?
-                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
-                new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
-            if (status.ProfileBannerLarge != null)
-                BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerLarge));
-            Uri.TryCreate(bag.BigHeadUrl, UriKind.Absolute, out var head_uri);
-            if (head_uri == null)
-                Uri.TryCreate(bag.ImageUrl, UriKind.Absolute, out head_uri);
-            HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(head_uri ?? new Uri(NoPictureUrl)), Stretch = Stretch.UniformToFill };
-            await SetListResourcesAsync(status.ID);
+            try {
+                BroadcastNumber.Text = status.StatusesCount.ToString();
+                PhotosNumber.Text = status.PhotoAlbumsCount.ToString();
+                DiaryNumber.Text = status.NotesCount.ToString();
+                GroupsNumber.Text = status.JoinedGroupCount.ToString();
+                BookMovieNumber.Text = status.CollectedSubjectsCount.ToString();
+                FollowingNumber.Text = status.FollowingCount.ToString();
+                FollowersNumber.Text = status.FollowersCount.ToString();
+                GenderBlock.Foreground = status.Gender == "M" ?
+                    new SolidColorBrush(Windows.UI.Color.FromArgb(255, 69, 90, 172)) :
+                    new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 6, 94));
+                if (status.ProfileBannerLarge != null)
+                    BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerLarge));
+                else if (status.ProfileBannerNormal != null)
+                    BackgroundImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri(bag.APIUserinfos.ProfileBannerNormal));
+                Uri.TryCreate(bag.BigHeadUrl, UriKind.Absolute, out var head_uri);
+                if (head_uri == null)
+                    Uri.TryCreate(bag.ImageUrl, UriKind.Absolute, out head_uri);
+                HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(head_uri ?? new Uri(NoPictureUrl)), Stretch = Stretch.UniformToFill };
+                UserId = status.ID;
+            } finally { ListResources.Source = listSource = new DoubanLazyLoadContext<LifeStreamItem>(FetchMoreResourcesAsync); }
         }
 
         #region Adapt Methods
@@ -227,20 +237,36 @@ namespace Douban.UWP.NET.Pages {
 
         #region Set Infos List
 
-        private async Task SetListResourcesAsync(string uid) {
+        private async Task<IList<LifeStreamItem>> FetchMoreResourcesAsync() {
+            if (next_filter == "SHOULD_STOP")
+                return empty;
+            IncrementalLoadingBorder.SetVisibility(true);
+            return await SetListResourcesAsync(UserId);
+        }
+
+        private async Task<IList<LifeStreamItem>> SetListResourcesAsync(string uid) {
             var newList = new List<LifeStreamItem>();
             try {
-                var items = JObject.Parse(await APIForFetchLifeStreamAsync(uid))["items"];
-                if (items.HasValues)
+                var returns = await APIForFetchLifeStreamAsync(uid);
+                var jo = JObject.Parse(returns);
+                var items = jo["items"];
+                var next = jo["next_filter_after"];
+                next_filter = next.Value<string>();
+                if (items.HasValues) {
                     items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
-                ListResources.Source = newList.OrderByDescending(i => i.TimeForOrder);
-            } catch { System.Diagnostics.Debug.WriteLine("SetListResourcesAsync ERROR");
+                    if (items.Count() < 20)
+                        next_filter = "SHOULD_STOP";
+                }
+                return newList.OrderByDescending(i => i.TimeForOrder).ToList();
+            } catch {
+                System.Diagnostics.Debug.WriteLine("SetListResourcesAsync ERROR");
+                return new List<LifeStreamItem>();
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
         private async Task<string> APIForFetchLifeStreamAsync(string uid) {
             return await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: string.Format(APIFormat, uid, DateTime.Now.ToString("yyyy-M"), 20),
+                path: string.Format(APIFormat, uid, "1970-1", next_filter, "20"),
                 host: "m.douban.com",
                 reffer: string.Format("https://m.douban.com/people/{0}/", uid));
         }
@@ -274,7 +300,7 @@ namespace Douban.UWP.NET.Pages {
                         break;
                 }
             } catch { System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
-            } finally { newList.Add(itemToAdd); }
+            } finally { if (type != InfosItemBase.JsonType.Undefined) newList.Add(itemToAdd); }
         }
 
         private InfosItemBase.JsonType InitLifeStreamType(JToken singleton) {
@@ -482,11 +508,13 @@ namespace Douban.UWP.NET.Pages {
             }
         }
 
-        private const string APIFormat = "https://m.douban.com/rexxar/api/v2/user/{0}/lifestream?slice=recent-{1}&hot=false&filter_after=&count={2}&for_mobile=1";
-        private const string StatusAPIFormat = "https://m.douban.com/rexxar/api/v2/status/user_timeline/{0}?for_mobile=1";
+        private const string APIFormat = "https://m.douban.com/rexxar/api/v2/user/{0}/lifestream?slice=recent-{1}&hot=false&filter_after={2}&count={3}&for_mobile=1";
         private const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
 
         string UserId;
+        string next_filter = "";
+        DoubanLazyLoadContext<LifeStreamItem> listSource;
+        List<LifeStreamItem> empty = new List<LifeStreamItem>();
         FrameType frameType = FrameType.UserInfos;
 
         #endregion

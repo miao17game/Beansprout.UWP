@@ -33,6 +33,13 @@
         <uap:Rule Match="https://accounts.douban.com/login" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
       <Extensions>
+          <uap:Extension Category="windows.fileTypeAssociation">
+              <uap:FileTypeAssociation Name="wechat">
+                  <uap:SupportedFileTypes>
+                      <uap:FileType>.123456789</uap:FileType>
+                  </uap:SupportedFileTypes>
+              </uap:FileTypeAssociation>
+          </uap:Extension>
         <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
           <BackgroundTasks>
             <Task Type="timer" />

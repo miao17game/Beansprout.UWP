@@ -206,6 +206,7 @@
     <Compile Include="Tools\Converters\SelfVisibilityConverter.cs" />
     <Compile Include="Tools\Converters\StarSizeColorConverter.cs" />
     <Compile Include="Tools\Converters\DoubleConverter.cs" />
+    <Compile Include="Tools\DoubanLazyLoadContext.cs" />
     <Compile Include="Tools\GlobalHelpers.cs" />
     <Compile Include="Tools\DoubanIncrementalContext.cs" />
     <Compile Include="Tools\ReportHelper.cs" />
@@ -227,6 +228,7 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\douban3_for_wechat108.png" />
     <Content Include="Assets\guapi.png" />
     <Content Include="Assets\guapi2.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />

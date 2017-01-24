@@ -127,7 +127,7 @@
                 <Image Source="{Binding Cover}" Grid.Column="1" Grid.RowSpan="2"
                            MaxHeight="120" HorizontalAlignment="Stretch" Stretch="UniformToFill"
                            Visibility="{Binding ElementName=HasCoverFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}"/>
-                <TextBlock Text="{Binding Title}" FontSize="18" Margin="5" VerticalAlignment="Center"/>
+                <TextBlock Text="{Binding Title}" FontSize="18" Margin="5" VerticalAlignment="Center" TextWrapping="Wrap"/>
                 <TextBlock Text="{Binding Abstract}" Grid.Row="1" Foreground="#CC808080" 
                            TextWrapping="Wrap" MaxHeight="240" Margin="5,5,25,5" FontSize="14"/>
             </Grid>
@@ -150,7 +150,7 @@
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <Border Width="135" Height="135">
-                                <Image Source="{Binding Normal}"/>
+                                <Image Source="{Binding Normal}" Stretch="UniformToFill"/>
                             </Border>
                         </DataTemplate>
                     </GridView.ItemTemplate>
@@ -173,7 +173,7 @@
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <Border Width="135">
-                                <Image Source="{Binding Normal}"/>
+                                <Image Source="{Binding Normal}" Stretch="UniformToFill"/>
                             </Border>
                         </DataTemplate>
                     </GridView.ItemTemplate>

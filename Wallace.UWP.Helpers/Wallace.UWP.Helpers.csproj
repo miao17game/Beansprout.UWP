@@ -115,6 +115,7 @@
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Compile Include="DataVirtualization\IncrementalLoadingContext.cs" />
+    <Compile Include="DataVirtualization\LazyLoadingContextBase.cs" />
     <Compile Include="DataVirtualization\IncrementalLoadingContextBase.cs" />
     <Compile Include="DataVirtualization\InitSelector.cs" />
     <Compile Include="Helpers\CacheConstants.cs" />
@@ -124,10 +125,12 @@
     <Compile Include="Helpers\SettingsConstants.cs" />
     <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SDK\SDKHelpers.cs" />
     <Compile Include="Tools\AlphaKeyGroup.cs" />
     <Compile Include="Tools\DelegateCommand.cs" />
     <Compile Include="Tools\ExceptionHandlingSynchronizationContext.cs" />
     <Compile Include="Tools\GetAlphaKeyGroup.cs" />
+    <Compile Include="Tools\ImageHelpers.cs" />
     <Compile Include="Tools\MessageToken.cs" />
     <Compile Include="Tools\StatusBarInit.cs" />
     <Compile Include="Tools\UWPStates.cs" />
