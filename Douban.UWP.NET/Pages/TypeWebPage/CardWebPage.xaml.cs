@@ -34,6 +34,9 @@ using Windows.Foundation.Metadata;
 using Douban.UWP.BackgroundTasks;
 using Windows.UI.Xaml.Media.Animation;
 using Wallace.UWP.Helpers.SDK;
+using Windows.ApplicationModel.DataTransfer;
+using Wallace.UWP.Helpers.Tools;
+using Douban.UWP.Core.Tools.PersonalExpressions;
 #endregion
 
 namespace Douban.UWP.NET.Pages.TypeWebPage {
@@ -43,6 +46,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         public CardWebPage() {
             this.InitializeComponent();
             DoubanLoading.SetVisibility(false);
+            var shareManager = DataTransferManager.GetForCurrentView();
+            shareManager.DataRequested += DataTransferManager_DataRequested;
         }
 
         #region Events
@@ -120,14 +125,33 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         private async void ShareBtn_ClickAsync(object sender, RoutedEventArgs e) {
             var name = (sender as MenuFlyoutItem).Name;
-            if (name == "WeixinShare" || name == "WeixinTimeLineShare") {
-                var to_time_line = name == "WeixinShare" ? false : true;
-                var doc = new HtmlDocument();
-                doc.LoadHtml(nativeString);
-                var bytes = await SDKHelpers.ReadResFromImageAsync(thumb);
-                await SDKHelpers.SendWechatShareToUserChoiceRequestAsync(currentUri.ToString(), title, bytes, description, to_time_line);
-            } else
-                ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            switch (name) {
+                case "WeixinShare":
+                case "WeixinTimeLineShare":
+                    await ShareToWeixinAsync(name);
+                    break;
+                case "WeiboShare":
+                    await ShareBySystemAPIAsync(name);
+                    break;
+                case "OthersShare":
+                    await ShareBySystemAPIAsync(name);
+                    break;
+                default:
+                    ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+                    break;
+            }
+        }
+
+        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args) {
+            var request = args.Request;
+            request.Data.Properties.Description = description;
+            request.Data.Properties.Title = title;
+            request.Data.Properties.ApplicationName = GetUIString("AppName");
+            request.Data.Properties.Thumbnail = ImageHelpers.CreateThumbnailFromUri(new Uri(thumb));
+            request.Data.SetBitmap(RandomAccessStreamReference.CreateFromUri(new Uri(thumb)));
+            request.Data.SetStorageItems(new List<StorageFile> { tempImageForShare });
+            request.Data.SetText(EscapeReplace.ToEscape(title) + " \n " + currentUri.ToString());
+            shareType = ShareType.System;
         }
 
         private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
@@ -281,6 +305,34 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 timerForWebView.Interval = new TimeSpan(0, 0, 0, 0, 800);
                 timerForWebView.Start();
             }
+        }
+
+        #endregion
+
+        #region Shares
+
+        private async Task ShareToWeixinAsync(string name) {
+            shareType = name == "WeixinShare" ? 
+                ShareType.WechatSession : 
+                ShareType.WechatTimeLine;
+            var doc = new HtmlDocument();
+            doc.LoadHtml(nativeString);
+            var bytes = await SDKHelpers.ReadResFromImageAsync(thumb);
+            await SDKHelpers.SendWechatShareToUserChoiceRequestAsync(
+                url : currentUri.ToString(), 
+                title : title, 
+                thumb : bytes, 
+                desc : description, 
+                toTimeLine : shareType);
+        }
+
+        private async Task ShareBySystemAPIAsync(string name) {
+            shareType = name == "WeiboShare" ? 
+                ShareType.Weibo : 
+                ShareType.System;
+            
+            tempImageForShare = await ImageHelpers.GetSoftwareBitmapFromUriStringAsync(thumb);
+            DataTransferManager.ShowShareUI();
         }
 
         #endregion
@@ -646,7 +698,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         #endregion
 
         #region Properties
-        FrameType frameType;
+
         string htmlReturn;
         string nativeString;
         string description;
@@ -659,12 +711,16 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         bool isChangeFinished = false;
         bool isMobileAnimaCompleted = true;
         double defaultHeight;
+        StorageFile tempImageForShare;
         DispatcherTimer timerForWebView;
         Storyboard BtnStackSlideIn;
         Storyboard BtnStackSlideOut;
         DoubleAnimation doubleAnimation;
         TranslateTransform transToBarGrid;
+        FrameType frameType;
+        ShareType shareType = ShareType.System;
         const string htmlFormatHead = "https://m.douban.com/";
+
         #endregion
 
     }

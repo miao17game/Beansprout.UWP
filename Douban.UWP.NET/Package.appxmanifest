@@ -34,6 +34,16 @@
       </uap:ApplicationContentUriRules>
       <Extensions>
           <uap:Extension Category="windows.fileTypeAssociation">
+              <uap:FileTypeAssociation Name="test">
+                  <uap:SupportedFileTypes>
+                      <uap:FileType ContentType="application/qqsdkconnect">.qc-xxxxxxxxxx</uap:FileType>
+                  </uap:SupportedFileTypes>
+              </uap:FileTypeAssociation>
+          </uap:Extension>
+          <uap:Extension Category="windows.protocol">
+              <uap:Protocol Name="qc-xxxxxxxxxx" />
+          </uap:Extension>
+          <uap:Extension Category="windows.fileTypeAssociation">
               <uap:FileTypeAssociation Name="wechat">
                   <uap:SupportedFileTypes>
                       <uap:FileType>.123456789</uap:FileType>

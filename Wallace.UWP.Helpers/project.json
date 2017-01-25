@@ -1,10 +1,10 @@
 ﻿{
   "dependencies": {
     "Edi.UWP.Helpers": "1.0.11",
+    "Google.ProtocolBuffersLite": "2.4.1.555",
     "HtmlAgilityPack.NetCore": "1.5.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "Microsoft.NETNative.Analyzer": "1.0.0",
-    "Google.ProtocolBuffersLite": "2.4.1.555",
     "WeChatSDK": "2.0.1"
   },
   "frameworks": {

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Tools.PersonalExpressions {
     public static class EscapeReplace {
-        public static string ToEscape(string stringExpress) { return changeToEscape(stringExpress); }
+        public static string ToEscape(string stringExpress) { return ChangeToEscape(stringExpress); }
 
-        static string changeToEscape(string stringExpress) {
+        static string ChangeToEscape(string stringExpress) {
             var str = new Regex(@"\&.+?\;").Matches(stringExpress);
             foreach (var item in str) {
                 switch ((item as Match).Value) {

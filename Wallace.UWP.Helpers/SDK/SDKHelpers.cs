@@ -15,7 +15,7 @@ using Windows.Web.Http;
 namespace Wallace.UWP.Helpers.SDK {
     public static class SDKHelpers {
 
-        public static async Task SendWechatShareToUserChoiceRequestAsync(string url, string title, byte[] thumb, string desc = "", bool toTimeLine = true) {
+        public static async Task SendWechatShareToUserChoiceRequestAsync(string url, string title, byte[] thumb, string desc = "", ShareType toTimeLine = ShareType.WechatTimeLine) {
             try {
                 var message = new WXWebpageMessage {
                     WebpageUrl = url,
@@ -23,15 +23,25 @@ namespace Wallace.UWP.Helpers.SDK {
                     Description = desc,
                     ThumbData = thumb
                 };
-                var requset = new SendMessageToWX.Req(message, toTimeLine ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession);
+                var requset = new SendMessageToWX.Req(
+                    message,
+                    toTimeLine == ShareType.WechatTimeLine ? 
+                    SendMessageToWX.Req.WXSceneTimeline : 
+                    SendMessageToWX.Req.WXSceneSession);
                 IWXAPI api = WXAPIFactory.CreateWXAPI("123456789");
                 var tes = await api.SendReq(requset);
             } catch(WXException e) { System.Diagnostics.Debug.WriteLine(e.StackTrace); }
         }
 
+        public static void SendQQShareToUserChoiceRequest(string url, string title, byte[] thumb, string desc = "") {
+            try {
+                
+            } catch  { }
+        }
+
         public static async Task<byte[]> ReadResFromImageAsync(string url) {
             try {
-                return await ImageHelpers.GetThumbImageFromUriToBytes(url);
+                return await ImageHelpers.GetThumbImageFromUriToBytesAsync(url);
             } catch {
                 var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/douban3_for_wechat108.png"));
                 using (var stream = await file.OpenReadAsync()) {
@@ -40,8 +50,10 @@ namespace Wallace.UWP.Helpers.SDK {
                     return pic;
                 }
             }
-
         }
 
     }
+
+    public enum ShareType { System, Weibo, WechatSession, WechatTimeLine, QQ }
+
 }
