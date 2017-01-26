@@ -26,6 +26,16 @@ namespace Douban.UWP.Core.Tools {
 
         public static Uri ConvertToUri(string str) { return !string.IsNullOrEmpty(str) ? new Uri(str) : null; }
 
+        public static ItemGroup<T> SetGroupResources<T>(JObject jObject, ItemGroup<T> gModel) {
+            var sub_collection = jObject["subject_collection"];
+            if (sub_collection == null || !sub_collection.HasValues) 
+                return gModel;
+            try {
+                gModel = SetGroupItem<T>(jObject, sub_collection);
+            } catch { /* Ignore, item error. */ }
+            return gModel;
+        }
+
         public  static ItemGroup<T> SetGroupItem<T>(JObject jo, JToken sub_collection) {
             return new ItemGroup<T> {
                 Id = sub_collection["id"].Value<string>(),
@@ -166,4 +176,9 @@ namespace Douban.UWP.Core.Tools {
         }
 
     }
+
+    interface IDataProcessContract<T> {
+        void SetEachSingleton(ItemGroup<T> gmodel, JToken singleton);
+    }
+
 }

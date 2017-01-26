@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json.Linq;
 using Windows.UI;
 using Douban.UWP.Core.Models;
+using System.Text.RegularExpressions;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -38,11 +39,11 @@ namespace Douban.UWP.NET.Pages {
 
         private async void InitWhenNavigatedAsync() {
             var BookFictionResult = await SetGridViewResourcesAsync("book_fiction");
-            BookFictionResources.Source = BookFictionResult != null ? BookFictionResult.Items : null;
+            BookFictionResources.Source = BookFictionResult?.Items;
             var BookNonfictionResult = await SetGridViewResourcesAsync("book_nonfiction");
-            BookNonfictionResources.Source = BookNonfictionResult != null ? BookNonfictionResult.Items : null;
+            BookNonfictionResources.Source = BookNonfictionResult?.Items;
             var MPBookResult = await SetGridViewResourcesAsync("market_product_book");
-            MPBookResources.Source = MPBookResult != null ? MPBookResult.Items : null;
+            MPBookResources.Source = MPBookResult?.Items;
             var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/book/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
@@ -108,7 +109,7 @@ namespace Douban.UWP.NET.Pages {
                 formatAPI: FormatPath,
                 group: groupName,
                 count: 13,
-                loc_id: GetLocalUid());
+                loc_id: GetLocalUid()??"108288");
         }
 
         private static string GetLocalUid() {
@@ -133,35 +134,20 @@ namespace Douban.UWP.NET.Pages {
                     return gmodel;
                 }
                 JObject jo = JObject.Parse(result);
-                gmodel = SetGroupResources(jo, gmodel);
+                gmodel = DataProcess.SetGroupResources(jo, gmodel);
                 gmodel = SetSingletonResources(jo, gmodel);
-            } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError")); }
             IncrementalLoadingBorder.SetVisibility(false);
             return gmodel;
         }
 
-        private ItemGroup<BookItem> SetGroupResources(JObject jObject, ItemGroup<BookItem> gModel) {
-            var sub_collection = jObject["subject_collection"];
-            if (sub_collection == null || !sub_collection.HasValues) {
-                ReportWhenGoesWrong("FetchJsonDataError");
-                return gModel;
-            }
-            try {
-                gModel = DataProcess.SetGroupItem<BookItem>(jObject, sub_collection);
-            } catch { /* Ignore, item error. */ }
-            return gModel;
-        }
-
         private ItemGroup<BookItem> SetSingletonResources(JObject jObject, ItemGroup<BookItem> gModel) {
             var header = jObject["header"];
-            if (header != null && header.HasValues) {
+            if (header != null && header.HasValues) 
                 DataProcess.SetEachSingleton(gModel, header);
-            }
             var feeds = jObject["subject_collection_items"];
-            if (feeds == null || !feeds.HasValues) {
-                ReportWhenGoesWrong("FetchJsonDataError");
+            if (feeds == null || !feeds.HasValues) 
                 return gModel;
-            }
             if (feeds.HasValues)
                 feeds.Children().ToList().ForEach(singleton => DataProcess.SetEachSingleton(gModel, singleton));
             return gModel;
@@ -182,7 +168,7 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
-                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_BOOK") },
+                new NavigateParameter { ToUri = new Uri(path + $"?loc_id=108288"), Title = GetUIString("DB_BOOK") },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.BookFilter));
         }
@@ -202,9 +188,16 @@ namespace Douban.UWP.NET.Pages {
             var item = e.ClickedItem as ItemGroup<BookItem>;
             if (item == null || item.GroupPathUrl == null)
                 return;
+            var keyword = new Regex(@"/book/(?<key_word>.+)").Match(item.GroupPathUrl).Groups["key_word"].Value;
+            if (keyword != "")
+                keyword = UriDecoder.EditKeyWordsForBooks(keyword);
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) , Title = item.GroupName },
+                new NavigateParameter {
+                    ToUri = new Uri(item.GroupPathUrl),
+                    ApiHeadString = keyword,
+                    Title = item.GroupName
+                },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.BookFilter));
         }
@@ -215,7 +208,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Properties
 
-        string FormatPath = "https://m.douban.com/rexxar/api/v2/subject_collection/{0}/items?os=android&start={1}&count={2}&loc_id={3}&_={4}";
+        const string FormatPath = "https://m.douban.com/rexxar/api/v2/subject_collection/{0}/items?os=android&start={1}&count={2}&loc_id={3}&_={4}";
 
         #endregion
         

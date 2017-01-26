@@ -13,6 +13,7 @@ using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
 using Windows.UI.Xaml;
 using Douban.UWP.NET.Pages.TypeWebPage;
+using Douban.UWP.NET.Pages.SubjectCollectionPages.GenericPages;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -129,7 +130,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.MovieContent, typeof(WebContentPage)},
                     { NavigateType.MovieFilter, typeof(WebContentPage)},
                     { NavigateType.BookContent, typeof(WebContentPage)},
-                    { NavigateType.BookFilter, typeof(WebContentPage)},
+                    { NavigateType.BookFilter, typeof(SubCollectionGenericPage)},
                     { NavigateType.MusicContent, typeof(WebContentPage)},
                     { NavigateType.MusicFilter, typeof(WebContentPage)},
                     { NavigateType.TVContent, typeof(WebContentPage)},

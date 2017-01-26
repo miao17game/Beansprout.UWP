@@ -20,7 +20,6 @@ using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models;
 using System.Threading.Tasks;
 using Windows.UI;
-using System.Diagnostics;
 using Wallace.UWP.Helpers;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -30,8 +29,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Douban.UWP.NET.Models;
-using Windows.Foundation.Metadata;
-using Douban.UWP.BackgroundTasks;
 using Windows.UI.Xaml.Media.Animation;
 using Wallace.UWP.Helpers.SDK;
 using Windows.ApplicationModel.DataTransfer;
@@ -382,7 +379,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// <returns></returns>
         private string WebStringNative(string value) {
             var maxWidthPercent = "100";
-            return HtmlXHelperExtensions.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark)
+            return XHtmlHelpers.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark)
                 .Replace(@"<img data-src", $@"<img style='max-width:{maxWidthPercent}%' src")  // adapt image size
                 .Replace(@"<div class='cc'>", @"<div>")  // commen div class
                 .Replace(@"href=""/", $@"href=""{htmlFormatHead}")  // correct url fprmat

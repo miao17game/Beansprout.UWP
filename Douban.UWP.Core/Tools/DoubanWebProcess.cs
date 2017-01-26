@@ -42,8 +42,7 @@ namespace Douban.UWP.Core.Tools {
                 return unRedirectHttpClient ?? new HttpClient(new Func<HttpBaseProtocolFilter>(() => {
                     if (UnRedirectHttpFilter != null)
                         return UnRedirectHttpFilter;
-                    UnRedirectHttpFilter = new HttpBaseProtocolFilter();
-                    UnRedirectHttpFilter.AllowAutoRedirect = false;
+                    UnRedirectHttpFilter = new HttpBaseProtocolFilter { AllowAutoRedirect = false };
                     UnRedirectCookiesManager = UnRedirectHttpFilter.CookieManager;
                     return UnRedirectHttpFilter;
                 }).Invoke());
@@ -57,8 +56,7 @@ namespace Douban.UWP.Core.Tools {
         private static HttpClient RedirectHttpClient = new HttpClient(new Func<HttpBaseProtocolFilter>(() => {
             if (RedirectHttpFilter != null)
                 return RedirectHttpFilter;
-            RedirectHttpFilter = new HttpBaseProtocolFilter();
-            RedirectHttpFilter.AllowAutoRedirect = true;
+            RedirectHttpFilter = new HttpBaseProtocolFilter { AllowAutoRedirect = true };
             RedirectCookiesManager = RedirectHttpFilter.CookieManager;
             return RedirectHttpFilter;
         }).Invoke());
@@ -250,202 +248,6 @@ namespace Douban.UWP.Core.Tools {
                 return null;
             }
             return returnString;
-        }
-
-        #endregion
-
-        #region LNU Methods
-
-        /// <summary>
-        /// Login into LNU, should only call it when login-cookie is gone.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="user"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static async Task<LoginReturnBag> PostLNULoginCallback(HttpClient client, string user, string password) {
-
-            /// Changes for Windows Store
-
-            //var urlString = string.Format("http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.login?stuid={0}&pwd={1}", user, password);
-
-            var urlString = string.Format("https://notificationhubforuwp.azurewebsites.net/LNU/Redirect?user={0}&psw={1}", user, password);
-            var bag = new LoginReturnBag();
-            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                var httpClient = client;
-
-                //httpClient.DefaultRequestHeaders.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
-                //httpClient.DefaultRequestHeaders.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/xk_login.html");
-
-                /// 
-                
-                using (var response = await LOGIN_POSTAsync(client, urlString)) {
-                    var returnCookies = UnRedirectCookiesManager.GetCookies(new Uri("https://notificationhubforuwp.azurewebsites.net/"));
-                    if (returnCookies.Count == 0) 
-                        throw new AccessUnPassedException("Login Failed: no login-success cookie received.");
-
-                    /// Changes for Windows Store
-                    
-                    string content = default(string);
-                    var value = response.Headers.TryGetValue("Set-Cookie", out content);
-                    if (value) {
-                        content = content.Split(',')[0].Replace(";", "@").Split('@')[0].Replace("=", "@").Split('@')[1];
-                        HttpCookie cookie = new HttpCookie("ACCOUNT", "jwgl.lnu.edu.cn", "/pls/wwwbks/");
-                        cookie.Value = content;
-
-                        /// DEBUG Method
-
-                        Debug.WriteLine("DEBUG ----->   " + content );
-
-                        ///
-
-                        UnRedirectCookiesManager.SetCookie(cookie);
-                        bag.CookieBag = cookie;
-                    }
-
-                    ///
-
-                    using (var request = GET("http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.loginmessage")) {
-                        request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
-                        request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/xk_login.html");
-                        var result = await httpClient.SendRequestAsync(request);
-                        bag.HtmlResouces = (await CastStreamResultToStringAsync(result)).ToString();
-                    }
-                }
-            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return await PostLNULoginCallback(UnRedirectHttpClient, user, password);
-            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            } catch (AccessUnPassedException ex) {
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return bag;
-            } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            }
-            return bag;
-        }
-
-        /// <summary>
-        /// Log out from LNU
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="logoutPath"></param>
-        /// <returns></returns>
-        public static async Task<string> LNULogOutCallback(HttpClient client, string logoutPath) {
-            var bag = default(string);
-            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                var httpClient = client;
-                using (var request = GET(logoutPath)) {
-                    request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
-                    request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/zhxt_bks_left.html");
-                    var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamResultToStringAsync(result)).ToString();
-                }
-            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return await LNULogOutCallback(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            }
-            return bag;
-        }
-
-        /// <summary>
-        /// command from left tab.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="logoutPath"></param>
-        /// <returns></returns>
-        public static async Task<string> GetLNUFromLeftRequest(HttpClient client, string logoutPath) {
-            var bag = default(string);
-            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                var httpClient = client;
-                using (var request = GET(logoutPath)) {
-                    request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
-                    request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/zhxt_bks/zhxt_bks_left.html");
-                    var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamResultToStringAsync(result)).ToString();
-                }
-            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return await LNULogOutCallback(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            }
-            return bag;
-        }
-
-        /// <summary>
-        /// change password.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="logoutPath"></param>
-        /// <returns></returns>
-        public static async Task<string> PostLNUChangePassword(HttpClient client, string logoutPath) {
-            var bag = default(string);
-            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                var httpClient = client;
-                using (var request = POST(logoutPath)) {
-                    request.Headers.Host = new Windows.Networking.HostName("jwgl.lnu.edu.cn");
-                    request.Headers.Referer = new Uri("http://jwgl.lnu.edu.cn/pls/wwwbks/bks_login2.NewPass");
-                    var result = await httpClient.SendRequestAsync(request);
-                    bag = (await CastStreamResultToStringAsync(result)).ToString();
-                }
-            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return await PostLNUChangePassword(UnRedirectHttpClient, logoutPath);
-            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            }
-            return bag;
-        }
-
-        /// <summary>
-        /// change password.
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="logoutPath"></param>
-        /// <returns></returns>
-        public static async Task<string> PostLNURedirectPOSTMethod(HttpClient client, string logoutPath, HttpCookie cookie) {
-            var bag = default(string);
-            try { // do not dispose, so that the global undirect httpclient will stay in referenced. dispose it when you need.
-                using (var request = POST(logoutPath)) {
-                    request.Headers["Cookie"] = "ACCOUNT=" + cookie.Value + "; path=/pls/wwwbks/";
-                    var result = await client.SendRequestAsync(request);
-                    bag = (await CastStreamResultToStringAsync(result, false)).ToString();
-                }
-            } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                unRedirectHttpClient = null;
-                return await PostLNURedirectPOSTMethod(UnRedirectHttpClient, logoutPath, cookie);
-            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            } catch (Exception ex) { // unkown error, report it.
-                Debug.WriteLine("\nFailed：\n" + ex.StackTrace);
-                return null;
-            }
-            return bag;
         }
 
         #endregion

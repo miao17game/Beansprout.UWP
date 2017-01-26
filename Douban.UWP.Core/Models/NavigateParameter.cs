@@ -8,6 +8,7 @@ namespace Douban.UWP.Core.Models {
     public class NavigateParameter {
         public Uri ToUri { get; set; }
         public string Title { get; set; }
+        public string ApiHeadString { get; set; }
         public object SpecialParameter { get; set; }
         public bool IsFromInfoClick { get; set; }
         public bool IsNative { get; set; }

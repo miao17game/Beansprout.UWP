@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.25928.0
+VisualStudioVersion = 15.0.26020.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Douban.UWP.NET", "Douban.UWP.NET\Douban.UWP.NET.csproj", "{AE9FB515-F551-4AE2-9BC8-82D308F535D4}"
 EndProject
@@ -65,14 +65,14 @@ Global
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Debug|x64.Build.0 = Debug|x64
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Debug|x86.ActiveCfg = Debug|x86
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Debug|x86.Build.0 = Debug|x86
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|Any CPU.ActiveCfg = No-Native Released|Any CPU
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|Any CPU.Build.0 = No-Native Released|Any CPU
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|ARM.ActiveCfg = No-Native Released|ARM
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|ARM.Build.0 = No-Native Released|ARM
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x64.ActiveCfg = No-Native Released|x64
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x64.Build.0 = No-Native Released|x64
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x86.ActiveCfg = No-Native Released|x86
-		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x86.Build.0 = No-Native Released|x86
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|Any CPU.ActiveCfg = Release|Any CPU
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|Any CPU.Build.0 = Release|Any CPU
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|ARM.ActiveCfg = Release|ARM
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|ARM.Build.0 = Release|ARM
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x64.ActiveCfg = Release|x64
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x64.Build.0 = Release|x64
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x86.ActiveCfg = Release|x86
+		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.No-Native Released|x86.Build.0 = Release|x86
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B3BCAA1F-F21C-42B7-B3C6-A07759826272}.Release|ARM.ActiveCfg = Release|ARM
@@ -89,14 +89,14 @@ Global
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Debug|x64.Build.0 = Debug|x64
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Debug|x86.ActiveCfg = Debug|x86
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Debug|x86.Build.0 = Debug|x86
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|Any CPU.ActiveCfg = No-Native Released|Any CPU
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|Any CPU.Build.0 = No-Native Released|Any CPU
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|ARM.ActiveCfg = No-Native Released|ARM
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|ARM.Build.0 = No-Native Released|ARM
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x64.ActiveCfg = No-Native Released|x64
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x64.Build.0 = No-Native Released|x64
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x86.ActiveCfg = No-Native Released|x86
-		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x86.Build.0 = No-Native Released|x86
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|Any CPU.ActiveCfg = Release|Any CPU
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|Any CPU.Build.0 = Release|Any CPU
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|ARM.ActiveCfg = Release|ARM
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|ARM.Build.0 = Release|ARM
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x64.ActiveCfg = Release|x64
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x64.Build.0 = Release|x64
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x86.ActiveCfg = Release|x86
+		{76018C20-874F-4D6D-9C30-23A82D347E41}.No-Native Released|x86.Build.0 = Release|x86
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{76018C20-874F-4D6D-9C30-23A82D347E41}.Release|ARM.ActiveCfg = Release|ARM

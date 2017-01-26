@@ -2,58 +2,12 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Tools {
-    public static class HtmlXHelperExtensions {
 
-        public static HtmlNode RemoveFormat(this HtmlNode value, string xFormat) {
-            var downloadApp = value.SelectSingleNode(xFormat);
-            if (downloadApp != null)
-                downloadApp.Remove();
-            return value;
-        }
-
-        public static bool ContainsFormat(this HtmlNode value, string xFormat) {
-            var downloadApp = value.SelectSingleNode(xFormat);
-            return downloadApp != null;
-        }
-
-        public static string GetHtmlFormat(this HtmlNode value, string xFormat) {
-            var result = value.SelectSingleNode(xFormat);
-            if (result == null)
-                return "";
-            StringBuilder builder = new StringBuilder();
-            result.ChildNodes.ToList().ForEach(item => builder.Append(item.NodeType == HtmlNodeType.Text ? "" : item.OuterHtml + Environment.NewLine ));
-            return result != null ? builder.ToString() : "";
-        }
-
-        public static HtmlNode SelectSingleNode(this HtmlNode node, string childType, string elementType, string attributeName, bool isIgnoreGeneration = false) {
-            return isIgnoreGeneration ?
-                node.SelectSingleNode($"//{childType}[@{elementType}='{attributeName}']") :
-                node.SelectSingleNode($"{childType}[@{elementType}='{attributeName}']");
-        }
-
-        public static HtmlNode RemoveFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
-            return isIgnoreGeneration?
-                value.RemoveFormat($"//{childType}[@{elementType}='{attributeName}']"): 
-                value.RemoveFormat($"{childType}[@{elementType}='{attributeName}']");
-        }
-
-        public static bool ContainsFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
-            return isIgnoreGeneration ?
-                value.ContainsFormat($"//{childType}[@{elementType}='{attributeName}']") :
-                value.ContainsFormat($"{childType}[@{elementType}='{attributeName}']");
-        }
-
-        public static string GetHtmlFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
-            return isIgnoreGeneration ?
-                value.GetHtmlFormat($"//{childType}[@{elementType}='{attributeName}']") :
-                value.GetHtmlFormat($"{childType}[@{elementType}='{attributeName}']");
-        }
+    public static class XHtmlHelpers {
 
         public static string CreateHtml(string bodyContent, bool isGlobalDark = true) {
             return @"<html>" + SetHtmlChildren(bodyContent, isGlobalDark) + @"</html>";
@@ -71,7 +25,7 @@ namespace Douban.UWP.Core.Tools {
                 background: #" + (isGlobalDark ? "202020" : "fff") + @";
                 color: #" + (isGlobalDark ? "fff" : "202020") + @";
                 }
-            "  + GetCopyrightAndLike() + GetHeaderCss() + GetTagsAndAuthorCss());
+            " + GetCopyrightAndLike() + GetHeaderCss() + GetTagsAndAuthorCss());
         }
 
         private static string SetDefaultJs() {
@@ -80,7 +34,7 @@ namespace Douban.UWP.Core.Tools {
                     window.external.notify(JSON.stringify(path));
                 }
         ");
-        } 
+        }
 
         public static string CreateJs(string js) {
             return $@"<script type='text/javascript'>{js}</script> ";
@@ -373,6 +327,55 @@ namespace Douban.UWP.Core.Tools {
                     background-color: rgba(0,30,30,30);
                 }";
         #endregion
+
+    }
+
+    public static class XHtmlHelperExtensions {
+
+        public static HtmlNode RemoveFormat(this HtmlNode value, string xFormat) {
+            var downloadApp = value.SelectSingleNode(xFormat);
+            if (downloadApp != null)
+                downloadApp.Remove();
+            return value;
+        }
+
+        public static bool ContainsFormat(this HtmlNode value, string xFormat) {
+            var downloadApp = value.SelectSingleNode(xFormat);
+            return downloadApp != null;
+        }
+
+        public static string GetHtmlFormat(this HtmlNode value, string xFormat) {
+            var result = value.SelectSingleNode(xFormat);
+            if (result == null)
+                return "";
+            StringBuilder builder = new StringBuilder();
+            result.ChildNodes.ToList().ForEach(item => builder.Append(item.NodeType == HtmlNodeType.Text ? "" : item.OuterHtml + Environment.NewLine ));
+            return result != null ? builder.ToString() : "";
+        }
+
+        public static HtmlNode SelectSingleNode(this HtmlNode node, string childType, string elementType, string attributeName, bool isIgnoreGeneration = false) {
+            return isIgnoreGeneration ?
+                node.SelectSingleNode($"//{childType}[@{elementType}='{attributeName}']") :
+                node.SelectSingleNode($"{childType}[@{elementType}='{attributeName}']");
+        }
+
+        public static HtmlNode RemoveFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
+            return isIgnoreGeneration?
+                value.RemoveFormat($"//{childType}[@{elementType}='{attributeName}']"): 
+                value.RemoveFormat($"{childType}[@{elementType}='{attributeName}']");
+        }
+
+        public static bool ContainsFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
+            return isIgnoreGeneration ?
+                value.ContainsFormat($"//{childType}[@{elementType}='{attributeName}']") :
+                value.ContainsFormat($"{childType}[@{elementType}='{attributeName}']");
+        }
+
+        public static string GetHtmlFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
+            return isIgnoreGeneration ?
+                value.GetHtmlFormat($"//{childType}[@{elementType}='{attributeName}']") :
+                value.GetHtmlFormat($"{childType}[@{elementType}='{attributeName}']");
+        }
 
     }
 }
