@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using Wallace.UWP.Helpers;
 using Windows.Data.Xml.Dom;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -12,11 +14,11 @@ using Windows.UI.Notifications;
 
 namespace Douban.UWP.Core.Tools {
     public static class ToastHelper {
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri) {
-            return PopToast(title, content, imageUri, uri, null, null);
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride = null) {
+            return PopToast(title, content, imageUri, uri, logoOverride, null, null);
         }
 
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string tag, string group) {
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride, string tag, string group) {
 
             ToastTemplateType toastTemplate = ToastTemplateType.ToastImageAndText02;
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(toastTemplate);
@@ -26,7 +28,7 @@ namespace Douban.UWP.Core.Tools {
             toastTextElements[1].AppendChild(toastXml.CreateTextNode(content));
 
             var toastImageAttributes = toastXml.GetElementsByTagName("image")[0] as XmlElement;
-            toastImageAttributes.SetAttribute("src", $"ms-appx:///Assets/douban3_for_wechat108.png");
+            toastImageAttributes.SetAttribute("src", logoOverride ?? @"ms-appx:///Assets/douban3_for_wechat108.png");
             toastImageAttributes.SetAttribute("placement", "appLogoOverride");
             toastImageAttributes.SetAttribute("hint-crop", "circle");
 
@@ -35,7 +37,7 @@ namespace Douban.UWP.Core.Tools {
             toastNode.SetAttribute("duration", "long");
 
             var audio = toastXml.CreateElement("audio");
-            audio.SetAttribute("src", $"ms-winsoundevent:Notification.Mail");
+            audio.SetAttribute("src", @"ms-appx:///Voice/yiner.mp3");
             toastNode.AppendChild(audio);
 
             var binding = toastNode.SelectSingleNode("visual").SelectSingleNode("binding") as XmlElement;
@@ -70,8 +72,8 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static async Task<bool> GetNewsAndPushToastAsync() {
-            var now = DateTime.Now;
-            if (now.Hour < 10 || now.Hour > 23)
+            var nowHour = DateTime.Now.Hour;
+            if (forbiddenTimeHoursOfToast.Contains(nowHour))
                 return false;
             var date = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
             var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
@@ -80,9 +82,10 @@ namespace Douban.UWP.Core.Tools {
                 return false;
             var result = PopToast(
                 title: item.Title ?? "",
-                content: item.Content ?? now.ToString("h:mm tt"),
+                content: item.Content ?? DateTime.Now.ToString("h:mm tt"),
                 imageUri: item.ImageSrc ?? "",
-                uri: item.Uri ?? "");
+                uri: item.Uri ?? "",
+                logoOverride: item.LogoOverride);
             return result.SuppressPopup;
         }
 
@@ -101,18 +104,26 @@ namespace Douban.UWP.Core.Tools {
                         now = 2;
                     try {
                         var single = feeds.Children().ElementAt(now);
-                        var uri = UriDecoder.UriToEncode(single["uri"].Value<string>(), UriDecoder.ToatFromInfosList, single["title"].Value<string>());
+                        var author = single["author"];
+                        var uri = UriDecoder.CreateJson(new ToastParameters {
+                            Title = single["title"].Value<string>(),
+                            Uri = single["uri"].Value<string>(),
+                            Type = EncodeFormat.ToatFromInfosList
+                        });
                         return new ToastItem {
                             Title = single["title"].Value<string>(),
                             ImageSrc = single["cover_url"].Value<string>() != "" ? single["cover_url"].Value<string>() : null,
-                            Uri = uri,
+                            LogoOverride = author.HasValues ? author["avatar"].Value<string>() != "" ? author["avatar"].Value<string>() : null : null,
                             Content = single["desc"].Value<string>() != "" ? single["desc"].Value<string>() : null,
+                            Uri = uri,
                         };
                     } catch { return null; }
                 }
             } catch { /* Ignore */ }
             return null;
         }
+
+        static int[] forbiddenTimeHoursOfToast = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
 
     }
 
@@ -121,5 +132,22 @@ namespace Douban.UWP.Core.Tools {
         public string ImageSrc { get; set; }
         public string Content { get; set; }
         public string Uri { get; set; } 
+        public string LogoOverride { get; set; }
     }
+
+    public enum EncodeFormat {
+        ToastFromDefault,
+        ToatFromInfosList,
+    }
+
+    [DataContract]
+    public class ToastParameters {
+        [DataMember]
+        public EncodeFormat Type { get; set; }
+        [DataMember]
+        public string Uri { get; set; }
+        [DataMember]
+        public string Title { get; set; }
+    }
+
 }

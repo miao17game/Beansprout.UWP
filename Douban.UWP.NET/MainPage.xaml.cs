@@ -283,20 +283,20 @@ namespace Douban.UWP.NET {
             if (VisibleWidth > FormatNumber && IsDivideScreen)
                 MetroFrame.Navigate(typeof(MetroPage));
             if (toastUri != null) {
-                var content = default(string);
-                content = UriDecoder.UriToDecode(toastUri, UriDecoder.ToatFromInfosList);
-                if (content != null)
+                var decode = JsonHelper.FromJson<ToastParameters>(toastUri);
+                if (decode != null) {
                     NavigateToBase?.Invoke(
                         null,
                         new NavigateParameter {
-                            ToUri = new Uri(UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.uri)),
-                            Title = UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.title),
+                            ToUri = new Uri(decode.Uri),
+                            Title = decode.Title,
                             IsFromInfoClick = true,
                             IsNative = true,
                             FrameType = FrameType.Content
                         },
-                        GetFrameInstance(FrameType.Content), 
+                        GetFrameInstance(FrameType.Content),
                         GetPageType(NavigateType.ItemClickNative));
+                }
             }
         }
 

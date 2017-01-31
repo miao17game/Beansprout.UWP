@@ -22,7 +22,7 @@ namespace Douban.UWP.BackgroundTasks {
             deferral.Complete();
         }
 
-        private IAsyncOperation<string> GetLatestNews() {
+        private IAsyncOperation<bool> GetLatestNews() {
             try {
                 return AsyncInfo.Run(token => TilesHelper.GetNewsAsync());
             } catch (Exception) { /* ignored */ }

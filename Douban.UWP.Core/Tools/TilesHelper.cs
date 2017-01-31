@@ -73,7 +73,6 @@ namespace Douban.UWP.Core.Tools {
                 tile.VisualElements.ShowNameOnSquare310x310Logo = true;
                 await tile.RequestCreateAsync();
             }
-            //await GenerateSecondaryTile(tileId, tileId).RequestCreateAsync();
             TileUpdateManager.CreateTileUpdaterForSecondaryTile(tileId).Update(new TileNotification(doc));
         }
 
@@ -124,14 +123,17 @@ namespace Douban.UWP.Core.Tools {
             return doc;
         }
 
-        public static async Task<string> GetNewsAsync() {
+        public static async Task<bool> GetNewsAsync(bool ignoreTime = false) {
             try {
+                var nowHour = DateTime.Now.Hour;
+                if (forbiddenTimeHoursOfToast.Contains(nowHour) && !ignoreTime)
+                    return false;
                 var date = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
                 var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
                 var listfor = await FetchMessageFromAPIAsync(string.Format(Host, date), 0);
                 UpdateTitlesAsync(listfor.ToList());
-            } catch (Exception) { /* ignore */ }
-            return null;
+            } catch (Exception) { return false; }
+            return true;
         }
 
         public  static async Task<IList<string>> FetchMessageFromAPIAsync(string target, int offset = 0) {
@@ -154,6 +156,8 @@ namespace Douban.UWP.Core.Tools {
             } catch { /* Ignore */ }
             return list;
         }
+
+        static int[] forbiddenTimeHoursOfToast = new int[] { 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 20, 21, 23 };
 
     }
 }

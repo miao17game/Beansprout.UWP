@@ -22,7 +22,7 @@ namespace Douban.UWP.BackgroundTasks {
                 TaskEntryPoint = typeof(TitleBackgroundUpdateTask).FullName
             };
             taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            taskBuilder.SetTrigger(new TimeTrigger(360, true));
+            taskBuilder.SetTrigger(new TimeTrigger(60, false));
             var register = taskBuilder.Register();
         }
 
@@ -32,7 +32,7 @@ namespace Douban.UWP.BackgroundTasks {
                 TaskEntryPoint = typeof(ToastBackgroundPushTask).FullName
             };
             taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            taskBuilder.SetTrigger(new TimeTrigger(180, false));
+            taskBuilder.SetTrigger(new TimeTrigger(60, false));
             var register = taskBuilder.Register();
         }
 

@@ -286,6 +286,9 @@
     <Content Include="Resources\CSS\Desktop.css" />
     <Content Include="Resources\CSS\LightTheme.css" />
     <Content Include="Resources\CSS\MobileDevice.css" />
+    <Content Include="Voice\haizi.mp3" />
+    <Content Include="Voice\yellsedtsr.mp3" />
+    <Content Include="Voice\yiner.mp3" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

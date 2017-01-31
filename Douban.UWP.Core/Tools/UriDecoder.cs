@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.Core.Tools {
     public static class UriDecoder {
@@ -18,22 +19,15 @@ namespace Douban.UWP.Core.Tools {
                 "_hot/";
         }
 
-        public static string UriToEncode(string strToEncode, string encodeString = ToastFromDefault, string title = "Link") {
-            return encodeString + BeansDevide + strToEncode + TitleDevide + title;
+        public static string CreateJson<T>(T obj) {
+            return JsonHelper.ToJson(obj);
         }
 
-        public static string UriToDecode(string strToDecode, string encodeString = ToastFromDefault) {
-            var result = new Regex(@"(?<format>.+)" + BeansDevide + @"(?<content>.+)").Match(strToDecode);
-            if (result == null || result.Groups["format"].Value == "")
-                return null;
-            return result.Groups["content"].Value;
-        }
-
-        public static string UriToDecodeTitle(string strToDecodeTitle, TitleEncodeEnum type = TitleEncodeEnum.title) {
-            var match = new Regex(@"(?<uri>.+)" + TitleDevide + @"(?<title>.+)").Match(strToDecodeTitle);
-            return match.Groups[type.ToString()].Value;
-        }
-
+        /// <summary>
+        /// Create api path from Douban-uri-dispatch string.
+        /// </summary>
+        /// <param name="uriDispatch">dispatch-string.</param>
+        /// <returns></returns>
         public static string GetApiFromDispatch(string uriDispatch) {
             var compath = new Regex(@"dispatch\?uri=(?<com_path>.+)").Match(uriDispatch).Groups["com_path"].Value;
             if (compath != "")
@@ -41,6 +35,11 @@ namespace Douban.UWP.Core.Tools {
             return uriDispatch;
         }
 
+        /// <summary>
+        /// Get url from the from Douban-uri-dispatch string.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public static string GetUrlFromUri(string uri) {
             if (uri == null)
                 return uri;
@@ -61,14 +60,11 @@ namespace Douban.UWP.Core.Tools {
             return GetUriType(new Regex(@"rexxar/api/v2/(?<api_keywords>.+?)/)").Match(apiPath).Groups["api_keywords"].Value);
         }
 
-        const string headFormat_web = "https://m.";
-        const string apiFormat = "https://m.douban.com/rexxar/api/v2";
-
         public static UriType GetUriType(string key) { return TypeReflections.ContainsKey(key) ? TypeReflections[key] : UriType.Unknown; }
-        private static IDictionary<string, UriType> typeReflections;
-        public static IDictionary<string, UriType> TypeReflections {
+        private static IDictionary<string, UriType> _typeReflections;
+        private static IDictionary<string, UriType> TypeReflections {
             get {
-                return typeReflections ?? (typeReflections = new Dictionary<string, UriType> {
+                return _typeReflections ?? (_typeReflections = new Dictionary<string, UriType> {
                     { "subject_collection", UriType.SubjectCollection },
                     { "book", UriType.SingletonBook },
                     { "movie", UriType.SingletonMovie },
@@ -77,13 +73,16 @@ namespace Douban.UWP.Core.Tools {
             }
         }
 
-        public const string BeansDevide = "@BeansFormat@";
-        public const string TitleDevide = "@TitleFormat@";
-        public const string ToatFromInfosList = "INFOSLIST_TOAST";
-        public const string ToastFromDefault = "DEFAULT";
+        #region Constants Field
+        const string headFormat_web = "https://m.";
+        const string apiFormat = "https://m.douban.com/rexxar/api/v2";
+        #endregion
 
     }
 
+    /// <summary>
+    /// The uri format of Douban uri-source.
+    /// </summary>
     public enum UriType {
         Unknown,
         SubjectCollection,
@@ -92,6 +91,9 @@ namespace Douban.UWP.Core.Tools {
         SingletonMusic,
     }
 
+    /// <summary>
+    /// The type of returns
+    /// </summary>
     public enum TitleEncodeEnum {
         uri,
         title,

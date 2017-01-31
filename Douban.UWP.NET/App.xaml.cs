@@ -93,11 +93,11 @@ namespace Douban.UWP.NET {
                 Window.Current.Activate();
             }
 
-            //try {
-            //    await TilesHelper.GetNewsAsync();
-            //} catch { /* Ignore */ }
+            try {
+                await TilesHelper.GetNewsAsync(ignoreTime: true);
+            } catch { /* Ignore */ }
 
-    }
+        }
 
         private static void InitAppStateWhenFirstDeployment() {
             if ((bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsFirstLoadApp) ?? true) {
@@ -123,20 +123,20 @@ namespace Douban.UWP.NET {
                     root.Navigate(typeof(MainPage), toastArgs);
                 } else {
                     try {
-                        var content = default(string);
-                        content = UriDecoder.UriToDecode(FromToastArgument, UriDecoder.ToatFromInfosList);
-                        if (content != null)
+                        var decode = JsonHelper.FromJson<ToastParameters>(FromToastArgument);
+                        if (decode != null) {
                             AppResources.NavigateToBase?.Invoke(
                                 null,
                                 new NavigateParameter {
-                                    ToUri = new Uri(UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.uri)),
-                                    Title = UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.title),
+                                    ToUri = new Uri(decode.Uri),
+                                    Title = decode.Title,
                                     IsFromInfoClick = true,
                                     IsNative = true,
                                     FrameType = FrameType.Content
                                 },
                                 AppResources.GetFrameInstance(FrameType.Content),
                                 AppResources.GetPageType(NavigateType.ItemClickNative));
+                        }
                     } catch { /* I do not want my app to be shut down. */}
                 }
                 Window.Current.Activate();
