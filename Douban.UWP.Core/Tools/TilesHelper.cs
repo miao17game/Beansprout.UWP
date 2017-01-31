@@ -1,15 +1,13 @@
-﻿using Douban.UWP.Core.Tools;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
 using Windows.UI.StartScreen;
 
-namespace Douban.Core.NET.Tools {
+namespace Douban.UWP.Core.Tools {
 
     public class TilesHelper {
         public static async Task<SecondaryTile> PinNewSecondaryTileAsync() {
@@ -104,7 +102,7 @@ namespace Douban.Core.NET.Tools {
         private static XmlDocument CreatXMLDocument(string newsItem) {
             var doc = new XmlDocument();
             var TileTemplateXml = $@"
-                                        <tile branding='nameAndLogo' displayName='{DateTime.Now.Hour.ToString()}:{(DateTime.Now.Minute >= 10 ? DateTime.Now.Minute.ToString() : "0" + DateTime.Now.Minute.ToString())}'> 
+                                        <tile branding='nameAndLogo' displayName='{DateTime.Now.ToString("tt h:mm")}'> 
                                              <visual version='3'>
                                                  <binding template='TileMedium'>
                                                     <text hint-wrap='true' >{newsItem}</text>
@@ -131,26 +129,21 @@ namespace Douban.Core.NET.Tools {
                 var date = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
                 var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";
                 var listfor = await FetchMessageFromAPIAsync(string.Format(Host, date), 0);
-                var resultList = listfor.ToList();
-                UpdateTitlesAsync(resultList);
-            } catch (Exception) {
-                // ignored
-            }
+                UpdateTitlesAsync(listfor.ToList());
+            } catch (Exception) { /* ignore */ }
             return null;
         }
 
         public  static async Task<IList<string>> FetchMessageFromAPIAsync(string target, int offset = 0) {
             IList<string> list = new List<string>();
             try {
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
-                if (result == null) {
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(target, client: new Windows.Web.Http.HttpClient());
+                if (result == null) 
                     return list;
-                }
                 JObject jo = JObject.Parse(result);
                 var feeds = jo["recommend_feeds"];
-                if (feeds == null || !feeds.HasValues) {
+                if (feeds == null || !feeds.HasValues) 
                     return list;
-                }
                 if (feeds.HasValues) {
                     feeds.Children().Take(5).ToList().ForEach(singleton => {
                         try {

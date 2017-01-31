@@ -1,31 +1,27 @@
-﻿using System;
-using System.Linq;
+﻿using Douban.UWP.Core.Tools;
+using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
+using Wallace.UWP.Helpers;
 using Windows.ApplicationModel.Background;
-using Windows.Data.Xml.Dom;
 using Windows.Foundation;
-using Windows.UI.Notifications;
-using Windows.UI.Xaml;
-using System.Diagnostics;
-using Windows.UI.StartScreen;
-using Douban.Core.NET.Tools;
-using Douban.UWP.Core.Tools;
-using Newtonsoft.Json.Linq;
 
 namespace Douban.UWP.BackgroundTasks {
-    public sealed class TitleBackgroundUpdateTask : IBackgroundTask {
+    public sealed class ToastBackgroundPushTask : IBackgroundTask {
 
         public async void Run(IBackgroundTaskInstance taskInstance) {
             var deferral = taskInstance.GetDeferral();
-            await GetLatestNews();
+            await GetNewsAndPushToast();
             deferral.Complete();
         }
 
-        private IAsyncOperation<string> GetLatestNews() {
+        private IAsyncOperation<bool> GetNewsAndPushToast() {
             try {
-                return AsyncInfo.Run(token => TilesHelper.GetNewsAsync());
+                return AsyncInfo.Run(token => ToastHelper.GetNewsAndPushToastAsync());
             } catch (Exception) { /* ignored */ }
             return null;
         }

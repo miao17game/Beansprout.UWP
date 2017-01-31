@@ -113,14 +113,14 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void SecondTitleBtn_ClickAsync(object sender, RoutedEventArgs e) {
-            Windows.UI.StartScreen.SecondaryTile tile = Douban.Core.NET.Tools.TilesHelper.GenerateSecondaryTile("SecondaryTitle", "Beansprout UWP", Colors.Transparent);
+            Windows.UI.StartScreen.SecondaryTile tile = TilesHelper.GenerateSecondaryTile("SecondaryTitle", "Beansprout UWP", Colors.Transparent);
             tile.VisualElements.ShowNameOnSquare150x150Logo =
                 tile.VisualElements.ShowNameOnSquare310x310Logo =
                 tile.VisualElements.ShowNameOnWide310x150Logo =
                 true;
             await tile.RequestCreateAsync();
             try {
-                await Douban.Core.NET.Tools.TilesHelper.GetNewsAsync();
+                await TilesHelper.GetNewsAsync();
             } catch { /* Ignore */ }
         }
 

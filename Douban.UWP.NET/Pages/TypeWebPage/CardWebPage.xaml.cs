@@ -252,9 +252,16 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 var result = htmlReturn = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
                 var doc = new HtmlDocument();
                 doc.LoadHtml(result);
-                WebView.NavigateToString(GetContent(doc.DocumentNode));
-                SetTitleAndDescForShare(doc);
-                SetAuthorGrid();
+                var shouldNative = IfCanGetContent(doc.DocumentNode);
+                if (shouldNative) {
+                    WebView.NavigateToString(GetContent(doc.DocumentNode));
+                    SetTitleAndDescForShare(doc);
+                    SetAuthorGrid();
+                } else {
+                    WebView.Source = uri;
+                    BarGrid.SetVisibility(false);
+                    isNative = false;
+                }
             } catch {
                 WebView.Source = uri;
             }
@@ -359,6 +366,12 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 ConnectString(RemoveString(node));
         }
 
+        private bool IfCanGetContent(HtmlNode node) {
+            return node.ContainsFormat("div", "class", "rich-note") ? true :
+                node.ContainsFormat("div", "class", "full") ? true :
+                false;
+        }
+
         /// <summary>
         /// Connect body-string and anyother useful html-nodes
         /// </summary>
@@ -418,6 +431,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         }
 
         private void ChangeBarGridAnima(ref double oldOne, double newOne) {
+            if (!isNative)
+                return;
             if (!isMobileAnimaCompleted)
                 return;
             if (newOne - oldOne < -20 && BarGrid.Visibility == Visibility.Collapsed) {

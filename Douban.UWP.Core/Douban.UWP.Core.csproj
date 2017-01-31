@@ -146,6 +146,7 @@
     <Compile Include="Tools\PersonalExpressions\EscapeReplace.cs" />
     <Compile Include="Tools\SettingsSelect.cs" />
     <Compile Include="Tools\TilesHelper.cs" />
+    <Compile Include="Tools\ToastHelper.cs" />
     <Compile Include="Tools\UriDecoder.cs" />
     <EmbeddedResource Include="Properties\Douban.UWP.Core.rd.xml" />
   </ItemGroup>

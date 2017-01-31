@@ -18,6 +18,22 @@ namespace Douban.UWP.Core.Tools {
                 "_hot/";
         }
 
+        public static string UriToEncode(string strToEncode, string encodeString = ToastFromDefault, string title = "Link") {
+            return encodeString + BeansDevide + strToEncode + TitleDevide + title;
+        }
+
+        public static string UriToDecode(string strToDecode, string encodeString = ToastFromDefault) {
+            var result = new Regex(@"(?<format>.+)" + BeansDevide + @"(?<content>.+)").Match(strToDecode);
+            if (result == null || result.Groups["format"].Value == "")
+                return null;
+            return result.Groups["content"].Value;
+        }
+
+        public static string UriToDecodeTitle(string strToDecodeTitle, TitleEncodeEnum type = TitleEncodeEnum.title) {
+            var match = new Regex(@"(?<uri>.+)" + TitleDevide + @"(?<title>.+)").Match(strToDecodeTitle);
+            return match.Groups[type.ToString()].Value;
+        }
+
         public static string GetApiFromDispatch(string uriDispatch) {
             var compath = new Regex(@"dispatch\?uri=(?<com_path>.+)").Match(uriDispatch).Groups["com_path"].Value;
             if (compath != "")
@@ -26,6 +42,8 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static string GetUrlFromUri(string uri) {
+            if (uri == null)
+                return uri;
             var path = new Regex(@"https://.+").Match(uri).Value;
             if (path != "")
                 return path;
@@ -59,6 +77,11 @@ namespace Douban.UWP.Core.Tools {
             }
         }
 
+        public const string BeansDevide = "@BeansFormat@";
+        public const string TitleDevide = "@TitleFormat@";
+        public const string ToatFromInfosList = "INFOSLIST_TOAST";
+        public const string ToastFromDefault = "DEFAULT";
+
     }
 
     public enum UriType {
@@ -67,6 +90,11 @@ namespace Douban.UWP.Core.Tools {
         SingletonBook,
         SingletonMovie,
         SingletonMusic,
+    }
+
+    public enum TitleEncodeEnum {
+        uri,
+        title,
     }
 
 }

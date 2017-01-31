@@ -1,6 +1,7 @@
-﻿using Douban.Core.NET.Tools;
+﻿using Douban.UWP.Core.Models;
 using Douban.UWP.Core.Tools;
 using Douban.UWP.NET.Controls;
+using Douban.UWP.NET.Resources;
 using Douban.UWP.NET.Tools;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ using Windows.UI.Xaml.Navigation;
 namespace Douban.UWP.NET {
 
     sealed partial class App : Application {
+
+        public string FromToastArgument;
 
         public App() {
             this.InitializeComponent();
@@ -90,9 +93,9 @@ namespace Douban.UWP.NET {
                 Window.Current.Activate();
             }
 
-            try {
-                await TilesHelper.GetNewsAsync();
-            } catch { /* Ignore */ }
+            //try {
+            //    await TilesHelper.GetNewsAsync();
+            //} catch { /* Ignore */ }
 
     }
 
@@ -108,6 +111,36 @@ namespace Douban.UWP.NET {
 
         protected override void OnActivated(IActivatedEventArgs args) {
             RegisterExceptionHandlingSynchronizationContext();
+            if (args.Kind == ActivationKind.ToastNotification) {
+                var toastArgs = args as ToastNotificationActivatedEventArgs;
+                FromToastArgument = toastArgs.Argument;
+                Frame root = Window.Current.Content as Frame;
+                if (root == null) {
+                    root = new Frame();
+                    Window.Current.Content = root;
+                }
+                if (root.Content == null) {
+                    root.Navigate(typeof(MainPage), toastArgs);
+                } else {
+                    try {
+                        var content = default(string);
+                        content = UriDecoder.UriToDecode(FromToastArgument, UriDecoder.ToatFromInfosList);
+                        if (content != null)
+                            AppResources.NavigateToBase?.Invoke(
+                                null,
+                                new NavigateParameter {
+                                    ToUri = new Uri(UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.uri)),
+                                    Title = UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.title),
+                                    IsFromInfoClick = true,
+                                    IsNative = true,
+                                    FrameType = FrameType.Content
+                                },
+                                AppResources.GetFrameInstance(FrameType.Content),
+                                AppResources.GetPageType(NavigateType.ItemClickNative));
+                    } catch { /* I do not want my app to be shut down. */}
+                }
+                Window.Current.Activate();
+            }
         }
 
             void OnNavigationFailed(object sender, NavigationFailedEventArgs e) {

@@ -37,7 +37,7 @@ namespace Douban.UWP.NET.Pages {
             if (IsFirstOpen)
                 await Task.Delay(1000);
             if (IsFirstOpen) { IsFirstOpen = false; }
-            ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResources);
+            ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResourcesAsync);
             DoubanLoading.SetVisibility(false);
             SetFlipResourcesAsync();
         }
@@ -54,14 +54,7 @@ namespace Douban.UWP.NET.Pages {
                     var newList = new List<PromosItem>();
                     promos.Children().ToList().ForEach(singleton => {
                         var notif = singleton["notification"];
-                        var uri = default(string);
-                        try {
-                            var match = new Regex(@"douban://.+").Match(singleton["uri"].Value<string>());
-                            if(match.Length == 0)
-                                uri = singleton["uri"].Value<string>();
-                            else
-                                uri = match.Value.Replace(@"douban://", "https://m.");
-                        } catch { uri = singleton["uri"].Value<string>(); }
+                        var uri = UriDecoder.GetUrlFromUri(singleton["uri"].Value<string>());
                         newList.Add(new PromosItem {
                             ImageSrc = new Uri(singleton["image"].Value<string>()),
                             Image = singleton["image"].Value<string>(),
@@ -170,7 +163,7 @@ namespace Douban.UWP.NET.Pages {
             return list;
         }
 
-        private async Task<IList<IndexItem>> FetchMoreResources(int offset) {
+        private async Task<IList<IndexItem>> FetchMoreResourcesAsync(int offset) {
             IncrementalLoadingBorder.SetVisibility(true);
             var date = DateTime.Now.AddDays(1-offset).ToString("yyyy-MM-dd");
             var Host = "https://m.douban.com/rexxar/api/v2/recommend_feed?alt=json&next_date={0}&loc_id=&gender=&birthday=&udid=&for_mobile=true";

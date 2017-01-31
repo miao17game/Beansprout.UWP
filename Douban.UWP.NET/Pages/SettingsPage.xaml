@@ -280,7 +280,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.23.* / 2017.1.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：1.24.* / 2017.1.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复动态磁贴无法后台更新的bug" /><LineBreak/>
+                            <Run Text="加入首页内容推送功能，支持点击跳转" /><LineBreak/>
+                            <Run Text="修复一些本地化页面尚未完成部分的显示问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.23.1637 / 2017.1.25" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成系统分享功能的实现" /><LineBreak/>
                             <Run Text="完成分享到WP微信的实现" /><LineBreak/>
                             <Run Text="等待微信平台认证，目前分享来源显示为“（未审核应用）”" /><LineBreak/>

@@ -27,6 +27,8 @@ using Douban.UWP.NET.Tools;
 using System.Reflection;
 using Windows.ApplicationModel.Background;
 using Windows.UI.Xaml.Navigation;
+using Douban.UWP.BackgroundTasks;
+using Windows.ApplicationModel.Activation;
 #endregion
 
 namespace Douban.UWP.NET {
@@ -161,6 +163,8 @@ namespace Douban.UWP.NET {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+            var args = e.Parameter as ToastNotificationActivatedEventArgs;
+            toastUri = args?.Argument;
             PrepareFrame.Navigate(typeof(PreparePage));
             SetControlAccessEnabled();
             InitMainPageState();
@@ -278,6 +282,22 @@ namespace Douban.UWP.NET {
         private void Grid_Loaded(object sender, RoutedEventArgs e) {
             if (VisibleWidth > FormatNumber && IsDivideScreen)
                 MetroFrame.Navigate(typeof(MetroPage));
+            if (toastUri != null) {
+                var content = default(string);
+                content = UriDecoder.UriToDecode(toastUri, UriDecoder.ToatFromInfosList);
+                if (content != null)
+                    NavigateToBase?.Invoke(
+                        null,
+                        new NavigateParameter {
+                            ToUri = new Uri(UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.uri)),
+                            Title = UriDecoder.UriToDecodeTitle(content, TitleEncodeEnum.title),
+                            IsFromInfoClick = true,
+                            IsNative = true,
+                            FrameType = FrameType.Content
+                        },
+                        GetFrameInstance(FrameType.Content), 
+                        GetPageType(NavigateType.ItemClickNative));
+            }
         }
 
         private void MetroFrame_Navigated(object sender, NavigationEventArgs e) {
@@ -361,55 +381,27 @@ namespace Douban.UWP.NET {
         #endregion
 
         #region BackgroundTasks Methods
-        private const string liveTitleTask = "LIVE_TITLE_TASK";
-        private const string ToastBackgroundTask = "TOAST_BACKGROUND_TASK";
-        private const string ServiceCompleteTask = "SERVICE_COMPLETE_TASK";
 
         private async void RegisterAllTaskAsync() {
-            var status = await BackgroundExecutionManager.RequestAccessAsync();
-            if (status == BackgroundAccessStatus.Unspecified || status == BackgroundAccessStatus.DeniedBySystemPolicy || status == BackgroundAccessStatus.DeniedByUser) { return; }
-            foreach (var item in BackgroundTaskRegistration.AllTasks) {
-                if (item.Value.Name == liveTitleTask)
-                    item.Value.Unregister(true);
-                if (item.Value.Name == ToastBackgroundTask)
-                    item.Value.Unregister(true);
-                if (item.Value.Name == ServiceCompleteTask)
-                    item.Value.Unregister(true);
-            }
-            RegisterServiceCompleteTask();
-            RegisterLiveTitleTask();
+            var succeed = await TaskHelper.IfAccessNotDeniedAsync();
+            if (!succeed)
+                return;
+
+            TaskHelpers.FindTask(TaskConstants.ServiceComplete)?.Unregister(true);
+            TaskHelpers.FindTask(TaskConstants.ToastBackground)?.Unregister(true);
+            TaskHelpers.FindTask(TaskConstants.LiveTitle)?.Unregister(true);
+
+            TaskHelpers.RegisterServiceCompleteTask();
+            TaskHelpers.RegisterLiveTitleTask();
+            TaskHelpers.RegisterToastBackgroundTask();
         }
 
-        private void RegisterLiveTitleTask() {
-            var taskBuilder = new BackgroundTaskBuilder {
-                Name = liveTitleTask,
-                TaskEntryPoint = typeof(BackgroundTasks.TitleBackgroundUpdateTask).FullName
-            };
-            taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            taskBuilder.SetTrigger(new TimeTrigger(60, false));
-            var register = taskBuilder.Register();
-        }
-
-        private void RegisterServiceCompleteTask() {
-            var taskBuilder = new BackgroundTaskBuilder {
-                Name = ServiceCompleteTask,
-                TaskEntryPoint = typeof(BackgroundTasks.ServicingComplete).FullName
-            };
-            taskBuilder.SetTrigger(new SystemTrigger(SystemTriggerType.ServicingComplete, false));
-            var register = taskBuilder.Register();
-        }
-
-        public static BackgroundTaskRegistration FindTask(string taskName) {
-            foreach (var cur in BackgroundTaskRegistration.AllTasks)
-                if (cur.Value.Name == taskName)
-                    return (BackgroundTaskRegistration)(cur.Value);
-            return null;
-        }
         #endregion
 
         #region Properties and state
 
-        private bool isNeedClose = false;
+        bool isNeedClose = false;
+        string toastUri;
         public const string HomeHost = "https://www.douban.com/";
         public const string HomeHostInsert = "https://www.douban.com";
 
