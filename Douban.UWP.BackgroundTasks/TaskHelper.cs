@@ -22,7 +22,7 @@ namespace Douban.UWP.BackgroundTasks {
                 TaskEntryPoint = typeof(TitleBackgroundUpdateTask).FullName
             };
             taskBuilder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-            taskBuilder.SetTrigger(new TimeTrigger(360, false));
+            taskBuilder.SetTrigger(new TimeTrigger(360, true));
             var register = taskBuilder.Register();
         }
 
