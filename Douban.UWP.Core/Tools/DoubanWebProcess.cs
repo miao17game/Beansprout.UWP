@@ -155,14 +155,13 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static async Task<string> GetMDoubanResponseAsync(string path, bool isMobileDevice = true, bool allowToRedirect = true, HttpClient client = null, Encoding ecd = null) {
-            return await GetMDoubanResponseAsync(path, "m.douban.com", "https://m.douban.com/", isMobileDevice, allowToRedirect, client, ecd);
+            return await GetMDoubanResponseAsync(path, "m.douban.com", "https://m.douban.com/", allowToRedirect, client, ecd);
         }
 
         public static async Task<string> GetMDoubanResponseAsync(
             string path,
             string host ,
             string reffer ,
-            bool isMobileDevice = true,
             bool allowToRedirect = true, 
             HttpClient client = null, 
             Encoding ecd = null) {
@@ -179,12 +178,52 @@ namespace Douban.UWP.Core.Tools {
                     if (allowToRedirect) {
                         returnString = ecd == null ? (await CastStreamResultToStringAsync(result, false)).ToString() : (await CastStreamResultToStringAsync(result, ecd)).ToString();
                     } else {
-                        returnString = ecd == null ? await GetMDoubanResponseAsync(result.Headers["Location"],host,reffer) : await GetMDoubanResponseAsync(result.Headers["Location"], host, reffer, ecd: ecd);
+                        returnString = ecd == null ?
+                            await GetMDoubanResponseAsync(result.Headers["Location"], host, reffer, allowToRedirect) :
+                            await GetMDoubanResponseAsync(result.Headers["Location"], host, reffer, allowToRedirect, ecd: ecd);
                     }
                 }
             } catch (ObjectDisposedException ex) { // when web connect recovery , recreate a new instance to implemente a recursive function to solve the problem.
                 Debug.WriteLine("\nObjectDisposedException -- Failed：\n" + ex.StackTrace);
                 return await GetMDoubanResponseAsync(path, host, reffer, allowToRedirect, client: new HttpClient(), ecd: ecd);
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
+                Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
+                return null;
+            } catch (Exception ex) { // unkown error, report it.
+                Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
+                return null;
+            }
+            return returnString;
+        }
+
+        public static async Task<string> GetMDoubanResponseAsync(
+            string path,
+            string host,
+            string reffer,
+            string bearer,
+            bool isMobileDevice = true,
+            string userAgt = null,
+            Encoding ecd = null) {
+            var returnString = default(string);
+            try {
+                using(var httpClient = new HttpClient()) {
+                    using (var request = GET(path)) {
+                        request.Headers.Host = new Windows.Networking.HostName(host);
+                        if (reffer != null)
+                            request.Headers.Referer = new Uri(reffer);
+                        if (userAgt != null) 
+                            request.Headers["User-Agent"] = userAgt;
+                        else 
+                            request.Headers["User-Agent"] =
+                                isMobileDevice ?
+                                "Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; Microsoft; Lumia 950) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Mobile Safari/537.36 Edge/14.14263" :
+                                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393";
+                        request.Headers["Connection"] = "Keep-Alive";
+                        request.Headers["Authorization"] = $"Bearer {bearer}";
+                        var result = await httpClient.SendRequestAsync(request);
+                        returnString = ecd == null ? (await CastStreamResultToStringAsync(result, false)).ToString() : (await CastStreamResultToStringAsync(result, ecd)).ToString();
+                    }
+                }
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
                 Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
                 return null;
@@ -209,7 +248,40 @@ namespace Douban.UWP.Core.Tools {
                     if (reffer != null)
                         httpClient.DefaultRequestHeaders.Referer = new Uri(reffer);
                     using (var request = await LOGIN_POSTAsync(httpClient, path, content)) {
-                        returnString = ecd == null ? (await CastStreamResultToStringAsync(request, false)).ToString() : (await CastStreamResultToStringAsync(request, ecd)).ToString();
+                        returnString = ecd == null ? 
+                            (await CastStreamResultToStringAsync(request, false)).ToString() : 
+                            (await CastStreamResultToStringAsync(request, ecd)).ToString();
+                    }
+                }
+            } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.
+                Debug.WriteLine("\nCOMException -- Failed：\n" + ex.StackTrace);
+                return null;
+            } catch (Exception ex) { // unkown error, report it.
+                Debug.WriteLine("\nException -- Failed：\n" + ex.StackTrace);
+                return null;
+            }
+            return returnString;
+        }
+
+        public static async Task<string> PostDoubanResponseAsync(
+            string path,
+            string host,
+            string reffer,
+            string userAgent,
+            HttpFormUrlEncodedContent content,
+            Encoding ecd = null) {
+            var returnString = default(string);
+            try {
+                using (var httpClient = new HttpClient()) {
+                    httpClient.DefaultRequestHeaders.Host = new Windows.Networking.HostName(host);
+                    if (reffer != null)
+                        httpClient.DefaultRequestHeaders.Referer = new Uri(reffer);
+                    if (userAgent != null)
+                        httpClient.DefaultRequestHeaders["User-Agent"] = userAgent;
+                    using (var request = await LOGIN_POSTAsync(httpClient, path, content)) {
+                        returnString = ecd == null ? 
+                            (await CastStreamResultToStringAsync(request, false)).ToString() : 
+                            (await CastStreamResultToStringAsync(request, ecd)).ToString();
                     }
                 }
             } catch (COMException ex) { // it is obvious that the internrt connect goes wrong.

@@ -154,6 +154,9 @@
     <Compile Include="Pages\LoginPages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FMIndexPage.xaml.cs">
+      <DependentUpon>FMIndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SubjectCollectionPages\BookPages\BookIndexPage.xaml.cs">
       <DependentUpon>BookIndexPage.xaml</DependentUpon>
     </Compile>
@@ -362,6 +365,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\LoginPages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FMIndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

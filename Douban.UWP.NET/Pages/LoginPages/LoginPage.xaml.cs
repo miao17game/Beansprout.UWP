@@ -334,9 +334,9 @@ namespace Douban.UWP.NET.Pages {
                             UserName = jo["douban_user_name"].Value<string>(),
                         };
                         MainLoginPopup.IsOpen = false;
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, tokenReturn.UserId);
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.AccessToken, tokenReturn.AccessToken);
-                        SettingsHelper.SaveSettingsValue(SettingsSelect.RefreshToken, tokenReturn.RefreshToken);
+                        SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, UserID = tokenReturn.UserId);
+                        SettingsHelper.SaveSettingsValue(SettingsSelect.AccessToken, AccessToken = tokenReturn.AccessToken);
+                        SettingsHelper.SaveSettingsValue(SettingsSelect.RefreshToken, RefreshToken = tokenReturn.RefreshToken);
                         try { await MainPage.SetUserStatusAsync(tokenReturn.UserId); } catch { /* Ignore */ }
                         IsLogined = true;
                         NavigateToBase?.Invoke(

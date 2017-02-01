@@ -14,6 +14,7 @@ using Douban.UWP.Core.Tools;
 using Windows.UI.Xaml;
 using Douban.UWP.NET.Pages.TypeWebPage;
 using Douban.UWP.NET.Pages.SubjectCollectionPages.GenericPages;
+using Douban.UWP.NET.Pages.SingletonPages.FMPages;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -73,6 +74,24 @@ namespace Douban.UWP.NET.Resources {
             set { divideNumber = value; }
         }
 
+        private static string _userID;
+        public static string UserID {
+            get { return _userID ?? (_userID = SettingsHelper.ReadSettingsValue(SettingsSelect.UserID) as string); }
+            set { _userID = value; }
+        }
+
+        private static string _accessToken;
+        public static string AccessToken {
+            get { return _accessToken ?? (_accessToken = SettingsHelper.ReadSettingsValue(SettingsSelect.AccessToken) as string); }
+            set { _accessToken = value; }
+        }
+
+        private static string _refreshToken;
+        public static string RefreshToken {
+            get { return _refreshToken ?? (_refreshToken = SettingsHelper.ReadSettingsValue(SettingsSelect.RefreshToken) as string); }
+            set { _refreshToken = value; }
+        }
+
         private static string metroList;
         public static void SetMetroList(string value) { metroList = value; }
         public async static Task<string> GetMetroListAsync() {
@@ -123,6 +142,8 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.TV, typeof(TVIndexPage)},
                     { NavigateType.Book, typeof(BookIndexPage)},
                     { NavigateType.Music, typeof(MusicIndexPage)},
+                    { NavigateType.FM, typeof(WebViewPage)},
+                    { NavigateType.FM_Extensions, typeof(FMIndexPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.ItemClickNative, typeof(CardWebPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
@@ -222,7 +243,7 @@ namespace Douban.UWP.NET.Resources {
                             IdentityToken = "DB_FM",
                             Title = GetUIString("DB_FM"),
                             PathUri = new Uri("https://douban.fm/?from_=shire_top_nav"),
-                            NaviType = NavigateType.Webview
+                            NaviType = NavigateType.FM,
                         },
                         new NavigationBar {
                             IdentityToken = "DB_DONGXI",

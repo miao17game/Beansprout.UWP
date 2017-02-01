@@ -108,6 +108,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DataFetchType.cs" />
+    <Compile Include="Models\FMModels\ChannelGroup.cs" />
+    <Compile Include="Models\FMModels\ChannelsItem.cs" />
     <Compile Include="Models\ImageModels\PromosItem.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />

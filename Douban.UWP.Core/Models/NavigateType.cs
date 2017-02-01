@@ -17,6 +17,8 @@ namespace Douban.UWP.Core.Models {
         TV,
         Book,
         Music,
+        FM,
+        FM_Extensions,
         Settings,
         Webview,
         ItemClick,

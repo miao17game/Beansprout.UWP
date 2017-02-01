@@ -72,6 +72,9 @@ namespace Douban.UWP.Test
             // Ensure the current window is active
             Window.Current.Activate();
 
+            UnitTest1 newOne = new UnitTest1();
+            newOne.MainMethod();
+
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
 
