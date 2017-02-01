@@ -216,6 +216,7 @@
     <Compile Include="Tools\Converters\StarSizeColorConverter.cs" />
     <Compile Include="Tools\Converters\DoubleConverter.cs" />
     <Compile Include="Tools\DoubanLazyLoadContext.cs" />
+    <Compile Include="Tools\DoubanMusicPlayer.cs" />
     <Compile Include="Tools\GlobalHelpers.cs" />
     <Compile Include="Tools\DoubanIncrementalContext.cs" />
     <Compile Include="Tools\ReportHelper.cs" />

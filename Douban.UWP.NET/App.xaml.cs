@@ -15,6 +15,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Globalization;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,11 +29,15 @@ namespace Douban.UWP.NET {
     sealed partial class App : Application {
 
         public string FromToastArgument;
+        bool _isInBackgroundMode = false;
 
         public App() {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += OnUnhandledException;
+            this.EnteredBackground += App_EnteredBackground;
+            this.LeavingBackground += App_LeavingBackground;
+
         }
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
@@ -143,8 +148,31 @@ namespace Douban.UWP.NET {
             }
         }
 
-            void OnNavigationFailed(object sender, NavigationFailedEventArgs e) {
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e) {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void App_LeavingBackground(object sender, LeavingBackgroundEventArgs e) {
+            System.Diagnostics.Debug.WriteLine("LeavingBackground");
+            _isInBackgroundMode = false;
+            MemoryManager.AppMemoryUsageIncreased -= OnMemoryIncreased;
+            MemoryManager.AppMemoryUsageLimitChanging -= OnMemoryLimitChanged;
+        }
+
+        // 不得在 EnteredBackground 事件中执行长时间运行的任务，因为这可能会导致用户感觉过渡到后台非常慢。
+        private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e) {
+            System.Diagnostics.Debug.WriteLine("EnteredBackground");
+            _isInBackgroundMode = true;
+            MemoryManager.AppMemoryUsageIncreased += OnMemoryIncreased;
+            MemoryManager.AppMemoryUsageLimitChanging += OnMemoryLimitChanged;
+        }
+
+        private void OnMemoryLimitChanged(object sender, AppMemoryUsageLimitChangingEventArgs e) {
+            System.Diagnostics.Debug.WriteLine("MemoryLimitChanged");
+        }
+
+        private void OnMemoryIncreased(object sender, object e) {
+            System.Diagnostics.Debug.WriteLine("MemoryUsageIncreased");
         }
 
         /// <summary>
