@@ -280,7 +280,17 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：1.24.* / 2017.1.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1001.* / 2017.2.1" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="大量改进，包括Metro页和应用视觉资源" /><LineBreak/>
+                            <Run Text="优化个人主页加载内容是的体验，减少卡顿" /><LineBreak/>
+                            <Run Text="为图书分页的分类浏览部分提供本地化试图" /><LineBreak/>
+                            <Run Text="其他部分的本地化步骤正在进行中" /><LineBreak/>
+                            <Run Text="为1080手机端的Metro分辨率做出细微优化" /><LineBreak/>
+                            <Run Text="为推送提供特选的音效和图像" /><LineBreak/>
+                            <Run Text="磁贴更新和要点推送时间点相对固定，节省流量" /><LineBreak/>
+                            <Run Text="精选了背景图，和一些其他调整" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：1.24.1724 / 2017.1.31" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复动态磁贴无法后台更新的bug" /><LineBreak/>
                             <Run Text="加入首页内容推送功能，支持点击跳转" /><LineBreak/>
                             <Run Text="修复一些本地化页面尚未完成部分的显示问题" /><LineBreak/><LineBreak/>

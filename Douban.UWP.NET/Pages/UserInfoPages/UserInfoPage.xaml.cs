@@ -77,7 +77,6 @@ namespace Douban.UWP.NET.Pages {
                     SetStateByLoginStatus();
             } else {
                 try {
-                    System.Diagnostics.Debug.WriteLine("User ID : [ " + UserId + " ]");
                     var result = await DoubanWebProcess.GetAPIResponseAsync(
                         path: "https://m.douban.com/rexxar/api/v2/user/" + UserId,
                         host: "m.douban.com",
@@ -254,7 +253,7 @@ namespace Douban.UWP.NET.Pages {
                 next_filter = next.Value<string>();
                 if (items.HasValues) {
                     items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
-                    if (items.Count() < 20)
+                    if (items.Count() < 5)
                         next_filter = "SHOULD_STOP";
                 }
                 return newList.OrderByDescending(i => i.TimeForOrder).ToList();
@@ -266,7 +265,7 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<string> APIForFetchLifeStreamAsync(string uid) {
             return await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: string.Format(APIFormat, uid, "1970-1", next_filter, "20"),
+                path: string.Format(APIFormat, uid, "1970-1", next_filter, "5"),
                 host: "m.douban.com",
                 reffer: string.Format("https://m.douban.com/people/{0}/", uid));
         }

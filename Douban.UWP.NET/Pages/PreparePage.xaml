@@ -86,7 +86,7 @@
                 <behaviors:Blur x:Name="BlurBehavior"
                                                 Value="24"
                                                 Duration="3500"
-                                                Delay="0"
+                                                Delay="200"
                                                 AutomaticallyStart="True"/>
             </interactivity:Interaction.Behaviors>
         </Image>

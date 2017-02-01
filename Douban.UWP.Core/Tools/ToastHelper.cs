@@ -28,7 +28,7 @@ namespace Douban.UWP.Core.Tools {
             toastTextElements[1].AppendChild(toastXml.CreateTextNode(content));
 
             var toastImageAttributes = toastXml.GetElementsByTagName("image")[0] as XmlElement;
-            toastImageAttributes.SetAttribute("src", logoOverride ?? @"ms-appx:///Assets/douban3_for_wechat108.png");
+            toastImageAttributes.SetAttribute("src", logoOverride ?? @"ms-appx:///Assets/star004.png");
             toastImageAttributes.SetAttribute("placement", "appLogoOverride");
             toastImageAttributes.SetAttribute("hint-crop", "circle");
 
@@ -99,9 +99,9 @@ namespace Douban.UWP.Core.Tools {
                 if (feeds == null || !feeds.HasValues)
                     return null;
                 if (feeds.HasValues) {
-                    var now = DateTime.Now.Hour - 8;
-                    if (now < 2)
-                        now = 2;
+                    var now = DateTime.Now.Hour - 7;
+                    if (now < 3)
+                        now = 3;
                     try {
                         var single = feeds.Children().ElementAt(now);
                         var author = single["author"];

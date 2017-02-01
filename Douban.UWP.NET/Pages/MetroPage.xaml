@@ -216,16 +216,16 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         
-                        <Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>
+                        <!--<Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>-->
                         <Setter Target="LogeImage.(FrameworkElement.Width)" Value="150"/>
                         <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
-                            <Setter.Value>20,40,20,0</Setter.Value>
+                            <Setter.Value>10,30,10,0</Setter.Value>
                         </Setter>
                         <Setter Target="MoreStack.(GrameworkElement.Margin)" >
                             <Setter.Value>20,0,20,20</Setter.Value>
                         </Setter>
-                        <Setter Target="MetroGridView.(AdaptiveGridView.DesiredWidth)" Value="100"/>
-                        <Setter Target="MetroGridView.(AdaptiveGridView.ItemHeight)" Value="100"/>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.DesiredWidth)" Value="110"/>
+                        <Setter Target="MetroGridView.(AdaptiveGridView.ItemHeight)" Value="110"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -235,7 +235,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         
-                        <Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>
+                        <!--<Setter Target="BackImage.(FrameworkElement.Source)" Value="/Assets/213.jpg"/>-->
                         <Setter Target="LogeImage.(FrameworkElement.Width)" Value="200"/>
                         <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
                             <Setter.Value>30,60,30,0</Setter.Value>
@@ -252,7 +252,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         
-                        <Setter Target="LogeImage.(FrameworkElement.Source)" Value="/Assets/SplashScreen.scale-200.png"/>
+                        <!--<Setter Target="LogeImage.(FrameworkElement.Source)" Value="/Assets/SplashScreen.scale-200.png"/>-->
                         <Setter Target="LogeImage.(FrameworkElement.Width)" Value="200"/>
                         <Setter Target="MetroGridView.(GrameworkElement.Margin)" >
                             <Setter.Value>60,100,60,0</Setter.Value>

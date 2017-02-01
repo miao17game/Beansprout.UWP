@@ -39,6 +39,7 @@ namespace Douban.UWP.NET.Pages {
         private void InitPageState() {
             GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
             GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
+            BackImage.Source = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri($@"ms-appx:///Assets/{(VisibleWidth > FormatNumber ? "231" : "213")}{(IsGlobalDark ? "" : "-light")}.jpg"));
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {

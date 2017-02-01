@@ -228,10 +228,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\188.jpg" />
+    <Content Include="Assets\213-light.jpg" />
     <Content Include="Assets\213.jpg" />
-    <Content Include="Assets\2132.jpg" />
+    <Content Include="Assets\231-light.jpg" />
     <Content Include="Assets\231.jpg" />
-    <Content Include="Assets\2312.jpg" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\BadgeLogo.scale-150.png" />
@@ -262,6 +262,7 @@
     <Content Include="Assets\Square150x150Logo.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
     <Content Include="Assets\Square44x44Logo.scale-100.png" />
     <Content Include="Assets\Square44x44Logo.scale-125.png" />
@@ -270,7 +271,15 @@
     <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\star001.png" />
+    <Content Include="Assets\star002.png" />
+    <Content Include="Assets\star003.png" />
+    <Content Include="Assets\star004.png" />
+    <Content Include="Assets\star005.png" />
+    <Content Include="Assets\star006.png" />
+    <Content Include="Assets\star007.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />
