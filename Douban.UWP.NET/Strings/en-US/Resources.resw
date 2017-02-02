@@ -695,4 +695,24 @@
   <data name="WeixinTimeLineShare.Text" xml:space="preserve">
     <value>Share to Wechat TimeLine</value>
   </data>
+  <data name="SettPageItem_Extentions.Header" xml:space="preserve">
+    <value>Extensions</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Extensions_Status_Get" xml:space="preserve">
+    <value>Owned</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Extensions_Status_Unget" xml:space="preserve">
+    <value>Without</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="FM_Extensions_Text.Text" xml:space="preserve">
+    <value>Douban FM Extensions</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Group_Extensions_Text.Text" xml:space="preserve">
+    <value>Douban Group Extensions</value>
+    <comment>SettingsPage</comment>
+  </data>
 </root>

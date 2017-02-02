@@ -280,7 +280,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1001.* / 2017.2.1" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1002.* / 2017.2.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="在设置中加入扩展页面" /><LineBreak/>
+                            <Run Text="预准备豆瓣FM和小组的本地化扩展接口" /><LineBreak/>
+                            <Run Text="开始构建豆瓣FM-Native外壳 (开发者可见😎🐸)" /><LineBreak/>
+                            <Run Text="修正了一些推送时间点" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1001.1232 / 2017.2.1" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="大量改进，包括Metro页和应用视觉资源" /><LineBreak/>
                             <Run Text="优化个人主页加载内容是的体验，减少卡顿" /><LineBreak/>
                             <Run Text="为图书分页的分类浏览部分提供本地化试图" /><LineBreak/>
@@ -491,7 +497,58 @@
                 </ScrollViewer>
             </PivotItem>
             <!--#endregion-->
-            
+
+            <!--#region Extentions-->
+            <PivotItem Name="Extentions" x:Uid="SettPageItem_Extentions" Header="扩展">
+                <ScrollViewer Background="{ThemeResource DoubanBackground05}">
+                    <StackPanel Loaded="StackPanel_LoadedAsync">
+                        <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,10,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Width="100" Height="100" Margin="5,10,5,10" Grid.RowSpan="2">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="/Assets/fm.png"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="豆瓣FM 扩展包" x:Uid="FM_Extensions_Text"
+                                       Grid.Column="1" FontSize="24" Margin="10,10,0,0"
+                                       FontWeight="Thin" VerticalAlignment="Center"/>
+                            <TextBlock Name="FM_Extensions_Status" Text="[ Checking... ]"
+                                       Grid.Column="1" Grid.Row="1" FontSize="20" VerticalAlignment="Center"
+                                       FontWeight="Thin" Margin="10,0,0,10" Foreground="#EB3557"/>
+                        </Grid>
+                        <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse Width="100" Height="100" Margin="5,10,5,10" Grid.RowSpan="2">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="/Assets/group.png"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="豆瓣小组 扩展包" x:Uid="Group_Extensions_Text"
+                                       Grid.Column="1" FontSize="24" Margin="10,10,0,0"
+                                       FontWeight="Thin" VerticalAlignment="Center"/>
+                            <TextBlock Name="Group_Extensions_Status" Text="[ Checking... ]"
+                                       Grid.Column="1" Grid.Row="1" FontSize="20" VerticalAlignment="Center"
+                                       FontWeight="Thin" Margin="10,0,0,10" Foreground="#EB3557"/>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            <!--#endregion-->
+
             <!--#region About Me-->
             <PivotItem Name="AboutMe" x:Uid="SettPageItem_AboutMe" >
                 <ScrollViewer>

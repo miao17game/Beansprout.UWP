@@ -694,4 +694,24 @@
   <data name="WeixinTimeLineShare.Text" xml:space="preserve">
     <value>分享到 朋友圈</value>
   </data>
+  <data name="SettPageItem_Extentions.Header" xml:space="preserve">
+    <value>扩展</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Extensions_Status_Get" xml:space="preserve">
+    <value>已获得</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Extensions_Status_Unget" xml:space="preserve">
+    <value>未获得</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="FM_Extensions_Text.Text" xml:space="preserve">
+    <value>豆瓣FM 扩展包</value>
+    <comment>SettingsPage</comment>
+  </data>
+  <data name="Group_Extensions_Text.Text" xml:space="preserve">
+    <value>豆瓣小组 扩展包</value>
+    <comment>SettingsPage</comment>
+  </data>
 </root>

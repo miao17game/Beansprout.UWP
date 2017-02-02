@@ -222,10 +222,10 @@ namespace Douban.UWP.NET.Resources {
                             NaviType = NavigateType.Music
                             },
                         new NavigationBar {
-                            IdentityToken = "DB_LOCATION",
-                            Title = GetUIString("DB_LOCATION"),
-                            PathUri = new Uri("https://www.douban.com/location/"),
-                            NaviType = NavigateType.Webview
+                            IdentityToken = "DB_FM",
+                            Title = GetUIString("DB_FM"),
+                            PathUri = new Uri("https://douban.fm/?from_=shire_top_nav"),
+                            NaviType = NavigateType.FM,
                         },
                         new NavigationBar {
                             IdentityToken = "DB_GROUP",
@@ -239,11 +239,11 @@ namespace Douban.UWP.NET.Resources {
                             PathUri = new Uri("https://read.douban.com/"),
                             NaviType = NavigateType.Webview
                         },
-                        new NavigationBar {
-                            IdentityToken = "DB_FM",
-                            Title = GetUIString("DB_FM"),
-                            PathUri = new Uri("https://douban.fm/?from_=shire_top_nav"),
-                            NaviType = NavigateType.FM,
+                         new NavigationBar {
+                            IdentityToken = "DB_LOCATION",
+                            Title = GetUIString("DB_LOCATION"),
+                            PathUri = new Uri("https://www.douban.com/location/"),
+                            NaviType = NavigateType.Webview
                         },
                         new NavigationBar {
                             IdentityToken = "DB_DONGXI",

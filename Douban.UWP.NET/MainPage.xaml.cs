@@ -208,10 +208,13 @@ namespace Douban.UWP.NET {
                 return;
             doubanRing.SetVisibility(true);
             navigateTitlePath.Text = item.Title;
-            if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions)
+            if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions) {
                 // TO DO WORK FOR STORE EXTENSIONS
                 if (UserID == "155845973")
-                    item.NaviType = NavigateType.FM_Extensions; // I will change it later.
+                    item.NaviType = NavigateType.FM_Extensions; 
+                else
+                    item.NaviType = NavigateType.FM; // I will change it later.
+            }
             NavigateToBase?.Invoke(
                 sender, 
                 new NavigateParameter { ToUri = item != null ? item.PathUri : null }, 

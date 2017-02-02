@@ -242,6 +242,9 @@
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
     <Content Include="Assets\douban3_for_wechat108.png" />
+    <Content Include="Assets\favourite.png" />
+    <Content Include="Assets\fm.png" />
+    <Content Include="Assets\group.png" />
     <Content Include="Assets\guapi.png" />
     <Content Include="Assets\guapi2.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />

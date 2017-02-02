@@ -99,7 +99,7 @@ namespace Douban.UWP.Core.Tools {
                 if (feeds == null || !feeds.HasValues)
                     return null;
                 if (feeds.HasValues) {
-                    var now = DateTime.Now.Hour - 7;
+                    var now = DateTime.Now.Hour - 4;
                     if (now < 3)
                         now = 3;
                     try {
@@ -123,7 +123,7 @@ namespace Douban.UWP.Core.Tools {
             return null;
         }
 
-        static int[] forbiddenTimeHoursOfToast = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
+        static int[] forbiddenTimeHoursOfToast = new int[] { 0, 1, 2, 3, 4, 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24 };
 
     }
 
