@@ -281,6 +281,7 @@
                                TextWrapping="WrapWholeWords">
                             
                             <Run Text="Version：2.1002.* / 2017.2.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="调整了音乐分页的视觉设计" /><LineBreak/>
                             <Run Text="在设置中加入扩展页面" /><LineBreak/>
                             <Run Text="预准备豆瓣FM和小组的本地化扩展接口" /><LineBreak/>
                             <Run Text="开始构建豆瓣FM-Native外壳 (开发者可见😎🐸)" /><LineBreak/>
