@@ -143,7 +143,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Book, typeof(BookIndexPage)},
                     { NavigateType.Music, typeof(MusicIndexPage)},
                     { NavigateType.FM, typeof(WebViewPage)},
-                    { NavigateType.FM_Extensions, typeof(FMIndexPage)},
+                    { NavigateType.FM_Extensions, typeof(FMPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.ItemClickNative, typeof(CardWebPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},

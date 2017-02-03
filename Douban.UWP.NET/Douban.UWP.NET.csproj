@@ -157,6 +157,15 @@
     <Compile Include="Pages\SingletonPages\FMPages\FMIndexPage.xaml.cs">
       <DependentUpon>FMIndexPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FMPage.xaml.cs">
+      <DependentUpon>FMPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FM_MusicListPage.xaml.cs">
+      <DependentUpon>FM_MusicListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SpecificPages\StillOnWorkPage.xaml.cs">
+      <DependentUpon>StillOnWorkPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SubjectCollectionPages\BookPages\BookIndexPage.xaml.cs">
       <DependentUpon>BookIndexPage.xaml</DependentUpon>
     </Compile>
@@ -372,6 +381,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SingletonPages\FMPages\FMIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FMPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FM_MusicListPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SpecificPages\StillOnWorkPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

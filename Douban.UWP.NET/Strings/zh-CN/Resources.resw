@@ -714,4 +714,20 @@
     <value>豆瓣小组 扩展包</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="FM_MAIN_CHANNELS.Header" xml:space="preserve">
+    <value>兆赫</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_MINE.Header" xml:space="preserve">
+    <value>我的</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_MUSICLIST.Header" xml:space="preserve">
+    <value>歌单</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_REDHEART.Header" xml:space="preserve">
+    <value>红心</value>
+    <comment>FMPage</comment>
+  </data>
 </root>

@@ -52,7 +52,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             try {
                 var JO = JObject.Parse(value);
                 var groups = JO["groups"];
-                if(groups!=null && groups.HasValues) {
+                if (groups != null && groups.HasValues) {
                     groups.Children().ToList().ForEach(singleton => {
                         var groupItem = CreateDefaultGroupInstance(singleton);
                         var chls = singleton["chls"];
@@ -67,7 +67,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                         list.Add(groupItem);
                     });
                 }
-            } catch { System.Diagnostics.Debug.WriteLine("Boom!"); }
+            } catch { /* Ingore. */ } finally { IncrementalLoadingBorder.SetVisibility(false); }
             return list;
         }
 
@@ -89,7 +89,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             return new ChannelGroup {
                 CHLS = new List<ChannelsItem>(),
                 GroupId = singleton["group_id"].Value<int>(),
-                GroupName = singleton["group_name"].Value<string>()
+                GroupName = singleton["group_name"].Value<string>() != "" ? singleton["group_name"].Value<string>() : "Douban FM",
             };
         }
 

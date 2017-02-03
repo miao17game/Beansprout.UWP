@@ -1,0 +1,41 @@
+﻿<Page
+    x:Class="Douban.UWP.NET.Pages.SingletonPages.FMPages.FMPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Pages.SingletonPages.FMPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Name="grid" SizeChanged="Grid_SizeChanged"
+          Background="{ThemeResource DoubanBackground05}" >
+
+        <Pivot Width="{Binding Width, ElementName=grid ,Mode=OneWay}"
+               SelectionChanged="Pivot_SelectionChanged">
+
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Margin="10,3,5,3" FontSize="18" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+
+            <PivotItem Name="ChannelsItem" x:Uid="FM_MAIN_CHANNELS" >
+                <Frame Name="ChannelsFrame"/>
+            </PivotItem>
+
+            <PivotItem Name="MusicListItem" x:Uid="FM_MAIN_MUSICLIST" >
+                <Frame Name="MusicListFrame"/>
+            </PivotItem>
+
+            <PivotItem Name="RedHeartItem" x:Uid="FM_MAIN_REDHEART" >
+                <Frame Name="RedHeartFrame"/>
+            </PivotItem>
+
+            <PivotItem Name="MineItem" x:Uid="FM_MAIN_MINE" >
+                <Frame Name="MineFrame"/>
+            </PivotItem>
+
+        </Pivot>
+
+    </Grid>
+</Page>

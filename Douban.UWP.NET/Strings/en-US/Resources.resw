@@ -715,4 +715,20 @@
     <value>Douban Group Extensions</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="FM_MAIN_CHANNELS.Header" xml:space="preserve">
+    <value>FM</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_MINE.Header" xml:space="preserve">
+    <value>Mine</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_MUSICLIST.Header" xml:space="preserve">
+    <value>List</value>
+    <comment>FMPage</comment>
+  </data>
+  <data name="FM_MAIN_REDHEART.Header" xml:space="preserve">
+    <value>RedHeart</value>
+    <comment>FMPage</comment>
+  </data>
 </root>
