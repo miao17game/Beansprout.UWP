@@ -19,6 +19,7 @@ namespace Douban.UWP.Core.Models {
         Music,
         FM,
         FM_Extensions,
+        FM_MHzSongList,
         Settings,
         Webview,
         ItemClick,

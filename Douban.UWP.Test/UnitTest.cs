@@ -22,7 +22,7 @@ namespace Douban.UWP.Test {
 
         [TestMethod]
         public void MainMethod() {
-            Method02Async();
+            Method03Async();
         }
 
         [TestMethod]
@@ -58,11 +58,26 @@ namespace Douban.UWP.Test {
 
         public async void Method02Async() {
             var result = await GetMDoubanResponseAsync(
-                $"{"https://"}api.douban.com/v2/fm/playlist?channel=0&formats=null&from=&type=n&version=644&push_device_id={dId}&start=0&app_name=radio_android&limit=10&apikey={apiKey}",
+                $"{"https://"}api.douban.com/v2/fm/playlist/{14913864}&formats=null&from=&type=n&version=644&push_device_id={dId}&start=0&app_name=radio_android&limit=10&apikey={apiKey}",
                 "api.douban.com",
                 null,
                 false,
                 userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
+            Debug.WriteLine(result);
+        }
+
+        public async void Method03Async() {
+            var result = await PostDoubanResponseAsync(
+                $"{"https://"}api.douban.com/v2/fm/songlist/{14913862}/detail",
+                "api.douban.com",
+                null,
+                userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
+                content: new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>( "version", "644" ),
+                    new KeyValuePair<string, string>( "kbps", "64" ),
+                    new KeyValuePair<string, string>( "app_name", "radio_android" ),
+                    new KeyValuePair<string, string>( "apikey", apiKey ),
+                }));
             Debug.WriteLine(result);
         }
 

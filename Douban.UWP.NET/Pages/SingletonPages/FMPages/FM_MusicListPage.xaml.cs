@@ -18,6 +18,8 @@ using Windows.UI.Xaml.Navigation;
 using Douban.UWP.Core.Tools;
 using Douban.UWP.Core.Models.FMModels;
 using Newtonsoft.Json.Linq;
+using Wallace.UWP.Helpers;
+using Douban.UWP.Core.Models;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -38,7 +40,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private async void Method02Async() {
             var result = await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: $"{"https://"}api.douban.com/v2/fm/songlist/selections?version=644&start=0&app_name=radio_android&limit=10&apikey={api_key}",
+                path: $"{"https://"}api.douban.com/v2/fm/songlist/selections?version=644&start=0&app_name=radio_android&limit=10&apikey={APIKey}",
                 host: "api.douban.com",
                 reffer: null,
                 bearer: bearer,
@@ -113,12 +115,17 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         #region Properties
         string uid;
         string bearer;
-        const string sdk_version = "1.0.14";
-        const string api_key = "02f7751a55066bcb08e65f4eff134361";
         #endregion
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
-
+            var item = e.ClickedItem as FMListProgramme;
+            if (item == null)
+                return;
+            NavigateToBase?.Invoke(
+                null, 
+                new NavigateParameter { ID = item.ID, FrameType = FrameType.Content}, 
+                GetFrameInstance(FrameType.Content),
+                GetPageType(NavigateType.FM_MHzSongList));
         }
 
     }

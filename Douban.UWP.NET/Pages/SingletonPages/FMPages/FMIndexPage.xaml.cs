@@ -18,6 +18,9 @@ using Windows.UI.Xaml.Navigation;
 using Douban.UWP.Core.Tools;
 using Douban.UWP.Core.Models.FMModels;
 using Newtonsoft.Json.Linq;
+using Wallace.UWP.Helpers;
+using Douban.UWP.Core.Models;
+using System.Threading.Tasks;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -128,7 +131,44 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         #endregion
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
-
+            var item = e.ClickedItem as ChannelsItem;
+            if (item == null)
+                return;
+            //NavigateToBase?.Invoke(
+            //    null,
+            //    new MHzParameter {
+            //        SerializedParameter = JsonHelper.ToJson(item),
+            //        FrameType = FrameType.Content,
+            //        Type = MHzListType.MHzRecommand
+            //    },
+            //    GetFrameInstance(FrameType.Content),
+            //    GetPageType(NavigateType.FM_MHzList));
         }
+
+        private async Task<MHzListGroup> InitListResourcesAsync(int list_id) {
+            var result = await DoubanWebProcess.GetMDoubanResponseAsync(
+                path: $"{"https://"}api.douban.com/v2/fm/playlist?channel={list_id}&formats=null&from=&type=n&version=644&start=0&app_name=radio_android&limit=10&apikey={APIKey}",
+                host: "api.douban.com",
+                reffer: null,
+                bearer: bearer,
+                userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
+            try {
+                var jo = JObject.Parse(result);
+                var songs = jo["song"];
+                var group = MHzListGroupHelper.CreateDefaultListGroup(jo);
+                if (songs != null && songs.HasValues) {
+                    songs.Children().ToList().ForEach(jo_song => {
+                        try {
+                            var song = MHzListGroupHelper.CreateDefaultSongInstance(jo_song);
+                            MHzListGroupHelper.AddSingerEachOne(song, jo_song["singers"]);
+                            MHzListGroupHelper.AddRelease(song, jo_song["release"]);
+                            group.Songs.Add(song);
+                        } catch { /* Ingore */ }
+                    });
+                }
+                return group;
+            } catch { return null; } finally { IncrementalLoadingBorder.SetVisibility(false); }
+        }
+
     }
 }

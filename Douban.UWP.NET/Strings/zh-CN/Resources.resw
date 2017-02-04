@@ -730,4 +730,16 @@
     <value>红心</value>
     <comment>FMPage</comment>
   </data>
+  <data name="MHzList_Content" xml:space="preserve">
+    <value>歌曲列表</value>
+    <comment>FM_MHzListPage</comment>
+  </data>
+  <data name="Collect_Tail" xml:space="preserve">
+    <value>收藏</value>
+    <comment>FM_MHzSongListPage</comment>
+  </data>
+  <data name="MusicCount_Tail" xml:space="preserve">
+    <value>歌曲</value>
+    <comment>FM_MHzSongListPage</comment>
+  </data>
 </root>

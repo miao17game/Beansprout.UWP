@@ -113,6 +113,9 @@ namespace Douban.UWP.NET.Resources {
             set { _isFirstOpen = value; }
         }
 
+        const string api_key = "02f7751a55066bcb08e65f4eff134361";
+        public static string APIKey { get { return api_key; } }
+
         public const double FormatNumber = 800;
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }
@@ -120,7 +123,7 @@ namespace Douban.UWP.NET.Resources {
         #endregion
 
         #region Navigate Methods
-        public delegate void NavigationEventHandler(object sender, NavigateParameter parameter, Frame frame, Type type);
+        public delegate void NavigationEventHandler(object sender, NavigateParameterBase parameter, Frame frame, Type type);
         public static NavigationEventHandler NavigateToBase = (sender, parameter, frame, type) => { frame.Navigate(type, parameter); };
         #endregion
 
@@ -144,6 +147,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Music, typeof(MusicIndexPage)},
                     { NavigateType.FM, typeof(WebViewPage)},
                     { NavigateType.FM_Extensions, typeof(FMPage)},
+                    { NavigateType.FM_MHzSongList, typeof(FM_MHzSongListPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},
                     { NavigateType.ItemClickNative, typeof(CardWebPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},

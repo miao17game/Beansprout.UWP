@@ -112,6 +112,11 @@
     <Compile Include="Models\FMModels\ChannelsItem.cs" />
     <Compile Include="Models\FMModels\FMListGroup.cs" />
     <Compile Include="Models\FMModels\FMListProgramme.cs" />
+    <Compile Include="Models\FMModels\MHzListGroupModels\MHzListGroup.cs" />
+    <Compile Include="Models\FMModels\MHzListGroupModels\MHzListGroupHelper.cs" />
+    <Compile Include="Models\FMModels\MHzListGroupModels\MHzParameter.cs" />
+    <Compile Include="Models\FMModels\MHzSongListModels\MHzSongListHelper.cs" />
+    <Compile Include="Models\FMModels\MHzSongListModels\MHzSongList.cs" />
     <Compile Include="Models\ImageModels\PromosItem.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />
@@ -136,6 +141,7 @@
     <Compile Include="Models\LoginModels\LoginReturnBag.cs" />
     <Compile Include="Models\LoginModels\LoginStatusBag.cs" />
     <Compile Include="Models\NavigateParameter.cs" />
+    <Compile Include="Models\NavigateParameterBase.cs" />
     <Compile Include="Models\NavigateType.cs" />
     <Compile Include="Models\NavigationBar.cs" />
     <Compile Include="Models\ReturnParameter.cs" />

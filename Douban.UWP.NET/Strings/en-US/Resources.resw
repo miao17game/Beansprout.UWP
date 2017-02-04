@@ -716,7 +716,7 @@
     <comment>SettingsPage</comment>
   </data>
   <data name="FM_MAIN_CHANNELS.Header" xml:space="preserve">
-    <value>FM</value>
+    <value>MHz</value>
     <comment>FMPage</comment>
   </data>
   <data name="FM_MAIN_MINE.Header" xml:space="preserve">
@@ -730,5 +730,17 @@
   <data name="FM_MAIN_REDHEART.Header" xml:space="preserve">
     <value>RedHeart</value>
     <comment>FMPage</comment>
+  </data>
+  <data name="MHzList_Content" xml:space="preserve">
+    <value>MHz List</value>
+    <comment>FM_MHzListPage</comment>
+  </data>
+  <data name="Collect_Tail" xml:space="preserve">
+    <value>Collected</value>
+    <comment>FM_MHzSongListPage</comment>
+  </data>
+  <data name="MusicCount_Tail" xml:space="preserve">
+    <value>Music</value>
+    <comment>FM_MHzSongListPage</comment>
   </data>
 </root>

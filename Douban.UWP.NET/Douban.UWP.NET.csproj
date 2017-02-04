@@ -160,6 +160,9 @@
     <Compile Include="Pages\SingletonPages\FMPages\FMPage.xaml.cs">
       <DependentUpon>FMPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FM_MHzSongListPage.xaml.cs">
+      <DependentUpon>FM_MHzSongListPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SingletonPages\FMPages\FM_MusicListPage.xaml.cs">
       <DependentUpon>FM_MusicListPage.xaml</DependentUpon>
     </Compile>
@@ -385,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SingletonPages\FMPages\FMPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FM_MHzSongListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
