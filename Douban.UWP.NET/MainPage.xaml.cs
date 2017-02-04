@@ -211,10 +211,10 @@ namespace Douban.UWP.NET {
             navigateTitlePath.Text = item.Title;
             if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions) {
                 // TO DO WORK FOR STORE EXTENSIONS
-                if (UserID == "155845973" || HasFMExtensions )
-                    item.NaviType = NavigateType.FM_Extensions; 
+                if (UserID != null && (UserID == "155845973" || HasFMExtensions))
+                    item.NaviType = NavigateType.FM_Extensions;
                 else
-                    item.NaviType = NavigateType.FM; // I will change it later.
+                    item.NaviType = NavigateType.FM; 
             }
             NavigateToBase?.Invoke(
                 sender, 
@@ -410,8 +410,8 @@ namespace Douban.UWP.NET {
 
         bool isNeedClose = false;
         string toastUri;
-        public const string HomeHost = "https://www.douban.com/";
-        public const string HomeHostInsert = "https://www.douban.com";
+        const string HomeHost = "https://www.douban.com/";
+        const string HomeHostInsert = "https://www.douban.com";
 
         #endregion
 

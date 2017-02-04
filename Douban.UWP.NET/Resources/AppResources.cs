@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Douban.UWP.NET.Pages.TypeWebPage;
 using Douban.UWP.NET.Pages.SubjectCollectionPages.GenericPages;
 using Douban.UWP.NET.Pages.SingletonPages.FMPages;
+using Douban.UWP.NET.Tools;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -125,6 +126,9 @@ namespace Douban.UWP.NET.Resources {
         public const double FormatNumber = 800;
         public static bool IsLogined { get; set; }
         public static string LoginResult { get; set; }
+
+        private static DoubanMusicService _service;
+        public static DoubanMusicService Service { get { return _service ?? (_service = new DoubanMusicService()); } }
 
         #endregion
 

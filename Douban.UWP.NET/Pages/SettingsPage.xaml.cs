@@ -137,6 +137,35 @@ namespace Douban.UWP.NET.Pages {
             policyRingDB.SetVisibility(false);
         }
 
+        private async void StackPanel_LoadedAsync(object sender, RoutedEventArgs e) {
+            var context = StoreContext.GetDefault();
+            var fm_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9mzf5cp1mf83");
+            var group_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9pbfqp5g46w6");
+
+            FM_Extensions_Status.Text = fm_succeed ? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
+            Group_Extensions_Status.Text = group_succeed ? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
+            GetFMExtensionsBtn.SetVisibility(!fm_succeed);
+            GetGroupExtensionsBtn.SetVisibility(!group_succeed);
+            if (fm_succeed)
+                FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+            if (group_succeed)
+                Group_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+        }
+
+        private void GetGroupExtensionsBtn_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private async void GetFMExtensionsBtn_ClickAsync(object sender, RoutedEventArgs e) {
+            var context = StoreContext.GetDefault();
+            var result = await WindowsStoreHelpers.PurchaseAddOnAsync(context, "9mzf5cp1mf83");
+            if (result == PurchasAddOnReturn.Successful) {
+                GetFMExtensionsBtn.SetVisibility(false);
+                FM_Extensions_Status.Text = GetUIString("Extensions_Status_Get");
+                FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -366,30 +395,6 @@ namespace Douban.UWP.NET.Pages {
         public static SettingsPage Current;
         public delegate void SwitchEventHandler(string instance);
         #endregion
-
-        private async void StackPanel_LoadedAsync(object sender, RoutedEventArgs e) {
-            var context = StoreContext.GetDefault();
-            var fm_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9mzf5cp1mf83");
-            var group_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9pbfqp5g46w6");
-
-            FM_Extensions_Status.Text = fm_succeed ? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
-            Group_Extensions_Status.Text = group_succeed? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
-            GetFMExtensionsBtn.SetVisibility(!fm_succeed);
-            GetGroupExtensionsBtn.SetVisibility(!group_succeed);
-            if (fm_succeed)
-                FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
-            if (group_succeed)
-                Group_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
-        }
-
-        private void GetGroupExtensionsBtn_Click(object sender, RoutedEventArgs e) {
-
-        }
-
-        private void GetFMExtensionsBtn_Click(object sender, RoutedEventArgs e) {
-            var context = StoreContext.GetDefault();
-            WindowsStoreHelpers.PurchaseAddOnAsync(context, "9mzf5cp1mf83");
-        }
 
     }
 }

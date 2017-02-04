@@ -29,7 +29,7 @@ namespace Douban.UWP.Core.Tools {
         }
 
 
-        public static async void PurchaseAddOnAsync(StoreContext context, string storeId) {
+        public static async Task<PurchasAddOnReturn> PurchaseAddOnAsync(StoreContext context, string storeId) {
             if (context == null)
                 context = StoreContext.GetDefault();
 
@@ -37,17 +37,20 @@ namespace Douban.UWP.Core.Tools {
 
             // Capture the error message for the operation, if any.
             string extendedError = string.Empty;
-            if (result.ExtendedError != null) {
+            if (result.ExtendedError != null) 
                 extendedError = result.ExtendedError.Message;
-            }
+
+            PurchasAddOnReturn resultToReturn = default(PurchasAddOnReturn);
 
             switch (result.Status) {
                 case StorePurchaseStatus.AlreadyPurchased:
                     System.Diagnostics.Debug.WriteLine("The user has already purchased the product.");
+                    resultToReturn = PurchasAddOnReturn.Failed;
                     break;
 
                 case StorePurchaseStatus.Succeeded:
                     System.Diagnostics.Debug.WriteLine("The purchase was successful.");
+                    resultToReturn = PurchasAddOnReturn.Successful;
                     break;
 
                 case StorePurchaseStatus.NotPurchased:
@@ -56,18 +59,29 @@ namespace Douban.UWP.Core.Tools {
 
                 case StorePurchaseStatus.NetworkError:
                     System.Diagnostics.Debug.WriteLine("The purchase was unsuccessful due to a network error. " + "ExtendedError: " + extendedError);
+                    resultToReturn = PurchasAddOnReturn.Failed;
                     break;
 
                 case StorePurchaseStatus.ServerError:
                     System.Diagnostics.Debug.WriteLine("The purchase was unsuccessful due to a server error. " + "ExtendedError: " + extendedError);
+                    resultToReturn = PurchasAddOnReturn.Failed;
                     break;
 
                 default:
                     System.Diagnostics.Debug.WriteLine("The purchase was unsuccessful due to an unknown error. " + "ExtendedError: " + extendedError);
+                    resultToReturn = PurchasAddOnReturn.Failed;
                     break;
             }
+
+            return resultToReturn;
+
         }
-
-
     }
+
+    public enum PurchasAddOnReturn {
+        Unknown,
+        Successful,
+        Failed
+    }
+
 }

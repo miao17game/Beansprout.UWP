@@ -747,4 +747,13 @@
     <value>Get</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="SongListDescription.Text" xml:space="preserve">
+    <value>SongList Description</value>
+  </data>
+  <data name="UnknownMusicArtist" xml:space="preserve">
+    <value>Unknown Artist</value>
+  </data>
+  <data name="UnknownMusicTitle" xml:space="preserve">
+    <value>Unknown Music</value>
+  </data>
 </root>

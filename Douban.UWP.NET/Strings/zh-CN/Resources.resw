@@ -746,4 +746,13 @@
     <value>获取扩展</value>
     <comment>SettingsPage</comment>
   </data>
+  <data name="SongListDescription.Text" xml:space="preserve">
+    <value>歌单简介</value>
+  </data>
+  <data name="UnknownMusicArtist" xml:space="preserve">
+    <value>未知艺术家</value>
+  </data>
+  <data name="UnknownMusicTitle" xml:space="preserve">
+    <value>未知单曲</value>
+  </data>
 </root>

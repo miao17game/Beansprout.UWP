@@ -98,6 +98,12 @@
         </VisualStateManager.VisualStateGroups>
         <!--#endregion-->
 
+        <Grid.Transitions>
+            <TransitionCollection>
+                <EntranceThemeTransition FromHorizontalOffset="400"/>
+            </TransitionCollection>
+        </Grid.Transitions>
+
         <RelativePanel>
 
             <Grid Name="TitleHeaderGrid" Height="230"
@@ -133,11 +139,9 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" >
                         <TextBlock Name="SongListCount" 
-                                   Text="999" 
                                    Margin="5,10,5,5"
                                    Foreground="White"/>
                         <TextBlock Name="CollectedCount"
-                                   Text="999" 
                                    Margin="5,10,5,5" 
                                    Foreground="White"/>
                     </StackPanel>
@@ -156,7 +160,6 @@
                         </Ellipse>
                         <TextBlock Name="CreatorName" 
                                    FontWeight="Thin" 
-                                   Text="Name" 
                                    Margin="5,10,5,5" 
                                    VerticalAlignment="Center" 
                                    Foreground="White"/>
@@ -167,12 +170,13 @@
 
             <ListView Name="IndexList" ItemsSource="{Binding Source={StaticResource ListResources}}"
                       ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
-                      IsItemClickEnabled="False" SelectionMode="None" 
+                      IsItemClickEnabled="True" SelectionMode="None" 
                       RelativePanel.AlignLeftWithPanel="True" 
                       RelativePanel.AlignRightWithPanel="True"
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.Below="TitleHeaderGrid"
-                      Loaded="IndexList_Loaded">
+                      Loaded="IndexList_Loaded"
+                      ItemClick="IndexList_ItemClick">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:MHzSong">
                         <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
@@ -224,18 +228,27 @@
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
+                                <Button Click="AddButton_Click" 
+                                        CommandParameter="{Binding Url}" 
+                                        Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                        FontSize="16" 
+                                        Content="&#xE109;" 
+                                        Margin=" 5"
+                                        Foreground="#80808080"/>
                                 <Button Click="PlayButton_Click" 
                                         CommandParameter="{Binding Url}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
                                         Content="&#xE896;" 
-                                        Margin=" 5"/>
+                                        Margin=" 5"
+                                        Foreground="#80808080"/>
                                 <Button Click="LikeButton_Click" 
                                         CommandParameter="{Binding Url}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
                                         Content="&#xEB52;" 
-                                        Margin=" 5,5,10,5"/>
+                                        Margin=" 5,5,10,5"
+                                        Foreground="#80808080"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
@@ -270,7 +283,7 @@
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <!--<MenuFlyoutItem x:Uid="FullWebContent" Click="FullContentBtn_Click"/>-->
+                        <MenuFlyoutItem x:Uid="SongListDescription" Click="MenuFlyoutItem_Click"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
@@ -281,7 +294,7 @@
             <TextBlock Name="navigateTitlePath"
                        MaxWidth="500"
                        FontWeight="Bold"
-                       Text="CONTENT" FontSize="20"
+                       FontSize="20"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        Foreground="White"/>

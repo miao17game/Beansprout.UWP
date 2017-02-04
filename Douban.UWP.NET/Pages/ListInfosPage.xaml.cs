@@ -30,6 +30,7 @@ namespace Douban.UWP.NET.Pages {
     public sealed partial class ListInfosPage : Page {
         public ListInfosPage() {
             this.InitializeComponent();
+            DoubanLoading.SetVisibility(false);
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e) {

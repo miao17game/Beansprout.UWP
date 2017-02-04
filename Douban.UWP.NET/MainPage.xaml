@@ -505,6 +505,8 @@
             <Frame Name="UpContentFrame" Navigated="UpContentFrame_Navigated"/>
             <Frame Name="UserInfosFrame" Navigated="UserInfosFrame_Navigated"/>
         </Grid>
+        
+        
 
         <Popup x:Name="ImagePopup" IsOpen="False" Grid.ColumnSpan="2"
                SizeChanged="ImagePopup_SizeChanged" Canvas.ZIndex="2">

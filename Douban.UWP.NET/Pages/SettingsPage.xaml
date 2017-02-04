@@ -537,7 +537,7 @@
                                         Foreground="#EFEFEF"
                                         Margin="20,0,5,5"
                                         VerticalAlignment="Center"
-                                        Click="GetFMExtensionsBtn_Click"/>
+                                        Click="GetFMExtensionsBtn_ClickAsync"/>
                             </StackPanel>
                         </Grid>
                         <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,10">

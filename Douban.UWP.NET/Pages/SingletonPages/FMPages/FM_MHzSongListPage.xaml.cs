@@ -23,6 +23,9 @@ using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Controls;
 using Douban.UWP.NET.Tools;
 using System.Threading.Tasks;
+using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
+using Windows.Media.Playback;
+using Windows.Media.Core;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -41,6 +44,62 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 return;
             frameType = args.FrameType;
             await InitListResourcesAsync(args.ID);
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
+            GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
+        }
+
+        private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
+            PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
+        }
+
+        private void IndexList_Loaded(object sender, RoutedEventArgs e) {
+            var scroll = GlobalHelpers.GetScrollViewer(IndexList);
+            scroll.ViewChanged += ScrollViewerChangedForSongHead;
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private void LikeButton_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        }
+
+        private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as MHzSong;
+            if (item == null)
+                return;
+            Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
+                url: item.Url,
+                img: item.Picture,
+                title: item.Title,
+                artist: item.Artist,
+                albumTitle: item.AlbumTitle,
+                albunmArtist: item.SingerShow), index: 0);
+            Service.Player.Play();
+        }
+
+        #region Method
+
+        protected override void InitPageState() {
+            base.InitPageState();
+            GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
+        }
+
+        public override void DoWorkWhenAnimationCompleted() {
+            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
+                MainMetroFrame.Navigate(typeof(MetroPage));
+            GetFrameInstance(frameType).Content = null;
         }
 
         private async Task InitListResourcesAsync(int list_id) {
@@ -90,57 +149,29 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             } catch { /* Ingore */ }
         }
 
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
-            GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
-        }
-
-        private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
-            PageSlideOutStart(VisibleWidth > FormatNumber ? false : true);
-        }
-
-        protected override void InitPageState() {
-            base.InitPageState();
-            GlobalHelpers.DivideWindowRange(this, DivideNumber, isDivideScreen: IsDivideScreen);
-        }
-
-        public override void DoWorkWhenAnimationCompleted() {
-            if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
-                MainMetroFrame.Navigate(typeof(MetroPage));
-            GetFrameInstance(frameType).Content = null;
-        }
-
         private void ScrollViewerChangedForSongHead(object sender, ScrollViewerViewChangedEventArgs e) {
             var scroll = sender as ScrollViewer;
             try {
-                if(scroll.VerticalOffset <= 30)
+                if (scroll.VerticalOffset <= 30)
                     ShadowRect.Opacity = BackRec.Opacity = (scroll.VerticalOffset) / 30;
                 else if (BackRec.Opacity < 1)
                     ShadowRect.Opacity = BackRec.Opacity = 1;
 
-                if (scroll.VerticalOffset <= 160) 
+                if (scroll.VerticalOffset <= 160)
                     TitleHeaderGrid.Margin = new Thickness(0, -(sender as ScrollViewer).VerticalOffset, 0, 0);
-                else 
+                else
                     TitleHeaderGrid.Margin = new Thickness(0, -160, 0, 0);
             } catch { System.Diagnostics.Debug.WriteLine("Save scroll positions error."); }
         }
 
-        private void IndexList_Loaded(object sender, RoutedEventArgs e) {
-            var scroll = GlobalHelpers.GetScrollViewer(IndexList);
-            scroll.ViewChanged += ScrollViewerChangedForSongHead;
-        }
+        #endregion
 
         #region Properties
         string uid;
         string bearer;
         FrameType frameType;
+
         #endregion
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e) {
-
-        }
-
-        private void LikeButton_Click(object sender, RoutedEventArgs e) {
-
-        }
     }
 }

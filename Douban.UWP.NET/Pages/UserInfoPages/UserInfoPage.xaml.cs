@@ -101,15 +101,15 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void TalkButton_Click(object sender, RoutedEventArgs e) {
-
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void WatchButton_Click(object sender, RoutedEventArgs e) {
-
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void FlowButton_Click(object sender, RoutedEventArgs e) {
-
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
@@ -502,6 +502,11 @@ namespace Douban.UWP.NET.Pages {
                     return eventMap = new Dictionary<string, Action> {
                         {BroadcastButton.Name, () => ContentFrame.Navigate(typeof(MyStatusPage), new NavigateParameter{ UserUid = UserId??LoginStatus.UserId })},
                         {DiaryButton.Name, () => ContentFrame.Navigate(typeof(MyDiariesPage), new NavigateParameter{ UserUid = UserId??LoginStatus.UserId  })},
+                        {BookMovieButton.Name, () => ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"))},
+                        {PhotosButton.Name, () => ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"))},
+                        {GroupsButton.Name, () => ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"))},
+                        {FollowersButton.Name, () => ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"))},
+                        {FollowingButton.Name, () => ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"))},
                     };
                 }).Invoke();
             }
