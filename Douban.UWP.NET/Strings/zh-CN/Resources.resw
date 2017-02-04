@@ -742,4 +742,8 @@
     <value>歌曲</value>
     <comment>FM_MHzSongListPage</comment>
   </data>
+  <data name="Extensions_Get.Content" xml:space="preserve">
+    <value>获取扩展</value>
+    <comment>SettingsPage</comment>
+  </data>
 </root>

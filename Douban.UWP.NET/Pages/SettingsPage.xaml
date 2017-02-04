@@ -280,6 +280,10 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
+                            <Run Text="Version：2.1003.* / 2017.2.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="继续增强豆瓣FM扩展功能" /><LineBreak/>
+                            <Run Text="开放了豆瓣FM扩展包获取的接口" /><LineBreak/><LineBreak/>
+                            
                             <Run Text="Version：2.1002.* / 2017.2.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="调整了音乐分页的视觉设计" /><LineBreak/>
                             <Run Text="在设置中加入扩展页面" /><LineBreak/>
@@ -520,9 +524,21 @@
                             <TextBlock Text="豆瓣FM 扩展包" x:Uid="FM_Extensions_Text"
                                        Grid.Column="1" FontSize="24" Margin="10,10,0,0"
                                        FontWeight="Thin" VerticalAlignment="Center"/>
-                            <TextBlock Name="FM_Extensions_Status" Text="[ Checking... ]"
-                                       Grid.Column="1" Grid.Row="1" FontSize="20" VerticalAlignment="Center"
-                                       FontWeight="Thin" Margin="10,0,0,10" Foreground="#EB3557"/>
+                            <StackPanel Grid.Column="1" Grid.Row="1" 
+                                        Orientation="Horizontal" Margin="10,0,0,10">
+                                <TextBlock Name="FM_Extensions_Status" Text="[ Checking... ]"
+                                       FontSize="20" VerticalAlignment="Center"
+                                       FontWeight="Thin"  Foreground="#EB3557"/>
+                                <Button Name="GetFMExtensionsBtn"
+                                        Content="Get"
+                                        Visibility="Collapsed"
+                                        x:Uid="Extensions_Get"
+                                        Background="{ThemeResource DoubanForeground01}"
+                                        Foreground="#EFEFEF"
+                                        Margin="20,0,5,5"
+                                        VerticalAlignment="Center"
+                                        Click="GetFMExtensionsBtn_Click"/>
+                            </StackPanel>
                         </Grid>
                         <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,10">
                             <Grid.RowDefinitions>
@@ -541,9 +557,22 @@
                             <TextBlock Text="豆瓣小组 扩展包" x:Uid="Group_Extensions_Text"
                                        Grid.Column="1" FontSize="24" Margin="10,10,0,0"
                                        FontWeight="Thin" VerticalAlignment="Center"/>
-                            <TextBlock Name="Group_Extensions_Status" Text="[ Checking... ]"
-                                       Grid.Column="1" Grid.Row="1" FontSize="20" VerticalAlignment="Center"
-                                       FontWeight="Thin" Margin="10,0,0,10" Foreground="#EB3557"/>
+                            
+                            <StackPanel Grid.Column="1" Grid.Row="1" 
+                                        Orientation="Horizontal" Margin="10,0,0,10">
+                                <TextBlock Name="Group_Extensions_Status" Text="[ Checking... ]"
+                                       FontSize="20" VerticalAlignment="Center"
+                                       FontWeight="Thin"  Foreground="#EB3557"/>
+                                <Button Name="GetGroupExtensionsBtn"
+                                        Content="Get"
+                                        Visibility="Collapsed"
+                                        x:Uid="Extensions_Get"
+                                        Background="{ThemeResource DoubanForeground01}"
+                                        Foreground="#EFEFEF"
+                                        Margin="20,0,5,5"
+                                        VerticalAlignment="Center"
+                                        Click="GetGroupExtensionsBtn_Click"/>
+                            </StackPanel>
                         </Grid>
                     </StackPanel>
                 </ScrollViewer>

@@ -153,6 +153,7 @@ namespace Douban.UWP.NET {
         }
 
         private async void GetResourcesAsync() {
+            HasFMExtensions = await WindowsStoreHelpers.GetProductInfoAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
             NaviBarResouces.Source = HamburgerResList;
             await TryLoginAsync(true);
         }
@@ -210,14 +211,14 @@ namespace Douban.UWP.NET {
             navigateTitlePath.Text = item.Title;
             if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions) {
                 // TO DO WORK FOR STORE EXTENSIONS
-                if (UserID == "155845973")
+                if (UserID == "155845973" || HasFMExtensions )
                     item.NaviType = NavigateType.FM_Extensions; 
                 else
                     item.NaviType = NavigateType.FM; // I will change it later.
             }
             NavigateToBase?.Invoke(
                 sender, 
-                new NavigateParameter { ToUri = item != null ? item.PathUri : null }, 
+                new NavigateParameter { ToUri = item?.PathUri }, 
                 GetFrameInstance(item.FrameType),
                 GetPageType(item.NaviType));
             NavigationSplit.IsPaneOpen = false;

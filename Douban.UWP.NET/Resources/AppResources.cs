@@ -113,6 +113,12 @@ namespace Douban.UWP.NET.Resources {
             set { _isFirstOpen = value; }
         }
 
+        private static bool _has_fm_extensions;
+        public static bool HasFMExtensions {
+            get { return _has_fm_extensions; }
+            set { _has_fm_extensions = value; }
+        }
+
         const string api_key = "02f7751a55066bcb08e65f4eff134361";
         public static string APIKey { get { return api_key; } }
 

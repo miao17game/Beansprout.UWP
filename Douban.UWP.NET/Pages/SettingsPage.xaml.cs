@@ -369,38 +369,26 @@ namespace Douban.UWP.NET.Pages {
 
         private async void StackPanel_LoadedAsync(object sender, RoutedEventArgs e) {
             var context = StoreContext.GetDefault();
-            var fm_succeed = await GetProductInfoAsync(context, id: "9mzf5cp1mf83");
-            var group_succeed = await GetProductInfoAsync(context, id: "9pbfqp5g46w6");
-
-            if (!fm_succeed)
-                fm_succeed = (UserID != null && UserID == "155845973");
+            var fm_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9mzf5cp1mf83");
+            var group_succeed = await WindowsStoreHelpers.GetProductInfoAsync(context, id: "9pbfqp5g46w6");
 
             FM_Extensions_Status.Text = fm_succeed ? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
             Group_Extensions_Status.Text = group_succeed? GetUIString("Extensions_Status_Get") : GetUIString("Extensions_Status_Unget");
+            GetFMExtensionsBtn.SetVisibility(!fm_succeed);
+            GetGroupExtensionsBtn.SetVisibility(!group_succeed);
             if (fm_succeed)
                 FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
             if (group_succeed)
                 Group_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
         }
 
-        public async Task<bool> GetProductInfoAsync(StoreContext context, string id, string filter = "Durable" ) {
-            if (context == null) 
-                context = StoreContext.GetDefault();
+        private void GetGroupExtensionsBtn_Click(object sender, RoutedEventArgs e) {
 
-            var filterList = new string[] { filter };
-            var storeIds = new string[] { id };
+        }
 
-            var queryResult = await context.GetStoreProductsAsync(filterList, storeIds);
-
-            if (queryResult.ExtendedError != null) {
-                System.Diagnostics.Debug.WriteLine($"ExtendedError: {queryResult.ExtendedError.Message}");
-                return false;
-            }
-
-            bool have = false;
-            queryResult.Products.Values.ToList().ForEach(item => have = item.IsInUserCollection);
-
-            return have;
+        private void GetFMExtensionsBtn_Click(object sender, RoutedEventArgs e) {
+            var context = StoreContext.GetDefault();
+            WindowsStoreHelpers.PurchaseAddOnAsync(context, "9mzf5cp1mf83");
         }
 
     }

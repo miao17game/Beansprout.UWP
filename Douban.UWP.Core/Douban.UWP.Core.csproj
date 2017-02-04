@@ -158,6 +158,7 @@
     <Compile Include="Tools\TilesHelper.cs" />
     <Compile Include="Tools\ToastHelper.cs" />
     <Compile Include="Tools\UriDecoder.cs" />
+    <Compile Include="Tools\WindowsStoreHelpers.cs" />
     <EmbeddedResource Include="Properties\Douban.UWP.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
