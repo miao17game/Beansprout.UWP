@@ -144,7 +144,7 @@
       <DependentUpon>BlankPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AuthorVM.cs" />
-    <Compile Include="Models\ViewModelBase.cs" />
+    <Compile Include="Models\VisualBoardVM.cs" />
     <Compile Include="Pages\ListInfosPage.xaml.cs">
       <DependentUpon>ListInfosPage.xaml</DependentUpon>
     </Compile>
@@ -159,6 +159,9 @@
     </Compile>
     <Compile Include="Pages\SingletonPages\FMPages\FMPage.xaml.cs">
       <DependentUpon>FMPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FM_SongBoardPage.xaml.cs">
+      <DependentUpon>FM_SongBoardPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SingletonPages\FMPages\FM_MHzSongListPage.xaml.cs">
       <DependentUpon>FM_MHzSongListPage.xaml</DependentUpon>
@@ -196,8 +199,8 @@
     <Compile Include="Pages\TypeWebPage\CardWebPage.xaml.cs">
       <DependentUpon>CardWebPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TypeWebPage\WebViewPage.xaml.cs">
-      <DependentUpon>WebViewPage.xaml</DependentUpon>
+    <Compile Include="Pages\TypeWebPage\FMWebViewPage.xaml.cs">
+      <DependentUpon>FMWebViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserInfoPages\MyDiariesPage.xaml.cs">
       <DependentUpon>MyDiariesPage.xaml</DependentUpon>
@@ -216,6 +219,8 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.cs" />
+    <Compile Include="Tools\Converters\TimeSpanConverter.cs" />
+    <Compile Include="Tools\LrcProcessHelper.cs" />
     <Compile Include="Tools\Converters\WelcomeThisDateConverter.cs" />
     <Compile Include="Tools\Converters\WelcomeIconConverter.cs" />
     <Compile Include="Tools\Converters\WelcomeStringConverter.cs" />
@@ -394,6 +399,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FM_SongBoardPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\SingletonPages\FMPages\FM_MHzSongListPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -442,7 +451,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TypeWebPage\WebViewPage.xaml">
+    <Page Include="Pages\TypeWebPage\FMWebViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

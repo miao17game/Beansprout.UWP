@@ -33,6 +33,7 @@ namespace Douban.UWP.Core.Models {
         BookFilter,
         MusicContent,
         MusicFilter,
+        MusicBoard,
         Undefined
     }
 

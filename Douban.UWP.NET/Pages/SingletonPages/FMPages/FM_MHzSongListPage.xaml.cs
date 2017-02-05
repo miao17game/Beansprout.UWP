@@ -72,21 +72,53 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            var item = (sender as Button).CommandParameter as MHzSong;
+            if (item == null)
+                return;
+            var succeed_img = Uri.TryCreate(item.Picture, UriKind.Absolute, out var img_url);
+            if (!succeed_img)
+                img_url = new Uri("ms-appx:///Assets/star006.png");
+            var succeed = Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
+                url: item.Url,
+                img: img_url,
+                title: item.Title,
+                artist: item.Artist,
+                albumTitle: item.AlbumTitle,
+                albunmArtist: item.SingerShow,
+                para: new MusicBoardParameter { AID = item.AID, SID = item.SID, SSID = item.SSID }));
+            if(succeed)
+                ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as MHzSong;
             if (item == null)
                 return;
-            Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
+            var succeed_img = Uri.TryCreate(item.Picture, UriKind.Absolute, out var img_url);
+            if (!succeed_img)
+                img_url = new Uri("ms-appx:///Assets/star006.png");
+            var succeed = Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
                 url: item.Url,
-                img: item.Picture,
+                img: img_url,
                 title: item.Title,
                 artist: item.Artist,
                 albumTitle: item.AlbumTitle,
-                albunmArtist: item.SingerShow), index: 0);
-            Service.Player.Play();
+                albunmArtist: item.SingerShow,
+                para: new MusicBoardParameter { AID = item.AID, SID = item.SID, SSID = item.SSID }));
+            if (!succeed)
+                return;
+            Service.PlayAnyway();
+            Service.PlayMoveTo();
+            NavigateToBase?.Invoke(
+                null, 
+                new MusicBoardParameter {
+                    SID = item.SID,
+                    SSID = item.SSID,
+                    AID = item.AID,
+                    FrameType = FrameType.UpContent
+                }, 
+                GetFrameInstance(FrameType.UpContent), 
+                GetPageType(NavigateType.MusicBoard));
         }
 
         #region Method

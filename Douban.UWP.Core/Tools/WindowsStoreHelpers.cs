@@ -45,7 +45,7 @@ namespace Douban.UWP.Core.Tools {
             switch (result.Status) {
                 case StorePurchaseStatus.AlreadyPurchased:
                     System.Diagnostics.Debug.WriteLine("The user has already purchased the product.");
-                    resultToReturn = PurchasAddOnReturn.Failed;
+                    resultToReturn = PurchasAddOnReturn.Successful;
                     break;
 
                 case StorePurchaseStatus.Succeeded:

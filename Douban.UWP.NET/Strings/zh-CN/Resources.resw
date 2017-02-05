@@ -755,4 +755,37 @@
   <data name="UnknownMusicTitle" xml:space="preserve">
     <value>未知单曲</value>
   </data>
+  <data name="FM_EXTENSIONS_NOTWANT.Content" xml:space="preserve">
+    <value>继续访问网页版</value>
+  </data>
+  <data name="FM_EXTENSIONS_WANT.Content" xml:space="preserve">
+    <value>现在获取</value>
+  </data>
+  <data name="FM_EXTENSIONS_TITLE_PAY.Text" xml:space="preserve">
+    <value>FM  仅售 6 元</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE01.Text" xml:space="preserve">
+    <value>纯正本地应用体验</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE02.Text" xml:space="preserve">
+    <value>广播专属与定制</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE03.Text" xml:space="preserve">
+    <value>更多歌单待你发现</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE04.Text" xml:space="preserve">
+    <value>稳定的后台音频</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE05.Text" xml:space="preserve">
+    <value>强大如定制应用</value>
+  </data>
+  <data name="LOGIN_FIRST_TEXT.Text" xml:space="preserve">
+    <value>请先登录</value>
+  </data>
+  <data name="Extensions_Free_Get.Content" xml:space="preserve">
+    <value>免费试用</value>
+  </data>
+  <data name="Music_added" xml:space="preserve">
+    <value>已添加到歌单末尾</value>
+  </data>
 </root>

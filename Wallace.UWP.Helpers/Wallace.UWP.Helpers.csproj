@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\LrcListView.cs" />
     <Compile Include="Controls\ToastSmoothBase.xaml.cs">
       <DependentUpon>ToastSmoothBase.xaml</DependentUpon>
     </Compile>

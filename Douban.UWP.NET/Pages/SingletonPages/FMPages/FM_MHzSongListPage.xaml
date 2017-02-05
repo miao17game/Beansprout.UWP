@@ -230,7 +230,7 @@
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
                                 <Button Click="AddButton_Click" 
-                                        CommandParameter="{Binding Url}" 
+                                        CommandParameter="{Binding}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
                                         Content="&#xE109;" 

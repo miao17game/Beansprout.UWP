@@ -207,11 +207,11 @@ namespace Douban.UWP.NET {
                 return;
             navigateTitlePath.Text = item.Title;
             if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions) {
-                // TO DO WORK FOR STORE EXTENSIONS
-                if (UserID != null && (UserID == "155845973" || HasFMExtensions))
+                //  TO DO WORK FOR STORE EXTENSIONS
+                if (IsLogined && HasFMExtensions)
                     item.NaviType = NavigateType.FM_Extensions;
                 else
-                    item.NaviType = NavigateType.FM; 
+                    item.NaviType = NavigateType.FM;
             }
             NavigateToBase?.Invoke(
                 sender, 

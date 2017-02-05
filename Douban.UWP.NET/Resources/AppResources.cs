@@ -171,6 +171,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.TVContent, typeof(WebContentPage)},
                     { NavigateType.TVFilter, typeof(WebContentPage)},
                     { NavigateType.Undefined, typeof(WebContentPage)},
+                    { NavigateType.MusicBoard, typeof(FM_SongBoardPage)}
                 };
                 return pagesMaps;
             }).Invoke(); }

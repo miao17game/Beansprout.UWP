@@ -756,4 +756,37 @@
   <data name="UnknownMusicTitle" xml:space="preserve">
     <value>Unknown Music</value>
   </data>
+  <data name="FM_EXTENSIONS_NOTWANT.Content" xml:space="preserve">
+    <value>Web Enough</value>
+  </data>
+  <data name="FM_EXTENSIONS_WANT.Content" xml:space="preserve">
+    <value>Get Now</value>
+  </data>
+  <data name="FM_EXTENSIONS_TITLE_PAY.Text" xml:space="preserve">
+    <value>FM  $ 0.99 Only</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE01.Text" xml:space="preserve">
+    <value>Natively app experience</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE02.Text" xml:space="preserve">
+    <value>Mhz enjoyment</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE03.Text" xml:space="preserve">
+    <value>More songList to find</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE04.Text" xml:space="preserve">
+    <value>Background music</value>
+  </data>
+  <data name="FM_EXTENSION_MESSAGE05.Text" xml:space="preserve">
+    <value>Cheap but stronger features</value>
+  </data>
+  <data name="LOGIN_FIRST_TEXT.Text" xml:space="preserve">
+    <value>Please Login First.</value>
+  </data>
+  <data name="Extensions_Free_Get.Content" xml:space="preserve">
+    <value>Have a try freely</value>
+  </data>
+  <data name="Music_added" xml:space="preserve">
+    <value>Is added to the end of the list.</value>
+  </data>
 </root>

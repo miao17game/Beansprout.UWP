@@ -163,6 +163,7 @@ namespace Douban.UWP.NET.Pages {
                 GetFMExtensionsBtn.SetVisibility(false);
                 FM_Extensions_Status.Text = GetUIString("Extensions_Status_Get");
                 FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+                HasFMExtensions = true;
             }
         }
 

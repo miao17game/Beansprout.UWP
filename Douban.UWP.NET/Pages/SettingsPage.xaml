@@ -280,6 +280,13 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
+                            <Run Text="Version：2.1004.* / 2017.2.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="目前可以播放，暂时看不到后台音乐列表" /><LineBreak/>
+                            <Run Text="歌词同步和动画初步完成，尚需打磨" /><LineBreak/>
+                            <Run Text="简单的音乐控制，大部分功能还在编写中" /><LineBreak/>
+                            <Run Text="开放了豆瓣FM扩展包试用" /><LineBreak/>
+                            <Run Text="被豆瓣封IP......今日休息🙄😶..." /><LineBreak/><LineBreak/>
+                            
                             <Run Text="Version：2.1003.* / 2017.2.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="继续增强豆瓣FM扩展功能" /><LineBreak/>
                             <Run Text="开放了豆瓣FM扩展包获取的接口" /><LineBreak/><LineBreak/>

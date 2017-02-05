@@ -22,7 +22,7 @@ namespace Douban.UWP.Test {
 
         [TestMethod]
         public void MainMethod() {
-            Method03Async();
+            Method02Async();
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Douban.UWP.Test {
 
         public async void Method02Async() {
             var result = await GetMDoubanResponseAsync(
-                $"{"https://"}api.douban.com/v2/fm/playlist/{14913864}&formats=null&from=&type=n&version=644&push_device_id={dId}&start=0&app_name=radio_android&limit=10&apikey={apiKey}",
+                $"{"https://"}api.douban.com/v2/fm/song/{"2671110g5685"}/?version=644&push_device_id={dId}&start=0&app_name=radio_android&apikey={apiKey}",
                 "api.douban.com",
                 null,
                 false,
