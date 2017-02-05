@@ -58,7 +58,6 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            DoubanLoading.SetVisibility(false);
             var args = e.Parameter as NavigateParameter;
             if (args == null)
                 return;

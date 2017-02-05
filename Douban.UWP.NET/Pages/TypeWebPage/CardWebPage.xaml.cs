@@ -42,7 +42,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         public CardWebPage() {
             this.InitializeComponent();
-            DoubanLoading.SetVisibility(false);
             var shareManager = DataTransferManager.GetForCurrentView();
             shareManager.DataRequested += DataTransferManager_DataRequested;
         }
@@ -242,7 +241,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         }
 
         private void SetPageLoadingStatus() {
-            DoubanLoading.SetVisibility(false);
             IncrementalLoadingBorder.SetVisibility(true);
             IncrementalLoading.SetVisibility(true);
         }

@@ -72,7 +72,6 @@ namespace Douban.UWP.NET.Pages {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
                     ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
-                    DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
                 }
@@ -80,7 +79,6 @@ namespace Douban.UWP.NET.Pages {
                 var notes = jo["notes"];
                 if (notes == null ) {
                     ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError"));
-                    DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
                 }

@@ -196,6 +196,9 @@
     <Compile Include="Pages\TypeWebPage\CardWebPage.xaml.cs">
       <DependentUpon>CardWebPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TypeWebPage\WebViewPage.xaml.cs">
+      <DependentUpon>WebViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\UserInfoPages\MyDiariesPage.xaml.cs">
       <DependentUpon>MyDiariesPage.xaml</DependentUpon>
     </Compile>
@@ -438,6 +441,10 @@
     <Page Include="Pages\TypeWebPage\CardWebPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\TypeWebPage\WebViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\UserInfoPages\MyDiariesPage.xaml">
       <Generator>MSBuild:Compile</Generator>

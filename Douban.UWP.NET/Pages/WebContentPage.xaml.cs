@@ -24,7 +24,6 @@ namespace Douban.UWP.NET.Pages {
 
         public WebContentPage() {
             this.InitializeComponent();
-            DoubanLoading.SetVisibility(false);
         }
 
         #endregion
@@ -135,7 +134,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void SetPageLoadingStatus() {
-            DoubanLoading.SetVisibility(false);
             IncrementalLoadingBorder.SetVisibility(true);
             IncrementalLoading.SetVisibility(true);
         }

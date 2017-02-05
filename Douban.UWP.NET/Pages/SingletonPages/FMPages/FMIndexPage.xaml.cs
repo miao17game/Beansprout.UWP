@@ -31,7 +31,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            DoubanLoading.SetVisibility(false);
             uid = UserID ?? "";
             bearer = AccessToken ?? "";
             if (UserID == null)

@@ -15,11 +15,11 @@ using Douban.UWP.NET.Tools;
 
 namespace Douban.UWP.NET.Pages {
 
-    public sealed partial class WebViewPage : BaseContentPage {
+    public sealed partial class FMWebViewPage : BaseContentPage {
 
         #region Constructor
 
-        public WebViewPage() {
+        public FMWebViewPage() {
             this.InitializeComponent();
         }
 

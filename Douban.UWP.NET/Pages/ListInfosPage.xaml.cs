@@ -30,7 +30,6 @@ namespace Douban.UWP.NET.Pages {
     public sealed partial class ListInfosPage : Page {
         public ListInfosPage() {
             this.InitializeComponent();
-            DoubanLoading.SetVisibility(false);
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e) {
@@ -39,7 +38,6 @@ namespace Douban.UWP.NET.Pages {
                 await Task.Delay(1000);
             if (IsFirstOpen) { IsFirstOpen = false; }
             ListViewResources.Source = new DoubanIncrementalContext<IndexItem>(FetchMoreResourcesAsync);
-            DoubanLoading.SetVisibility(false);
             SetFlipResourcesAsync();
         }
 
@@ -99,7 +97,6 @@ namespace Douban.UWP.NET.Pages {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(target);
                 if (result == null) {
                     ReportHelper.ReportAttentionAsync(GetUIString("WebActionError"));
-                    DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
                 }
@@ -107,7 +104,6 @@ namespace Douban.UWP.NET.Pages {
                 var feeds = jo["recommend_feeds"];
                 if (feeds == null || !feeds.HasValues) {
                     ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError"));
-                    DoubanLoading.SetVisibility(false);
                     IncrementalLoadingBorder.SetVisibility(false);
                     return list;
                 }

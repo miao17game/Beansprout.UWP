@@ -33,7 +33,6 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            DoubanLoading.SetVisibility(false);
             InitWhenNavigatedAsync();
         }
 
@@ -158,7 +157,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void StopLoadingAnimation() {
-            DoubanLoading.SetVisibility(false);
             IncrementalLoadingBorder.SetVisibility(false);
         }
 

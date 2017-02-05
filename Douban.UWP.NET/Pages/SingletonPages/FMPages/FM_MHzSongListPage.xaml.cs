@@ -149,14 +149,14 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             } catch { /* Ingore */ }
         }
 
-        private void ScrollViewerChangedForSongHead(object sender, ScrollViewerViewChangedEventArgs e) {
+        private async void ScrollViewerChangedForSongHead(object sender, ScrollViewerViewChangedEventArgs e) {
             var scroll = sender as ScrollViewer;
             try {
                 if (scroll.VerticalOffset <= 30)
                     ShadowRect.Opacity = BackRec.Opacity = (scroll.VerticalOffset) / 30;
                 else if (BackRec.Opacity < 1)
                     ShadowRect.Opacity = BackRec.Opacity = 1;
-
+                await Task.Delay(5);
                 if (scroll.VerticalOffset <= 160)
                     TitleHeaderGrid.Margin = new Thickness(0, -(sender as ScrollViewer).VerticalOffset, 0, 0);
                 else

@@ -155,7 +155,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.TV, typeof(TVIndexPage)},
                     { NavigateType.Book, typeof(BookIndexPage)},
                     { NavigateType.Music, typeof(MusicIndexPage)},
-                    { NavigateType.FM, typeof(WebViewPage)},
+                    { NavigateType.FM, typeof(FMWebViewPage)},
                     { NavigateType.FM_Extensions, typeof(FMPage)},
                     { NavigateType.FM_MHzSongList, typeof(FM_MHzSongListPage)},
                     { NavigateType.ItemClick, typeof(WebContentPage)},

@@ -97,9 +97,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async void LoginButton_ClickAsync(object sender, RoutedEventArgs e) {
-            DoubanLoading.SetVisibility(true);
             await TryLoginAsync();
-            DoubanLoading.SetVisibility(false);
         }
 
         private async Task TryLoginAsync(bool isInit = false) {

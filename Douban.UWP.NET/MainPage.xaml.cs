@@ -42,7 +42,6 @@ namespace Douban.UWP.NET {
         #region Methods
 
         private void InitMainPageState() {
-            doubanRing.SetVisibility(true);
             NavigateManager.BackRequested += OnBackRequested;
             StatusBarInit.InitInnerDesktopStatusBar(true);
             Window.Current.SetTitleBar(BasePartBorder);
@@ -62,7 +61,6 @@ namespace Douban.UWP.NET {
             MainLoginFrame = this.LoginPopupFrame;
             BaseListRing = this.baseListRing;
             MainLoginPopup = this.ImagePopup;
-            DoubanLoading = this.doubanRing;
         }
 
         private void InitCloseAppTask() {
@@ -207,7 +205,6 @@ namespace Douban.UWP.NET {
             var item = (sender as ListBox).SelectedItem as NavigationBar;
             if (item == null)
                 return;
-            doubanRing.SetVisibility(true);
             navigateTitlePath.Text = item.Title;
             if (item.NaviType == NavigateType.FM || item.NaviType == NavigateType.FM_Extensions) {
                 // TO DO WORK FOR STORE EXTENSIONS
@@ -240,10 +237,8 @@ namespace Douban.UWP.NET {
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e) {
-            DoubanLoading.SetVisibility(true);
             NavigationSplit.IsPaneOpen = false;
             await TryLoginAsync();
-            DoubanLoading.SetVisibility(false);
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e) {
