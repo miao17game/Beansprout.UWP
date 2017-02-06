@@ -64,6 +64,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             image = jo["related_channel"]["cover"].Value<string>();
 
             Service.PlayList.CurrentItemChanged += OnCurrentItemChangedAsync;
+            Service.Player.BufferingEnded += OnBufferingEnded;
 
             MusicBoardVM.BackImage = image;
             MusicBoardVM.CurrentTime = Service.Player.PlaybackSession.Position;
@@ -132,7 +133,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             GetFrameInstance(frameType).Content = null;
         }
 
-        #region Lrc animations
+        private void OnBufferingEnded(MediaPlayer sender, object args) {
+            PlayPauseButton.Content = char.ConvertFromUtf32(0xE769);
+        }
 
         private async void OnCurrentItemChangedAsync(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args) {
             var newItem = args.NewItem;
@@ -145,6 +148,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 await InitMusicBoardAsync(arg);
             });
         }
+
+        #region Lrc Animations
 
         public void SetLrcAnimation(IList<LrcInfo> list) {
             if (list.Count > 0) {
