@@ -152,10 +152,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         #region Lrc Animations
 
         public void SetLrcAnimation(IList<LrcInfo> list) {
-            if (list.Count > 0) {
+            if ((lrc_list = list).Count > 0) {
                 indexNew = -1;
-                infos = new LrcInfo[list.Count];
-                list.CopyTo(infos, 0);
+                //infos = new LrcInfo[list.Count];
+                //list.CopyTo(infos, 0);
                 MusicBoardVM.Duration = Service.Player.PlaybackSession.NaturalDuration;
                 if (timer != null)
                     return;
@@ -168,9 +168,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         public async void DispatcherTimerEventAsync(object sender, object e) {
             MusicBoardVM.CurrentTime = Service.Player.PlaybackSession.Position;
             var newTurn = 0;
-            for (int turn = 0; turn < infos.Length && infos[turn].LrcTime < MusicBoardVM.CurrentTime.TotalMilliseconds; turn++) {
-                newTurn = turn;
-            }
+            var current = MusicBoardVM.CurrentTime.TotalMilliseconds;
+            //for (int turn = 0; turn < infos.Length && infos[turn].LrcTime < MusicBoardVM.CurrentTime.TotalMilliseconds; turn++) {
+            //    newTurn = turn;
+            //}
+
+            newTurn = lrc_list.Select(i => i.LrcTime).Where(i => i < current).Count();
+
             await SetLrcListSelectedAsync(newTurn);
         }
 
@@ -193,7 +197,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             double milis = 0;
             double turn = -44;
             try {
-                milis = 1.0 * (infos[index + 1].LrcTime - infos[index].LrcTime);
+                //milis = 1.0 * (infos[index + 1].LrcTime - infos[index].LrcTime);
+                milis = 1.0 * (lrc_list[index + 1].LrcTime - lrc_list[index].LrcTime);
                 turn *= 1.0;
             } catch (Exception) { /*  */ }
             SetAnimation(turn, milis);
@@ -292,7 +297,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         static int index = 0;
         static int indexNew = -1;
         string AnimationStyle;
-        LrcInfo[] infos;
+        //LrcInfo[] infos;
+        IList<LrcInfo> lrc_list;
         Storyboard sb;
         DispatcherTimer timer;
 
