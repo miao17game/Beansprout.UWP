@@ -16,6 +16,7 @@ using Douban.UWP.NET.Pages.TypeWebPage;
 using Douban.UWP.NET.Pages.SubjectCollectionPages.GenericPages;
 using Douban.UWP.NET.Pages.SingletonPages.FMPages;
 using Douban.UWP.NET.Tools;
+using Douban.UWP.Core.Models.FMModels;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -129,6 +130,8 @@ namespace Douban.UWP.NET.Resources {
 
         private static DoubanMusicService _service;
         public static DoubanMusicService Service { get { return _service ?? (_service = new DoubanMusicService()); } }
+
+        public static MusicBoardParameter MusicIsCurrent { get; set; }
 
         #endregion
 

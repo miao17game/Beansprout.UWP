@@ -233,7 +233,7 @@
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Grid.Row="2" Margin="0,0,0,10">
                 <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE006;" VerticalAlignment="Center" Margin="2,0,3,0" Foreground="#CC808080"/>
                 <TextBlock Text="{Binding LikersCount}" VerticalAlignment="Center" Margin="2,0,3,0" Foreground="#CC808080"/>
-                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE134;" VerticalAlignment="Center" Margin="8,0,3,0" Foreground="#CC808080"/>
+                <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEB67;" VerticalAlignment="Center" Margin="8,0,3,0" Foreground="#CC808080"/>
                 <TextBlock Text="{Binding CommentCount}" VerticalAlignment="Center" Margin="2,0,3,0" Foreground="#CC808080"/>
             </StackPanel>
 

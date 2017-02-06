@@ -247,7 +247,10 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         private async void SetWebViewSourceAsync(Uri uri) {
             try {
-                var result = htmlReturn = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
+                var result = htmlReturn = await DoubanWebProcess.GetMDoubanResponseAsync(
+                    path: uri.ToString(),
+                    host: "m.douban.com",
+                    reffer: "https://m.douban.com/");
                 var doc = new HtmlDocument();
                 doc.LoadHtml(result);
                 var shouldNative = IfCanGetContent(doc.DocumentNode);

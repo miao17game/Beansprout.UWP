@@ -14,16 +14,13 @@ using Windows.Storage;
 using Douban.UWP.Core.Models;
 using Douban.UWP.Core.Models.FMModels;
 using System.Collections.Generic;
+using Douban.UWP.NET.Tools;
 
 namespace Douban.UWP.NET.Models {
     class VisualBoardVM :  ViewModelBase {
 
         #region Fields
         private Color TextColor;
-        private string FileName;
-        private string Artist;
-        public  string LrcPath;
-        static string TitleFromMainCS = default(string);
         #endregion
 
         public VisualBoardVM ( ) {
@@ -52,10 +49,22 @@ namespace Douban.UWP.NET.Models {
             set { _lrcTitle = value; RaisePropertyChanged ( "LrcTitle" ); }
         }
 
+        private string _artist = default(string);
+        public string Artist {
+            get { return _artist; }
+            set { _artist = value; RaisePropertyChanged("Artist"); }
+        }
+
         private string _backimage = default(string);
         public string BackImage {
             get { return _backimage; }
             set { _backimage = value; RaisePropertyChanged("BackImage"); }
+        }
+
+        private int _listcount;
+        public int ListCount {
+            get { return _listcount; }
+            set { _listcount = value;RaisePropertyChanged("ListCount"); }
         }
 
         private TimeSpan _currenttime;
@@ -79,13 +88,15 @@ namespace Douban.UWP.NET.Models {
                     Selected . LrcFontWeight = FontWeights . Thin;
                     Selected . LrcFontSize = 16;
                 }
-                SetProperty ( ref _Selected , value );
+                SetProperty(ref _Selected, value, "Selected");
                 try {
-                    value . Color = ( ( SolidColorBrush ) Application . Current . Resources ["DoubanForeground03"] ) . Color;
-                    value . LrcFontWeight = FontWeights . Medium;
+                    if (value == null)
+                        return;
+                    value . Color = ( ( SolidColorBrush ) Application . Current . Resources ["DoubanForeground01"] ) . Color;
+                    value . LrcFontWeight = FontWeights . Bold;
                     value . LrcFontSize = 22;
                 } catch {
-                    Debug . WriteLine ( "歌词解析异常，无法应用歌词样式变更" );
+                    Debug . WriteLine ( "Lrc read and change selected exception." );
                 }
             }
         }

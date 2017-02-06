@@ -12,17 +12,23 @@ namespace Douban.UWP.Tools.Converters {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
-            throw new NotImplementedException();
+            return ToTimeSpan(value);
         }
 
-        private double ToValueCode(double num) {
-            return (double)(((int)(num * 10000)) / 1000) / 10;
+        private double ToValueCode(int num) {
+            return System.Convert.ToDouble(num);
         }
 
-        private double ToDouble(object value) {
+        private int ToDouble(object value) {
             var num = default(TimeSpan);
             try { num = (TimeSpan)value; } catch { }
-            return num.TotalSeconds;
+            return (int)num.TotalSeconds;
+        }
+
+        private TimeSpan ToTimeSpan(object value) {
+            var num = default(TimeSpan);
+            try { num = TimeSpan.FromSeconds(System.Convert.ToDouble(value)); } catch { }
+            return num;
         }
 
     }

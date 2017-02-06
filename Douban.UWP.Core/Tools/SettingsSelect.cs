@@ -16,5 +16,6 @@
         public const string RefreshToken = "REFRESH_TOKEN";
         public const string UserID = "USER_ID";
         public const string IsQuietTime = "IS_QUIET_TIME";
+        public const string BackPlayType = "BACK_PLAY_TYPE";
     }
 }

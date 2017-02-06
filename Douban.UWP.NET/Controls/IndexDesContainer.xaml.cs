@@ -24,6 +24,12 @@ namespace Douban.UWP.NET.Controls {
             InnerButton = this.ClickButton;
         }
 
+        public static readonly DependencyProperty SourceHeadProperty = DependencyProperty.Register("SourceHead", typeof(string), typeof(IndexDesContainer), null);
+        public string SourceHead {
+            get { return GetValue(SourceHeadProperty) as string; }
+            set { SetValue(SourceHeadProperty, value); }
+        }
+
         public static readonly DependencyProperty ThisDateProperty = DependencyProperty.Register("ThisDate", typeof(string), typeof(IndexDesContainer), null);
         public string ThisDate {
             get { return GetValue(ThisDateProperty) as string; }
@@ -46,6 +52,12 @@ namespace Douban.UWP.NET.Controls {
         public bool HasCover {
             get { return (bool)GetValue(HasCoverProperty); }
             set { SetValue(HasCoverProperty, value); }
+        }
+
+        public static readonly DependencyProperty HasSourceHeadProperty = DependencyProperty.Register("HasSourceHead", typeof(bool), typeof(IndexDesContainer), PropertyMetadata.Create(false));
+        public bool HasSourceHead {
+            get { return (bool)GetValue(HasSourceHeadProperty); }
+            set { SetValue(HasSourceHeadProperty, value); }
         }
 
         public static readonly DependencyProperty CoverProperty = DependencyProperty.Register("Cover", typeof(Uri), typeof(IndexDesContainer), null);

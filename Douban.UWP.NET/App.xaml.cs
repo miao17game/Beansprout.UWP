@@ -1,12 +1,14 @@
 ﻿using Douban.UWP.Core.Models;
 using Douban.UWP.Core.Tools;
 using Douban.UWP.NET.Controls;
+using Douban.UWP.NET.Pages.SingletonPages.FMPages;
 using Douban.UWP.NET.Resources;
 using Douban.UWP.NET.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Wallace.UWP.Helpers;
 using Wallace.UWP.Helpers.Tools;
@@ -30,6 +32,7 @@ namespace Douban.UWP.NET {
 
         public string FromToastArgument;
         bool _isInBackgroundMode = false;
+        bool _isMusicBoardBeShutDown = false;
 
         public App() {
             this.InitializeComponent();
@@ -157,6 +160,14 @@ namespace Douban.UWP.NET {
             _isInBackgroundMode = false;
             MemoryManager.AppMemoryUsageIncreased -= OnMemoryIncreased;
             MemoryManager.AppMemoryUsageLimitChanging -= OnMemoryLimitChanged;
+            if (_isMusicBoardBeShutDown) { // REBUILD MUSIC BOARD
+                _isMusicBoardBeShutDown = false;
+                AppResources.NavigateToBase?.Invoke(
+                    null,
+                    AppResources.MusicIsCurrent,
+                    AppResources.GetFrameInstance(FrameType.UpContent),
+                    AppResources.GetPageType(NavigateType.MusicBoard));
+            } 
         }
 
         // 不得在 EnteredBackground 事件中执行长时间运行的任务，因为这可能会导致用户感觉过渡到后台非常慢。
@@ -169,6 +180,12 @@ namespace Douban.UWP.NET {
 
         private void OnMemoryLimitChanged(object sender, AppMemoryUsageLimitChangingEventArgs e) {
             System.Diagnostics.Debug.WriteLine("MemoryLimitChanged");
+            if (e.NewLimit - e.OldLimit < 0) { 
+                if(AppResources.MainUpContentFrame.Content.GetType().GetTypeInfo().Name == typeof(FM_SongBoardPage).Name) {
+                    _isMusicBoardBeShutDown = true;  // FIRE MUSIC BOARD
+                    (AppResources.MainUpContentFrame.Content as FM_SongBoardPage).PageSlideOutStart(UWPStates.VisibleWidth > AppResources.FormatNumber ? false : true);
+                }
+            }
         }
 
         private void OnMemoryIncreased(object sender, object e) {

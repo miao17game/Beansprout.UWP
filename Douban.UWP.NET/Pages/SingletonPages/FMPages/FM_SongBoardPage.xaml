@@ -17,6 +17,12 @@
     <base:BaseContentPage.Resources>
         <CollectionViewSource x:Name="ListResources"/>
         <Converters:TimeSpanConverter x:Name="TimeSpanConverter"/>
+        <Storyboard x:Name="EnterPopupBorder">
+            <FadeInThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
+        <Storyboard x:Name="OutPopupBorder">
+            <FadeOutThemeAnimation Storyboard.TargetName="PopupBackBorder" />
+        </Storyboard>
     </base:BaseContentPage.Resources>
 
     <base:BaseContentPage.DataContext>
@@ -107,7 +113,7 @@
         <Image Name="BackImage" Stretch="UniformToFill" Source="{Binding BackImage}">
             <interactivity:Interaction.Behaviors>
                 <behaviors:Blur x:Name="BlurBehavior"
-                                                Value="30"
+                                                Value="35"
                                                 Duration="2000"
                                                 Delay="300"
                                                 AutomaticallyStart="True"/>
@@ -126,6 +132,13 @@
 				ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
 				Width="{Binding ActualWidth, ElementName=LrcCanvas, Mode=OneWay}"
 				SelectionChanged="LrcListView_SelectionChanged" >
+                <interactivity:Interaction.Behaviors>
+                    <behaviors:Blur x:Name="BlurBehavior4"
+                                                Value="0.3"
+                                                Duration="0"
+                                                Delay="0"
+                                                AutomaticallyStart="True"/>
+                </interactivity:Interaction.Behaviors>
                 <controls:LrcListView.ItemTemplate >
                     <DataTemplate x:Name="lv" x:DataType="model:LrcInfo">
                         <TextBlock Grid.Column="0" 
@@ -167,10 +180,10 @@
                                                 AutomaticallyStart="True"/>
                 </interactivity:Interaction.Behaviors>
             </Rectangle>
-            <Slider Name="progressBar" Height="40" 
-                    Value="{Binding CurrentTime, Converter={StaticResource TimeSpanConverter}}"  
+            <Slider Name="MusicSlider" Height="40" 
+                    Value="{Binding CurrentTime, Mode=TwoWay, Converter={StaticResource TimeSpanConverter}}"  
                     Maximum="{Binding Duration, Converter={StaticResource TimeSpanConverter}}" 
-                    Grid.ColumnSpan="5"
+                    Grid.ColumnSpan="5" ValueChanged="MusicSlider_ValueChanged"
                     Margin="10,0,10,0" VerticalAlignment="Center" 
                     Style="{StaticResource MainPageNewDefaultSlider}">
             </Slider>
@@ -189,6 +202,23 @@
                     Content="&#xE893;" FontSize="30" FontWeight="Bold" 
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
                     Foreground="White" Click="NextButton_Click"/>
+            <Button Name="RandomButton" Grid.Row="1" Grid.Column="0"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xE8ED;" FontSize="30" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="RandomButton_Click"/>
+            <Grid Grid.Row="1" Grid.Column="4">
+                <Button Name="SongListButton" 
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xE142;" FontSize="30" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="SongListButton_Click"/>
+                <Border Background="#C0202020" Margin=" 25,25,0,0" CornerRadius="50"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Width="23" Height="23">
+                    <TextBlock Text="{Binding ListCount}" Margin="0" FontWeight="Bold" Foreground="White"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10"/>
+                </Border>
+            </Grid>
         </Grid>
 
         <Grid Name="LineGrid" Height="70" VerticalAlignment="Top" >
@@ -224,6 +254,7 @@
                        MaxWidth="500"
                        FontWeight="Bold"
                        FontSize="20"
+                       Text="{Binding LrcTitle}"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"
                        Foreground="White"/>
@@ -236,6 +267,77 @@
                             Click="BaseHamburgerButton_Click"
                             Foreground="White"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+
+        <!--#region Content popup-->
+        <Border x:Name="PopupBackBorder"
+                Background="{ThemeResource DQDPopupBackColor}"
+                Visibility="Collapsed"
+                Margin="0,-16,0,0"/>
+
+        <Popup x:Name="InnerContentPanel" 
+               Margin="0,100,0,0"
+               IsOpen="False"
+               IsLightDismissEnabled="True"
+               SizeChanged="InnerContentPanel_SizeChanged"
+               Closed="InnerContentPanel_Closed">
+            <Popup.ChildTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition 
+                        FromHorizontalOffset="0" 
+                        FromVerticalOffset="300"/>
+                </TransitionCollection>
+            </Popup.ChildTransitions>
+            <Grid x:Name="InnerGrid"
+                  Background="{ThemeResource DoubanForeground03}"
+                  Width="{Binding ActualWidth, ElementName=PopupAllComments, Mode=OneWay}"
+                  Height="{Binding ActualHeight, ElementName=PopupAllComments, Mode=OneWay}"
+                  VerticalAlignment="Bottom">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="1" Background="{ThemeResource DoubanBackground05}">
+                    <Frame Name="ContentFrame"/>
+                </Border>
+                <Button x:Name="CloseAllComsBtn"
+                        VerticalAlignment="Top"
+                        Height="30"
+                        Content="&#xE96E;"
+                        FontSize="22"
+                        FontFamily="Segoe MDL2 Assets"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource MainPageButtonBackHamburgerStyle}"
+                        Foreground="White"
+                        Click="CloseAllComsBtn_Click"/>
+                <Rectangle Margin="0,0,0,-10" Height="10" VerticalAlignment="Bottom">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Margin="0,-10,0,0" Height="10" VerticalAlignment="Top">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStopCollection >
+                                <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                                <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </Popup>
+        <!--#endregion-->
 
     </Grid>
 </base:BaseContentPage>

@@ -104,17 +104,17 @@ namespace Douban.UWP.Core.Tools {
                         now = 3;
                     try {
                         var single = feeds.Children().ElementAt(now);
-                        var author = single["author"];
+                        var author = single["target"]["author"];
                         var uri = UriDecoder.CreateJson(new ToastParameters {
                             Title = single["title"].Value<string>(),
-                            Uri = single["uri"].Value<string>(),
+                            Uri = UriDecoder.GetUrlFromUri(single["target"]["uri"].Value<string>()),
                             Type = EncodeFormat.ToatFromInfosList
                         });
                         return new ToastItem {
                             Title = single["title"].Value<string>(),
-                            ImageSrc = single["cover_url"].Value<string>() != "" ? single["cover_url"].Value<string>() : null,
+                            ImageSrc = single["target"]["cover_url"].Value<string>() != "" ? single["target"]["cover_url"].Value<string>() : null,
                             LogoOverride = author.HasValues ? author["avatar"].Value<string>() != "" ? author["avatar"].Value<string>() : null : null,
-                            Content = single["desc"].Value<string>() != "" ? single["desc"].Value<string>() : null,
+                            Content = single["target"]["desc"].Value<string>() != "" ? single["target"]["desc"].Value<string>() : null,
                             Uri = uri,
                         };
                     } catch { return null; }

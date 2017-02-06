@@ -39,6 +39,10 @@ namespace Douban.UWP.Core.Models.ListModel {
 
         public string Action { get; set; }
 
+        public string SourceHead { get; set; }
+
+        public bool HasSourceHead { get; set; }
+
         public string Description { get; set; }
 
         public IList<Uri> MorePictures { get; set; }

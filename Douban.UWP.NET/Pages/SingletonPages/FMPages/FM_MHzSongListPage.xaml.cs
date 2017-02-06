@@ -75,18 +75,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var item = (sender as Button).CommandParameter as MHzSong;
             if (item == null)
                 return;
-            var succeed_img = Uri.TryCreate(item.Picture, UriKind.Absolute, out var img_url);
-            if (!succeed_img)
-                img_url = new Uri("ms-appx:///Assets/star006.png");
-            var succeed = Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
-                url: item.Url,
-                img: img_url,
-                title: item.Title,
-                artist: item.Artist,
-                albumTitle: item.AlbumTitle,
-                albunmArtist: item.SingerShow,
-                para: new MusicBoardParameter { AID = item.AID, SID = item.SID, SSID = item.SSID }));
-            if(succeed)
+            var succeed = Service.InsertMusicItem(item);
+            if (succeed)
                 ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
 
@@ -94,30 +84,19 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var item = e.ClickedItem as MHzSong;
             if (item == null)
                 return;
-            var succeed_img = Uri.TryCreate(item.Picture, UriKind.Absolute, out var img_url);
-            if (!succeed_img)
-                img_url = new Uri("ms-appx:///Assets/star006.png");
-            var succeed = Service.InsertMusicItem(MusicServiceHelper.CreatePlayItem(
-                url: item.Url,
-                img: img_url,
-                title: item.Title,
-                artist: item.Artist,
-                albumTitle: item.AlbumTitle,
-                albunmArtist: item.SingerShow,
-                para: new MusicBoardParameter { AID = item.AID, SID = item.SID, SSID = item.SSID }));
+            var succeed = Service.InsertMusicItem(item);
             if (!succeed)
                 return;
-            Service.PlayAnyway();
             Service.PlayMoveTo();
             NavigateToBase?.Invoke(
-                null, 
+                null,
                 new MusicBoardParameter {
                     SID = item.SID,
                     SSID = item.SSID,
                     AID = item.AID,
                     FrameType = FrameType.UpContent
-                }, 
-                GetFrameInstance(FrameType.UpContent), 
+                },
+                GetFrameInstance(FrameType.UpContent),
                 GetPageType(NavigateType.MusicBoard));
         }
 

@@ -134,7 +134,11 @@ namespace Douban.UWP.NET {
                 LoginStatus = GlobalHelpers.GetLoginStatus(result);
                 Current.LoginUserBlock.Text = LoginStatus.UserName;
                 Current.LoginUserText.SetVisibility(false);
-                Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(new Uri(LoginStatus.APIUserinfos.LargeAvatar)) };
+                var succeed = Uri.TryCreate(LoginStatus.APIUserinfos.LargeAvatar, UriKind.Absolute, out var img_uri);
+                if(!succeed)
+                    succeed = Uri.TryCreate(LoginStatus.APIUserinfos.Avatar, UriKind.Absolute, out img_uri);
+                if(succeed)
+                    Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(img_uri) };
                 IsLogined = true;
             } catch {
                 SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
@@ -151,9 +155,9 @@ namespace Douban.UWP.NET {
         }
 
         private async void GetResourcesAsync() {
-            HasFMExtensions = await WindowsStoreHelpers.GetProductInfoAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
             NaviBarResouces.Source = HamburgerResList;
             await TryLoginAsync(true);
+            HasFMExtensions = await WindowsStoreHelpers.GetProductInfoAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
         }
 
         #endregion

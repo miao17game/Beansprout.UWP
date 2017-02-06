@@ -280,18 +280,28 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1004.* / 2017.2.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1005.* / 2017.2.7" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="紧急修复豆瓣首页API变动引发的地震😶" /><LineBreak/>
+                            <Run Text="紧急修复因API变动导致的推送报废..." /><LineBreak/>
+                            <Run Text="继续完善歌词面板的功能" /><LineBreak/>
+                            <Run Text="完成播放列表可视化，功能未完成" /><LineBreak/>
+                            <Run Text="强化了歌词面板的稳定性" /><LineBreak/>
+                            <Run Text="后续版本将不再支持10586，应用不再针对此维护" /><LineBreak/>
+                            <Run Text="微软推出新的API，只支持14393及后续Windows版本" /><LineBreak/>
+                            <Run Text="又改API，生气😡..." /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1004.2043 / 2017.2.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="目前可以播放，暂时看不到后台音乐列表" /><LineBreak/>
                             <Run Text="歌词同步和动画初步完成，尚需打磨" /><LineBreak/>
                             <Run Text="简单的音乐控制，大部分功能还在编写中" /><LineBreak/>
                             <Run Text="开放了豆瓣FM扩展包试用" /><LineBreak/>
                             <Run Text="被豆瓣封IP......今日休息🙄😶..." /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：2.1003.* / 2017.2.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1003.2030 / 2017.2.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="继续增强豆瓣FM扩展功能" /><LineBreak/>
                             <Run Text="开放了豆瓣FM扩展包获取的接口" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：2.1002.* / 2017.2.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1002.1461 / 2017.2.3" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="调整了音乐分页的视觉设计" /><LineBreak/>
                             <Run Text="在设置中加入扩展页面" /><LineBreak/>
                             <Run Text="预准备豆瓣FM和小组的本地化扩展接口" /><LineBreak/>

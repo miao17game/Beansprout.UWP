@@ -83,7 +83,7 @@
                                                Description="{x:Bind Description}" 
                                                ColumnName="{x:Bind ColumnName}" 
                                                LikersCount="{x:Bind LikersCount}"
-                                               CommentCount="{x:Bind CommentCount}" 
+                                               CommentCount="{x:Bind ReadCount}" 
                                                PicturesCount="{x:Bind PhotosCount}"
                                                MorePictures ="{Binding MorePictures, Converter={StaticResource IListToListConverter}}"
                                                ClickVisible="Collapsed"/>

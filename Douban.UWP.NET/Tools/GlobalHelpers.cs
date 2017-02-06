@@ -13,11 +13,17 @@ using Douban.UWP.NET.Resources;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Newtonsoft.Json.Linq;
+using Windows.Foundation;
+using Windows.UI.Core;
 
 namespace Douban.UWP.NET.Tools {
     public static class GlobalHelpers {
 
         #region Global methods
+
+        public static IAsyncAction UpdateUI(this CoreDispatcher dispatcher, DispatchedHandler handle) {
+            return dispatcher.RunAsync(CoreDispatcherPriority.Normal, handle);
+        }
 
         public static LoginStatusBag GetLoginStatus(HtmlAgilityPack.HtmlDocument doc) {
             var ima = doc.DocumentNode
