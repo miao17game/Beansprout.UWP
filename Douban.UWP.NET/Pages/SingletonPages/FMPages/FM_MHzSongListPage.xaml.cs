@@ -94,6 +94,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     SID = item.SID,
                     SSID = item.SSID,
                     AID = item.AID,
+                    SHA256 = item.SHA256,
                     FrameType = FrameType.UpContent
                 },
                 GetFrameInstance(FrameType.UpContent),

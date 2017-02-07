@@ -788,4 +788,10 @@
   <data name="Music_added" xml:space="preserve">
     <value>已添加到歌单末尾</value>
   </data>
+  <data name="Delete_Music_Failed" xml:space="preserve">
+    <value>移除播放列表失败</value>
+  </data>
+  <data name="Delete_Music_Successfully" xml:space="preserve">
+    <value>已从列表移除</value>
+  </data>
 </root>

@@ -10,6 +10,7 @@ namespace Douban.UWP.Core.Models.FMModels {
         public string SID { get; set; }
         public string SSID { get; set; }
         public string AID { get; set; }
+        public string SHA256 { get; set; }
 
     }
 }

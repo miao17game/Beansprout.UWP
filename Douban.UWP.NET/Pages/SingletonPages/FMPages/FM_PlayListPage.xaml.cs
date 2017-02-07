@@ -16,6 +16,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Douban.UWP.NET.Tools;
+using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
+using Douban.UWP.Core.Models.FMModels;
+using Douban.UWP.Core.Models;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -26,7 +29,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            ListResources.Source = Service.SongList;
+            this.DataContext = Service;
         }
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
@@ -34,19 +37,34 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            var item = e.ClickedItem as MHzSong;
+            if (item == null)
+                return;
+            var succeed = Service.InsertMusicItem(item);
+            if (!succeed)
+                return;
+            Service.PlayMoveTo();
+            NavigateToBase?.Invoke(
+                null,
+                new MusicBoardParameter {
+                    SID = item.SID,
+                    SSID = item.SSID,
+                    AID = item.AID,
+                    SHA256 = item.SHA256,
+                    FrameType = FrameType.UpContent
+                },
+                GetFrameInstance(FrameType.UpContent),
+                GetPageType(NavigateType.MusicBoard));
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e) {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void LikeButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private void DeleteButton_Click(object sender, RoutedEventArgs e) {
+            var succeed = Service.RemovePlaybackItem((sender as Button).CommandParameter as MHzSong);
+            if (!succeed)
+                ReportHelper.ReportAttentionAsync(GetUIString("Delete_Music_Failed"));
         }
     }
 }

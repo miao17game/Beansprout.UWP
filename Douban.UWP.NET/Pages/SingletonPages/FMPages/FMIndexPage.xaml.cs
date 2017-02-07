@@ -129,19 +129,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         const string api_key = "02f7751a55066bcb08e65f4eff134361";
         #endregion
 
-        private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as ChannelsItem;
             if (item == null)
                 return;
-            //NavigateToBase?.Invoke(
-            //    null,
-            //    new MHzParameter {
-            //        SerializedParameter = JsonHelper.ToJson(item),
-            //        FrameType = FrameType.Content,
-            //        Type = MHzListType.MHzRecommand
-            //    },
-            //    GetFrameInstance(FrameType.Content),
-            //    GetPageType(NavigateType.FM_MHzList));
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private async Task<MHzListGroup> InitListResourcesAsync(int list_id) {

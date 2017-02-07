@@ -31,7 +31,7 @@
                         <ListView Grid.Row="1" ItemsSource="{Binding CHLS}"
                                   SelectionMode="None" IsItemClickEnabled="True" 
                                   ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}"
-                                  ItemClick="GridView_ItemClick" Margin="0">
+                                  ItemClick="ListView_ItemClick" Margin="0">
                             <ListView.ItemTemplate>
                                 <DataTemplate x:DataType="model:ChannelsItem">
                                     <Grid Background="{ThemeResource DoubanBackground04}" 

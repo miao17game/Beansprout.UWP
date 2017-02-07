@@ -17,6 +17,7 @@ using Douban.UWP.Core.Models.FMModels;
 using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
 using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
+using System.Collections.ObjectModel;
 
 namespace Douban.UWP.NET.Tools {
     public class DoubanMusicService : ViewModelBase {
@@ -43,6 +44,8 @@ namespace Douban.UWP.NET.Tools {
             CacheItems.Add(newItem);
             if (CacheItems.Count <= CacheMax)
                 return;
+            if (CacheItems.ToList().Exists(i => i.Source.CustomProperties["SHA256"] as string == newItem.Source.CustomProperties["SHA256"] as string))
+                return;
             CacheItems[0].Source.Reset();
             CacheItems.RemoveAt(0);
         }
@@ -67,14 +70,71 @@ namespace Douban.UWP.NET.Tools {
         public int InsertMusicItem(MediaPlaybackItem musicItem, int index = -1) {
             bool succeed = true;
             if (index < 0)
-                _playlist.Items.Add(musicItem);
-            else if (_playlist.Items.Count > index)
-                _playlist.Items.Insert(index, musicItem);
-            else if (_playlist.Items.Count == index)
-                _playlist.Items.Add(musicItem);
+                PlayList.Items.Add(musicItem);
+            else if (PlayList.Items.Count > index)
+                PlayList.Items.Insert(index, musicItem);
+            else if (PlayList.Items.Count == index)
+                PlayList.Items.Add(musicItem);
             else
                 succeed = false;
-            return succeed ? currentInsert = (index >= 0 ? index : (_playlist.Items.Count - 1)) : -1;
+            return succeed ? currentInsert = (index >= 0 ? index : (PlayList.Items.Count - 1)) : -1;
+        }
+
+        public bool IsExistPlayItem(MediaPlaybackItem musicItem) {
+            var find_index = PlayList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
+            return find_index == -1 ? false : true;
+        }
+
+        public bool IsExistPlayItem(MHzSong song) {
+            var find_index = SongList.ToList().FindIndex(i => i.SHA256 == song.SHA256);
+            return find_index == -1 ? false : true;
+        }
+
+        public MediaPlaybackItem SelectItemBySHA256(string sha256) {
+            return PlayList.Items.ToList().Find(i => i.Source.CustomProperties["SHA256"] as string == sha256);
+        }
+
+        public MHzSong SelectSongItemBySHA256(string sha256) {
+            return SongList.ToList().Find(i => i.SHA256 == sha256);
+        }
+
+        public bool IsCurrentItem(MHzSong song) {
+            var item = SelectItemBySHA256(song.SHA256);
+            if (item == null)
+                return false;
+            return IsCurrentItem(item);
+        }
+
+        public bool IsCurrentItem(MediaPlaybackItem musicItem) {
+            return PlayList.CurrentItem == musicItem;
+        }
+
+        public bool RemovePlaybackItem(MHzSong song) {
+            var item = SelectItemBySHA256(song.SHA256);
+            if (item == null)
+                return false;
+            if (IsCurrentItem(item))
+                return false;
+            var succeed = PlayList.Items.Remove(item);
+            if (!succeed)
+                return succeed;
+            succeed = SongList.Remove(song);
+            RaisePropertyChanged("SongList");
+            return succeed;
+        }
+
+        public bool RemovePlaybackItem(MediaPlaybackItem item) {
+            if (IsCurrentItem(item))
+                return false;
+            var succeed = PlayList.Items.Remove(item);
+            if (!succeed)
+                return succeed;
+            var song = SelectSongItemBySHA256(item.Source.CustomProperties["SHA256"] as string);
+            if (song == null)
+                return false;
+            succeed = SongList.Remove(song);
+            RaisePropertyChanged("SongList");
+            return succeed;
         }
 
         #endregion
@@ -84,9 +144,9 @@ namespace Douban.UWP.NET.Tools {
                 if (PlayList.CurrentItem == PlayList.Items[currentInsert])
                     return;
                 else
-                    _playlist.MoveTo((uint)currentInsert);
+                    PlayList.MoveTo((uint)currentInsert);
             } else
-                _playlist.MoveTo((uint)index);
+                PlayList.MoveTo((uint)index);
             PlayAnyway();
         }
 
@@ -94,7 +154,7 @@ namespace Douban.UWP.NET.Tools {
             if (PlayList.CurrentItem == item)
                 return;
             var index = PlayList.Items.ToList().FindIndex(i=>i==item);
-            _playlist.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
+            PlayList.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
             PlayAnyway();
         }
 
@@ -161,8 +221,8 @@ namespace Douban.UWP.NET.Tools {
 
         #region Binding properties
 
-        IList<MHzSong> _songList;
-        public IList<MHzSong> SongList { get { return _songList ?? (_songList = new List<MHzSong>()); } }
+        ObservableCollection<MHzSong> _songList;
+        public ObservableCollection<MHzSong> SongList { get { return _songList ?? (_songList = new ObservableCollection<MHzSong>()); } }
 
         #endregion
 
@@ -189,13 +249,14 @@ namespace Douban.UWP.NET.Tools {
                 artist: song.Artist,
                 albumTitle: song.AlbumTitle,
                 albunmArtist: song.SingerShow,
-                para: MusicIsCurrent = new MusicBoardParameter { AID = song.AID, SID = song.SID, SSID = song.SSID });
+                para: MusicIsCurrent = new MusicBoardParameter { AID = song.AID, SID = song.SID, SSID = song.SSID, SHA256 = song.SHA256 });
         }
 
         public static MediaPlaybackItem CreatePlayItem(Uri uri, Uri img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
             var source = MediaSource.CreateFromUri(uri);
             source.CustomProperties["Title"] = title;
             source.CustomProperties["CheckPoint"] = SetCheckPoint(UTCPoint);
+            source.CustomProperties["SHA256"] = para.SHA256;
             source.CustomProperties["Message"] = para;
             var item = new MediaPlaybackItem(source);
             var properties = item.GetDisplayProperties();

@@ -2,7 +2,7 @@
     x:Class="Douban.UWP.NET.Pages.SingletonPages.FMPages.FM_PlayListPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Douban.UWP.NET.Pages.SingletonPages.FMPages"
+    xmlns:src="using:Douban.UWP.NET.Tools"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:model="using:Douban.UWP.Core.Models.FMModels.MHzSongListModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
@@ -10,13 +10,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Page.Resources>
-        <CollectionViewSource x:Name="ListResources"/>
-    </Page.Resources>
-
     <Grid Background="{ThemeResource DoubanBackground04}">
 
-        <ListView Name="IndexList" ItemsSource="{Binding Source={StaticResource ListResources}}"
+        <ListView Name="IndexList" ItemsSource="{Binding SongList}"
                       ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
                       IsItemClickEnabled="True" SelectionMode="Single" 
                       RelativePanel.AlignLeftWithPanel="True" 
@@ -77,13 +73,6 @@
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
-                            <Button Click="AddButton_Click" 
-                                        CommandParameter="{Binding}" 
-                                        Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
-                                        FontSize="16" 
-                                        Content="&#xE109;" 
-                                        Margin=" 5"
-                                        Foreground="#80808080"/>
                             <Button Click="PlayButton_Click" 
                                         CommandParameter="{Binding Url}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
@@ -91,11 +80,11 @@
                                         Content="&#xE896;" 
                                         Margin=" 5"
                                         Foreground="#80808080"/>
-                            <Button Click="LikeButton_Click" 
-                                        CommandParameter="{Binding Url}" 
+                            <Button Click="DeleteButton_Click" 
+                                        CommandParameter="{Binding}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
-                                        Content="&#xEB52;" 
+                                        Content="&#xE107;" 
                                         Margin=" 5,5,10,5"
                                         Foreground="#80808080"/>
                         </StackPanel>

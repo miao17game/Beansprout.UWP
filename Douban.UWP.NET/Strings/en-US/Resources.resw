@@ -789,4 +789,10 @@
   <data name="Music_added" xml:space="preserve">
     <value>Is added to the end of the list.</value>
   </data>
+  <data name="Delete_Music_Failed" xml:space="preserve">
+    <value>Removing failed.</value>
+  </data>
+  <data name="Delete_Music_Successfully" xml:space="preserve">
+    <value>Removed.</value>
+  </data>
 </root>
