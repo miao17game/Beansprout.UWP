@@ -4855,7 +4855,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     <Style x:Key="MainPageNewDefaultSlider" TargetType="Slider">
-        <Setter Property="Foreground" Value="{ThemeResource AppPersonalTextColorSpecial02}" />
+        <Setter Property="Foreground" Value="{ThemeResource DoubanTextColor01}" />
         <Setter Property="Background" Value="{ThemeResource DoubanShadow01}" />
         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />

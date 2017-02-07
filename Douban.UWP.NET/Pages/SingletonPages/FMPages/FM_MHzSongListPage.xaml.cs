@@ -56,7 +56,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
             var scroll = GlobalHelpers.GetScrollViewer(IndexList);
-            scroll.ViewChanged += ScrollViewerChangedForSongHead;
+            scroll.ViewChanged += ScrollViewerChangedForSongHeadAsync;
         }
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e) {
@@ -121,7 +121,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
                 content: new Windows.Web.Http.HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
                     new KeyValuePair<string, string>( "version", "644" ),
-                    new KeyValuePair<string, string>( "kbps", "64" ),
+                    new KeyValuePair<string, string>( "kbps", "320" ),
                     new KeyValuePair<string, string>( "app_name", "radio_android" ),
                     new KeyValuePair<string, string>( "apikey", APIKey ),
                 }));
@@ -146,7 +146,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             } catch { } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
-        private void SetListHeader(Core.Models.FMModels.MHzSongListModels.MHzSongList song_list) {
+        private void SetListHeader(MHzSongList song_list) {
             try {
                 var succeed = Uri.TryCreate(song_list.Cover, UriKind.Absolute, out var img_cover);
                 TitleBackImage.Source = succeed ? new Windows.UI.Xaml.Media.Imaging.BitmapImage(img_cover) : null;
@@ -160,7 +160,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             } catch { /* Ingore */ }
         }
 
-        private async void ScrollViewerChangedForSongHead(object sender, ScrollViewerViewChangedEventArgs e) {
+        private async void ScrollViewerChangedForSongHeadAsync(object sender, ScrollViewerViewChangedEventArgs e) {
             var scroll = sender as ScrollViewer;
             try {
                 if (scroll.VerticalOffset <= 30)

@@ -160,6 +160,9 @@
     <Compile Include="Pages\SingletonPages\FMPages\FMPage.xaml.cs">
       <DependentUpon>FMPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FM_LrcChoosePage.xaml.cs">
+      <DependentUpon>FM_LrcChoosePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SingletonPages\FMPages\FM_PlayListPage.xaml.cs">
       <DependentUpon>FM_PlayListPage.xaml</DependentUpon>
     </Compile>
@@ -401,6 +404,10 @@
     <Page Include="Pages\SingletonPages\FMPages\FMPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FM_LrcChoosePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\SingletonPages\FMPages\FM_PlayListPage.xaml">
       <SubType>Designer</SubType>

@@ -52,6 +52,13 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="CDGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,120</Setter.Value>
+                        </Setter>
+                        <Setter Target="CDImage.(FrameworkElement.Height)" Value="240"/>
+                        <Setter Target="CDImage.(FrameworkElement.Width)" Value="240"/>
+                        <Setter Target="CDCenter.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="CDCenter.(FrameworkElement.Width)" Value="70"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -73,6 +80,13 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="CDGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,120</Setter.Value>
+                        </Setter>
+                        <Setter Target="CDImage.(FrameworkElement.Height)" Value="360"/>
+                        <Setter Target="CDImage.(FrameworkElement.Width)" Value="360"/>
+                        <Setter Target="CDCenter.(FrameworkElement.Height)" Value="90"/>
+                        <Setter Target="CDCenter.(FrameworkElement.Width)" Value="90"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -119,19 +133,90 @@
                                                 AutomaticallyStart="True"/>
             </interactivity:Interaction.Behaviors>
         </Image>
-        <Rectangle Fill="#50808080"/>
+        <Rectangle Fill="#60404040"/>
 
-        <Canvas x:Name="LrcCanvas" 
+        <Grid Name="CDGrid" Margin="0,70,0,120">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Border Name="CDBorder" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    CornerRadius="300" Background="#30FFFFFF" >
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
+                      Background="#EFEFEF" CornerRadius="300" Margin="10" Padding="5">
+                    <Ellipse Name="CDImage" Width="500" Height="500" SizeChanged="CDImage_SizeChanged">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding BackImage}" Stretch="UniformToFill"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <Rectangle RadiusX="300" RadiusY="300">
+                        <Rectangle.Fill>
+                            <LinearGradientBrush>
+                                <GradientStopCollection>
+                                    <GradientStop Offset="0.0" Color="#80000000"/>
+                                    <GradientStop Offset="1.0" Color="#00000000"/>
+                                </GradientStopCollection>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Button Name="CDClickButton" Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            Background="Transparent" Click="CDClickButton_Click"/>
+                    <Grid Name="CDCenter" Width="130" Height="130">
+                        <Ellipse Fill="#303030"/>
+                        <Ellipse Margin="5" Fill="#383838" />
+                        <Ellipse Margin="10" Fill="#3E3E3E" />
+                        <Ellipse Margin="15" Fill="White"/>
+                        <Ellipse Margin="17.5" Fill="#EEEEEE"/>
+                        <Rectangle Width="0.5" Height="6.5" Fill="Red" VerticalAlignment="Top" Margin="0,20,0,0"/>
+                        <Ellipse Width="2" Height="2" Fill="#DDDDDD"/>
+                    </Grid>
+                </Grid>
+            </Border>
+            <Grid Margin="10,10,10,20" Grid.Row="1" MaxWidth="400">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name="LikeButton" Grid.Column="0"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xEB52;" FontSize="24" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="LikeButton_Click"/>
+                <Button Name="DownloadButton" Grid.Column="1"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xE896;" FontSize="24" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="DownloadButton_Click"/>
+                <Button Name="LrcButton" Grid.Column="2"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xED5E;" FontSize="24" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="LrcButton_Click"/>
+                <Button Name="FlowButton" Grid.Column="3"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Content="&#xE10C;" FontSize="24" FontWeight="Bold" 
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
+                    Foreground="White" Click="FlowButton_Click"/>
+            </Grid>
+        </Grid>
+
+        <Canvas x:Name="LrcCanvas" Visibility="Collapsed"
                 SizeChanged="LrcCanvas_SizeChanged" 
                 Loaded="LrcCanvas_Loaded">
             <controls:LrcListView x:Name="LrcListView" 
-				Canvas.Left="0" 
-				Canvas.Top="230"
-				ItemsSource="{Binding LrcList}" 
-				SelectedItem="{Binding Selected, Mode=TwoWay}"
-				ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
-				Width="{Binding ActualWidth, ElementName=LrcCanvas, Mode=OneWay}"
-				SelectionChanged="LrcListView_SelectionChanged" >
+                                  Canvas.Left="0" 
+                                  Canvas.Top="230"
+                                  ItemsSource="{Binding LrcList}" 
+                                  SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                                  Width="{Binding ActualWidth, ElementName=LrcCanvas, Mode=OneWay}"
+                                  SelectionChanged="LrcListView_SelectionChanged" 
+                                  IsItemClickEnabled="True"
+                                  SelectionMode="None"
+                                  ItemClick="LrcListView_ItemClick">
                 <interactivity:Interaction.Behaviors>
                     <behaviors:Blur x:Name="BlurBehavior4"
                                                 Value="0.3"
@@ -185,8 +270,10 @@
                     Maximum="{Binding Duration, Converter={StaticResource TimeSpanConverter}}" 
                     Grid.ColumnSpan="5" ValueChanged="MusicSlider_ValueChanged"
                     Margin="10,0,10,0" VerticalAlignment="Center" 
+                    Foreground="#DDFFFFFF"
                     Style="{StaticResource MainPageNewDefaultSlider}">
             </Slider>
+            <Ellipse  Width="60" Height="60" Fill="#10000000" Grid.Row="1" Grid.Column="2"/>
             <Button Name="PlayPauseButton" Grid.Row="1" Grid.Column="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Content="&#xE768;" FontSize="40" FontWeight="Bold" 
@@ -194,12 +281,12 @@
                     Foreground="White" Click="PlayPauseButton_Click"/>
             <Button Name="PreviousButton" Grid.Row="1" Grid.Column="1"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    Content="&#xE892;" FontSize="30" FontWeight="Bold" 
+                    Content="&#xE892;" FontSize="30" FontWeight="Thin" 
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
                     Foreground="White" Click="PreviousButton_Click"/>
             <Button Name="NextButton" Grid.Row="1" Grid.Column="3"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                    Content="&#xE893;" FontSize="30" FontWeight="Bold" 
+                    Content="&#xE893;" FontSize="30" FontWeight="Thin" 
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
                     Foreground="White" Click="NextButton_Click"/>
             <Button Name="RandomButton" Grid.Row="1" Grid.Column="0"

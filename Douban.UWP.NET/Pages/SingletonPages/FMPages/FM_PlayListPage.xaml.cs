@@ -30,7 +30,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {

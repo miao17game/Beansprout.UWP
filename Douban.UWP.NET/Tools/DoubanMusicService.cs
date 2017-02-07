@@ -23,8 +23,6 @@ namespace Douban.UWP.NET.Tools {
 
         public DoubanMusicService() {
             Player.Source = PlayList;
-            PlayList.AutoRepeatEnabled = false;
-            PlayList.ShuffleEnabled = false;
             PlayList.CurrentItemChanged += OnCurrentItemChangedAsync;
             Player.MediaEnded += OnMediaEnded;
             var type = SettingsHelper.ReadSettingsValue(SettingsSelect.BackPlayType);
@@ -34,13 +32,14 @@ namespace Douban.UWP.NET.Tools {
             this.InitPlayStyle(PlayType);
         }
 
+        #region SongList Methods
+
         private void OnCurrentItemChangedAsync(MediaPlaybackList sender, CurrentMediaPlaybackItemChangedEventArgs args) {
             var newItem = args.NewItem;
             if (newItem == null)
                 return;
             if (newItem.Source.CustomProperties["Message"] is MusicBoardParameter para)
                 MusicIsCurrent = para;
-            CurrentPlayItem = newItem;
             CacheItems.Add(newItem);
             if (CacheItems.Count <= CacheMax)
                 return;
@@ -49,11 +48,15 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private void OnMediaEnded(MediaPlayer sender, object args) {
-            if (SingletonPlay)
-                PlayMoveTo(CurrentPlayItem);
+
         }
 
         public bool InsertMusicItem(MHzSong song, int index = -1) {
+            var find_index = SongList.ToList().FindIndex(i => i.SHA256 == song.SHA256);
+            if (find_index != -1) {
+                currentInsert = find_index;
+                return true;
+            }
             var item = MusicServiceHelper.CreatePlayItem(song);
             var retuenIndex =  InsertMusicItem(item, index);
             SongList.Insert(retuenIndex, song);
@@ -74,12 +77,22 @@ namespace Douban.UWP.NET.Tools {
             return succeed ? currentInsert = (index >= 0 ? index : (_playlist.Items.Count - 1)) : -1;
         }
 
+        #endregion
+
         public void PlayMoveTo(int index = -1) {
-            _playlist.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
+            if (index < 0) {
+                if (PlayList.CurrentItem == PlayList.Items[currentInsert])
+                    return;
+                else
+                    _playlist.MoveTo((uint)currentInsert);
+            } else
+                _playlist.MoveTo((uint)index);
             PlayAnyway();
         }
 
         public void PlayMoveTo(MediaPlaybackItem item) {
+            if (PlayList.CurrentItem == item)
+                return;
             var index = PlayList.Items.ToList().FindIndex(i=>i==item);
             _playlist.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
             PlayAnyway();
@@ -99,6 +112,17 @@ namespace Douban.UWP.NET.Tools {
             Player.Play();
         }
 
+        public bool ResetPlayer() {
+            try {
+                _player.Pause();
+                _player.Source = null;
+                _player.MediaEnded -= OnMediaEnded;
+                _player.Dispose();
+                _player = new MediaPlayer();
+                return true;
+            } catch { return false; }
+        }
+
         #region
 
         int currentInsert;
@@ -108,23 +132,30 @@ namespace Douban.UWP.NET.Tools {
 
         public MediaPlaybackSession Session { get { return Player.PlaybackSession; } }
 
+        #region PlayBackList
+
         MediaPlaybackList _playlist;
         public MediaPlaybackList PlayList { get { return _playlist ?? (_playlist = new MediaPlaybackList()); } }
+
+        MediaPlaybackList _mhzlist;
+        public MediaPlaybackList MHzList { get { return _mhzlist ?? (_mhzlist = new MediaPlaybackList()); } }
+
+        #endregion
 
         IList<MediaPlaybackItem> _cachelist;
         IList<MediaPlaybackItem> CacheItems { get { return _cachelist ?? (_cachelist = new List<MediaPlaybackItem>()); } }
 
-        public bool SingletonPlay { get; set; }
+        public bool SingletonPlay { get { return Player.IsLoopingEnabled; } set { Player.IsLoopingEnabled = value; } }
 
         public MusicServicePlayType PlayType { get; set; }
+
+        public MusicServiceType ServiceType { get; set; }
 
         uint _cacheMax = 5;
         public uint CacheMax {
             get { return _cacheMax; }
             set { _cacheMax = value; }
         }
-
-        MediaPlaybackItem CurrentPlayItem { get; set; }
 
         #endregion
 
@@ -139,9 +170,13 @@ namespace Douban.UWP.NET.Tools {
 
     public enum MusicServicePlayType { StreamPlay, AutoRepeat, SingletonPlay, ShufflePlay }
 
+    public enum MusicServiceType { MHz, SongList }
+
     public static class MusicServiceHelper{
 
         public static DateTime UTCPoint { get { return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc); } }
+
+        #region Create Playback Item
 
         public static MediaPlaybackItem CreatePlayItem(MHzSong song) {
             var succeed_img = Uri.TryCreate(song.Picture, UriKind.Absolute, out var img_url);
@@ -202,7 +237,32 @@ namespace Douban.UWP.NET.Tools {
             return CreatePlayItem(new Uri(url), new Uri(img), para);
         }
 
-        public static void ChangeEachChoice(this DoubanMusicService service, bool shuffle, bool autoRepeat, bool singleton) {
+        #endregion
+
+        #region MHz Extensions
+
+        public static void ChangeServiceChoice(this DoubanMusicService service, bool is_mhz) {
+            var succeed = service.ResetPlayer();
+            if (succeed)
+                service.Player.Source = is_mhz ? service.MHzList : service.PlayList;
+        }
+
+        public static void InitServiceStyle(this DoubanMusicService service, MusicServiceType type) {
+            switch (type) {
+                case MusicServiceType.MHz:
+                    service.ChangeServiceChoice(true);
+                    break;
+                case MusicServiceType.SongList:
+                    service.ChangeServiceChoice(false);
+                    break;
+            }
+        }
+
+        #endregion
+
+        #region SongList Extensions
+
+        public static void ChangePlayChoice(this DoubanMusicService service, bool shuffle, bool autoRepeat, bool singleton) {
             service.PlayList.ShuffleEnabled = shuffle;
             service.PlayList.AutoRepeatEnabled = autoRepeat;
             service.SingletonPlay = singleton;
@@ -211,16 +271,16 @@ namespace Douban.UWP.NET.Tools {
         public static void InitPlayStyle(this DoubanMusicService service, MusicServicePlayType type) {
             switch (type) {
                 case MusicServicePlayType.ShufflePlay:
-                    service.ChangeEachChoice(true, true, false);
+                    service.ChangePlayChoice(true, true, false);
                     break;
                 case MusicServicePlayType.AutoRepeat:
-                    service.ChangeEachChoice(false, true, false);
+                    service.ChangePlayChoice(false, true, false);
                     break;
                 case MusicServicePlayType.SingletonPlay:
-                    service.ChangeEachChoice(false, false, false);
+                    service.ChangePlayChoice(false, false, false);
                     break;
                 default:
-                    service.ChangeEachChoice(false, false, false);
+                    service.ChangePlayChoice(false, false, false);
                     break;
             }
         }
@@ -229,24 +289,26 @@ namespace Douban.UWP.NET.Tools {
             var returns = default(MusicServicePlayType);
             switch (service.PlayType) {
                 case MusicServicePlayType.ShufflePlay:
-                    service.ChangeEachChoice(false, false, false);
+                    service.ChangePlayChoice(false, false, false);
                     returns = service.PlayType = MusicServicePlayType.StreamPlay;
                     break;
                 case MusicServicePlayType.AutoRepeat:
-                    service.ChangeEachChoice(true, true, false);
+                    service.ChangePlayChoice(true, true, false);
                     returns = service.PlayType = MusicServicePlayType.ShufflePlay;
                     break;
                 case MusicServicePlayType.SingletonPlay:
-                    service.ChangeEachChoice(false, true, false);
+                    service.ChangePlayChoice(false, true, false);
                     returns = service.PlayType = MusicServicePlayType.AutoRepeat;
                     break;
                 default:
-                    service.ChangeEachChoice(false, false, true);
+                    service.ChangePlayChoice(false, false, true);
                     returns = service.PlayType = MusicServicePlayType.SingletonPlay;
                     break;
             }
             return returns;
         }
+
+        #endregion
 
     }
 

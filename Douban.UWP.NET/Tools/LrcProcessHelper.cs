@@ -13,12 +13,26 @@ using System.Threading.Tasks;
 using Windows.UI;
 
 namespace Douban.UWP.NET.Tools {
+
+    public class LrcMetaData {
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string[] Alias { get; set; }
+        public double Popularity { get; set; }
+
+        public string AliasShow { get { return string.Join("/", Alias); } }
+
+    }
+
     public static class LrcProcessHelper {
 
-        public static async Task<IList<LrcInfo>> ReadLRCFromWebAsync(string FileName, string Artist, Color TextColor) {
+        const string urlSongInfor = "http://music.163.com/api/search/pc"; /// POST地址
+        const string urlLrcInfor = "http://music.163.com/api/song/media?id={0}";
+
+        public static async Task<IList<LrcInfo>> ReadLRCFromWebAsync(string FileName, string Artist, Color TextColor, string lrcString = null) {
             IList<LrcInfo> lrcList = new List<LrcInfo>();
             try {
-                var lrcFileString = await GetSongLrcStringFromYunFluentlyAsync(FileName, Artist);
+                var lrcFileString = lrcString ?? await GetSongLrcStringFromYunFluentlyAsync(FileName, Artist);
                 if (string.IsNullOrEmpty(lrcFileString)) 
                     return null;
                 else
@@ -29,25 +43,33 @@ namespace Douban.UWP.NET.Tools {
             return lrcList;
         }
 
+        public static async Task<IEnumerable<LrcMetaData>> GetSongMessageListAsync(string FileName, string Artist) {
+            var url = string.Format(urlSongInfor, FileName, Artist); /// url地址
+            return await GetPostReturnMessageAsync(url, FileName, Artist); /// 获取歌曲信息
+        }
+
         public static async Task<string> GetSongLrcStringFromYunFluentlyAsync(string FileName, string Artist) {
-            string urlSongInfor = "http://music.163.com/api/search/pc"; /// POST地址
-            string urlLrcInfor = "http://music.163.com/api/song/media?id={0}";
-            urlSongInfor = string.Format(urlSongInfor, FileName, Artist); /// url地址
-            string[] content = await GetPostReturnMessageAsync(urlSongInfor, FileName, Artist); /// 获取歌曲信息
+            var content = await GetSongMessageListAsync(FileName, Artist);
             if (content == null)
                 return null;
-            int songCount = content.Length;
-            string MuiscId = content[0];
-            urlLrcInfor = string.Format(urlLrcInfor, MuiscId);
-            var jSonLrcString = await GetContentFluentlyAsync(urlLrcInfor);
+            int songCount = content.Count();
+            string MuiscId = content.ToArray()[0].ID;
+            var jSonLrcString = await FetchLrcByIdAsync(MuiscId);
             if (string.IsNullOrEmpty(jSonLrcString))
                 return null;
             try {
-                JObject jo = JObject.Parse(jSonLrcString);
-                var pp01 = jo["lyric"];
-                var contentAll = pp01.ToString();
-                return contentAll;
+                var jo = JObject.Parse(jSonLrcString);
+                return (string)jo["lyric"];
             } catch (InvalidOperationException IOE) { Debug.WriteLine("INVALID_EXEPTION" + IOE.Message.ToString()); return null; }
+        }
+
+        public static async Task<string> FetchLrcByIdAsync(string MuiscId) {
+            var lrc_url = string.Format(urlLrcInfor, MuiscId);
+            try {
+                var jSonLrcString = await GetContentFluentlyAsync(lrc_url);
+                var jo = JObject.Parse(jSonLrcString);
+                return (string)jo["lyric"];
+            } catch { return null; }
         }
 
         private static async Task<string> GetContentFluentlyAsync(string url) {
@@ -67,8 +89,8 @@ namespace Douban.UWP.NET.Tools {
             return LrcStringBuider.ToString();
         }
 
-        public static async Task<string[]> GetPostReturnMessageAsync(string url, string FileName, string Artist) {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        public static async Task<IEnumerable<LrcMetaData>> GetPostReturnMessageAsync(string url, string FileName, string Artist) {
+            var request = (HttpWebRequest)WebRequest.Create(url);
             request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.Headers[HttpRequestHeader.Referer] = "http://music.163.com/";
@@ -78,18 +100,23 @@ namespace Douban.UWP.NET.Tools {
             request.Headers[HttpRequestHeader.ContentLength] = Convert.ToString(postData.Length);
             var requestStream = await request.GetRequestStreamAsync();
             requestStream.Write(postData, 0, postData.Length);
-            HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync();
-            var responseStream = response.GetResponseStream();
-            StreamReader streamReader = new StreamReader(responseStream, Encoding.UTF8);
-            string retString = streamReader.ReadToEnd();
-            streamReader.Dispose();
-            responseStream.Dispose();
-            try {
-                JObject jo = JObject.Parse(retString);
-                var songs = jo["result"]["songs"];
-                var ids = from singleton in songs.Children() select (string)singleton["id"];
-                return ids.ToArray();
-            } catch (InvalidOperationException IOE) { Debug.WriteLine(IOE.Message.ToString()); return null; }
+            using(var response = (HttpWebResponse)await request.GetResponseAsync()) {
+                using (var responseStream = response.GetResponseStream()) {
+                    using (var streamReader = new StreamReader(responseStream, Encoding.UTF8)) {
+                        string retString = streamReader.ReadToEnd();
+                        try {
+                            var jo = JObject.Parse(retString);
+                            var songs = jo["result"]["songs"];
+                            return songs.Children().Select(item => new LrcMetaData {
+                                ID = (string)item["id"],
+                                Name = (string)item["name"],
+                                Alias = item["alias"].Children().Select(i => i.Value<string>()).ToArray(),
+                                Popularity = (double)item["popularity"],
+                            });
+                        } catch (InvalidOperationException IOE) { Debug.WriteLine(IOE.Message.ToString()); return null; }
+                    }
+                }
+            }
         }
 
         public static void ReadFromLrcStringFluently9Number(Color TextColor, string lrcFileString, IList<LrcInfo> lrcListOld) {
@@ -125,7 +152,7 @@ namespace Douban.UWP.NET.Tools {
                 for (int turn = 0; turn < max - 1; turn++) {
                     LrcInfo mLrcContent = new LrcInfo();
                     try {
-                        mLrcContent.LrcString = splitLrcData[max - 1].Replace("\n","");
+                        mLrcContent.LrcString = splitLrcData[max - 1].Replace(@"\n"," ");
                         if (Is2time)
                             mLrcContent.LrcTime = Time2Str(splitLrcData[turn]);
                         else

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using Douban.UWP.NET.Tools;
 
 namespace Douban.UWP.NET.Models {
-    class VisualBoardVM :  ViewModelBase {
+    public class VisualBoardVM :  ViewModelBase {
 
         #region Fields
         private Color TextColor;
