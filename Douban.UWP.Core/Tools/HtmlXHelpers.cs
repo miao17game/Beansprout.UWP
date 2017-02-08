@@ -21,7 +21,7 @@ namespace Douban.UWP.Core.Tools {
             return CreateCss(@"
                 body{
                 font-family:Segoe UI;
-                font-size:" + (UWPStates.IsMobile ? "10" : "16") + @"px;
+                font-size:" + (UWPStates.IsMobile ? "13" : "16") + @"px;
                 background: #" + (isGlobalDark ? "202020" : "fff") + @";
                 color: #" + (isGlobalDark ? "fff" : "202020") + @";
                 }

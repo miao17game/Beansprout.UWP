@@ -90,6 +90,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var succeed = Service.InsertItem(item);
             if (!succeed)
                 return;
+            if (MainUpContentFrame.Content != null)
+                (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
             Service.SongListMoveTo();
             NavigateToBase?.Invoke(
                 null,

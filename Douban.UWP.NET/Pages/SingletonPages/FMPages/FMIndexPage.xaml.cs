@@ -29,6 +29,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
     public sealed partial class FMIndexPage : Page {
         public FMIndexPage() {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
@@ -49,7 +50,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
             var list = GroupsInit(result);
             ListResources.Source = list;
-            Service.Player.MediaEnded += OnMediaEndedAsync;
         }
 
         #region Main List Resources
@@ -140,7 +140,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var song = await InsertSongsToMHzListAsync();
             if (song == null)
                 return;
+            if (MainUpContentFrame.Content != null)
+                (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
             Service.MHzListMoveTo(song);
+            Service.ActionForMHz = GetNewMHzEachTurnAsync;
             NavigateToBase?.Invoke(
                 null,
                 new MusicBoardParameter {
@@ -154,51 +157,22 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 GetPageType(NavigateType.MusicBoard));
         }
 
-        private async void OnMediaEndedAsync(MediaPlayer sender, object args) {
-            await Dispatcher.UpdateUI(async ()=> {
-                if(Service.FindMHzItemIndex(Service.MHzList.CurrentItem) == Service.MHzList.Items.Count - 1) {
-                    var song = await InsertSongsToMHzListAsync();
-                    if (song == null)
-                        return;
-                }
-                Service.MoveNextAnyway();
-            });
+        private async void GetNewMHzEachTurnAsync() {
+            if (Service.FindMHzItemIndex(Service.MHzList.CurrentItem) == Service.MHzList.Items.Count - 1) {
+                var song = await InsertSongsToMHzListAsync();
+                if (song == null)
+                    return;
+            }
+            Service.MoveNextAnyway();
         }
 
         private async Task<MHzSongBase> InsertSongsToMHzListAsync() {
-            var songs = await FetchMHzSongsAsync(Service.MHzChannelID);
-            if (songs .Count == 0)
+            var songs = await MHzListGroupHelper.FetchMHzSongsAsync(Service.MHzChannelID, api_key, bearer);
+            if (songs == null || songs.Count == 0)
                 return null;
-            System.Diagnostics.Debug.WriteLine(songs.Count);
             songs.ToList().ForEach(song => Service.InsertItem(song));
             return songs[0];
         } 
-
-        private async Task<IList<MHzSongBase>> FetchMHzSongsAsync(int list_id) {
-            var result = await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: $"{"https://"}api.douban.com/v2/fm/playlist?channel={list_id}&formats=null&from=&type=n&version=644&start=0&app_name=radio_android&limit=10&apikey={APIKey}",
-                host: "api.douban.com",
-                reffer: null,
-                bearer: bearer,
-                userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
-            try {
-                var jo = JObject.Parse(result);
-                var songs = jo["song"];
-                var group = MHzListGroupHelper.CreateDefaultListGroup(jo);
-                if (songs != null && songs.HasValues) {
-                    songs.Children().ToList().ForEach(jo_song => {
-                        try {
-                            var song = MHzListGroupHelper.CreateDefaultSongInstance(jo_song);
-                            MHzListGroupHelper.AddSingerEachOne(song, jo_song["singers"]);
-                            MHzListGroupHelper.AddRelease(song, jo_song["release"]);
-                            group.Songs.Add(song);
-                        } catch { /* Ingore */ }
-                    });
-                }
-                return group.Songs;
-            } catch { return null; } finally { IncrementalLoadingBorder.SetVisibility(false); }
-        }
-
 
         #region Properties
         string uid;

@@ -45,6 +45,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (!succeed)
                 return;
             Service.MoveToAnyway(item);
+            if (MainUpContentFrame.Content != null)
+                (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
             NavigateToBase?.Invoke(
                 null,
                 new MusicBoardParameter {

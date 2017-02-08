@@ -44,7 +44,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (args == null)
                 return;
             frameType = args.FrameType;
-            RegisterServiceEvents();
             await InitMusicBoardAsync(args);
             await SetDefaultLrcAndAnimationsAsync();
         }
@@ -65,6 +64,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             artist = jo["artist"].Value<string>();
             image = jo["related_channel"]["cover"].Value<string>();
 
+            UnregisterServiceEvents();
+            RegisterServiceEvents();
+
             MusicBoardVM.BackImage = image;
             MusicBoardVM.LrcTitle = title;
             MusicBoardVM.ListCount = Service.ServiceType == MusicServiceType.SongList ? Service.SongList.Count : Service.MHzSongList.Count;
@@ -77,6 +79,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
             MusicBoardVM.CurrentTime = Service.Session.Position;
             MusicBoardVM.Duration = Service.Session.NaturalDuration;
+
+            SongListButton.Content = Service.ServiceType == MusicServiceType.SongList ? 
+                char.ConvertFromUtf32(0xE142) : 
+                char.ConvertFromUtf32(0xE93E);
 
             if (Service.Session.PlaybackState == MediaPlaybackState.Playing)
                 DoWorkWhenMusicPlayed();
@@ -97,7 +103,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async void OnPlaybackStateChangedAsync(MediaPlaybackSession sender, object args) {
-            var status = sender.PlaybackState;
+            var status = Service.Session.PlaybackState;
             if (status == MediaPlaybackState.Playing)
                 await Dispatcher.UpdateUI(() => DoWorkWhenMusicPlayed());
             else if (status == MediaPlaybackState.Paused)
@@ -253,7 +259,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             GetFrameInstance(frameType).Content = null;
         }
 
-        private void RegisterServiceEvents() {
+        public void RegisterServiceEvents() {
             Service.PlayList.CurrentItemChanged += OnCurrentItemChangedAsync;
             Service.MHzList.CurrentItemChanged += OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded += OnBufferingEndedAsync;
@@ -261,7 +267,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             Service.Player.MediaEnded += OnMediaEndedAsync;
         }
 
-        private void UnregisterServiceEvents() {
+        public void UnregisterServiceEvents() {
             Service.PlayList.CurrentItemChanged -= OnCurrentItemChangedAsync;
             Service.MHzList.CurrentItemChanged -= OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded -= OnBufferingEndedAsync;

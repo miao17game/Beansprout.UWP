@@ -28,9 +28,9 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private void SetSongListPlayerStyleIfNeed(MusicServiceType service_type) {
+            Player.MediaEnded += OnMediaEnded;
             if (service_type == MusicServiceType.MHz)
                 return;
-            Player.MediaEnded += OnMediaEnded;
             var player_type = SettingsHelper.ReadSettingsValue(SettingsSelect.BackPlayType);
             PlayType = player_type is string ?
                 EnumHelper.Parse<MusicServicePlayType>(player_type as string) :
@@ -39,8 +39,10 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private void OnMediaEnded(MediaPlayer sender, object args) {
-            if (ServiceType == MusicServiceType.MHz)
+            if (ServiceType == MusicServiceType.MHz) {
+                ActionForMHz?.Invoke();
                 return;
+            }
             if (this.SingletonPlay && PlayList.Items.Count == 1) {
                 this.SongListMoveTo(0);
                 this.PlayAnyway();
@@ -500,6 +502,8 @@ namespace Douban.UWP.NET.Tools {
             get { return _cacheMax; }
             set { _cacheMax = value; }
         }
+
+        public Action ActionForMHz { get; set; }
 
         #region PlayBackList
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Douban.UWP.Core.Tools;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,31 @@ using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models.FMModels {
     public static class MHzListGroupHelper {
+
+        public static async Task<IList<MHzSongBase>> FetchMHzSongsAsync(int list_id, string api_key, string bearer) {
+            var result = await DoubanWebProcess.GetMDoubanResponseAsync(
+                path: $"{"https://"}api.douban.com/v2/fm/playlist?channel={list_id}&formats=null&from=&type=n&version=644&start=0&app_name=radio_android&limit=10&apikey={api_key}",
+                host: "api.douban.com",
+                reffer: null,
+                bearer: bearer,
+                userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
+            try {
+                var jo = JObject.Parse(result);
+                var songs = jo["song"];
+                var group = CreateDefaultListGroup(jo);
+                if (songs != null && songs.HasValues) {
+                    songs.Children().ToList().ForEach(jo_song => {
+                        try {
+                            var song = CreateDefaultSongInstance(jo_song);
+                            AddSingerEachOne(song, jo_song["singers"]);
+                            AddRelease(song, jo_song["release"]);
+                            group.Songs.Add(song);
+                        } catch { /* Ingore */ }
+                    });
+                }
+                return group.Songs;
+            } catch { return null; }
+        }
 
         public static void AddRelease(MHzSongBase song, JToken jo_release) {
             if (jo_release == null)

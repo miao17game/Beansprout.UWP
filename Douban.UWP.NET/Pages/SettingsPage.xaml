@@ -280,7 +280,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1006.* / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1007.* / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="微调UI，改动一点小细节" /><LineBreak/>
+                            <Run Text="修复兆赫无法自动续歌的问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1006.2318 / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="画出光盘动画，CD中间的旋钮功能未开发" /><LineBreak/>
                             <Run Text="设计作为音量调节，但未开工" /><LineBreak/>
                             <Run Text="开放兆赫页面的音乐入口" /><LineBreak/>
