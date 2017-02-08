@@ -46,6 +46,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             frameType = args.FrameType;
             RegisterServiceEvents();
             await InitMusicBoardAsync(args);
+            await SetDefaultLrcAndAnimationsAsync();
         }
 
         private async Task InitMusicBoardAsync(MusicBoardParameter args) {
@@ -66,7 +67,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
             MusicBoardVM.BackImage = image;
             MusicBoardVM.LrcTitle = title;
-            MusicBoardVM.ListCount = Service.SongList.Count;
+            MusicBoardVM.ListCount = Service.ServiceType == MusicServiceType.SongList ? Service.SongList.Count : Service.MHzSongList.Count;
 
             RandomButton.Content = 
                 Service.PlayType == MusicServicePlayType.ShufflePlay? char.ConvertFromUtf32(0xE8B1):
@@ -82,13 +83,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             else if (Service.Session.PlaybackState == MediaPlaybackState.Paused)
                 DoWorkWhenMusicPaused();
 
-            songMessCollection = await LrcProcessHelper.GetSongMessageListAsync(title, artist);
-            var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
-            MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
+            songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
 
             InitCDStoryboard();
-
-            SetLrcAnimation(MusicBoardVM.LrcList ?? new List<LrcInfo>());
         }
 
         private async void OnBufferingEndedAsync(MediaPlaybackSession sender, object args) {
@@ -110,7 +107,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private async void OnMediaEndedAsync(MediaPlayer sender, object args) {
             await Dispatcher.UpdateUI(() => {
-                timer?.Stop();
+                LrcListView.Timer?.Stop();
                 PlayPauseButton.Content = char.ConvertFromUtf32(0xE768);
             });
         }
@@ -122,7 +119,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var arg = newItem.Source.CustomProperties["Message"] as MusicBoardParameter;
             if (arg == null)
                 return;
-            await Dispatcher.UpdateUI(async () => await InitMusicBoardAsync(arg));
+            await Dispatcher.UpdateUI(async () => {
+                await InitMusicBoardAsync(arg);
+                await SetDefaultLrcAndAnimationsAsync();
+            });
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -150,19 +150,19 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 Service.Player.Pause();
             } else if (Service.Session.PlaybackState == MediaPlaybackState.Paused) {
                 Service.Player.Play();
-                if (!timer.IsEnabled) {
+                if (LrcListView.Timer != null && !LrcListView.Timer.IsEnabled) {
                     (LrcListView.RenderTransform as CompositeTransform).TranslateY = 0;
-                    timer.Start();
+                    LrcListView.Timer.Start();
                 }
             }
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e) {
-            Service.MovePrevious();
+            Service.MovePreviousAnyway();
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
-            Service.MoveNext();
+            Service.MoveNextAnyway();
         }
 
         private void SongListButton_Click(object sender, RoutedEventArgs e) {
@@ -171,6 +171,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void RandomButton_Click(object sender, RoutedEventArgs e) {
+            if (Service.ServiceType == MusicServiceType.MHz)
+                return;
             var type = Service.ChangePlayStyle();
             RandomButton.Content =
                 type == MusicServicePlayType.ShufflePlay ? char.ConvertFromUtf32(0xE8B1) :
@@ -210,6 +212,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ResetCanvasViewVisibility();
         }
 
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e) {
+            CDGrid.SetVisibility(true);
+            LrcCanvas.SetVisibility(false);
+        }
+
         private void InnerContentPanel_SizeChanged(object sender, SizeChangedEventArgs e) {
             InnerGrid.Width = (sender as Popup).ActualWidth;
             InnerGrid.Height = (sender as Popup).ActualHeight;
@@ -239,15 +246,16 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         public override void DoWorkWhenAnimationCompleted() {
             if (VisibleWidth > FormatNumber && IsDivideScreen && MainMetroFrame.Content == null)
                 MainMetroFrame.Navigate(typeof(MetroPage));
-            timer?.Stop();
-            if (timer != null)
-                timer.Tick -= DispatcherTimerEventAsync;
+            LrcListView.Timer?.Stop();
+            if (LrcListView.Timer != null)
+                LrcListView.Timer.Tick -= LrcListView.DispatcherTimerEventAsync;
             UnregisterServiceEvents();
             GetFrameInstance(frameType).Content = null;
         }
 
         private void RegisterServiceEvents() {
             Service.PlayList.CurrentItemChanged += OnCurrentItemChangedAsync;
+            Service.MHzList.CurrentItemChanged += OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded += OnBufferingEndedAsync;
             Service.Session.PlaybackStateChanged += OnPlaybackStateChangedAsync;
             Service.Player.MediaEnded += OnMediaEndedAsync;
@@ -255,6 +263,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private void UnregisterServiceEvents() {
             Service.PlayList.CurrentItemChanged -= OnCurrentItemChangedAsync;
+            Service.MHzList.CurrentItemChanged -= OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded -= OnBufferingEndedAsync;
             Service.Session.PlaybackStateChanged -= OnPlaybackStateChangedAsync;
             Service.Player.MediaEnded -= OnMediaEndedAsync;
@@ -290,129 +299,18 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             }
         }
 
-        #region Lrc Animations
-
-        public void SetLrcAnimation(IList<LrcInfo> list) {
-            if ((lrc_list = list).Count > 0) 
-                indexNew = -1;
-            if (timer != null) 
-                timer.Start();
-            else {
-                timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 300) };
-                timer.Tick += DispatcherTimerEventAsync;
-                timer.Start();
+        public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) {
+            if (songMessCollection.Count() == 0)
+                return;
+            if (is_default_lrc) {
+                var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
+                MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
             }
+            LrcListView.SetLrcAnimation(
+                list: MusicBoardVM.LrcList ?? new List<LrcInfo>(), 
+                vm: ref MusicBoardVM,
+                anima_style: animation_style);
         }
-
-        public async void DispatcherTimerEventAsync(object sender, object e) {
-            MusicBoardVM.CurrentTime = Service.Session.Position;
-            if (lrc_list.Count == 0)
-                return;
-            var current = MusicBoardVM.CurrentTime.TotalMilliseconds;
-            var newTurn = lrc_list.Select(i => i.LrcTime).Where(i => i < current).Count() - 1;
-            await SetLrcListSelectedAsync(newTurn);
-        }
-
-        private async Task SetLrcListSelectedAsync(int newTurn) {
-            index = newTurn;
-            if (index == -1 && LrcListView.RenderTransform is CompositeTransform)
-                (LrcListView.RenderTransform as CompositeTransform).TranslateY = 0;
-            if (index == indexNew)
-                return;
-            await Dispatcher.UpdateUI(() => {
-                try {
-                    LrcListView.SelectedIndex = index;
-                    SetLrcAnimation(index);
-                    indexNew = index;
-                } catch (ArgumentException) { /* Ingore. */}
-            });
-        }
-
-        private void SetLrcAnimation(int index) {
-            Canvas.SetTop(LrcListView, 230 - index * 44);
-            double milis = 0;
-            double turn = -44;
-            if (index >= lrc_list.Count -1)
-                return;
-            try {
-                milis = 1.0 * (lrc_list[index + 1].LrcTime - lrc_list[index].LrcTime);
-                turn *= 1.0;
-            } catch (Exception) { /* Ingore. */ }
-            SetAnimation(turn, milis);
-        }
-       
-        public void SetAnimation(double turn, double milis) {
-            if (sb != null) { sb.Stop(); }
-            sb = new Storyboard();
-            AnimationStyle = "None";
-            switch (AnimationStyle) {
-                case "ANIMATION_FAST_SLIDE":
-                    sb.Children.Add(GetTimelineFastSlide(turn, milis));
-                    break;
-                case "ANIMATION_SMOOTH_SLIDE":
-                    sb.Children.Add(GetTimelineSmoothSlide(turn, milis));
-                    break;
-                case "ANIMATION_FAST_ROLL":
-                    sb.Children.Add(GetTimelineFastRoll(turn, milis));
-                    break;
-                default:
-                    sb.Children.Add(GetTimelineSmoothRoll(turn, milis));
-                    break;
-            }
-            sb.Begin();
-        }
-
-        #region Lrc animation stye collection
-
-        private DoubleAnimationUsingKeyFrames GetTimelineSmoothRoll(double y, double milis) {
-            var Translate = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)").Path);
-            Storyboard.SetTarget(Translate, LrcListView);
-            Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(milis)),
-                Value = y
-            });
-            return Translate;
-        }
-
-        private DoubleAnimationUsingKeyFrames GetTimelineFastRoll(double y, double milis) {
-            var Translate = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)").Path);
-            Storyboard.SetTarget(Translate, LrcListView);
-            Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0.6 * milis)),
-                Value = y
-            });
-            return Translate;
-        }
-
-        private DoubleAnimationUsingKeyFrames GetTimelineSmoothSlide(double y, double milis) {
-            var Translate = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)").Path);
-            Storyboard.SetTarget(Translate, LrcListView);
-            Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0.35 * milis)),
-                Value = y,
-            });
-            return Translate;
-        }
-
-        private DoubleAnimationUsingKeyFrames GetTimelineFastSlide(double y, double milis) {
-            var Translate = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.TranslateY)").Path);
-            Storyboard.SetTarget(Translate, LrcListView);
-            Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(0.15 * milis)),
-                Value = y
-            });
-            return Translate;
-        }
-
-        #endregion
-
-        #endregion
 
         #region CD Animations
 
@@ -457,15 +355,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         string title;
         string artist;
         string image;
-        FrameType frameType;
-        static int index = 0;
-        static int indexNew = -1;
-        string AnimationStyle;
-        IList<LrcInfo> lrc_list;
-        Storyboard sb;
-        DispatcherTimer timer;
         Storyboard cd_sb;
+        FrameType frameType;
         IEnumerable<LrcMetaData> songMessCollection;
+        LrcListViewAnimationStyle animation_style = LrcListViewAnimationStyle.FastSlide;
 
         public VisualBoardVM VMForPublic { get { return MusicBoardVM; } }
 

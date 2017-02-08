@@ -33,17 +33,18 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
-            
+            IndexList.SetVisibility(Service.ServiceType == MusicServiceType.SongList);
+            IndexListMhz.SetVisibility(Service.ServiceType == MusicServiceType.MHz);
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as MHzSong;
+            var item = e.ClickedItem as MHzSongBase;
             if (item == null)
                 return;
-            var succeed = Service.InsertMusicItem(item);
+            var succeed = Service.InsertItem(item);
             if (!succeed)
                 return;
-            Service.PlayMoveTo();
+            Service.MoveToAnyway(item);
             NavigateToBase?.Invoke(
                 null,
                 new MusicBoardParameter {
@@ -62,7 +63,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            var succeed = Service.RemovePlaybackItem((sender as Button).CommandParameter as MHzSong);
+            var succeed = Service.RemoveItem((sender as Button).CommandParameter as MHzSongBase);
             if (!succeed)
                 ReportHelper.ReportAttentionAsync(GetUIString("Delete_Music_Failed"));
         }

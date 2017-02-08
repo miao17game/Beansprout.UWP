@@ -795,4 +795,10 @@
   <data name="Delete_Music_Successfully" xml:space="preserve">
     <value>Removed.</value>
   </data>
+  <data name="MS_Server_Boom" xml:space="preserve">
+    <value>Oop, unable to find the extensions in store, maybe the Microsoft server goes wrong, please try again later.</value>
+  </data>
+  <data name="Close_Lrc_Board.Text" xml:space="preserve">
+    <value>Show the CD view</value>
+  </data>
 </root>

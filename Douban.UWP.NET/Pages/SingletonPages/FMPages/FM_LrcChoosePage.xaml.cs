@@ -47,7 +47,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if(MainUpContentFrame.Content is FM_SongBoardPage) {
                 var board_page = MainUpContentFrame.Content as FM_SongBoardPage;
                 board_page.VMForPublic.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(null, null, Colors.White, lrc);
-                board_page.SetLrcAnimation(board_page.VMForPublic.LrcList);
+                await board_page.SetDefaultLrcAndAnimationsAsync(false);
                 board_page.CloseInnerContentPanel();
                 board_page.ResetCanvasViewVisibility();
             }

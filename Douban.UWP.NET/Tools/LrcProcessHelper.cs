@@ -98,25 +98,28 @@ namespace Douban.UWP.NET.Tools {
             postString = string.Format(postString, FileName + Artist);
             byte[] postData = Encoding.UTF8.GetBytes(postString);
             request.Headers[HttpRequestHeader.ContentLength] = Convert.ToString(postData.Length);
-            var requestStream = await request.GetRequestStreamAsync();
-            requestStream.Write(postData, 0, postData.Length);
-            using(var response = (HttpWebResponse)await request.GetResponseAsync()) {
-                using (var responseStream = response.GetResponseStream()) {
-                    using (var streamReader = new StreamReader(responseStream, Encoding.UTF8)) {
-                        string retString = streamReader.ReadToEnd();
-                        try {
-                            var jo = JObject.Parse(retString);
-                            var songs = jo["result"]["songs"];
-                            return songs.Children().Select(item => new LrcMetaData {
-                                ID = (string)item["id"],
-                                Name = (string)item["name"],
-                                Alias = item["alias"].Children().Select(i => i.Value<string>()).ToArray(),
-                                Popularity = (double)item["popularity"],
-                            });
-                        } catch (InvalidOperationException IOE) { Debug.WriteLine(IOE.Message.ToString()); return null; }
+            try {
+                using (var requestStream = await request.GetRequestStreamAsync()) {
+                    requestStream.Write(postData, 0, postData.Length);
+                    using (var response = (HttpWebResponse)await request.GetResponseAsync()) {
+                        using (var responseStream = response.GetResponseStream()) {
+                            using (var streamReader = new StreamReader(responseStream, Encoding.UTF8)) {
+                                string retString = streamReader.ReadToEnd();
+                                try {
+                                    var jo = JObject.Parse(retString);
+                                    var songs = jo["result"]["songs"];
+                                    return songs.Children().Select(item => new LrcMetaData {
+                                        ID = (string)item["id"],
+                                        Name = (string)item["name"],
+                                        Alias = item["alias"].Children().Select(i => i.Value<string>()).ToArray(),
+                                        Popularity = (double)item["popularity"],
+                                    });
+                                } catch (InvalidOperationException IOE) { Debug.WriteLine(IOE.Message.ToString()); return null; }
+                            }
+                        }
                     }
                 }
-            }
+            } catch { return null; }
         }
 
         public static void ReadFromLrcStringFluently9Number(Color TextColor, string lrcFileString, IList<LrcInfo> lrcListOld) {

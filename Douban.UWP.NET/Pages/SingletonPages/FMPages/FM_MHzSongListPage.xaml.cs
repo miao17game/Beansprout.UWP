@@ -75,7 +75,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var item = (sender as Button).CommandParameter as MHzSong;
             if (item == null)
                 return;
-            var succeed = Service.InsertMusicItem(item);
+            var succeed = Service.InsertItem(item);
             if (succeed)
                 ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
@@ -84,10 +84,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var item = e.ClickedItem as MHzSong;
             if (item == null)
                 return;
-            var succeed = Service.InsertMusicItem(item);
+            var succeedss = Service.ChangeServiceChoice(MusicServiceType.SongList);
+            if (!succeedss)
+                return;
+            var succeed = Service.InsertItem(item);
             if (!succeed)
                 return;
-            Service.PlayMoveTo();
+            Service.SongListMoveTo();
             NavigateToBase?.Invoke(
                 null,
                 new MusicBoardParameter {

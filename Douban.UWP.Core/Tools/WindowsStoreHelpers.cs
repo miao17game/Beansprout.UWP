@@ -55,6 +55,7 @@ namespace Douban.UWP.Core.Tools {
 
                 case StorePurchaseStatus.NotPurchased:
                     System.Diagnostics.Debug.WriteLine("The purchase did not complete. " + "The user may have cancelled the purchase. ExtendedError: " + extendedError);
+                    resultToReturn = PurchasAddOnReturn.Unknown;
                     break;
 
                 case StorePurchaseStatus.NetworkError:

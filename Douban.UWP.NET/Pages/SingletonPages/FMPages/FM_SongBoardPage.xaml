@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="using:Douban.UWP.NET.Controls"
-    xmlns:controls="using:Wallace.UWP.Helpers.Controls"
+    xmlns:controls="using:Douban.UWP.NET.Controls"
     xmlns:model="using:Douban.UWP.Core.Models.FMModels"
     xmlns:vm="using:Douban.UWP.NET.Models"
     xmlns:Converters="using:Douban.UWP.Tools.Converters"
@@ -329,7 +329,7 @@
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        
+                        <MenuFlyoutItem x:Uid="Close_Lrc_Board" Click="MenuFlyoutItem_Click"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Douban.UWP.Core.Models.FMModels {
-    public class MHzListGroup {
+    public class MHzGroupBase {
 
         public int R { get; set; }
         public int VersionMAX { get; set; }
         public int IsShowQuickStart { get; set; }
-        public IList<MHzListSong> Songs { get; set; }
+        public IList<MHzSongBase> Songs { get; set; }
 
     }
 
-    public class MHzListSong {
+    public class MHzSongBase {
 
         public string AlbumTitle { get; set; }
         public string Url { get; set; }
@@ -36,16 +36,16 @@ namespace Douban.UWP.Core.Models.FMModels {
         public int Length { get; set; }
         public string AID { get; set; }
         public string Kbps { get; set; }
-        public IList<MHzListSinger> Singers { get; set; }
+        public IList<MHzSingerBase> Singers { get; set; }
         public MHzListRelease Release { get; set; }
 
         public string SingerShow {
-            get { return string.Join(",", ((Singers??new List<MHzListSinger>()).Select(i => i.Name)) ?? new string[] { "Unknown" }); }
+            get { return string.Join(",", ((Singers??new List<MHzSingerBase>()).Select(i => i.Name)) ?? new string[] { "Unknown" }); }
         }
 
     }
 
-    public class MHzListSinger {
+    public class MHzSingerBase {
 
         public string Name { get; set; }
         public IList<string> Region { get; set; }

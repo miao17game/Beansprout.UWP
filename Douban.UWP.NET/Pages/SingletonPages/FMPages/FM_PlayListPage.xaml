@@ -5,6 +5,7 @@
     xmlns:src="using:Douban.UWP.NET.Tools"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:model="using:Douban.UWP.Core.Models.FMModels.MHzSongListModels"
+    xmlns:baseModel="using:Douban.UWP.Core.Models.FMModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -12,7 +13,7 @@
 
     <Grid Background="{ThemeResource DoubanBackground04}">
 
-        <ListView Name="IndexList" ItemsSource="{Binding SongList}"
+        <ListView Name="IndexList" ItemsSource="{Binding SongList}" Visibility="Collapsed"
                       ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
                       IsItemClickEnabled="True" SelectionMode="Single" 
                       RelativePanel.AlignLeftWithPanel="True" 
@@ -23,6 +24,87 @@
                       ItemClick="IndexList_ItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:MHzSong">
+                    <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
+                          BorderBrush="#80808080" BorderThickness="0,0,0,0.5" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Width="50" Height="50" Margin="15,20,5,20" 
+                                       Grid.RowSpan="2" RadiusX="5" RadiusY="5">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="{Binding Picture}" Stretch="UniformToFill"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <TextBlock Text="{Binding Title}" 
+                                       Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       FontSize="18" 
+                                       Margin="10,10,0,0"
+                                       MaxHeight="50"
+                                       TextWrapping="WrapWholeWords"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                        Grid.Column="1" 
+                                        Grid.Row="1"
+                                         Margin="10,0,0,10" >
+                            <TextBlock Text="{Binding SingerShow}" 
+                                       FontSize="14" 
+                                       VerticalAlignment="Center" 
+                                       FontWeight="Thin" 
+                                       Foreground="#80808080"/>
+                            <TextBlock FontSize="14" 
+                                           Text="|"
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Thin" 
+                                           Foreground="#80808080"/>
+                            <TextBlock Text="{Binding AlbumTitle}" 
+                                           FontSize="14" 
+                                           Margin="5,0,0,0"
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Thin" 
+                                           Foreground="#80808080"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2"
+                                        Grid.RowSpan="2" 
+                                        Orientation="Horizontal" 
+                                        VerticalAlignment="Center">
+                            <Button Click="PlayButton_Click" 
+                                        CommandParameter="{Binding Url}" 
+                                        Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                        FontSize="16" 
+                                        Content="&#xE896;" 
+                                        Margin=" 5"
+                                        Foreground="#80808080"/>
+                            <Button Click="DeleteButton_Click" 
+                                        CommandParameter="{Binding}" 
+                                        Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                        FontSize="16" 
+                                        Content="&#xE107;" 
+                                        Margin=" 5,5,10,5"
+                                        Foreground="#80808080"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ListView Name="IndexListMhz" ItemsSource="{Binding MHzSongList}" Visibility="Collapsed"
+                      ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                      IsItemClickEnabled="True" SelectionMode="Single" 
+                      RelativePanel.AlignLeftWithPanel="True" 
+                      RelativePanel.AlignRightWithPanel="True"
+                      RelativePanel.AlignBottomWithPanel="True"
+                      RelativePanel.Below="TitleHeaderGrid"
+                      Loaded="IndexList_Loaded"
+                      ItemClick="IndexList_ItemClick">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="baseModel:MHzSongBase">
                     <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
                           BorderBrush="#80808080" BorderThickness="0,0,0,0.5" >
                         <Grid.RowDefinitions>

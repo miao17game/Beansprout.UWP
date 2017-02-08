@@ -154,6 +154,16 @@ namespace Douban.UWP.NET.Pages {
 
         private void GetGroupExtensionsBtn_Click(object sender, RoutedEventArgs e) {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            //var context = StoreContext.GetDefault();
+            //var result = await WindowsStoreHelpers.PurchaseAddOnAsync(context, "9pbfqp5g46w6");
+            //if (result == PurchasAddOnReturn.Successful) {
+            //    GetFMExtensionsBtn.SetVisibility(false);
+            //    FM_Extensions_Status.Text = GetUIString("Extensions_Status_Get");
+            //    FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+            //    HasFMExtensions = true;
+            //} else if (result == PurchasAddOnReturn.Unknown) {
+            //    ReportHelper.ReportAttentionAsync(GetUIString("MS_Server_Boom"));
+            //}
         }
 
         private async void GetFMExtensionsBtn_ClickAsync(object sender, RoutedEventArgs e) {
@@ -164,6 +174,8 @@ namespace Douban.UWP.NET.Pages {
                 FM_Extensions_Status.Text = GetUIString("Extensions_Status_Get");
                 FM_Extensions_Status.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
                 HasFMExtensions = true;
+            } else if(result == PurchasAddOnReturn.Unknown) {
+                ReportHelper.ReportAttentionAsync(GetUIString("MS_Server_Boom"));
             }
         }
 

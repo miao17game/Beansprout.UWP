@@ -45,7 +45,6 @@ namespace Douban.UWP.NET.Pages {
             IncrementalLoading.SetVisibility(true);
             var args = e.Parameter as NavigateParameter;
             currentUri = args.ToUri;
-            Scroll.Source = currentUri;
         }
 
         #region Web Events
@@ -67,6 +66,7 @@ namespace Douban.UWP.NET.Pages {
         #endregion
 
         private void Abort_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e) {
+            Scroll.Source = currentUri;
             AddGrid.SetVisibility(false);
         }
 
@@ -74,6 +74,8 @@ namespace Douban.UWP.NET.Pages {
             if (!HasFMExtensions) {
                 var context = StoreContext.GetDefault();
                 var result = await WindowsStoreHelpers.PurchaseAddOnAsync(context, "9mzf5cp1mf83");
+                if (result == PurchasAddOnReturn.Unknown) 
+                    ReportHelper.ReportAttentionAsync(GetUIString("MS_Server_Boom"));
                 HasFMExtensions = result == PurchasAddOnReturn.Successful ? true : false;
                 if (!HasFMExtensions)
                     return;

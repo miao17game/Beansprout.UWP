@@ -21,6 +21,8 @@ using Newtonsoft.Json.Linq;
 using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Models;
 using System.Threading.Tasks;
+using Douban.UWP.NET.Tools;
+using Windows.Media.Playback;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -47,7 +49,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
             var list = GroupsInit(result);
             ListResources.Source = list;
+            Service.Player.MediaEnded += OnMediaEndedAsync;
         }
+
+        #region Main List Resources
 
         private IList<ChannelGroup> GroupsInit(string value) {
             IList<ChannelGroup> list = new List<ChannelGroup>();
@@ -122,21 +127,54 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 };
         }
 
-        #region Properties
-        string uid;
-        string bearer;
-        const string sdk_version = "1.0.14";
-        const string api_key = "02f7751a55066bcb08e65f4eff134361";
         #endregion
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
+        private async void ListView_ItemClickAsync(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as ChannelsItem;
             if (item == null)
                 return;
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            var succeed = Service.ChangeServiceChoice(MusicServiceType.MHz);
+            if (!succeed)
+                return;
+            Service.MHzChannelID = item.Id;
+            var song = await InsertSongsToMHzListAsync();
+            if (song == null)
+                return;
+            Service.MHzListMoveTo(song);
+            NavigateToBase?.Invoke(
+                null,
+                new MusicBoardParameter {
+                    SID = song.SID,
+                    SSID = song.SSID,
+                    AID = song.AID,
+                    SHA256 = song.SHA256,
+                    FrameType = FrameType.UpContent
+                },
+                GetFrameInstance(FrameType.UpContent),
+                GetPageType(NavigateType.MusicBoard));
         }
 
-        private async Task<MHzListGroup> InitListResourcesAsync(int list_id) {
+        private async void OnMediaEndedAsync(MediaPlayer sender, object args) {
+            await Dispatcher.UpdateUI(async ()=> {
+                if(Service.FindMHzItemIndex(Service.MHzList.CurrentItem) == Service.MHzList.Items.Count - 1) {
+                    var song = await InsertSongsToMHzListAsync();
+                    if (song == null)
+                        return;
+                }
+                Service.MoveNextAnyway();
+            });
+        }
+
+        private async Task<MHzSongBase> InsertSongsToMHzListAsync() {
+            var songs = await FetchMHzSongsAsync(Service.MHzChannelID);
+            if (songs .Count == 0)
+                return null;
+            System.Diagnostics.Debug.WriteLine(songs.Count);
+            songs.ToList().ForEach(song => Service.InsertItem(song));
+            return songs[0];
+        } 
+
+        private async Task<IList<MHzSongBase>> FetchMHzSongsAsync(int list_id) {
             var result = await DoubanWebProcess.GetMDoubanResponseAsync(
                 path: $"{"https://"}api.douban.com/v2/fm/playlist?channel={list_id}&formats=null&from=&type=n&version=644&start=0&app_name=radio_android&limit=10&apikey={APIKey}",
                 host: "api.douban.com",
@@ -157,9 +195,17 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                         } catch { /* Ingore */ }
                     });
                 }
-                return group;
+                return group.Songs;
             } catch { return null; } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
+
+
+        #region Properties
+        string uid;
+        string bearer;
+        const string sdk_version = "1.0.14";
+        const string api_key = "02f7751a55066bcb08e65f4eff134361";
+        #endregion
 
     }
 }

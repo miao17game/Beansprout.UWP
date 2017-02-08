@@ -13,7 +13,7 @@ namespace Douban.UWP.Core.Models.FMModels.MHzSongListModels {
         public IList<MHzSong> Songs { get; set; }
     }
 
-    public class MHzSong : MHzListSong {
+    public class MHzSong : MHzSongBase {
         public int TasteStatus { get; set; }
         public new IList<MHzSinger> Singers { get; set; }
         public MHzSongItemInfo ItemInfo { get; set; }
@@ -24,7 +24,7 @@ namespace Douban.UWP.Core.Models.FMModels.MHzSongListModels {
 
     }
 
-    public class MHzSinger : MHzListSinger { }
+    public class MHzSinger : MHzSingerBase { }
 
     public class MHzSongItemInfo {
         public string ItemID { get; set; }

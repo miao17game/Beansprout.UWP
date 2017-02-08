@@ -794,4 +794,10 @@
   <data name="Delete_Music_Successfully" xml:space="preserve">
     <value>已从列表移除</value>
   </data>
+  <data name="MS_Server_Boom" xml:space="preserve">
+    <value>很抱歉，没有检测到扩展，可能为微软商店服务器异常，请稍后再试</value>
+  </data>
+  <data name="Close_Lrc_Board.Text" xml:space="preserve">
+    <value>关闭歌词</value>
+  </data>
 </root>

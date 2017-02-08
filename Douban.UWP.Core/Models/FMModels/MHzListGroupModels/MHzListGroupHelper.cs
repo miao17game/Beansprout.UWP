@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Douban.UWP.Core.Models.FMModels {
     public static class MHzListGroupHelper {
 
-        public static void AddRelease(MHzListSong song, JToken jo_release) {
+        public static void AddRelease(MHzSongBase song, JToken jo_release) {
             if (jo_release == null)
                 return;
             song.Release = CreateDefaultReleaseInstance(jo_release);
@@ -22,13 +22,13 @@ namespace Douban.UWP.Core.Models.FMModels {
             };
         }
 
-        public static void AddSingerEachOne(MHzListSong song, JToken singers) {
+        public static void AddSingerEachOne(MHzSongBase song, JToken singers) {
             if (singers != null && singers.HasValues)
                 singers.Children().ToList().ForEach(jo_singer => song.Singers.Add(CreateSingerInstance(jo_singer)));
         }
 
-        public static MHzListSinger CreateSingerInstance(JToken jo_singer) {
-            return new MHzListSinger {
+        public static MHzSingerBase CreateSingerInstance(JToken jo_singer) {
+            return new MHzSingerBase {
                 Avatar = jo_singer["avatar"].Value<string>(),
                 Genre = jo_singer["genre"].Children().Select(i => i.Value<string>()).ToList(),
                 ID = jo_singer["id"].Value<string>(),
@@ -40,8 +40,8 @@ namespace Douban.UWP.Core.Models.FMModels {
             };
         }
 
-        public static MHzListSong CreateDefaultSongInstance(JToken jo_song) {
-            return new MHzListSong {
+        public static MHzSongBase CreateDefaultSongInstance(JToken jo_song) {
+            return new MHzSongBase {
                 AID = jo_song["aid"].Value<string>(),
                 Album = jo_song["album"].Value<string>(),
                 AlbumTitle = jo_song["albumtitle"].Value<string>(),
@@ -62,16 +62,16 @@ namespace Douban.UWP.Core.Models.FMModels {
                 Title = jo_song["title"].Value<string>(),
                 UpdateTime = jo_song["update_time"].Value<long>(),
                 Url = jo_song["url"].Value<string>(),
-                Singers = new List<MHzListSinger>(),
+                Singers = new List<MHzSingerBase>(),
             };
         }
 
-        public static MHzListGroup CreateDefaultListGroup(JObject jo) {
-            return new MHzListGroup {
+        public static MHzGroupBase CreateDefaultListGroup(JObject jo) {
+            return new MHzGroupBase {
                 R = jo["r"].Value<int>(),
                 IsShowQuickStart = jo["is_show_quick_start"].Value<int>(),
                 VersionMAX = jo["version_max"].Value<int>(),
-                Songs = new List<MHzListSong>()
+                Songs = new List<MHzSongBase>()
             };
         }
 
