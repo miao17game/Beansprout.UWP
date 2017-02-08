@@ -280,7 +280,16 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1005.* / 2017.2.7" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1006.* / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="画出光盘动画，CD中间的旋钮功能未开发" /><LineBreak/>
+                            <Run Text="设计作为音量调节，但未开工" /><LineBreak/>
+                            <Run Text="开放兆赫页面的音乐入口" /><LineBreak/>
+                            <Run Text="优化FM性能，降低了动画的性能压力" /><LineBreak/>
+                            <Run Text="今天微软扩展的检测出了问题😶🙄" /><LineBreak/>
+                            <Run Text="导致用户没办法检测到是否拥有扩展包..." /><LineBreak/>
+                            <Run Text="甩锅，不关我的事，什么时候正常我也不知道" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1005.2516 / 2017.2.7" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急修复豆瓣首页API变动引发的地震😶" /><LineBreak/>
                             <Run Text="紧急修复因API变动导致的推送报废..." /><LineBreak/>
                             <Run Text="继续完善歌词面板的功能" /><LineBreak/>
