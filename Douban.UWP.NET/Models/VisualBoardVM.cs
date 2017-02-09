@@ -79,6 +79,14 @@ namespace Douban.UWP.NET.Models {
             set { _duration = value; RaisePropertyChanged("Duration"); }
         }
 
+        private MHzSongBase _currentItem = default(MHzSongBase);
+        public MHzSongBase CurrentItem {
+            get { return _currentItem; }
+            set { _currentItem = value; RaisePropertyChanged("CurrentItem"); }
+        }
+
+        public DoubanMusicService Service { get { return Resources.AppResources.Service; } }
+
         LrcInfo _Selected = default(LrcInfo);
         public LrcInfo Selected {
             get { return _Selected; }

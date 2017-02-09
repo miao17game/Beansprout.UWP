@@ -121,6 +121,17 @@ namespace Douban.UWP.NET.Resources {
             set { _has_fm_extensions = value; }
         }
 
+        private static double? _volumn;
+        public static double Volumn {
+            get {
+                return _volumn ?? new Func<double>(() => {
+                    _volumn = (double?)SettingsHelper.ReadSettingsValue(SettingsSelect.MusicServiceVolumn) ?? 1.0;
+                    return _volumn.Value;
+                }).Invoke();
+            }
+            set { _volumn = value; }
+        }
+
         const string api_key = "02f7751a55066bcb08e65f4eff134361";
         public static string APIKey { get { return api_key; } }
 
@@ -130,6 +141,9 @@ namespace Douban.UWP.NET.Resources {
 
         private static DoubanMusicService _service;
         public static DoubanMusicService Service { get { return _service ?? (_service = new DoubanMusicService()); } }
+
+        private static DoubanDownloadService _downloader;
+        public static DoubanDownloadService Downloader { get { return _downloader ?? (_downloader = new DoubanDownloadService()); } }
 
         public static MusicBoardParameter MusicIsCurrent { get; set; }
 

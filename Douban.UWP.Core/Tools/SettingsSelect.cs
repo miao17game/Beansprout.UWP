@@ -17,5 +17,6 @@
         public const string UserID = "USER_ID";
         public const string IsQuietTime = "IS_QUIET_TIME";
         public const string BackPlayType = "BACK_PLAY_TYPE";
+        public const string MusicServiceVolumn = "MUSIC_SERVICE_VOLUMN";
     }
 }

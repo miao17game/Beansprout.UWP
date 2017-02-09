@@ -44,19 +44,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (!succeed)
                 return;
             Service.MoveToAnyway(item);
-            if (MainUpContentFrame.Content != null)
-                (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
-            NavigateToBase?.Invoke(
-                null,
-                new MusicBoardParameter {
-                    SID = item.SID,
-                    SSID = item.SSID,
-                    AID = item.AID,
-                    SHA256 = item.SHA256,
-                    FrameType = FrameType.UpContent
-                },
-                GetFrameInstance(FrameType.UpContent),
-                GetPageType(NavigateType.MusicBoard));
+            if (MainUpContentFrame.Content is FM_SongBoardPage) {
+                var board_page = MainUpContentFrame.Content as FM_SongBoardPage;
+                board_page.CloseInnerContentPanel();
+            }
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e) {

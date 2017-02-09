@@ -19,7 +19,6 @@ namespace Douban.UWP.Core.Models.FMModels {
             try {
                 var jo = JObject.Parse(result);
                 var songs = jo["song"];
-                System.Diagnostics.Debug.WriteLine(songs);
                 var group = CreateDefaultListGroup(jo);
                 if (songs != null && songs.HasValues) {
                     songs.Children().ToList().ForEach(jo_song => {

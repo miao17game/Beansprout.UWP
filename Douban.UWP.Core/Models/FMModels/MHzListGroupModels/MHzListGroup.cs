@@ -16,6 +16,8 @@ namespace Douban.UWP.Core.Models.FMModels {
 
     public class MHzSongBase {
 
+        public bool IsSelect { get; set; }
+
         public string AlbumTitle { get; set; }
         public string Url { get; set; }
         public string FileExtensionName { get; set; }

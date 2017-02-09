@@ -29,7 +29,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
     public sealed partial class FMIndexPage : Page {
         public FMIndexPage() {
             this.InitializeComponent();
-            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
@@ -137,13 +136,14 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (!succeed)
                 return;
             Service.MHzChannelID = item.Id;
+            Service.ActionForMHz = GetNewMHzEachTurnAsync;
             var song = await InsertSongsToMHzListAsync();
             if (song == null)
                 return;
             if (MainUpContentFrame.Content != null)
                 (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
-            Service.MHzListMoveTo(song);
-            Service.ActionForMHz = GetNewMHzEachTurnAsync;
+            Service.MoveToAnyway(song);
+            Service.PlayAnyway();
             NavigateToBase?.Invoke(
                 null,
                 new MusicBoardParameter {
@@ -158,12 +158,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async void GetNewMHzEachTurnAsync() {
-            if (Service.FindMHzItemIndex(Service.PlaybackList.CurrentItem) == Service.PlaybackList.Items.Count - 1) {
-                var song = await InsertSongsToMHzListAsync();
-                if (song == null)
-                    return;
-            }
-            Service.MoveNextAnyway();
+            await Dispatcher.UpdateUI(async () => {
+                if (Service.FindItemIndex(Service.PlaybackList.CurrentItem) +1 >= Service.PlaybackList.Items.Count - 1) {
+                    var song = await InsertSongsToMHzListAsync();
+                    if (song == null)
+                        return;
+                }
+            });
         }
 
         private async Task<MHzSongBase> InsertSongsToMHzListAsync() {
@@ -171,6 +172,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (songs == null || songs.Count == 0)
                 return null;
             songs.ToList().ForEach(song => Service.InsertItem(song));
+            if (Service.PlaybackList.Items.Count <= 1) { // more songs to prepare, at least 2.
+                var songs_add = await MHzListGroupHelper.FetchMHzSongsAsync(Service.MHzChannelID, api_key, bearer);
+                if (songs_add != null && songs_add.Count != 0)
+                    songs_add.ToList().ForEach(song => Service.InsertItem(song));
+            }
             return songs[0];
         } 
 

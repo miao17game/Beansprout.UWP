@@ -63,8 +63,23 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
+            //ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+            //var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong));
+            //switch (result) {
+            //    case DownloadResult.ActionInvalid:
+            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Error"));
+            //        break;
+            //    case DownloadResult.FileExist:
+            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Exist"));
+            //        break;
+            //    case DownloadResult.Failed:
+            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Failed"));
+            //        break;
+            //    case DownloadResult.Successfully:
+            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Succeed"));
+            //        break;
+            //}
         }
 
         private void LikeButton_Click(object sender, RoutedEventArgs e) {
@@ -78,6 +93,34 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var succeed = Service.InsertItem(item);
             if (succeed)
                 ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
+        }
+
+        private void PlayAllBtn_Click(object sender, RoutedEventArgs e) {
+            if (inner_list == null)
+                return;
+            var item = inner_list[0];
+            var succeedss = Service.ChangeServiceChoice(MusicServiceType.SongList);
+            if (!succeedss)
+                return;
+            var succeed = false;
+            succeed = Service.InsertItem(item);
+            if (!succeed)
+                return;
+            inner_list.ToList().ForEach(i => succeed = Service.InsertItem(i));
+            if (MainUpContentFrame.Content != null)
+                (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
+            Service.SongListMoveTo(item);
+            NavigateToBase?.Invoke(
+                null,
+                new MusicBoardParameter {
+                    SID = item.SID,
+                    SSID = item.SSID,
+                    AID = item.AID,
+                    SHA256 = item.SHA256,
+                    FrameType = FrameType.UpContent
+                },
+                GetFrameInstance(FrameType.UpContent),
+                GetPageType(NavigateType.MusicBoard));
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
@@ -147,7 +190,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                         } catch { /* Ingore */ }
                     });
                 }
-                ListResources.Source = song_list.Songs;
+                ListResources.Source = inner_list = song_list.Songs;
                 SetListHeader(song_list);
             } catch { } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
@@ -187,6 +230,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         string uid;
         string bearer;
         FrameType frameType;
+        IList<MHzSong> inner_list;
 
         #endregion
 

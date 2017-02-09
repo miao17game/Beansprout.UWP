@@ -9,19 +9,25 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
     mc:Ignorable="d">
+
+    <Page.Resources>
+        <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}">
 
         <ListView Name="IndexList" ItemsSource="{Binding CurrentSongList}" 
-                      ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
-                      IsItemClickEnabled="True" SelectionMode="Single" 
-                      RelativePanel.AlignLeftWithPanel="True" 
-                      RelativePanel.AlignRightWithPanel="True"
-                      RelativePanel.AlignBottomWithPanel="True"
-                      RelativePanel.Below="TitleHeaderGrid"
-                      Loaded="IndexList_Loaded"
-                      ItemClick="IndexList_ItemClick">
+                  SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
+                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                  IsItemClickEnabled="True" SelectionMode="Single" 
+                  RelativePanel.AlignLeftWithPanel="True" 
+                  RelativePanel.AlignRightWithPanel="True"
+                  RelativePanel.AlignBottomWithPanel="True"
+                  RelativePanel.Below="TitleHeaderGrid"
+                  Loaded="IndexList_Loaded"
+                  ItemClick="IndexList_ItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="baseModel:MHzSongBase">
                     <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
@@ -32,24 +38,39 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Rectangle Width="50" Height="50" Margin="15,20,5,20" 
-                                       Grid.RowSpan="2" RadiusX="5" RadiusY="5">
+                                       Grid.RowSpan="2" Grid.Column="1" RadiusX="5" RadiusY="5">
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="{Binding Picture}" Stretch="UniformToFill"/>
                             </Rectangle.Fill>
                         </Rectangle>
+                        <Border Height="70" Width="70" Grid.Column="0" 
+                                HorizontalAlignment="Center" 
+                                Grid.RowSpan="2"
+                                VerticalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Text="&#xE93C;" 
+                                       FontSize="30"
+                                       FontWeight="Bold"
+                                       Foreground="{ThemeResource DoubanForeground01}"
+                                       Visibility="{Binding IsSelect,  Converter={StaticResource VisibilityConverter}, 
+                                ConverterParameter=True}"/>
+                        </Border>
                         <TextBlock Text="{Binding Title}" 
-                                       Grid.Column="1"
+                                       Grid.Column="2"
                                        VerticalAlignment="Center"
                                        FontSize="18" 
                                        Margin="10,10,0,0"
                                        MaxHeight="50"
                                        TextWrapping="WrapWholeWords"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                        Grid.Column="1" 
+                                        Grid.Column="2" 
                                         Grid.Row="1"
                                          Margin="10,0,0,10" >
                             <TextBlock Text="{Binding SingerShow}" 
@@ -70,7 +91,7 @@
                                            FontWeight="Thin" 
                                            Foreground="#80808080"/>
                         </StackPanel>
-                        <StackPanel Grid.Column="2"
+                        <StackPanel Grid.Column="3"
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">

@@ -5,6 +5,7 @@
     xmlns:base="using:Douban.UWP.NET.Controls"
     xmlns:controls="using:Douban.UWP.NET.Controls"
     xmlns:model="using:Douban.UWP.Core.Models.FMModels"
+    xmlns:tools="using:Douban.UWP.NET.Tools"
     xmlns:vm="using:Douban.UWP.NET.Models"
     xmlns:Converters="using:Douban.UWP.Tools.Converters"
     xmlns:local="using:Douban.UWP.NET.Pages.SingletonPages.FMPages"
@@ -13,6 +14,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Douban.UWP.NET.Behaviors"
+    xmlns:MSControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <base:BaseContentPage.Resources>
@@ -171,10 +173,43 @@
                         <Ellipse Margin="5" Fill="#383838" />
                         <Ellipse Margin="10" Fill="#3E3E3E" />
                         <Ellipse Margin="15" Fill="White"/>
-                        <Ellipse Margin="17.5" Fill="#EEEEEE"/>
-                        <Rectangle Width="0.5" Height="8.5" Fill="Red" VerticalAlignment="Top" Margin="0,19,0,0"/>
-                        <Ellipse Width="2" Height="2" Fill="#AAAAAA"/>
+                        <Grid Name="CenterControlGrid" SizeChanged="CenterControlGrid_SizeChanged">
+                            <Ellipse Margin="17.5" Fill="#EEEEEE"/>
+                            <Rectangle Width="0.5" Height="8.5" Fill="Red" VerticalAlignment="Top" Margin="0,19,0,0"/>
+                            <Ellipse Width="2" Height="2" Fill="#AAAAAA"/>
+                            <Button Margin="17.5" Name="VolumeShowBtn" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                    Click="VolumeShowBtn_Click"/>
+                        </Grid>
                     </Grid>
+
+                    <Grid Name="UnitsBorder" MaxWidth="200" MaxHeight="200" 
+                            BorderBrush="White" Visibility="Collapsed">
+                        <MSControls:RadialGauge 
+                                x:Name="RadialGauge"
+                                                Value="0"
+                                                Minimum="0"
+                                                Maximum="100"
+                                                StepSize="1"
+                                                IsInteractive="True"
+                                                TickSpacing="10"
+                                                ScaleWidth="3"
+                                                MinAngle="0"
+                                                MaxAngle="360"
+                                                Unit="Units"
+                                                TickBrush="Gainsboro"
+                                                ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                                UnitBrush="Transparent"
+                                                ValueBrush="White" 
+                                                NeedleWidth="2" 
+                                                TickLength="5" />
+                        <Button MaxWidth="70" MaxHeight="70" Name="VolumeCloseBtn" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                    Click="VolumeCloseBtn_Click"/>
+                    </Grid>
+
                 </Grid>
             </Border>
             <Grid Margin="10,10,10,20" Grid.Row="1" MaxWidth="400">
@@ -272,7 +307,8 @@
             <Slider Name="MusicSlider" Height="40" 
                     Value="{Binding CurrentTime, Mode=TwoWay, Converter={StaticResource TimeSpanConverter}}"  
                     Maximum="{Binding Duration, Converter={StaticResource TimeSpanConverter}}" 
-                    Grid.ColumnSpan="5" ValueChanged="MusicSlider_ValueChanged"
+                    Grid.ColumnSpan="5"
+                    ValueChanged="MusicSlider_ValueChanged"
                     Margin="10,0,10,0" VerticalAlignment="Center" 
                     Foreground="#DDFFFFFF"
                     Style="{StaticResource MainPageNewDefaultSlider}">

@@ -44,6 +44,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (args == null)
                 return;
             frameType = args.FrameType;
+            var num = Service.GetVolumn();
+            RadialGauge.Value = 100 * num;
+            SetCenterControlGridRotation(num);
             await InitMusicBoardAsync(args);
             await SetDefaultLrcAndAnimationsAsync();
         }
@@ -70,6 +73,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             MusicBoardVM.BackImage = image;
             MusicBoardVM.LrcTitle = title;
             MusicBoardVM.ListCount = Service.CurrentSongList.Count;
+            MusicBoardVM.CurrentItem = Service.CurrentItem;
 
             RandomButton.Content = 
                 Service.PlayType == MusicServicePlayType.ShufflePlay? char.ConvertFromUtf32(0xE8B1):
@@ -91,7 +95,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
             songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
 
-            //InitCDStoryboard();
         }
 
         private async void OnBufferingEndedAsync(MediaPlaybackSession sender, object args) {
@@ -168,10 +171,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
-            if (Service.ServiceType == MusicServiceType.MHz && Service.FindMHzItemIndex(Service.PlaybackList.CurrentItem) == Service.PlaybackList.Items.Count - 1) {
-                Service.ActionForMHz?.Invoke();
-                return;
-            }
             Service.MoveNextAnyway();
         }
 
@@ -193,8 +192,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void MusicSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) {
-            //var newValue = e.NewValue;
-            //System.Diagnostics.Debug.WriteLine(newValue);
+            if (Math.Abs(e.NewValue - e.OldValue) >= 3)
+                Service.Session.Position = TimeSpan.FromSeconds(e.NewValue);
         }
 
         private void LrcButton_Click(object sender, RoutedEventArgs e) {
@@ -227,6 +226,20 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             LrcCanvas.SetVisibility(false);
         }
 
+        private void VolumeShowBtn_Click(object sender, RoutedEventArgs e) {
+            UnitsBorder.SetVisibility(true);
+        }
+
+        private void VolumeCloseBtn_Click(object sender, RoutedEventArgs e) {
+            var num = RadialGauge.Value / 100;
+            var succeed = Service.ChangeVolumnTo(num);
+            if (succeed) {
+                SettingsHelper.SaveSettingsValue(SettingsSelect.MusicServiceVolumn, num);
+                SetCenterControlGridRotation(num);
+            }
+            UnitsBorder.SetVisibility(false);
+        }
+
         private void InnerContentPanel_SizeChanged(object sender, SizeChangedEventArgs e) {
             InnerGrid.Width = (sender as Popup).ActualWidth;
             InnerGrid.Height = (sender as Popup).ActualHeight;
@@ -244,6 +257,15 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         private void OnOutPopupBorderOut(object sender, object e) {
             OutPopupBorder.Completed -= OnOutPopupBorderOut;
             PopupBackBorder.SetVisibility(false);
+        }
+
+        private void CenterControlGrid_SizeChanged(object sender, SizeChangedEventArgs e) {
+            var comp = CenterControlGrid.RenderTransform as CompositeTransform;
+            if (comp == null)
+                CenterControlGrid.RenderTransform = comp = new CompositeTransform();
+            CenterControlGrid.RenderTransform = comp;
+            comp.CenterX = CenterControlGrid.ActualWidth / 2;
+            comp.CenterY = CenterControlGrid.ActualHeight / 2;
         }
 
         #region Method
@@ -320,38 +342,15 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 anima_style: animation_style);
         }
 
-        #region CD Animations
-
-        //private void InitCDStoryboard() {
-        //    if (cd_sb != null)
-        //        return;
-        //    var comp = CDImage.RenderTransform as CompositeTransform;
-        //    if (comp == null)
-        //        CDImage.RenderTransform = comp = new CompositeTransform();
-        //    var Translate = new DoubleAnimationUsingKeyFrames();
-        //    Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.Rotation)").Path);
-        //    Storyboard.SetTarget(Translate, CDImage);
-        //    Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-        //        KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(20)),
-        //        Value = 360,
-        //    });
-        //    comp.CenterX = CDImage.ActualWidth / 2;
-        //    comp.CenterY = CDImage.ActualHeight / 2;
-        //    cd_sb = new Storyboard();
-        //    cd_sb.Children.Add(Translate);
-        //    cd_sb.RepeatBehavior = new RepeatBehavior { Type = RepeatBehaviorType.Forever };
-        //    cd_sb.Begin();
-        //}
-
-        //private void CDImage_SizeChanged(object sender, SizeChangedEventArgs e) {
-        //    var comp = CDImage.RenderTransform as CompositeTransform;
-        //    if (comp == null)
-        //        CDImage.RenderTransform = comp = new CompositeTransform();
-        //    comp.CenterX = CDImage.ActualWidth / 2;
-        //    comp.CenterY = CDImage.ActualHeight / 2;
-        //}
-
-        #endregion
+        private void SetCenterControlGridRotation(double num) {
+            var comp = CenterControlGrid.RenderTransform as CompositeTransform;
+            if (comp == null)
+                CenterControlGrid.RenderTransform = comp = new CompositeTransform();
+            CenterControlGrid.RenderTransform = comp;
+            comp.CenterX = CenterControlGrid.ActualWidth / 2;
+            comp.CenterY = CenterControlGrid.ActualHeight / 2;
+            comp.Rotation = num * 360;
+        }
 
         #endregion
 
@@ -363,7 +362,6 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         string title;
         string artist;
         string image;
-        //Storyboard cd_sb;
         FrameType frameType;
         IEnumerable<LrcMetaData> songMessCollection;
         LrcListViewAnimationStyle animation_style = LrcListViewAnimationStyle.FastSlide;

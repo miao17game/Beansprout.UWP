@@ -801,4 +801,19 @@
   <data name="Close_Lrc_Board.Text" xml:space="preserve">
     <value>Show the CD view</value>
   </data>
+  <data name="Download_Failed" xml:space="preserve">
+    <value>Download operation failed</value>
+  </data>
+  <data name="Download_Succeed" xml:space="preserve">
+    <value>Download operation finished</value>
+  </data>
+  <data name="Download_Error" xml:space="preserve">
+    <value>Operation error</value>
+  </data>
+  <data name="Download_Exist" xml:space="preserve">
+    <value>File is exist</value>
+  </data>
+  <data name="Download_Start" xml:space="preserve">
+    <value>Download operation running</value>
+  </data>
 </root>

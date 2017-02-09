@@ -25,8 +25,9 @@ namespace Douban.UWP.NET.Controls {
         public void SetLrcAnimation(IList<LrcInfo> list, ref VisualBoardVM vm, LrcListViewAnimationStyle anima_style = LrcListViewAnimationStyle.SmoothRoll) {
             ThisVM = vm;
             _animation_style = anima_style;
-            if ((_lrc_list = list).Count > 0)
-                _index_new = -1;
+            _lrc_list = list;
+            _index_new = -1;
+            Canvas.SetTop(this, 230);
             if (_timer != null)
                 _timer.Start();
             else {

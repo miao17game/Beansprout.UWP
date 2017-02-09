@@ -60,7 +60,7 @@ namespace Douban.UWP.NET.Tools {
             try {
                 var jo = JObject.Parse(jSonLrcString);
                 return (string)jo["lyric"];
-            } catch (InvalidOperationException IOE) { Debug.WriteLine("INVALID_EXEPTION" + IOE.Message.ToString()); return null; }
+            } catch (InvalidOperationException IOE) { Debug.WriteLine("INVALID_EXEPTION:" + IOE.Message.ToString()); return null; }
         }
 
         public static async Task<string> FetchLrcByIdAsync(string MuiscId) {
@@ -69,7 +69,7 @@ namespace Douban.UWP.NET.Tools {
                 var jSonLrcString = await GetContentFluentlyAsync(lrc_url);
                 var jo = JObject.Parse(jSonLrcString);
                 return (string)jo["lyric"];
-            } catch { return null; }
+            } catch (Exception e) { Debug.WriteLine("FetchLrcById Error:" + e.StackTrace); return null; }
         }
 
         private static async Task<string> GetContentFluentlyAsync(string url) {
@@ -119,7 +119,7 @@ namespace Douban.UWP.NET.Tools {
                         }
                     }
                 }
-            } catch { return null; }
+            } catch (Exception e) { Debug.WriteLine("GetPostReturnMessage Error:" + e.StackTrace);  return null; }
         }
 
         public static void ReadFromLrcStringFluently9Number(Color TextColor, string lrcFileString, IList<LrcInfo> lrcListOld) {
