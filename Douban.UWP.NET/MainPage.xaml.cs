@@ -157,7 +157,9 @@ namespace Douban.UWP.NET {
         private async void GetResourcesAsync() {
             NaviBarResouces.Source = HamburgerResList;
             await TryLoginAsync(true);
-            HasFMExtensions = await WindowsStoreHelpers.GetProductInfoAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
+            var situation = await WindowsStoreHelpers.GetProductSituationAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
+            HasFMExtensions = situation == ProductSituationReturn.MicrosoftError || situation == ProductSituationReturn.Have ? true : false;
+            //HasFMExtensions = await WindowsStoreHelpers.GetProductInfoAsync(Windows.Services.Store.StoreContext.GetDefault(), id: "9mzf5cp1mf83");
         }
 
         #endregion

@@ -28,7 +28,7 @@ namespace Wallace.UWP.Helpers.SDK {
                     toTimeLine == ShareType.WechatTimeLine ? 
                     SendMessageToWX.Req.WXSceneTimeline : 
                     SendMessageToWX.Req.WXSceneSession);
-                IWXAPI api = WXAPIFactory.CreateWXAPI("123456789");
+                IWXAPI api = WXAPIFactory.CreateWXAPI("wxdfa382a79b754759");
                 var tes = await api.SendReq(requset);
             } catch(WXException e) { System.Diagnostics.Debug.WriteLine(e.StackTrace); }
         }

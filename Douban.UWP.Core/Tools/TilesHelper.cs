@@ -17,11 +17,11 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static SecondaryTile GenerateSecondaryTile(string tileId, string displayName, Windows.UI.Color color) {
-            SecondaryTile tile = new SecondaryTile(tileId, displayName, "args", new Uri("ms-appx:///Assets/guapi.png"), TileSize.Default);
-            tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/guapi.png");
-            tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/guapi.png");
-            tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/guapi.png");
-            tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/guapi.png"); // Branding logo
+            SecondaryTile tile = new SecondaryTile(tileId, displayName, "args", new Uri("ms-appx:///Assets/star003.png"), TileSize.Default);
+            tile.VisualElements.Square71x71Logo = new Uri("ms-appx:///Assets/star003.png");
+            tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/star003.png");
+            tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/star003.png");
+            tile.VisualElements.Square44x44Logo = new Uri("ms-appx:///Assets/star003.png"); // Branding logo
             tile.VisualElements.BackgroundColor = color;
             return tile;
         }

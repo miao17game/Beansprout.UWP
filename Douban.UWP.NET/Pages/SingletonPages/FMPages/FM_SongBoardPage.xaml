@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:animations="using:Douban.UWP.NET.Behaviors"
     mc:Ignorable="d">
 
     <base:BaseContentPage.Resources>
@@ -144,7 +145,10 @@
                     CornerRadius="300" Background="#30FFFFFF" >
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center" 
                       Background="#EFEFEF" CornerRadius="300" Margin="10" Padding="5">
-                    <Ellipse Name="CDImage" Width="500" Height="500" SizeChanged="CDImage_SizeChanged">
+                    <Ellipse Name="CDImage" Width="500" Height="500">
+                        <interactivity:Interaction.Behaviors>
+                            <animations:CDRollAnimation x:Name="RollStory"/>
+                        </interactivity:Interaction.Behaviors>
                         <Ellipse.Fill>
                             <ImageBrush ImageSource="{Binding BackImage}" Stretch="UniformToFill"/>
                         </Ellipse.Fill>

@@ -69,7 +69,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
             MusicBoardVM.BackImage = image;
             MusicBoardVM.LrcTitle = title;
-            MusicBoardVM.ListCount = Service.ServiceType == MusicServiceType.SongList ? Service.SongList.Count : Service.MHzSongList.Count;
+            MusicBoardVM.ListCount = Service.CurrentSongList.Count;
 
             RandomButton.Content = 
                 Service.PlayType == MusicServicePlayType.ShufflePlay? char.ConvertFromUtf32(0xE8B1):
@@ -91,7 +91,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
             songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
 
-            InitCDStoryboard();
+            //InitCDStoryboard();
         }
 
         private async void OnBufferingEndedAsync(MediaPlaybackSession sender, object args) {
@@ -153,9 +153,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e) {
             if (Service.Session.PlaybackState == MediaPlaybackState.Playing) {
-                Service.Player.Pause();
+                Service.PauseAnyway();
             } else if (Service.Session.PlaybackState == MediaPlaybackState.Paused) {
-                Service.Player.Play();
+                Service.PlayAnyway();
                 if (LrcListView.Timer != null && !LrcListView.Timer.IsEnabled) {
                     (LrcListView.RenderTransform as CompositeTransform).TranslateY = 0;
                     LrcListView.Timer.Start();
@@ -168,6 +168,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
+            if (Service.ServiceType == MusicServiceType.MHz && Service.FindMHzItemIndex(Service.PlaybackList.CurrentItem) == Service.PlaybackList.Items.Count - 1) {
+                Service.ActionForMHz?.Invoke();
+                return;
+            }
             Service.MoveNextAnyway();
         }
 
@@ -260,19 +264,17 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         public void RegisterServiceEvents() {
-            Service.PlayList.CurrentItemChanged += OnCurrentItemChangedAsync;
-            Service.MHzList.CurrentItemChanged += OnCurrentItemChangedAsync;
+            Service.PlaybackList.CurrentItemChanged += OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded += OnBufferingEndedAsync;
             Service.Session.PlaybackStateChanged += OnPlaybackStateChangedAsync;
-            Service.Player.MediaEnded += OnMediaEndedAsync;
+            Service.BindingOnMediaEnded(OnMediaEndedAsync, true);
         }
 
         public void UnregisterServiceEvents() {
-            Service.PlayList.CurrentItemChanged -= OnCurrentItemChangedAsync;
-            Service.MHzList.CurrentItemChanged -= OnCurrentItemChangedAsync;
+            Service.PlaybackList.CurrentItemChanged -= OnCurrentItemChangedAsync;
             Service.Session.BufferingEnded -= OnBufferingEndedAsync;
             Service.Session.PlaybackStateChanged -= OnPlaybackStateChangedAsync;
-            Service.Player.MediaEnded -= OnMediaEndedAsync;
+            Service.BindingOnMediaEnded(OnMediaEndedAsync, false);
         }
 
         public void OpenInnerContent() {
@@ -283,12 +285,12 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         public void DoWorkWhenMusicPaused() {
             PlayPauseButton.Content = char.ConvertFromUtf32(0xE768);
-            cd_sb?.Stop();
+            RollStory?.AnimationStop();
         }
 
         public void DoWorkWhenMusicPlayed() {
             PlayPauseButton.Content = char.ConvertFromUtf32(0xE769);
-            cd_sb?.Begin();
+            RollStory?.AnimationPlay();
         }
 
         public void CloseInnerContentPanel() {
@@ -320,34 +322,34 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         #region CD Animations
 
-        private void InitCDStoryboard() {
-            if (cd_sb != null)
-                return;
-            var comp = CDImage.RenderTransform as CompositeTransform;
-            if (comp == null)
-                CDImage.RenderTransform = comp = new CompositeTransform();
-            var Translate = new DoubleAnimationUsingKeyFrames();
-            Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.Rotation)").Path);
-            Storyboard.SetTarget(Translate, CDImage);
-            Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
-                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(20)),
-                Value = 360,
-            });
-            comp.CenterX = CDImage.ActualWidth / 2;
-            comp.CenterY = CDImage.ActualHeight / 2;
-            cd_sb = new Storyboard();
-            cd_sb.Children.Add(Translate);
-            cd_sb.RepeatBehavior = new RepeatBehavior { Type = RepeatBehaviorType.Forever };
-            cd_sb.Begin();
-        }
+        //private void InitCDStoryboard() {
+        //    if (cd_sb != null)
+        //        return;
+        //    var comp = CDImage.RenderTransform as CompositeTransform;
+        //    if (comp == null)
+        //        CDImage.RenderTransform = comp = new CompositeTransform();
+        //    var Translate = new DoubleAnimationUsingKeyFrames();
+        //    Storyboard.SetTargetProperty(Translate, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.Rotation)").Path);
+        //    Storyboard.SetTarget(Translate, CDImage);
+        //    Translate.KeyFrames.Add(new EasingDoubleKeyFrame {
+        //        KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromSeconds(20)),
+        //        Value = 360,
+        //    });
+        //    comp.CenterX = CDImage.ActualWidth / 2;
+        //    comp.CenterY = CDImage.ActualHeight / 2;
+        //    cd_sb = new Storyboard();
+        //    cd_sb.Children.Add(Translate);
+        //    cd_sb.RepeatBehavior = new RepeatBehavior { Type = RepeatBehaviorType.Forever };
+        //    cd_sb.Begin();
+        //}
 
-        private void CDImage_SizeChanged(object sender, SizeChangedEventArgs e) {
-            var comp = CDImage.RenderTransform as CompositeTransform;
-            if (comp == null)
-                CDImage.RenderTransform = comp = new CompositeTransform();
-            comp.CenterX = CDImage.ActualWidth / 2;
-            comp.CenterY = CDImage.ActualHeight / 2;
-        }
+        //private void CDImage_SizeChanged(object sender, SizeChangedEventArgs e) {
+        //    var comp = CDImage.RenderTransform as CompositeTransform;
+        //    if (comp == null)
+        //        CDImage.RenderTransform = comp = new CompositeTransform();
+        //    comp.CenterX = CDImage.ActualWidth / 2;
+        //    comp.CenterY = CDImage.ActualHeight / 2;
+        //}
 
         #endregion
 
@@ -361,7 +363,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         string title;
         string artist;
         string image;
-        Storyboard cd_sb;
+        //Storyboard cd_sb;
         FrameType frameType;
         IEnumerable<LrcMetaData> songMessCollection;
         LrcListViewAnimationStyle animation_style = LrcListViewAnimationStyle.FastSlide;

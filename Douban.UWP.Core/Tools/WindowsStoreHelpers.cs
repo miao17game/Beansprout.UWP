@@ -28,6 +28,29 @@ namespace Douban.UWP.Core.Tools {
             return have;
         }
 
+        public static async Task<ProductSituationReturn> GetProductSituationAsync(StoreContext context, string id, string filter = "Durable") {
+            if (context == null)
+                context = StoreContext.GetDefault();
+
+            var filterList = new string[] { filter };
+            var storeIds = new string[] { id };
+
+            var queryResult = await context.GetStoreProductsAsync(filterList, storeIds);
+
+            if (queryResult.ExtendedError != null) {
+                System.Diagnostics.Debug.WriteLine($"ExtendedError: {queryResult.ExtendedError.Message}");
+                return ProductSituationReturn.Error;
+            }
+
+            if (queryResult.Products.Count == 0)
+                return ProductSituationReturn.MicrosoftError;
+
+            bool have = false;
+            queryResult.Products.Values.ToList().ForEach(item => have = item.IsInUserCollection);
+
+            return have ? ProductSituationReturn.Have : ProductSituationReturn.Without;
+        }
+
 
         public static async Task<PurchasAddOnReturn> PurchaseAddOnAsync(StoreContext context, string storeId) {
             if (context == null)
@@ -83,6 +106,13 @@ namespace Douban.UWP.Core.Tools {
         Unknown,
         Successful,
         Failed
+    }
+
+    public enum ProductSituationReturn {
+        MicrosoftError,
+        Error,
+        Have,
+        Without
     }
 
 }

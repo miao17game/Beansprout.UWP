@@ -45,7 +45,7 @@ namespace Douban.UWP.NET {
 
         private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) {
             e.Handled = true;
-            ReportHelper.ReportAttentionAsync(UWPStates.GetUIString("Error") + ": \n" + e.Exception.Message);
+            ReportHelper.ReportAttentionDebugAsync(UWPStates.GetUIString("Error") + " : \n" + e.Exception.Message, e.Exception.StackTrace);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Douban.UWP.NET {
 
         private void SynchronizationContext_UnhandledException(object sender, Wallace.UWP.Helpers.Tools.UnhandledExceptionEventArgs e) {
             e.Handled = true;
-            ReportHelper.ReportAttentionAsync(UWPStates.GetUIString("Error")  + ": \n" + e.Exception.Message);
+            ReportHelper.ReportAttentionDebugAsync(UWPStates.GetUIString("Error")  + " : \n" + e.Exception.Message, e.Exception.StackTrace);
         }
 
         /// <summary>

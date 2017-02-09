@@ -33,8 +33,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
-            IndexList.SetVisibility(Service.ServiceType == MusicServiceType.SongList);
-            IndexListMhz.SetVisibility(Service.ServiceType == MusicServiceType.MHz);
+            
         }
 
         private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {

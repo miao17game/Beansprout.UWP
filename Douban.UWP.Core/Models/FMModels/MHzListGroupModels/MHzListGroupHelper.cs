@@ -19,6 +19,7 @@ namespace Douban.UWP.Core.Models.FMModels {
             try {
                 var jo = JObject.Parse(result);
                 var songs = jo["song"];
+                System.Diagnostics.Debug.WriteLine(songs);
                 var group = CreateDefaultListGroup(jo);
                 if (songs != null && songs.HasValues) {
                     songs.Children().ToList().ForEach(jo_song => {
@@ -35,7 +36,7 @@ namespace Douban.UWP.Core.Models.FMModels {
         }
 
         public static void AddRelease(MHzSongBase song, JToken jo_release) {
-            if (jo_release == null)
+            if (jo_release == null || !jo_release.HasValues)
                 return;
             song.Release = CreateDefaultReleaseInstance(jo_release);
         }

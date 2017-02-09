@@ -109,6 +109,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\ButtonGetFocusBehaviorOfScale.cs" />
+    <Compile Include="Behaviors\CDRollAnimation.cs" />
     <Compile Include="Controls\BaseContentPage.cs" />
     <Compile Include="Controls\FiveStarControl.xaml.cs">
       <DependentUpon>FiveStarControl.xaml</DependentUpon>

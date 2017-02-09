@@ -158,7 +158,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async void GetNewMHzEachTurnAsync() {
-            if (Service.FindMHzItemIndex(Service.MHzList.CurrentItem) == Service.MHzList.Items.Count - 1) {
+            if (Service.FindMHzItemIndex(Service.PlaybackList.CurrentItem) == Service.PlaybackList.Items.Count - 1) {
                 var song = await InsertSongsToMHzListAsync();
                 if (song == null)
                     return;

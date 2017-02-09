@@ -22,7 +22,7 @@ namespace Douban.UWP.NET.Tools {
 
         public DoubanMusicService(MusicServiceType service_type = MusicServiceType.SongList) {
             ServiceType = service_type;
-            this.Player.Source = service_type == MusicServiceType.MHz ? this.MHzList : this.PlayList;
+            this.Player.Source = service_type == MusicServiceType.MHz ? this.MHzChannelList : this.SongPlayList;
             this.RegisterListEventHandlers(service_type);
             this.SetSongListPlayerStyleIfNeed(service_type);
         }
@@ -43,14 +43,14 @@ namespace Douban.UWP.NET.Tools {
                 ActionForMHz?.Invoke();
                 return;
             }
-            if (this.SingletonPlay && PlayList.Items.Count == 1) {
+            if (this.SingletonPlay && SongPlayList.Items.Count == 1) {
                 this.SongListMoveTo(0);
                 this.PlayAnyway();
             }
         }
 
         private void RegisterListEventHandlers(MusicServiceType type) {
-            RegisterListEventHandlers(type == MusicServiceType.MHz ? MHzList : PlayList);
+            RegisterListEventHandlers(type == MusicServiceType.MHz ? MHzChannelList : SongPlayList);
         }
 
         private void RegisterListEventHandlers(MediaPlaybackList list) {
@@ -89,7 +89,7 @@ namespace Douban.UWP.NET.Tools {
                 return true;
             var succeed = this.ResetPlayer(type);
             if (succeed) {
-                this.Player.Source = type == MusicServiceType.MHz ? this.MHzList : this.PlayList;
+                this.Player.Source = type == MusicServiceType.MHz ? this.MHzChannelList : this.SongPlayList;
                 this.SetSongListPlayerStyleIfNeed(type);
                 this.ServiceType = type;
             }
@@ -98,6 +98,17 @@ namespace Douban.UWP.NET.Tools {
 
         public void PlayAnyway() {
             Player.Play();
+        }
+
+        public void PauseAnyway() {
+            Player.Pause();
+        }
+
+        public void BindingOnMediaEnded(Windows.Foundation.TypedEventHandler<MediaPlayer,object> callback, bool to_bind) {
+            if (to_bind)
+                Player.MediaEnded += callback;
+            else
+                Player.MediaEnded -= callback;
         }
 
         #region Service Methods Selector
@@ -201,12 +212,12 @@ namespace Douban.UWP.NET.Tools {
 
         public void SongListMoveTo(int index = -1) {
             if (index < 0) {
-                if (PlayList.CurrentItem == PlayList.Items[currentInsert])
+                if (SongPlayList.CurrentItem == SongPlayList.Items[currentInsert])
                     return;
                 else
-                    PlayList.MoveTo((uint)currentInsert);
+                    SongPlayList.MoveTo((uint)currentInsert);
             } else
-                PlayList.MoveTo((uint)index);
+                SongPlayList.MoveTo((uint)index);
             PlayAnyway();
         }
 
@@ -218,20 +229,20 @@ namespace Douban.UWP.NET.Tools {
         }
 
         public void SongListMoveTo(MediaPlaybackItem item) {
-            if (PlayList.CurrentItem == item)
+            if (SongPlayList.CurrentItem == item)
                 return;
-            var index = PlayList.Items.ToList().FindIndex(i => i == item);
-            PlayList.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
+            var index = SongPlayList.Items.ToList().FindIndex(i => i == item);
+            SongPlayList.MoveTo(index < 0 ? (uint)currentInsert : (uint)index);
             PlayAnyway();
         }
 
         private void SongListMoveNext() {
-            PlayList.MoveNext();
+            SongPlayList.MoveNext();
             PlayAnyway();
         }
 
         private void SongListMovePrevious() {
-            PlayList.MovePrevious();
+            SongPlayList.MovePrevious();
             PlayAnyway();
         }
 
@@ -255,14 +266,14 @@ namespace Douban.UWP.NET.Tools {
         private int InsertMusicItem(MediaPlaybackItem musicItem, int index = -1) {
             bool succeed = true;
             if (index < 0)
-                PlayList.Items.Add(musicItem);
-            else if (PlayList.Items.Count > index)
-                PlayList.Items.Insert(index, musicItem);
-            else if (PlayList.Items.Count == index)
-                PlayList.Items.Add(musicItem);
+                SongPlayList.Items.Add(musicItem);
+            else if (SongPlayList.Items.Count > index)
+                SongPlayList.Items.Insert(index, musicItem);
+            else if (SongPlayList.Items.Count == index)
+                SongPlayList.Items.Add(musicItem);
             else
                 succeed = false;
-            return succeed ? currentInsert = (index >= 0 ? index : (PlayList.Items.Count - 1)) : -1;
+            return succeed ? currentInsert = (index >= 0 ? index : (SongPlayList.Items.Count - 1)) : -1;
         }
 
         #endregion
@@ -270,7 +281,7 @@ namespace Douban.UWP.NET.Tools {
         #region Chech If Exist
 
         private bool IsExistPlayItem(MediaPlaybackItem musicItem) {
-            var find_index = PlayList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
+            var find_index = SongPlayList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
             return find_index == -1 ? false : true;
         }
 
@@ -284,7 +295,7 @@ namespace Douban.UWP.NET.Tools {
         #region Select Item
 
         private MediaPlaybackItem SelectItemBySHA256(string sha256) {
-            return PlayList.Items.ToList().Find(i => i.Source.CustomProperties["SHA256"] as string == sha256);
+            return SongPlayList.Items.ToList().Find(i => i.Source.CustomProperties["SHA256"] as string == sha256);
         }
 
         private MHzSongBase SelectSongItemBySHA256(string sha256) {
@@ -303,7 +314,7 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private bool IsCurrentItem(MediaPlaybackItem musicItem) {
-            return PlayList.CurrentItem == musicItem;
+            return SongPlayList.CurrentItem == musicItem;
         }
 
         #endregion
@@ -316,7 +327,7 @@ namespace Douban.UWP.NET.Tools {
                 return false;
             if (IsCurrentItem(item))
                 return false;
-            var succeed = PlayList.Items.Remove(item);
+            var succeed = SongPlayList.Items.Remove(item);
             if (!succeed)
                 return succeed;
             succeed = SongList.Remove(song);
@@ -327,7 +338,7 @@ namespace Douban.UWP.NET.Tools {
         private bool RemovePlaybackItem(MediaPlaybackItem item) {
             if (IsCurrentItem(item))
                 return false;
-            var succeed = PlayList.Items.Remove(item);
+            var succeed = SongPlayList.Items.Remove(item);
             if (!succeed)
                 return succeed;
             var song = SelectSongItemBySHA256(item.Source.CustomProperties["SHA256"] as string);
@@ -345,12 +356,12 @@ namespace Douban.UWP.NET.Tools {
         #region MHzList Methods
 
         private void MHzListMoveNext() {
-            MHzList.MoveNext();
+            MHzChannelList.MoveNext();
             PlayAnyway();
         }
 
         private void MHzListMovePrevious() {
-            MHzList.MovePrevious();
+            MHzChannelList.MovePrevious();
             PlayAnyway();
         }
 
@@ -360,24 +371,23 @@ namespace Douban.UWP.NET.Tools {
             var item = SelectMHzItemBySHA256(song.SHA256);
             if (item == null)
                 return;
-            var index = MHzList.Items.ToList().FindIndex(i => i == item);
+            var index = MHzChannelList.Items.ToList().FindIndex(i => i == item);
             if (index < 0)
                 return;
-            MHzList.MoveTo((uint)index);
+            MHzChannelList.MoveTo((uint)index);
             PlayAnyway();
         }
 
         public int FindMHzItemIndex(MediaPlaybackItem musicItem) {
-            return MHzList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
+            return MHzChannelList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
         }
 
         #region Insert
 
         private bool InsertMHzItem(MHzSongBase song, int index = -1) {
             var find_index = MHzSongList.ToList().FindIndex(i => i.SHA256 == song.SHA256);
-            if (find_index != -1) {
+            if (find_index != -1) 
                 return true;
-            }
             var item = MusicServiceHelper.CreatePlayItem(song);
             var retuenIndex = InsertMHzItem(item, index);
             MHzSongList.Insert(retuenIndex, song);
@@ -388,14 +398,14 @@ namespace Douban.UWP.NET.Tools {
         private int InsertMHzItem(MediaPlaybackItem musicItem, int index = -1) {
             bool succeed = true;
             if (index < 0)
-                MHzList.Items.Add(musicItem);
-            else if (MHzList.Items.Count > index)
-                MHzList.Items.Insert(index, musicItem);
-            else if (MHzList.Items.Count == index)
-                MHzList.Items.Add(musicItem);
+                MHzChannelList.Items.Add(musicItem);
+            else if (MHzChannelList.Items.Count > index)
+                MHzChannelList.Items.Insert(index, musicItem);
+            else if (MHzChannelList.Items.Count == index)
+                MHzChannelList.Items.Add(musicItem);
             else
                 succeed = false;
-            return succeed ? (index >= 0 ? index : (MHzList.Items.Count - 1)) : -1;
+            return succeed ? (index >= 0 ? index : (MHzChannelList.Items.Count - 1)) : -1;
         }
 
         #endregion
@@ -403,7 +413,7 @@ namespace Douban.UWP.NET.Tools {
         #region Chech If Exist
 
         public bool IsExistMHzItem(MediaPlaybackItem musicItem) {
-            var find_index = MHzList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
+            var find_index = MHzChannelList.Items.ToList().FindIndex(i => i.Source.CustomProperties["SHA256"] as string == musicItem.Source.CustomProperties["SHA256"] as string);
             return find_index == -1 ? false : true;
         }
 
@@ -417,7 +427,7 @@ namespace Douban.UWP.NET.Tools {
         #region Select Item
 
         private MediaPlaybackItem SelectMHzItemBySHA256(string sha256) {
-            return MHzList.Items.ToList().Find(i => i.Source.CustomProperties["SHA256"] as string == sha256);
+            return MHzChannelList.Items.ToList().Find(i => i.Source.CustomProperties["SHA256"] as string == sha256);
         }
 
         private MHzSongBase SelectMHzSongItemBySHA256(string sha256) {
@@ -436,7 +446,7 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private bool IsCurrentMHzItem(MediaPlaybackItem musicItem) {
-            return MHzList.CurrentItem == musicItem;
+            return MHzChannelList.CurrentItem == musicItem;
         }
 
         #endregion
@@ -449,7 +459,7 @@ namespace Douban.UWP.NET.Tools {
                 return false;
             if (IsCurrentMHzItem(item))
                 return false;
-            var succeed = MHzList.Items.Remove(item);
+            var succeed = MHzChannelList.Items.Remove(item);
             if (!succeed)
                 return succeed;
             succeed = MHzSongList.Remove(song);
@@ -460,7 +470,7 @@ namespace Douban.UWP.NET.Tools {
         private bool RemoveMHzPlaybackItem(MediaPlaybackItem item) {
             if (IsCurrentMHzItem(item))
                 return false;
-            var succeed = MHzList.Items.Remove(item);
+            var succeed = MHzChannelList.Items.Remove(item);
             if (!succeed)
                 return succeed;
             var song = SelectMHzSongItemBySHA256(item.Source.CustomProperties["SHA256"] as string);
@@ -482,7 +492,7 @@ namespace Douban.UWP.NET.Tools {
         int currentInsert;
 
         MediaPlayer _player;
-        public MediaPlayer Player { get { return _player ?? (_player = new MediaPlayer()); } }
+        MediaPlayer Player { get { return _player ?? (_player = new MediaPlayer()); } }
 
         public MediaPlaybackSession Session { get { return Player.PlaybackSession; } }
 
@@ -507,11 +517,13 @@ namespace Douban.UWP.NET.Tools {
 
         #region PlayBackList
 
-        MediaPlaybackList _playlist;
-        public MediaPlaybackList PlayList { get { return _playlist ?? (_playlist = new MediaPlaybackList()); } }
+        MediaPlaybackList _song_play_list;
+        MediaPlaybackList SongPlayList { get { return _song_play_list ?? (_song_play_list = new MediaPlaybackList()); } }
 
-        MediaPlaybackList _mhzlist;
-        public MediaPlaybackList MHzList { get { return _mhzlist ?? (_mhzlist = new MediaPlaybackList()); } }
+        MediaPlaybackList _mhz_channel_list;
+        MediaPlaybackList MHzChannelList { get { return _mhz_channel_list ?? (_mhz_channel_list = new MediaPlaybackList()); } }
+
+        public MediaPlaybackList PlaybackList { get { return ServiceType == MusicServiceType.MHz ? MHzChannelList : SongPlayList; } }
 
         #endregion
 
@@ -520,10 +532,12 @@ namespace Douban.UWP.NET.Tools {
         #region Binding properties
 
         ObservableCollection<MHzSongBase> _songList;
-        public ObservableCollection<MHzSongBase> SongList { get { return _songList ?? (_songList = new ObservableCollection<MHzSongBase>()); } }
+        ObservableCollection<MHzSongBase> SongList { get { return _songList ?? (_songList = new ObservableCollection<MHzSongBase>()); } }
 
         ObservableCollection<MHzSongBase> _mhzList;
-        public ObservableCollection<MHzSongBase> MHzSongList { get { return _mhzList ?? (_mhzList = new ObservableCollection<MHzSongBase>()); } }
+        ObservableCollection<MHzSongBase> MHzSongList { get { return _mhzList ?? (_mhzList = new ObservableCollection<MHzSongBase>()); } }
+
+        public ObservableCollection<MHzSongBase> CurrentSongList { get { return ServiceType == MusicServiceType.MHz ? MHzSongList : SongList; } }
 
         #endregion
 
@@ -559,8 +573,8 @@ namespace Douban.UWP.NET.Tools {
         #region SongList Extensions
 
         public static void ChangePlayChoice(this DoubanMusicService service, bool shuffle, bool autoRepeat, bool singleton) {
-            service.PlayList.ShuffleEnabled = shuffle;
-            service.PlayList.AutoRepeatEnabled = autoRepeat;
+            service.PlaybackList.ShuffleEnabled = shuffle;
+            service.PlaybackList.AutoRepeatEnabled = autoRepeat;
             service.SingletonPlay = singleton;
         }
 
