@@ -145,11 +145,11 @@ namespace Douban.UWP.NET.Tools {
                 MHzListMoveTo(song);
         }
 
-        public bool InsertItem(MHzSongBase song, int index = -1) {
+        public async Task<bool> InsertItemAsync(MHzSongBase song, int index = -1) {
             if (ServiceType == MusicServiceType.SongList)
-                return InsertMusicItem(song, index);
+                return await InsertMusicItemAsync(song, index);
             else
-                return InsertMHzItem(song, index);
+                return await InsertMHzItemAsync(song, index);
         }
 
         public int InsertItem(MediaPlaybackItem musicItem, int index = -1) {
@@ -272,13 +272,13 @@ namespace Douban.UWP.NET.Tools {
 
         #region Insert With Index
 
-        private bool InsertMusicItem(MHzSongBase song, int index = -1) {
+        private async Task<bool> InsertMusicItemAsync(MHzSongBase song, int index = -1) {
             var find_index = SongList.ToList().FindIndex(i => i.SHA256 == song.SHA256);
             if (find_index != -1) {
                 currentInsert = find_index;
                 return true;
             }
-            var item = MusicServiceHelper.CreatePlayItem(song);
+            var item = await MusicServiceHelper.CreatePlayItemAsync(song);
             var retuenIndex = InsertMusicItem(item, index);
             SongList.Insert(retuenIndex, song);
             RaisePropertyChanged("SongList");
@@ -406,11 +406,11 @@ namespace Douban.UWP.NET.Tools {
 
         #region Insert
 
-        private bool InsertMHzItem(MHzSongBase song, int index = -1) {
+        private async Task<bool> InsertMHzItemAsync(MHzSongBase song, int index = -1) {
             var find_index = MHzSongList.ToList().FindIndex(i => i.SHA256 == song.SHA256);
-            if (find_index != -1) 
+            if (find_index != -1)
                 return true;
-            var item = MusicServiceHelper.CreatePlayItem(song);
+            var item = await MusicServiceHelper.CreatePlayItemAsync(song);
             var retuenIndex = InsertMHzItem(item, index);
             MHzSongList.Insert(retuenIndex, song);
             RaisePropertyChanged("MHzSongList");
@@ -648,22 +648,24 @@ namespace Douban.UWP.NET.Tools {
 
         #region Create Playback Item
 
-        public static MediaPlaybackItem CreatePlayItem(MHzSongBase song) {
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(MHzSongBase song) {
             var succeed_img = Uri.TryCreate(song.Picture, UriKind.Absolute, out var img_url);
             if (!succeed_img)
                 img_url = new Uri("ms-appx:///Assets/star006.png");
-            return CreatePlayItem(
+            return await CreatePlayItemAsync(
                 url: song.Url,
                 img: img_url,
                 title: song.Title,
                 artist: song.Artist,
                 albumTitle: song.AlbumTitle,
                 albunmArtist: song.SingerShow,
-                para: AppResources.MusicIsCurrent = new MusicBoardParameter { AID = song.AID, SID = song.SID, SSID = song.SSID, SHA256 = song.SHA256 });
+                para: AppResources.MusicIsCurrent = new MusicBoardParameter { AID = song.AID, SID = song.SID, SSID = song.SSID, SHA256 = song.SHA256, Url = song.Url , Song = song, });
         }
 
-        public static MediaPlaybackItem CreatePlayItem(Uri uri, Uri img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
-            var source = MediaSource.CreateFromUri(uri);
+        public async static Task<MediaPlaybackItem> CreatePlayItemAsync(Uri uri, Uri img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
+            var storage = await StorageHelper.FetchLocalMusicBySHA256Async(MHzSongBaseHelper.GetIdentity(para));
+            var source = default(MediaSource);
+            source = storage != null ? MediaSource.CreateFromStorageFile(storage) : MediaSource.CreateFromUri(uri);
             source.CustomProperties["Title"] = title;
             source.CustomProperties["CheckPoint"] = SetCheckPoint(UTCPoint);
             source.CustomProperties["SHA256"] = para.SHA256;
@@ -684,28 +686,28 @@ namespace Douban.UWP.NET.Tools {
             return (long)((DateTime.Now - point).TotalMilliseconds);
         }
 
-        public static MediaPlaybackItem CreatePlayItem(string url, string img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
-            return CreatePlayItem(new Uri(url), new Uri(img), para, title, artist, albumTitle, albunmArtist);
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(string url, string img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
+            return await CreatePlayItemAsync(new Uri(url), new Uri(img), para, title, artist, albumTitle, albunmArtist);
         }
 
-        public static MediaPlaybackItem CreatePlayItem(string url, Uri img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
-            return CreatePlayItem(new Uri(url), img, para, title, artist, albumTitle, albunmArtist);
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(string url, Uri img, MusicBoardParameter para, string title, string artist, string albumTitle, string albunmArtist) {
+            return await CreatePlayItemAsync(new Uri(url), img, para, title, artist, albumTitle, albunmArtist);
         }
 
-        public static MediaPlaybackItem CreatePlayItem(Uri uri, Uri img, MusicBoardParameter para, string title, string artist) {
-            return CreatePlayItem(uri, img, para, title, artist, "", "");
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(Uri uri, Uri img, MusicBoardParameter para, string title, string artist) {
+            return await CreatePlayItemAsync(uri, img, para, title, artist, "", "");
         }
 
-        public static MediaPlaybackItem CreatePlayItem(string url, string img, MusicBoardParameter para, string title, string artist) {
-            return CreatePlayItem(new Uri(url), new Uri(img), para, title, artist);
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(string url, string img, MusicBoardParameter para, string title, string artist) {
+            return await CreatePlayItemAsync(new Uri(url), new Uri(img), para, title, artist);
         }
 
-        public static MediaPlaybackItem CreatePlayItem(Uri uri, Uri img, MusicBoardParameter para) {
-            return CreatePlayItem(uri, img, para, GetUIString("UnknownMusicTitle"), GetUIString("UnknownMusicArtist"));
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(Uri uri, Uri img, MusicBoardParameter para) {
+            return await CreatePlayItemAsync(uri, img, para, GetUIString("UnknownMusicTitle"), GetUIString("UnknownMusicArtist"));
         }
 
-        public static MediaPlaybackItem CreatePlayItem(string url, string img, MusicBoardParameter para) {
-            return CreatePlayItem(new Uri(url), new Uri(img), para);
+        public static async Task<MediaPlaybackItem> CreatePlayItemAsync(string url, string img, MusicBoardParameter para) {
+            return await CreatePlayItemAsync(new Uri(url), new Uri(img), para);
         }
 
         #endregion

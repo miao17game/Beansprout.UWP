@@ -14,8 +14,8 @@ namespace Douban.UWP.Core.Models.FMModels {
                 singers.Children().ToList().ForEach(jo_singer => song.Singers.Add(CreateSingerInstance(jo_singer)));
         }
 
-        public static MHzSinger CreateSingerInstance(JToken jo_singer) {
-            return new MHzSinger {
+        public static MHzSingerBase CreateSingerInstance(JToken jo_singer) {
+            return new MHzSingerBase {
                 Avatar = jo_singer["avatar"].Value<string>(),
                 Genre = jo_singer["genre"].Children().Select(i => i.Value<string>()).ToList(),
                 ID = jo_singer["id"].Value<string>(),
@@ -81,7 +81,7 @@ namespace Douban.UWP.Core.Models.FMModels {
                 UpdateTime = jo_song["update_time"].Value<long>(),
                 Url = jo_song["url"].Value<string>(),
                 TasteStatus = jo_song["taste_status"].Value<int>(),
-                Singers = new List<MHzSinger>(),
+                Singers = new List<MHzSingerBase>(),
             };
         }
 

@@ -33,22 +33,26 @@
         <uap:Rule Match="https://accounts.douban.com/login" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ToastBackgroundPushTask">
-          <BackgroundTasks>
-            <Task Type="timer" />
-            <Task Type="pushNotification" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="test">
+          <uap:FileTypeAssociation Name="beansproutmusic">
+            <uap:DisplayName>Beansprout UWP Music</uap:DisplayName>
+            <uap:InfoTip>Beansprout UWP Music</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true" />
             <uap:SupportedFileTypes>
-              <uap:FileType ContentType="application/qqsdkconnect">.qc-xxxxxxxxxx</uap:FileType>
+              <uap:FileType ContentType="audio/mpeg">.bmuwp</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="qc-xxxxxxxxxx" />
-        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ServicingComplete">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="wechat">
             <uap:SupportedFileTypes>
@@ -56,14 +60,20 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="qc-xxxxxxxxxx" />
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="test">
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/qqsdkconnect">.qc-xxxxxxxxxx</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ToastBackgroundPushTask">
           <BackgroundTasks>
             <Task Type="timer" />
-          </BackgroundTasks>
-        </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ServicingComplete">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
+            <Task Type="pushNotification" />
           </BackgroundTasks>
         </Extension>
       </Extensions>

@@ -14,12 +14,10 @@ using Windows.UI.Notifications;
 
 namespace Douban.UWP.Core.Tools {
     public static class ToastHelper {
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride = null) {
-            return PopToast(title, content, imageUri, uri, logoOverride, null, null);
-        }
 
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride, string tag, string group) {
+        const string DefaultVoice = @"ms-appx:///Voice/yiner.mp3";
 
+        public static XmlDocument CreateToastNotificaion(string title, string content, string imageUri, string uri, string logoOverride, string voice = DefaultVoice) {
             ToastTemplateType toastTemplate = ToastTemplateType.ToastImageAndText02;
             XmlDocument toastXml = ToastNotificationManager.GetTemplateContent(toastTemplate);
 
@@ -37,7 +35,7 @@ namespace Douban.UWP.Core.Tools {
             toastNode.SetAttribute("duration", "long");
 
             var audio = toastXml.CreateElement("audio");
-            audio.SetAttribute("src", @"ms-appx:///Voice/yiner.mp3");
+            audio.SetAttribute("src", voice);
             toastNode.AppendChild(audio);
 
             var binding = toastNode.SelectSingleNode("visual").SelectSingleNode("binding") as XmlElement;
@@ -46,7 +44,16 @@ namespace Douban.UWP.Core.Tools {
             image.SetAttribute("src", imageUri);
             image.SetAttribute("placement", "inline");
             binding.AppendChild(image);
+            return toastXml;
+        }
 
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride = null) {
+            return PopToast(title, content, imageUri, uri, logoOverride, null, null);
+        }
+
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride, string tag, string group) {
+
+            XmlDocument toastXml = CreateToastNotificaion(title, content, imageUri, uri, logoOverride);
             return PopCustomToast(toastXml, tag, group);
         }
 

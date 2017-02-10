@@ -228,7 +228,7 @@
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Content="&#xE896;" FontSize="24" FontWeight="Bold" 
                     Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
-                    Foreground="White" Click="DownloadButton_Click"/>
+                    Foreground="White" Click="DownloadButton_ClickAsync"/>
                 <Button Name="LrcButton" Grid.Column="2"
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Content="&#xED5E;" FontSize="24" FontWeight="Bold" 

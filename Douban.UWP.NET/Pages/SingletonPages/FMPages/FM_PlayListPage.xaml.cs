@@ -36,11 +36,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             
         }
 
-        private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
+        private async void IndexList_ItemClickAsync(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as MHzSongBase;
             if (item == null)
                 return;
-            var succeed = Service.InsertItem(item);
+            var succeed = await Service.InsertItemAsync(item);
             if (!succeed)
                 return;
             Service.MoveToAnyway(item);

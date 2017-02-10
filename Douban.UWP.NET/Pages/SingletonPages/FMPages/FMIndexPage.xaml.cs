@@ -151,6 +151,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     SSID = song.SSID,
                     AID = song.AID,
                     SHA256 = song.SHA256,
+                    Url = song.Url,
+                    Song = song,
                     FrameType = FrameType.UpContent
                 },
                 GetFrameInstance(FrameType.UpContent),
@@ -171,11 +173,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var songs = await MHzListGroupHelper.FetchMHzSongsAsync(Service.MHzChannelID, api_key, bearer);
             if (songs == null || songs.Count == 0)
                 return null;
-            songs.ToList().ForEach(song => Service.InsertItem(song));
+            songs.ToList().ForEach(async song => await Service.InsertItemAsync(song));
             if (Service.PlaybackList.Items.Count <= 1) { // more songs to prepare, at least 2.
                 var songs_add = await MHzListGroupHelper.FetchMHzSongsAsync(Service.MHzChannelID, api_key, bearer);
                 if (songs_add != null && songs_add.Count != 0)
-                    songs_add.ToList().ForEach(song => Service.InsertItem(song));
+                    songs_add.ToList().ForEach(async song => await Service.InsertItemAsync(song));
             }
             return songs[0];
         } 

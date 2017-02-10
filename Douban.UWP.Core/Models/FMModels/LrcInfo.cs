@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
@@ -8,13 +9,23 @@ using Windows.UI.Text;
 using Windows.UI.Xaml.Media;
 
 namespace Douban.UWP.Core.Models.FMModels {
+
+    [DataContract]
     public class LrcInfo : ViewModelBase {
+
+        [DataMember]
         private string lrcString;
+        [DataMember]
         private int lrcTime;
+        [DataMember]
         private double translateY;
+        [DataMember]
         string _Title = default(string);
+        [DataMember]
         Color _Color = Colors.White;
+        [DataMember]
         FontWeight _LrcFontWeight = FontWeights.Thin;
+        [DataMember]
         double _LrcFontSize = 18;
 
         public string LrcString{

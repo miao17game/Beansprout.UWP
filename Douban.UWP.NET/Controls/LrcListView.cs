@@ -26,6 +26,7 @@ namespace Douban.UWP.NET.Controls {
             ThisVM = vm;
             _animation_style = anima_style;
             _lrc_list = list;
+            _index = 0;
             _index_new = -1;
             Canvas.SetTop(this, 230);
             if (_timer != null)
@@ -39,6 +40,7 @@ namespace Douban.UWP.NET.Controls {
 
         public async void DispatcherTimerEventAsync(object sender, object e) {
             ThisVM.CurrentTime = Service.Session.Position;
+            ThisVM.Duration = Service.Session.NaturalDuration;
             if (_lrc_list.Count == 0)
                 return;
             var current = ThisVM.CurrentTime.TotalMilliseconds;
@@ -65,7 +67,7 @@ namespace Douban.UWP.NET.Controls {
             Canvas.SetTop(this, 230 - index * 44);
             double milis = 0;
             double turn = -44;
-            if (index >= _lrc_list.Count - 1)
+            if (index >= _lrc_list.Count - 1 || index < 0)
                 return;
             try {
                 milis = 1.0 * (_lrc_list[index + 1].LrcTime - _lrc_list[index].LrcTime);

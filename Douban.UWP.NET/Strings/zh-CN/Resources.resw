@@ -801,18 +801,24 @@
     <value>关闭歌词</value>
   </data>
   <data name="Download_Failed" xml:space="preserve">
-    <value>下载失败</value>
+    <value>缓存失败</value>
   </data>
   <data name="Download_Succeed" xml:space="preserve">
-    <value>下载完成</value>
+    <value>歌曲已缓存</value>
   </data>
   <data name="Download_Error" xml:space="preserve">
-    <value>下载出错，操作取消</value>
+    <value>缓存出错，操作取消</value>
   </data>
   <data name="Download_Exist" xml:space="preserve">
-    <value>文件已存在</value>
+    <value>缓存文件已存在</value>
   </data>
   <data name="Download_Start" xml:space="preserve">
-    <value>文件已加入下载序列</value>
+    <value>文件已加入缓存序列</value>
+  </data>
+  <data name="FM_MAIN_CACHE.Header" xml:space="preserve">
+    <value>缓存</value>
+  </data>
+  <data name="FM_MAIN_DOWNLOADING.Header" xml:space="preserve">
+    <value>队列</value>
   </data>
 </root>

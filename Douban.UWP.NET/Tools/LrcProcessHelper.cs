@@ -119,7 +119,7 @@ namespace Douban.UWP.NET.Tools {
                         }
                     }
                 }
-            } catch (Exception e) { Debug.WriteLine("GetPostReturnMessage Error:" + e.StackTrace);  return null; }
+            } catch (Exception e) { Debug.WriteLine("GetPostReturnMessage Error:" + e.StackTrace);  return new List<LrcMetaData>(); }
         }
 
         public static void ReadFromLrcStringFluently9Number(Color TextColor, string lrcFileString, IList<LrcInfo> lrcListOld) {

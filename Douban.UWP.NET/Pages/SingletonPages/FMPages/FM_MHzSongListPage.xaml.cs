@@ -26,6 +26,8 @@ using System.Threading.Tasks;
 using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
 using Windows.Media.Playback;
 using Windows.Media.Core;
+using System.Collections.ObjectModel;
+using Windows.UI;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -64,38 +66,26 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
-            //ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
-            //var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong));
-            //switch (result) {
-            //    case DownloadResult.ActionInvalid:
-            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Error"));
-            //        break;
-            //    case DownloadResult.FileExist:
-            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Exist"));
-            //        break;
-            //    case DownloadResult.Failed:
-            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Failed"));
-            //        break;
-            //    case DownloadResult.Successfully:
-            //        ReportHelper.ReportAttentionAsync(GetUIString("Download_Succeed"));
-            //        break;
-            //}
+            ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+            var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong));
+            DownloadHelper.ReportByDownloadResoult(result);
+            ChangeDownloadStatus((sender as Button), result == DownloadResult.Successfully ? true : false);
         }
 
         private void LikeButton_Click(object sender, RoutedEventArgs e) {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e) {
+        private async void AddButton_ClickAsync(object sender, RoutedEventArgs e) {
             var item = (sender as Button).CommandParameter as MHzSong;
             if (item == null)
                 return;
-            var succeed = Service.InsertItem(item);
+            var succeed = await Service.InsertItemAsync(item);
             if (succeed)
                 ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
 
-        private void PlayAllBtn_Click(object sender, RoutedEventArgs e) {
+        private async void PlayAllBtn_ClickAsync(object sender, RoutedEventArgs e) {
             if (inner_list == null)
                 return;
             var item = inner_list[0];
@@ -103,10 +93,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (!succeedss)
                 return;
             var succeed = false;
-            succeed = Service.InsertItem(item);
+            succeed = await Service.InsertItemAsync(item);
             if (!succeed)
                 return;
-            inner_list.ToList().ForEach(i => succeed = Service.InsertItem(i));
+            inner_list.ToList().ForEach(async i => succeed = await Service.InsertItemAsync(i));
             if (MainUpContentFrame.Content != null)
                 (MainUpContentFrame.Content as FM_SongBoardPage)?.UnregisterServiceEvents();
             Service.SongListMoveTo(item);
@@ -117,20 +107,22 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     SSID = item.SSID,
                     AID = item.AID,
                     SHA256 = item.SHA256,
+                    Url = item.Url,
+                    Song = item,
                     FrameType = FrameType.UpContent
                 },
                 GetFrameInstance(FrameType.UpContent),
                 GetPageType(NavigateType.MusicBoard));
         }
 
-        private void IndexList_ItemClick(object sender, ItemClickEventArgs e) {
+        private async void IndexList_ItemClickAsync(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as MHzSong;
             if (item == null)
                 return;
             var succeedss = Service.ChangeServiceChoice(MusicServiceType.SongList);
             if (!succeedss)
                 return;
-            var succeed = Service.InsertItem(item);
+            var succeed = await Service.InsertItemAsync(item);
             if (!succeed)
                 return;
             if (MainUpContentFrame.Content != null)
@@ -143,6 +135,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     SSID = item.SSID,
                     AID = item.AID,
                     SHA256 = item.SHA256,
+                    Url = item.Url,
+                    Song = item,
                     FrameType = FrameType.UpContent
                 },
                 GetFrameInstance(FrameType.UpContent),
@@ -190,7 +184,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                         } catch { /* Ingore */ }
                     });
                 }
-                ListResources.Source = inner_list = song_list.Songs;
+                inner_list = new ObservableCollection<MHzSong>();
+                song_list.Songs.ToList().ForEach(i => inner_list.Add(i));
+                var query = await StorageHelper.GetAllStorageFilesByExtensionAsync(StorageHelper.JsonExtension);
+                foreach(var item in inner_list) {
+                    item.IsCached = StorageHelper.IsExistLocalJsonBySHA256(MHzSongBaseHelper.GetIdentity(item), query);
+                }
+                ListResources.Source = inner_list;
                 SetListHeader(song_list);
             } catch { } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
@@ -224,13 +224,20 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             } catch { System.Diagnostics.Debug.WriteLine("Save scroll positions error."); }
         }
 
+        private void ChangeDownloadStatus(Button button, bool is_ok) {
+            if (!is_ok)
+                return;
+            button.Content = char.ConvertFromUtf32(0xE10B);
+            button.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+        }
+
         #endregion
 
         #region Properties
         string uid;
         string bearer;
         FrameType frameType;
-        IList<MHzSong> inner_list;
+        ObservableCollection<MHzSong> inner_list;
 
         #endregion
 

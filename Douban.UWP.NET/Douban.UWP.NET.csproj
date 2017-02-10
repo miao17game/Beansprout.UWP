@@ -163,6 +163,9 @@
     <Compile Include="Pages\SingletonPages\FMPages\FMPage.xaml.cs">
       <DependentUpon>FMPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SingletonPages\FMPages\FM_CachePage.xaml.cs">
+      <DependentUpon>FM_CachePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SingletonPages\FMPages\FM_LrcChoosePage.xaml.cs">
       <DependentUpon>FM_LrcChoosePage.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.cs" />
+    <Compile Include="Tools\StorageHelper.cs" />
     <Compile Include="Tools\Converters\TimeSpanConverter.cs" />
     <Compile Include="Tools\DoubanDownloadService.cs" />
     <Compile Include="Tools\LrcProcessHelper.cs" />
@@ -406,6 +410,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SingletonPages\FMPages\FMPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SingletonPages\FMPages\FM_CachePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

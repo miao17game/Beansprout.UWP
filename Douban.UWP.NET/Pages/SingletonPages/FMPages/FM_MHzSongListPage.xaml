@@ -9,10 +9,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
     mc:Ignorable="d">
 
     <base:BaseContentPage.Resources>
         <CollectionViewSource x:Name="ListResources"/>
+        <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
     </base:BaseContentPage.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
@@ -144,7 +146,7 @@
                                 HorizontalAlignment="Stretch"
                                 Style="{ThemeResource MainPageButtonBackHamburgerStyle}"
                                 Background="Transparent"
-                                Click="PlayAllBtn_Click"/>
+                                Click="PlayAllBtn_ClickAsync"/>
                     </Border>
 
                     <TextBlock Name="SongListTitle" FontSize="20" Grid.Row="0" Grid.Column="1" 
@@ -189,7 +191,7 @@
                       RelativePanel.AlignBottomWithPanel="True"
                       RelativePanel.Below="TitleHeaderGrid"
                       Loaded="IndexList_Loaded"
-                      ItemClick="IndexList_ItemClick">
+                      ItemClick="IndexList_ItemClickAsync">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:MHzSong">
                         <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
@@ -242,20 +244,33 @@
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
-                                <Button Click="AddButton_Click" 
+                                <Button Click="AddButton_ClickAsync" 
                                         CommandParameter="{Binding}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
                                         Content="&#xE109;" 
                                         Margin=" 5"
                                         Foreground="#80808080"/>
-                                <Button Click="DownloadButton_ClickAsync" 
-                                        CommandParameter="{Binding}" 
+                                <Grid>
+                                    <Button Click="DownloadButton_ClickAsync" 
+                                            CommandParameter="{Binding}" 
+                                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                            FontSize="16" 
+                                            Content="&#xE896;" 
+                                            Margin=" 5"
+                                            Foreground="#80808080"
+                                            Visibility="{Binding IsCached,  Converter={StaticResource VisibilityConverter}, 
+                                ConverterParameter=False}"/>
+                                    <Button 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
-                                        Content="&#xE896;" 
+                                        Content="&#xE10B;" 
                                         Margin=" 5"
-                                        Foreground="#80808080"/>
+                                        FontWeight="Bold"
+                                        Foreground="{ThemeResource DoubanForeground}"
+                                        Visibility="{Binding IsCached,  Converter={StaticResource VisibilityConverter}, 
+                                ConverterParameter=True}"/>
+                                </Grid>
                                 <Button Click="LikeButton_Click" 
                                         CommandParameter="{Binding Url}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 

@@ -31,6 +31,14 @@
                 <Frame Name="RedHeartFrame"/>
             </PivotItem>
 
+            <PivotItem Name="CacheItem" x:Uid="FM_MAIN_CACHE" >
+                <Frame Name="CacheFrame"/>
+            </PivotItem>
+
+            <PivotItem Name="DownloadingItem" x:Uid="FM_MAIN_DOWNLOADING" >
+                <Frame Name="DownloadingFrame"/>
+            </PivotItem>
+
             <PivotItem Name="MineItem" x:Uid="FM_MAIN_MINE" >
                 <Frame Name="MineFrame"/>
             </PivotItem>

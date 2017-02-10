@@ -55,6 +55,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             sid = args.SID;
             ssid = args.SSID;
             aid = args.AID;
+            path_url = args.Url;
+            identity_song = MHzSongBaseHelper.GetIdentity(args);
+            THIS_SONG = args.Song;
             var result = await DoubanWebProcess.GetMDoubanResponseAsync(
                 path: $"{"https://"}api.douban.com/v2/fm/song/{sid + "g" + ssid}/?version=644&start=0&app_name=radio_android&apikey={APIKey}",
                 host: "api.douban.com",
@@ -70,22 +73,24 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             UnregisterServiceEvents();
             RegisterServiceEvents();
 
+            MusicSlider.ValueChanged -= MusicSlider_ValueChanged;
+            MusicBoardVM.CurrentTime = Service.Session.Position;
+            MusicBoardVM.Duration = Service.Session.NaturalDuration;
+            MusicSlider.ValueChanged += MusicSlider_ValueChanged;
+
             MusicBoardVM.BackImage = image;
             MusicBoardVM.LrcTitle = title;
             MusicBoardVM.ListCount = Service.CurrentSongList.Count;
             MusicBoardVM.CurrentItem = Service.CurrentItem;
 
-            RandomButton.Content = 
-                Service.PlayType == MusicServicePlayType.ShufflePlay? char.ConvertFromUtf32(0xE8B1):
+            RandomButton.Content =
+                Service.PlayType == MusicServicePlayType.ShufflePlay ? char.ConvertFromUtf32(0xE8B1) :
                 Service.PlayType == MusicServicePlayType.AutoRepeat ? char.ConvertFromUtf32(0xE8EE) :
                 Service.PlayType == MusicServicePlayType.SingletonPlay ? char.ConvertFromUtf32(0xE8ED) :
                 char.ConvertFromUtf32(0xE84F);
 
-            MusicBoardVM.CurrentTime = Service.Session.Position;
-            MusicBoardVM.Duration = Service.Session.NaturalDuration;
-
-            SongListButton.Content = Service.ServiceType == MusicServiceType.SongList ? 
-                char.ConvertFromUtf32(0xE142) : 
+            SongListButton.Content = Service.ServiceType == MusicServiceType.SongList ?
+                char.ConvertFromUtf32(0xE142) :
                 char.ConvertFromUtf32(0xE93E);
 
             if (Service.Session.PlaybackState == MediaPlaybackState.Playing)
@@ -93,6 +98,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             else if (Service.Session.PlaybackState == MediaPlaybackState.Paused)
                 DoWorkWhenMusicPaused();
 
+            ChangeDownloadStatus(is_cached = await StorageHelper.IsExistLocalJsonBySHA256Async(MHzSongBaseHelper.GetIdentity(args)));
             songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
 
         }
@@ -205,8 +211,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void DownloadButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
+            if (is_cached)
+                return;
+            ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+            var result = await Downloader.DownloadMusicAsync(THIS_SONG);
+            DownloadHelper.ReportByDownloadResoult(result);
+            ChangeDownloadStatus(result == DownloadResult.Successfully ? true : false);
         }
 
         private void FlowButton_Click(object sender, RoutedEventArgs e) {
@@ -330,16 +341,23 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) {
-            if (songMessCollection.Count() == 0)
-                return;
+            MusicBoardVM.LrcList = null;
             if (is_default_lrc) {
-                var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
-                MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
+                var local_lrc = await StorageHelper.FetchLocalLrcBySHA256Async(identity_song);
+                if (local_lrc != null) {
+                    MusicBoardVM.LrcList = local_lrc;
+                } else if (songMessCollection != null && songMessCollection.Count() > 0) {
+                    var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
+                    MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
+                }
             }
             LrcListView.SetLrcAnimation(
                 list: MusicBoardVM.LrcList ?? new List<LrcInfo>(), 
                 vm: ref MusicBoardVM,
                 anima_style: animation_style);
+            if (MusicBoardVM.LrcList != null && identity_song != null) {
+                var succeed = await Downloader.CreateBLRCAsync(identity_song, MusicBoardVM.LrcList);
+            }
         }
 
         private void SetCenterControlGridRotation(double num) {
@@ -350,6 +368,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             comp.CenterX = CenterControlGrid.ActualWidth / 2;
             comp.CenterY = CenterControlGrid.ActualHeight / 2;
             comp.Rotation = num * 360;
+        }
+
+        private void ChangeDownloadStatus(bool is_ok) {
+            DownloadButton.Content = is_ok ? char.ConvertFromUtf32(0xE10B) : char.ConvertFromUtf32(0xE896);
+            DownloadButton.Foreground = is_ok ? Application.Current.Resources["DoubanForeground"] as SolidColorBrush : new SolidColorBrush(Colors.White);
         }
 
         #endregion
@@ -365,6 +388,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         FrameType frameType;
         IEnumerable<LrcMetaData> songMessCollection;
         LrcListViewAnimationStyle animation_style = LrcListViewAnimationStyle.FastSlide;
+        bool is_cached;
+        string identity_song;
+        string path_url;
+        MHzSongBase THIS_SONG;
 
         public VisualBoardVM VMForPublic { get { return MusicBoardVM; } }
 

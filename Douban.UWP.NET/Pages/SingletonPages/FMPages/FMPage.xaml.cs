@@ -45,6 +45,14 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     frame = MineFrame;
                     type = typeof(StillOnWorkPage);
                     break;
+                case "CacheItem":
+                    frame = CacheFrame;
+                    type = typeof(FM_CachePage);
+                    break;
+                case "DownloadingItem":
+                    frame = DownloadingFrame;
+                    type = typeof(StillOnWorkPage);
+                    break;
             }
             if (frame.Content == null)
                 frame.Navigate(type);

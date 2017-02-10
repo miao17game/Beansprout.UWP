@@ -37,7 +37,7 @@ namespace Douban.UWP.Test
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -72,8 +72,8 @@ namespace Douban.UWP.Test
             // Ensure the current window is active
             Window.Current.Activate();
 
-            UnitTest1 newOne = new UnitTest1();
-            newOne.MainMethod();
+            Test02Class newOne = new Test02Class();
+            await newOne.DownloadMusicAsync();
 
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
