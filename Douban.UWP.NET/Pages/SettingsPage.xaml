@@ -280,12 +280,17 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1008.* / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1009.* / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="加入歌曲缓存功能" /><LineBreak/>
+                            <Run Text="自动缓存歌词到本地" /><LineBreak/>
+                            <Run Text="开放缓存列表和缓存进度列表（开发中）" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1008.2551 / 2017.2.10" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复FM闪退问题" /><LineBreak/>
                             <Run Text="加入歌词面板旋转调音功能" /><LineBreak/>
                             <Run Text="临时屏蔽应用商店的扩展包检测" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：2.1007.2545 / 2017.2.8" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1007.2545 / 2017.2.9" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="微调UI，改动一点小细节" /><LineBreak/>
                             <Run Text="修复兆赫无法自动续歌的问题" /><LineBreak/><LineBreak/>
                             
