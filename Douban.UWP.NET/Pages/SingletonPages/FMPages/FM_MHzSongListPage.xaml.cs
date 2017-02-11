@@ -66,8 +66,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
-            var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong));
+            var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong), false);
             DownloadHelper.ReportByDownloadResoult(result);
             ChangeDownloadStatus((sender as Button), result == DownloadResult.Successfully ? true : false);
         }

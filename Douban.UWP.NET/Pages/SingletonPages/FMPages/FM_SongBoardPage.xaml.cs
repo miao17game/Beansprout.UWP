@@ -23,9 +23,7 @@ using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Controls;
 using Douban.UWP.NET.Tools;
 using System.Threading.Tasks;
-using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
 using Windows.Media.Playback;
-using Windows.Media.Core;
 using Douban.UWP.NET.Models;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Animation;
@@ -48,58 +46,62 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             RadialGauge.Value = 100 * num;
             SetCenterControlGridRotation(num);
             await InitMusicBoardAsync(args);
-            await SetDefaultLrcAndAnimationsAsync();
         }
 
         private async Task InitMusicBoardAsync(MusicBoardParameter args) {
-            sid = args.SID;
-            ssid = args.SSID;
-            aid = args.AID;
-            path_url = args.Url;
-            identity_song = MHzSongBaseHelper.GetIdentity(args);
-            THIS_SONG = args.Song;
-            var result = await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: $"{"https://"}api.douban.com/v2/fm/song/{sid + "g" + ssid}/?version=644&start=0&app_name=radio_android&apikey={APIKey}",
-                host: "api.douban.com",
-                reffer: null,
-                bearer: AccessToken,
-                userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
+            try {
+                sid = args.SID;
+                ssid = args.SSID;
+                aid = args.AID;
+                path_url = args.Url;
+                identity_song = MHzSongBaseHelper.GetIdentity(args);
+                THIS_SONG = args.Song;
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(
+                    path: $"{"https://"}api.douban.com/v2/fm/song/{sid + "g" + ssid}/?version=644&start=0&app_name=radio_android&apikey={APIKey}",
+                    host: "api.douban.com",
+                    reffer: null,
+                    bearer: AccessToken,
+                    userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
 
-            var jo = JObject.Parse(result);
-            title = jo["title"].Value<string>();
-            artist = jo["artist"].Value<string>();
-            image = jo["related_channel"]["cover"].Value<string>();
+                var jo = JObject.Parse(result);
+                title = jo["title"].Value<string>();
+                artist = jo["artist"].Value<string>();
+                image = jo["related_channel"]["cover"].Value<string>();
 
-            UnregisterServiceEvents();
-            RegisterServiceEvents();
+                UnregisterServiceEvents();
+                RegisterServiceEvents();
 
-            MusicSlider.ValueChanged -= MusicSlider_ValueChanged;
-            MusicBoardVM.CurrentTime = Service.Session.Position;
-            MusicBoardVM.Duration = Service.Session.NaturalDuration;
-            MusicSlider.ValueChanged += MusicSlider_ValueChanged;
+                MusicSlider.ValueChanged -= MusicSlider_ValueChanged;
+                MusicBoardVM.CurrentTime = Service.Session.Position;
+                MusicBoardVM.Duration = Service.Session.NaturalDuration;
+                MusicSlider.ValueChanged += MusicSlider_ValueChanged;
 
-            MusicBoardVM.BackImage = image;
-            MusicBoardVM.LrcTitle = title;
-            MusicBoardVM.ListCount = Service.CurrentSongList.Count;
-            MusicBoardVM.CurrentItem = Service.CurrentItem;
+                MusicBoardVM.BackImage = image;
+                MusicBoardVM.LrcTitle = title;
+                MusicBoardVM.ListCount = Service.CurrentSongList.Count;
+                MusicBoardVM.CurrentItem = Service.CurrentItem;
 
-            RandomButton.Content =
-                Service.PlayType == MusicServicePlayType.ShufflePlay ? char.ConvertFromUtf32(0xE8B1) :
-                Service.PlayType == MusicServicePlayType.AutoRepeat ? char.ConvertFromUtf32(0xE8EE) :
-                Service.PlayType == MusicServicePlayType.SingletonPlay ? char.ConvertFromUtf32(0xE8ED) :
-                char.ConvertFromUtf32(0xE84F);
+                RandomButton.Content =
+                    Service.PlayType == MusicServicePlayType.ShufflePlay ? char.ConvertFromUtf32(0xE8B1) :
+                    Service.PlayType == MusicServicePlayType.AutoRepeat ? char.ConvertFromUtf32(0xE8EE) :
+                    Service.PlayType == MusicServicePlayType.SingletonPlay ? char.ConvertFromUtf32(0xE8ED) :
+                    char.ConvertFromUtf32(0xE84F);
 
-            SongListButton.Content = Service.ServiceType == MusicServiceType.SongList ?
-                char.ConvertFromUtf32(0xE142) :
-                char.ConvertFromUtf32(0xE93E);
+                SongListButton.Content = Service.ServiceType == MusicServiceType.SongList ?
+                    char.ConvertFromUtf32(0xE142) :
+                    char.ConvertFromUtf32(0xE93E);
 
-            if (Service.Session.PlaybackState == MediaPlaybackState.Playing)
-                DoWorkWhenMusicPlayed();
-            else if (Service.Session.PlaybackState == MediaPlaybackState.Paused)
-                DoWorkWhenMusicPaused();
+                if (Service.Session.PlaybackState == MediaPlaybackState.Playing)
+                    DoWorkWhenMusicPlayed();
+                else if (Service.Session.PlaybackState == MediaPlaybackState.Paused)
+                    DoWorkWhenMusicPaused();
 
-            ChangeDownloadStatus(is_cached = await StorageHelper.IsExistLocalJsonBySHA256Async(MHzSongBaseHelper.GetIdentity(args)));
-            songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
+                MusicBoardVM.LrcList = null;
+                ChangeDownloadStatus(is_cached = await StorageHelper.IsExistLocalJsonBySHA256Async(MHzSongBaseHelper.GetIdentity(args)));
+                songMessCollection = (await LrcProcessHelper.GetSongMessageListAsync(title, artist)) ?? new List<LrcMetaData>();
+            } catch {
+                ReportHelper.ReportAttentionAsync(GetUIString("MediaSource_EEEEEEEError"));
+            } finally { await SetDefaultLrcAndAnimationsAsync(); }
 
         }
 
@@ -134,10 +136,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var arg = newItem.Source.CustomProperties["Message"] as MusicBoardParameter;
             if (arg == null)
                 return;
-            await Dispatcher.UpdateUI(async () => {
-                await InitMusicBoardAsync(arg);
-                await SetDefaultLrcAndAnimationsAsync();
-            });
+            await Dispatcher.UpdateUI(async () => await InitMusicBoardAsync(arg));
         }
 
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -214,10 +213,11 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
             if (is_cached)
                 return;
-            ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+            var identity_song_check = identity_song;
             var result = await Downloader.DownloadMusicAsync(THIS_SONG);
             DownloadHelper.ReportByDownloadResoult(result);
-            ChangeDownloadStatus(result == DownloadResult.Successfully ? true : false);
+            if (identity_song_check == identity_song)
+                ChangeDownloadStatus(result == DownloadResult.Successfully ? true : false);
         }
 
         private void FlowButton_Click(object sender, RoutedEventArgs e) {
@@ -340,8 +340,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             }
         }
 
-        public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) {
-            MusicBoardVM.LrcList = null;
+        public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) { 
             if (is_default_lrc) {
                 var local_lrc = await StorageHelper.FetchLocalLrcBySHA256Async(identity_song);
                 if (local_lrc != null) {

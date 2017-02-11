@@ -51,10 +51,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     break;
                 case "DownloadingItem":
                     frame = DownloadingFrame;
-                    type = typeof(StillOnWorkPage);
+                    type = typeof(FM_DownloadingPage);
                     break;
             }
-            if (frame.Content == null)
+            if (frame.Content == null || (item.Name != "ChannelsItem" && item.Name != "MusicListItem"))
                 frame.Navigate(type);
         }
 

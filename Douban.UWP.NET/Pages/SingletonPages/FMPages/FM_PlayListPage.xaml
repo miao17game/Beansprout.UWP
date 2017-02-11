@@ -48,7 +48,7 @@
                                 <ImageBrush ImageSource="{Binding Picture}" Stretch="UniformToFill"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                        <Border Height="70" Width="70" Grid.Column="0" 
+                        <Grid Height="70" Width="70" Grid.Column="0" 
                                 HorizontalAlignment="Center" 
                                 Grid.RowSpan="2"
                                 VerticalAlignment="Center">
@@ -58,10 +58,17 @@
                                        Text="&#xE93C;" 
                                        FontSize="30"
                                        FontWeight="Bold"
+                                       Foreground="#80808080"/>
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Segoe MDL2 Assets" 
+                                       Text="&#xE93C;" 
+                                       FontSize="30"
+                                       FontWeight="Bold"
                                        Foreground="{ThemeResource DoubanForeground01}"
                                        Visibility="{Binding IsSelect,  Converter={StaticResource VisibilityConverter}, 
                                 ConverterParameter=True}"/>
-                        </Border>
+                        </Grid>
                         <TextBlock Text="{Binding Title}" 
                                        Grid.Column="2"
                                        VerticalAlignment="Center"

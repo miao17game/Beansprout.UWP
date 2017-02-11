@@ -24,10 +24,19 @@ using Windows.Storage.Streams;
 namespace Douban.UWP.NET.Tools {
     public class DoubanDownloadService {
 
+        #region Properties
+
         const string DoubanMusicGroup = "DOUBAN_MUSIC_DOWNLOAD_GROUP";
         const string DoubanMusicCache = "BeansproutMusic";
 
-        public async Task<DownloadResult> DownloadMusicAsync(MHzSongBase song) {
+        IDictionary<DownloadOperationKey, DownloadOperation> _downloadList;
+        public IDictionary<DownloadOperationKey, DownloadOperation> DownloadList {
+            get { return _downloadList ?? (_downloadList = new Dictionary<DownloadOperationKey, DownloadOperation>()); }
+        }
+
+        #endregion
+
+        public async Task<DownloadResult> DownloadMusicAsync(MHzSongBase song, bool is_unshow = true) {
             try {
                 var folder = await KnownFolders.MusicLibrary.CreateFolderAsync(DoubanMusicCache, CreationCollisionOption.OpenIfExists);
 
@@ -64,11 +73,18 @@ namespace Douban.UWP.NET.Tools {
                 var succeed_trans = Uri.TryCreate(song.Url, UriKind.Absolute, out var do_url);
                 if (!succeed_trans)
                     return DownloadResult.ActionInvalid;
-
+                
                 var operation = downloader.CreateDownload(do_url, file);
                 operation.CostPolicy = BackgroundTransferCostPolicy.UnrestrictedOnly;
 
-                var control = await operation.StartAsync();
+                ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+                
+                if (!is_unshow) {
+                    DownloadList.Add(new DownloadOperationKey(song.SHA256, song.Title), operation);
+                    operation = await operation.StartAsync();
+                } else{
+                    var control = await operation.StartAsync();
+                }
 
                 var mess_succeed = await CreateBJSONMessageAsync(song, folder, file.Path);
                 if (!mess_succeed)
@@ -142,6 +158,17 @@ namespace Douban.UWP.NET.Tools {
             return true;
         }
 
+    }
+
+    public class DownloadOperationKey {
+
+        public DownloadOperationKey(string sha256, string title) {
+            SHA256 = sha256;
+            Title = title;
+        }
+
+        public string SHA256 { get; set; }
+        public string Title { get; set; }
     }
 
     class FileExistException : Exception {

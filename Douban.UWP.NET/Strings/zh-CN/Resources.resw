@@ -821,4 +821,7 @@
   <data name="FM_MAIN_DOWNLOADING.Header" xml:space="preserve">
     <value>队列</value>
   </data>
+  <data name="MediaSource_EEEEEEEError" xml:space="preserve">
+    <value>读取音乐源发生异常</value>
+  </data>
 </root>

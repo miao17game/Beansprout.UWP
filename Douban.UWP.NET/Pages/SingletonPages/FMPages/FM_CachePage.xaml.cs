@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using Douban.UWP.Core.Models.FMModels;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models;
+using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -69,8 +70,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 GetPageType(NavigateType.MusicBoard));
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void AddButton_ClickAsync(object sender, RoutedEventArgs e) {
+            var item = (sender as Button).CommandParameter as MHzSongBase;
+            if (item == null)
+                return;
+            var succeed = await Service.InsertItemAsync(item);
+            if (succeed)
+                ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
