@@ -8,14 +8,15 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Douban.UWP.Tools.Converters {
-    public class BooleanConverter : IValueConverter {
+    public class BinaryConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, string language) {
-            return !(bool)value;
+            return ConvertToUInt(System.Convert.ToInt32(value), System.Convert.ToInt32(parameter));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language) {
             throw new NotImplementedException();
         }
 
+        private string ConvertToUInt(int value, int parameter) { return value + parameter + "+"; }
     }
 }

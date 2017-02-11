@@ -16,6 +16,7 @@ namespace Douban.UWP.NET.Tools {
     public static class StorageHelper {
 
         public const string DoubanMusicCache = "BeansproutMusic";
+        public const string MusicTemporaryExtension = ".bmuwpdownload";
         public const string MusicExtension = ".bmuwp";
         public const string LrcExtension = ".blrcuwp";
         public const string JsonExtension = ".bjsonuwp";
@@ -27,6 +28,17 @@ namespace Douban.UWP.NET.Tools {
                 return null;
             } catch{
                 return null;
+            }
+        }
+
+        public async static void ClearDownloadTemporaryFilesAsync() {
+            try {
+                var files = await GetAllStorageFilesByExtensionAsync(MusicTemporaryExtension);
+                foreach(var do_file in files) {
+                    await do_file.DeleteAsync();
+                }
+            } catch {
+                return;
             }
         }
 

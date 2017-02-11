@@ -214,7 +214,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             if (is_cached)
                 return;
             var identity_song_check = identity_song;
-            var result = await Downloader.DownloadMusicAsync(THIS_SONG);
+            var result = await Downloader.DownloadMusicAsync(THIS_SONG, DownloadNotifType.SuccessfullyNotification, DownloadReportType.ShowListButNotReport);
             DownloadHelper.ReportByDownloadResoult(result);
             if (identity_song_check == identity_song)
                 ChangeDownloadStatus(result == DownloadResult.Successfully ? true : false);

@@ -279,8 +279,13 @@
 
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
+                             <Run Text="Version：2.1010.* / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="加入批量缓存歌单的功能" /><LineBreak/>
+                            <Run Text="支持断点续传手动控制" /><LineBreak/>
+                            <Run Text="支持将缓存歌曲加入播放列表" /><LineBreak/>
+                            <Run Text="缓存进度列表功能完善" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：2.1009.* / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1009.1551 / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="加入歌曲缓存功能" /><LineBreak/>
                             <Run Text="自动缓存歌词到本地" /><LineBreak/>
                             <Run Text="开放缓存列表和缓存进度列表（开发中）" /><LineBreak/><LineBreak/>

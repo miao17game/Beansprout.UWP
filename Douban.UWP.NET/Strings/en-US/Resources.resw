@@ -825,4 +825,13 @@
   <data name="MediaSource_EEEEEEEError" xml:space="preserve">
     <value>Read media source error.</value>
   </data>
+  <data name="DownLoadAllSongList.Text" xml:space="preserve">
+    <value>Download this songlist</value>
+  </data>
+  <data name="Download_Finished.Text" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="Download_Waiting.Text" xml:space="preserve">
+    <value>Waiting</value>
+  </data>
 </root>

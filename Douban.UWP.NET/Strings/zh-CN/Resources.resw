@@ -824,4 +824,13 @@
   <data name="MediaSource_EEEEEEEError" xml:space="preserve">
     <value>读取音乐源发生异常</value>
   </data>
+  <data name="DownLoadAllSongList.Text" xml:space="preserve">
+    <value>缓存这张歌单</value>
+  </data>
+  <data name="Download_Finished.Text" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="Download_Waiting.Text" xml:space="preserve">
+    <value>挂起</value>
+  </data>
 </root>

@@ -26,30 +26,52 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             this.InitializeComponent();
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e) {
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
             this.DataContext = Downloader;
             IncrementalLoadingBorder.SetVisibility(false);
+            timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1) };
+            timer.Tick += OnTicked;
+            timer.Start();
+        }
+
+        private void OnTicked(object sender, object e) {
+            Downloader.DownloadList.Select(i=>i.Value).ToList().ForEach(singleton => {
+                if (singleton.IsCompleted)
+                    Downloader.RemoveItemFromListByValue(singleton);
+                singleton.RefrashProgress();
+            });
         }
 
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
 
         }
 
-        private async void IndexList_ItemClickAsync(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as MHzSongBase;
-            if (item == null)
-                return;
+        private void IndexList_ItemClickAsync(object sender, ItemClickEventArgs e) {
             
         }
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private void StartButton_Click(object sender, RoutedEventArgs e) {
+            var operation = ((sender as Button).CommandParameter as DownloadOperationValue).Operation;
+            operation.Resume();
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e) {
+            var operation = ((sender as Button).CommandParameter as DownloadOperationValue).Operation;
+            operation.Pause();
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+            var item = (KeyValuePair<DownloadOperationKey, DownloadOperationValue>)((sender as Button).CommandParameter);
+            try { item.Value.Operation.Pause(); } catch { /* Do nothing. */}
+            Downloader.DownloadList.Remove(item);
         }
+
+        #region Properties
+
+        DispatcherTimer timer;
+
+        #endregion
 
     }
 }

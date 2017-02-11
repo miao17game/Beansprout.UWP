@@ -65,8 +65,18 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
+        private void DownLoadAllSongList_Click(object sender, RoutedEventArgs e) {
+            ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
+            foreach(var item in inner_list) {
+                Downloader.DownloadMusicNotWaitAsync(item, DownloadNotifType.Null, DownloadReportType.ShowListButNotReport);
+            }
+        }
+
         private async void DownloadButton_ClickAsync(object sender, RoutedEventArgs e) {
-            var result = await Downloader.DownloadMusicAsync(((sender as Button).CommandParameter as MHzSong), false);
+            var result = await Downloader.DownloadMusicAsync(
+                song: ((sender as Button).CommandParameter as MHzSong), 
+                notif_type: DownloadNotifType.SuccessfullyNotification,
+                report_type: DownloadReportType.ShowListButNotReport);
             DownloadHelper.ReportByDownloadResoult(result);
             ChangeDownloadStatus((sender as Button), result == DownloadResult.Successfully ? true : false);
         }
@@ -228,6 +238,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 return;
             button.Content = char.ConvertFromUtf32(0xE10B);
             button.Foreground = Application.Current.Resources["DoubanForeground"] as SolidColorBrush;
+            button.Click -= DownloadButton_ClickAsync;
         }
 
         #endregion

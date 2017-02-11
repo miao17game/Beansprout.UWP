@@ -19,8 +19,8 @@ namespace Douban.UWP.NET.Tools.Converters {
         }
 
         private string ConvertToUInt(BackgroundDownloadProgress value, string parameter) {
-            return parameter == "NowValue" ? (value.BytesReceived / (1024 * 1024)).ToString("#.##") + "MB":
-                parameter == "WholeValue" ? (value.TotalBytesToReceive/ (1024 * 1024)).ToString("#.##") + "MB":
+            return parameter == "NowValue" ? (((double)value.BytesReceived) / (1024 * 1024)).ToString("#.##") + "MB":
+                parameter == "WholeValue" ? (((double)value.TotalBytesToReceive)/ (1024 * 1024)).ToString("#.##") + "MB":
                 parameter == "HasRespinseChanged" ? value.HasResponseChanged.ToString() :
                 parameter == "HasStarted" ? value.HasRestarted.ToString() :
                 parameter == "Status" ? value.Status.ToString() :

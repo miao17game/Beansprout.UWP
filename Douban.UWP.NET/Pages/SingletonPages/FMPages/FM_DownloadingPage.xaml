@@ -9,11 +9,12 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Converters="using:Douban.UWP.NET.Tools.Converters"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Converters:DownloadProgressConverter x:Key="DownloadProgressConverter"/>
+        <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <Converters:BooleanConverter x:Key="BooleanConverter"/>
     </Page.Resources>
 
     <Page.DataContext>
@@ -40,58 +41,124 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition />
                             <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition/>
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
                                     Grid.Column="1" 
                                     Grid.Row="0"
-                                    Margin="10,0,0,10" >
+                                    Margin="10,5,0,10" >
                             <TextBlock Text="{Binding Key.Title}" 
                                        FontSize="18" 
                                        VerticalAlignment="Center" 
                                        FontWeight="Thin" />
+                            <TextBlock Text="("  
+                                       Margin="2,0,3,0"
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
+                            <Grid Visibility="{Binding Value.IsCompleted, 
+                                Converter={StaticResource VisibilityConverter}, 
+                                ConverterParameter=False}">
+                                <TextBlock x:Uid="Download_Waiting"  
+                                           FontSize="14" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Left"
+                                           FontWeight="Thin" 
+                                           Foreground="#80808080"
+                                           Visibility="{Binding Value.IsUnstart, 
+                                    Converter={StaticResource VisibilityConverter}, 
+                                    ConverterParameter=True}"/>
+                                <StackPanel Orientation="Horizontal" 
+                                            Visibility="{Binding Value.IsUnstart, 
+                                    Converter={StaticResource VisibilityConverter}, 
+                                    ConverterParameter=False}">
+                                    <TextBlock Text="{Binding Value.NowValue}"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
+                                    <TextBlock Text="mb/"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
+                                    <TextBlock Text="{Binding Value.WholeValue}"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
+                                    <TextBlock Text="mb"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
+                                </StackPanel>
+                            </Grid>
+                            <TextBlock x:Uid="Download_Finished"  
+                                       FontSize="14" 
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Left"
+                                       FontWeight="Thin" 
+                                       Foreground="#80808080"
+                                       Visibility="{Binding Value.IsCompleted, 
+                                Converter={StaticResource VisibilityConverter}, 
+                                ConverterParameter=True}"/>
+                            <TextBlock Text=")"  
+                                       Margin="3,0,0,0"
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   FontWeight="Thin" 
+                                   Foreground="#80808080"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                    Grid.Column="1" 
-                                    Grid.Row="1"
-                                    Margin="10,0,0,10" >
-                            <TextBlock Text="{Binding Value.Progress ,
-                                ConverterParameter=NowValue,
-                                Converter={StaticResource DownloadProgressConverter}}"  
-                                   FontSize="14" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Thin" 
-                                   Foreground="#80808080"/>
-                            <TextBlock Text="/"  
-                                   FontSize="14" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Thin" 
-                                   Foreground="#80808080"/>
-                            <TextBlock Text="{Binding Value.Progress, 
-                                ConverterParameter=WholeValue,
-                                Converter={StaticResource DownloadProgressConverter}}"  
-                                   FontSize="14" 
-                                   VerticalAlignment="Center" 
-                                   FontWeight="Thin" 
-                                   Foreground="#80808080"/>
-                        </StackPanel>
+                        <Border x:Name="ProgressGrid" VerticalAlignment="Center"
+                              Grid.Column="1" 
+                              Grid.Row="1"
+                              Margin="10,0,0,10" >
+                            <ProgressBar Foreground="{ThemeResource DoubanForeground01}" 
+                                         Value="{Binding Value.NowValue}"
+                                         Maximum="{Binding Value.WholeValue}"
+                                         Background="#80808080"/>
+                        </Border>
                         <StackPanel Grid.Column="3"
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
-                            <Button Click="PlayButton_Click" 
+                            <Grid >
+                                <Button Click="StartButton_Click" 
                                         CommandParameter="{Binding Value}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
-                                        FontSize="16" 
+                                        FontSize="18" 
                                         Content="&#xE768;" 
                                         Margin=" 5"
-                                        Foreground="#80808080"/>
-                            <Button Click="DeleteButton_Click" 
+                                        FontWeight="Bold"
+                                        Foreground="#80808080"
+                                        Visibility="{Binding Value.IsPaused, 
+                                    Converter={StaticResource VisibilityConverter}, 
+                                    ConverterParameter=True}"
+                                        IsEnabled="{Binding Value.IsCompleted, Converter={StaticResource BooleanConverter}}"/>
+                                <Button Click="PauseButton_Click" 
                                         CommandParameter="{Binding Value}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
-                                        FontSize="16" 
+                                        FontSize="18" 
+                                        Content="&#xE769;" 
+                                        Margin=" 5"
+                                        FontWeight="Bold"
+                                        Foreground="#80808080"
+                                        Visibility="{Binding Value.IsPaused, 
+                                    Converter={StaticResource VisibilityConverter}, 
+                                    ConverterParameter=False}"
+                                        IsEnabled="{Binding Value.IsCompleted, Converter={StaticResource BooleanConverter}}"/>
+                            </Grid>
+                            <Button Click="DeleteButton_Click" 
+                                        CommandParameter="{Binding}" 
+                                        Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
+                                        FontSize="14" 
+                                        FontWeight="Bold"
                                         Content="&#xE106;" 
                                         Margin=" 5,5,10,5"
                                         Foreground="#80808080"/>
