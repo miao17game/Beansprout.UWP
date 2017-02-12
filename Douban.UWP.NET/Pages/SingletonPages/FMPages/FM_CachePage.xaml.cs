@@ -32,7 +32,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var query = await StorageHelper.GetAllStorageFilesByExtensionAsync(StorageHelper.JsonExtension);
             var list = new List<MHzSongBase>();
             foreach(var storage in query) {
-                list.Add(await StorageHelper.ReadSongModelFromStorageFileAsync(storage));
+                try { list.Add(await StorageHelper.ReadSongModelFromStorageFileAsync(storage)); } catch{ }
             }
             ListResources.Source = list;
             IncrementalLoadingBorder.SetVisibility(false);

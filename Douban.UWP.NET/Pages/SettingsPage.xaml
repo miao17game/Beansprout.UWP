@@ -279,7 +279,14 @@
 
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
-                             <Run Text="Version：2.1010.* / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            
+                            <Run Text="Version：2.1011.* / 2017.2.12" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="强化缓存功能健壮性" /><LineBreak/>
+                            <Run Text="UI缓存队列页面的显示效果" /><LineBreak/>
+                            <Run Text="优化歌曲播放" /><LineBreak/>
+                            <Run Text="近期太累，开发者打算休息一段时间😩" /><LineBreak/><LineBreak/>
+                            
+                             <Run Text="Version：2.1010.2340 / 2017.2.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="加入批量缓存歌单的功能" /><LineBreak/>
                             <Run Text="支持断点续传手动控制" /><LineBreak/>
                             <Run Text="支持将缓存歌曲加入播放列表" /><LineBreak/>

@@ -30,16 +30,18 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             base.OnNavigatedTo(e);
             this.DataContext = Downloader;
             IncrementalLoadingBorder.SetVisibility(false);
-            timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 1) };
-            timer.Tick += OnTicked;
+            timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 500) };
+            timer.Tick += OnTickedAsync;
             timer.Start();
         }
 
-        private void OnTicked(object sender, object e) {
-            Downloader.DownloadList.Select(i=>i.Value).ToList().ForEach(singleton => {
-                if (singleton.IsCompleted)
-                    Downloader.RemoveItemFromListByValue(singleton);
-                singleton.RefrashProgress();
+        private async void OnTickedAsync(object sender, object e) {
+            await Dispatcher.UpdateUI(() => {
+                Downloader.DownloadList.Select(i => i.Value).ToList().ForEach(singleton => {
+                    if (singleton.IsCompleted)
+                        Downloader.RemoveItemFromListByValue(singleton);
+                    singleton.RefrashProgress();
+                });
             });
         }
 
@@ -73,5 +75,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         #endregion
 
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+
+        }
     }
 }

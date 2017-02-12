@@ -50,6 +50,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         private async Task InitMusicBoardAsync(MusicBoardParameter args) {
             try {
+                is_init_progress = true;
                 sid = args.SID;
                 ssid = args.SSID;
                 aid = args.AID;
@@ -197,7 +198,9 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private void MusicSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e) {
-            if (Math.Abs(e.NewValue - e.OldValue) >= 3)
+            if (is_init_progress)
+                is_init_progress = false;
+            else if (Math.Abs(e.NewValue - e.OldValue) >= 3)
                 Service.Session.Position = TimeSpan.FromSeconds(e.NewValue);
         }
 
@@ -388,6 +391,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         IEnumerable<LrcMetaData> songMessCollection;
         LrcListViewAnimationStyle animation_style = LrcListViewAnimationStyle.FastSlide;
         bool is_cached;
+        bool is_init_progress;
         string identity_song;
         string path_url;
         MHzSongBase THIS_SONG;

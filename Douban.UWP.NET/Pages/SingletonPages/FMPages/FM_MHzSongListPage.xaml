@@ -313,7 +313,7 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem x:Uid="SongListDescription" Click="MenuFlyoutItem_Click"/>
-                        <MenuFlyoutItem x:Uid="DownLoadAllSongList" Click="DownLoadAllSongList_Click"/>
+                        <MenuFlyoutItem x:Uid="DownLoadAllSongList" Click="DownLoadAllSongList_ClickAsync"/>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

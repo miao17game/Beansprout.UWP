@@ -35,12 +35,20 @@ namespace Douban.UWP.NET.Tools {
             var index = DownloadList.ToList().FindIndex(i => i.Value == value);
             if (index == -1)
                 return;
+            var item = DownloadList[index].Key;
+            item.FinishedTime = DateTime.Now.ToString("h:mm tt");
+            DownloadFinishedList.Insert(0, DownloadList[index].Key);
             DownloadList.RemoveAt(index);
         }
 
         ObservableCollection<KeyValuePair<DownloadOperationKey, DownloadOperationValue>> _downloadList;
         public ObservableCollection<KeyValuePair< DownloadOperationKey, DownloadOperationValue>> DownloadList {
             get { return _downloadList ?? (_downloadList = new ObservableCollection<KeyValuePair<DownloadOperationKey, DownloadOperationValue>>()); }
+        }
+
+        ObservableCollection<DownloadOperationKey> _download_finished_list;
+        public ObservableCollection<DownloadOperationKey> DownloadFinishedList {
+            get { return _download_finished_list ?? (_download_finished_list = new ObservableCollection<DownloadOperationKey>()); }
         }
 
         #endregion
@@ -262,20 +270,25 @@ namespace Douban.UWP.NET.Tools {
         }
 
         private void DownloadListAddNewItem(MHzSongBase song, DownloadOperation operation) {
-            DownloadList.Add(new KeyValuePair<DownloadOperationKey, DownloadOperationValue>(new DownloadOperationKey(song.SHA256, song.Title), new DownloadOperationValue(operation)));
+            DownloadList.Add(new KeyValuePair<DownloadOperationKey, DownloadOperationValue>(new DownloadOperationKey(song.SHA256, song.Title, song.SingerShow), new DownloadOperationValue(operation)));
         }
 
     }
 
     public class DownloadOperationKey {
 
-        public DownloadOperationKey(string sha256, string title) {
+        public DownloadOperationKey(string sha256, string title, string artist) {
             SHA256 = sha256;
             Title = title;
+            Artist = artist;
         }
 
         public string SHA256 { get; set; }
         public string Title { get; set; }
+        public string Artist { get; set; }
+
+        public string FinishedTime { get; set; }
+
     }
 
     public class DownloadOperationValue : ViewModelBase {
@@ -316,13 +329,27 @@ namespace Douban.UWP.NET.Tools {
             set { _is_paused = value; RaisePropertyChanged("IsPaused"); }
         }
 
+        private double _now_double;
+        public double NowDouble {
+            get { return _now_double; }
+            set { _now_double = value; RaisePropertyChanged("NowDouble"); }
+        }
+
+        private double _max_double = 1;
+        public double MaxDouble {
+            get { return _max_double; }
+            set { _max_double = value; RaisePropertyChanged("MaxDouble"); }
+        }
+
         public void RefrashProgress() {
             IsCompleted = Operation.Progress.Status == BackgroundTransferStatus.Completed ? true : false;
             IsPaused = Operation.Progress.Status == BackgroundTransferStatus.Running ? false : true;
             IsUnstart = Operation.Progress.TotalBytesToReceive == 0;
             if (!IsUnstart) {
-                WholeValue = (((double)Operation.Progress.TotalBytesToReceive) / (1024 * 1024)).ToString("#.##");
-                NowValue = (((double)Operation.Progress.BytesReceived) / (1024 * 1024)).ToString("#.##");
+                MaxDouble = Operation.Progress.TotalBytesToReceive;
+                NowDouble = Operation.Progress.BytesReceived;
+                WholeValue = (MaxDouble / (1024 * 1024)).ToString("#.##");
+                NowValue = (NowDouble / (1024 * 1024)).ToString("#.##");
             }
         }
 

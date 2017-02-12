@@ -54,7 +54,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     type = typeof(FM_DownloadingPage);
                     break;
             }
-            if (frame.Content == null || (item.Name != "ChannelsItem" && item.Name != "MusicListItem"))
+            if (frame.Content == null || (item.Name != "ChannelsItem" && item.Name != "MusicListItem" && item.Name != "DownloadingItem"))
                 frame.Navigate(type);
         }
 

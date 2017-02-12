@@ -21,50 +21,100 @@
         <src:DoubanDownloadService x:Name="ThisModel"/>
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource DoubanBackground05}">
+    <Grid Name="grid" Background="{ThemeResource DoubanBackground05}">
 
-        <ListView Name="IndexList" ItemsSource="{Binding DownloadList}"
+        <Pivot Width="{Binding Width, ElementName=grid ,Mode=OneWay}"
+               SelectionChanged="Pivot_SelectionChanged">
+
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" Margin="10,3,5,3" FontSize="18" />
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+
+            <PivotItem Name="DownloadedItem" x:Uid="FM_DOWNLOADED_TITLE" >
+                <ListView Name="IndexList2" ItemsSource="{Binding DownloadFinishedList}"
+                  ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                  IsItemClickEnabled="True" SelectionMode="Single" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
+                          BorderBrush="#80808080" BorderThickness="0,0,0,0.5" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="{Binding Title}" 
+                                           FontSize="18" 
+                                           Margin="10,5,10,5"
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Thin" />
+                                <TextBlock Text="{Binding Artist}" 
+                                           FontSize="16" 
+                                           Grid.Row="1"
+                                           Margin="10,0,10,5"
+                                           VerticalAlignment="Center" 
+                                           FontWeight="Thin" 
+                                           Foreground="#80808080"/>
+                                <TextBlock Text="{Binding FinishedTime}" 
+                                           FontSize="14" 
+                                           Grid.Column="1"
+                                           Grid.RowSpan="2"
+                                           Margin="10,5,10,5"
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Right"
+                                           FontWeight="Thin" 
+                                           Foreground="#80808080"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+
+            <PivotItem Name="DownloadingItem" x:Uid="FM_DOWNLOADING_TITLE" >
+                <ListView Name="IndexList" ItemsSource="{Binding DownloadList}"
                   ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
                   IsItemClickEnabled="True" SelectionMode="Single" 
-                  RelativePanel.AlignLeftWithPanel="True" 
-                  RelativePanel.AlignRightWithPanel="True"
-                  RelativePanel.AlignBottomWithPanel="True"
                   Loaded="IndexList_Loaded"
                   ItemClick="IndexList_ItemClickAsync">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
                           BorderBrush="#80808080" BorderThickness="0,0,0,0.5" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" 
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" 
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Center"
                                     Grid.Column="1" 
                                     Grid.Row="0"
                                     Margin="10,5,0,10" >
-                            <TextBlock Text="{Binding Key.Title}" 
+                                    <TextBlock Text="{Binding Key.Title}" 
                                        FontSize="18" 
                                        VerticalAlignment="Center" 
                                        FontWeight="Thin" />
-                            <TextBlock Text="("  
+                                    <TextBlock Text="("  
                                        Margin="2,0,3,0"
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                            <Grid Visibility="{Binding Value.IsCompleted, 
+                                    <Grid Visibility="{Binding Value.IsCompleted, 
                                 Converter={StaticResource VisibilityConverter}, 
                                 ConverterParameter=False}">
-                                <TextBlock x:Uid="Download_Waiting"  
+                                        <TextBlock x:Uid="Download_Waiting"  
                                            FontSize="14" 
                                            VerticalAlignment="Center" 
                                            HorizontalAlignment="Left"
@@ -73,33 +123,33 @@
                                            Visibility="{Binding Value.IsUnstart, 
                                     Converter={StaticResource VisibilityConverter}, 
                                     ConverterParameter=True}"/>
-                                <StackPanel Orientation="Horizontal" 
+                                        <StackPanel Orientation="Horizontal" 
                                             Visibility="{Binding Value.IsUnstart, 
                                     Converter={StaticResource VisibilityConverter}, 
                                     ConverterParameter=False}">
-                                    <TextBlock Text="{Binding Value.NowValue}"  
+                                            <TextBlock Text="{Binding Value.NowValue}"  
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                                    <TextBlock Text="mb/"  
+                                            <TextBlock Text="mb/"  
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                                    <TextBlock Text="{Binding Value.WholeValue}"  
+                                            <TextBlock Text="{Binding Value.WholeValue}"  
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                                    <TextBlock Text="mb"  
+                                            <TextBlock Text="mb"  
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock x:Uid="Download_Finished"  
+                                        </StackPanel>
+                                    </Grid>
+                                    <TextBlock x:Uid="Download_Finished"  
                                        FontSize="14" 
                                        VerticalAlignment="Center" 
                                        HorizontalAlignment="Left"
@@ -108,28 +158,28 @@
                                        Visibility="{Binding Value.IsCompleted, 
                                 Converter={StaticResource VisibilityConverter}, 
                                 ConverterParameter=True}"/>
-                            <TextBlock Text=")"  
+                                    <TextBlock Text=")"  
                                        Margin="3,0,0,0"
                                    FontSize="14" 
                                    VerticalAlignment="Center" 
                                    FontWeight="Thin" 
                                    Foreground="#80808080"/>
-                        </StackPanel>
-                        <Border x:Name="ProgressGrid" VerticalAlignment="Center"
+                                </StackPanel>
+                                <Border x:Name="ProgressGrid" VerticalAlignment="Center"
                               Grid.Column="1" 
                               Grid.Row="1"
                               Margin="10,0,0,10" >
-                            <ProgressBar Foreground="{ThemeResource DoubanForeground01}" 
-                                         Value="{Binding Value.NowValue}"
-                                         Maximum="{Binding Value.WholeValue}"
+                                    <ProgressBar Foreground="{ThemeResource DoubanForeground01}" 
+                                         Value="{Binding Value.NowDouble}"
+                                         Maximum="{Binding Value.MaxDouble}"
                                          Background="#80808080"/>
-                        </Border>
-                        <StackPanel Grid.Column="3"
+                                </Border>
+                                <StackPanel Grid.Column="3"
                                         Grid.RowSpan="2" 
                                         Orientation="Horizontal" 
                                         VerticalAlignment="Center">
-                            <Grid >
-                                <Button Click="StartButton_Click" 
+                                    <Grid >
+                                        <Button Click="StartButton_Click" 
                                         CommandParameter="{Binding Value}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="18" 
@@ -141,7 +191,7 @@
                                     Converter={StaticResource VisibilityConverter}, 
                                     ConverterParameter=True}"
                                         IsEnabled="{Binding Value.IsCompleted, Converter={StaticResource BooleanConverter}}"/>
-                                <Button Click="PauseButton_Click" 
+                                        <Button Click="PauseButton_Click" 
                                         CommandParameter="{Binding Value}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="18" 
@@ -153,8 +203,8 @@
                                     Converter={StaticResource VisibilityConverter}, 
                                     ConverterParameter=False}"
                                         IsEnabled="{Binding Value.IsCompleted, Converter={StaticResource BooleanConverter}}"/>
-                            </Grid>
-                            <Button Click="DeleteButton_Click" 
+                                    </Grid>
+                                    <Button Click="DeleteButton_Click" 
                                         CommandParameter="{Binding}" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="14" 
@@ -162,11 +212,14 @@
                                         Content="&#xE106;" 
                                         Margin=" 5,5,10,5"
                                         Foreground="#80808080"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+
+        </Pivot>
 
         <Border Name="IncrementalLoadingBorder" Background="#FC202020" Opacity="0.5" Height=" 60" VerticalAlignment="Bottom">
             <Image Name="IncrementalLoading" Visibility="Visible" Source="/Assets/loading_grey.gif" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15"/>

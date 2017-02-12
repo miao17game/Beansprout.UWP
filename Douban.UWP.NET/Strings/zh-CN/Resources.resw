@@ -833,4 +833,10 @@
   <data name="Download_Waiting.Text" xml:space="preserve">
     <value>挂起</value>
   </data>
+  <data name="FM_DOWNLOADED_TITLE.Header" xml:space="preserve">
+    <value>已完成</value>
+  </data>
+  <data name="FM_DOWNLOADING_TITLE.Header" xml:space="preserve">
+    <value>传输中</value>
+  </data>
 </root>

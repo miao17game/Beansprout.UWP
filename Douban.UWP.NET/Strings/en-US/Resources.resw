@@ -834,4 +834,10 @@
   <data name="Download_Waiting.Text" xml:space="preserve">
     <value>Waiting</value>
   </data>
+  <data name="FM_DOWNLOADED_TITLE.Header" xml:space="preserve">
+    <value>Finished</value>
+  </data>
+  <data name="FM_DOWNLOADING_TITLE.Header" xml:space="preserve">
+    <value>Downloading</value>
+  </data>
 </root>

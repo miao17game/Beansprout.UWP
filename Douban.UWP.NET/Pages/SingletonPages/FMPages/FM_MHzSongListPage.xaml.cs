@@ -65,10 +65,13 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
-        private void DownLoadAllSongList_Click(object sender, RoutedEventArgs e) {
+        private async void DownLoadAllSongList_ClickAsync(object sender, RoutedEventArgs e) {
             ReportHelper.ReportAttentionAsync(GetUIString("Download_Start"));
             foreach(var item in inner_list) {
-                Downloader.DownloadMusicNotWaitAsync(item, DownloadNotifType.Null, DownloadReportType.ShowListButNotReport);
+                await Task.Run(async () => {
+                    await Dispatcher.UpdateUI(()=>Downloader.DownloadMusicNotWaitAsync(item, DownloadNotifType.Null, DownloadReportType.ShowListButNotReport));
+                    await Task.Delay(10);
+                });
             }
         }
 
@@ -76,7 +79,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var result = await Downloader.DownloadMusicAsync(
                 song: ((sender as Button).CommandParameter as MHzSong), 
                 notif_type: DownloadNotifType.SuccessfullyNotification,
-                report_type: DownloadReportType.ShowListButNotReport);
+                report_type: DownloadReportType.ShowListAndReportStart);
             DownloadHelper.ReportByDownloadResoult(result);
             ChangeDownloadStatus((sender as Button), result == DownloadResult.Successfully ? true : false);
         }
