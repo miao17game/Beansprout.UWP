@@ -2,32 +2,28 @@
 using static Douban.UWP.NET.Resources.AppResources;
 
 using Douban.UWP.Core.Tools;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Douban.UWP.Core.Models;
 using Douban.UWP.Core.Models.FMModels;
-using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Controls;
 using Douban.UWP.NET.Tools;
 using System.Threading.Tasks;
 using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
-using Windows.Media.Playback;
-using Windows.Media.Core;
 using System.Collections.ObjectModel;
 using Windows.UI;
+using Windows.Web.Http;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -44,7 +40,10 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             var args = e.Parameter as NavigateParameter;
             if (args == null)
                 return;
+            is_daily = args.IsDailyList;
             frameType = args.FrameType;
+            listid = Convert.ToInt64(args.ID);
+            app_did = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation().Id;
             await InitListResourcesAsync(args.ID);
         }
 
@@ -84,8 +83,22 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             ChangeDownloadStatus((sender as Button), result == DownloadResult.Successfully ? true : false);
         }
 
-        private void LikeButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void LikeButton_ClickAsync(object sender, RoutedEventArgs e) {
+            var item = (sender as Button).CommandParameter as MHzSongBase;
+            if (item == null)
+                return;
+            var succeed = await MHzListGroupHelper.AddToRedHeartAsync(item, listid, APIKey, bearer, app_did, item.LikeCount == 0);
+            if (succeed) {
+                if(item.LikeCount == 0) {
+                    item.LikeCount = 1;
+                    ReportHelper.ReportAttentionAsync(GetUIString("Red_Heart_Added"));
+                    (sender as Button).Foreground = new SolidColorBrush(Colors.Red);
+                } else {
+                    item.LikeCount = 0;
+                    ReportHelper.ReportAttentionAsync(GetUIString("Red_Heart_Removed"));
+                    (sender as Button).Foreground = new SolidColorBrush(Color.FromArgb(128, 128, 128, 128));
+                }
+            }
         }
 
         private async void AddButton_ClickAsync(object sender, RoutedEventArgs e) {
@@ -169,33 +182,28 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         }
 
         private async Task InitListResourcesAsync(int list_id) {
-            var result = await DoubanWebProcess.PostDoubanResponseAsync(
-                $"{"https://"}api.douban.com/v2/fm/songlist/{list_id}/detail",
-                "api.douban.com",
-                null,
-                userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
-                content: new Windows.Web.Http.HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
-                    new KeyValuePair<string, string>( "version", "644" ),
-                    new KeyValuePair<string, string>( "kbps", "320" ),
-                    new KeyValuePair<string, string>( "app_name", "radio_android" ),
-                    new KeyValuePair<string, string>( "apikey", APIKey ),
-                }));
+            var result = is_daily?
+                await DoubanWebProcess.GetMDoubanResponseAsync(
+                    path: $"{"https://"}api.douban.com/v2/fm/songlist/user_daily/?version=644&app_name=radio_android&kbps=192&apikey={APIKey}",
+                    host: "api.douban.com",
+                    reffer: null,
+                    bearer: bearer,
+                    userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C"):
+                await DoubanWebProcess.PostDoubanResponseAsync(
+                    path: $"{"https://"}api.douban.com/v2/fm/songlist/{list_id}/detail",
+                    host: "api.douban.com",
+                    reffer: null,
+                    userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
+                    content: new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
+                        new KeyValuePair<string, string>( "version", "644" ),
+                        new KeyValuePair<string, string>( "kbps", "320" ),
+                        new KeyValuePair<string, string>( "app_name", "radio_android" ),
+                        new KeyValuePair<string, string>( "apikey", APIKey ),
+                    }), bearer: bearer);
             try {
-                var jo = JObject.Parse(result);
-                var songs = jo["songs"];
-                var creator = jo["creator"];
-                var song_list = MHzSongListHelper.CreateDefaultSongList(jo);
-                MHzSongListHelper.AddCreatorMessage(song_list, jo["creator"]);
-                if (songs != null && songs.HasValues) {
-                    songs.Children().ToList().ForEach(jo_song => {
-                        try {
-                            var song = MHzSongListHelper.CreateDefaultSongInstance(jo_song);
-                            MHzSongListHelper.AddSingerEachOne(song, jo_song["singers"]);
-                            MHzSongListHelper.AddItemInfo(song, jo_song["item_info"]);
-                            song_list.Songs.Add(song);
-                        } catch { /* Ingore */ }
-                    });
-                }
+                var song_list = JsonHelper.FromJson<MHzSongList>(result);
+                if (song_list.Cover == "")
+                    song_list.Cover = "ms-appx:///Assets/231.jpg";
                 inner_list = new ObservableCollection<MHzSong>();
                 song_list.Songs.ToList().ForEach(i => inner_list.Add(i));
                 var query = await StorageHelper.GetAllStorageFilesByExtensionAsync(StorageHelper.JsonExtension);
@@ -204,7 +212,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 }
                 ListResources.Source = inner_list;
                 SetListHeader(song_list);
-            } catch { } finally { IncrementalLoadingBorder.SetVisibility(false); }
+            } catch { /* Ignore */ } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
         private void SetListHeader(MHzSongList song_list) {
@@ -247,8 +255,15 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         #endregion
 
         #region Properties
+
+        const string udid = "8841d56cb5b24b808de35702b112d75ec6fdcf24";
+        const string did = "d0166bef2e066290987be5eb123cd2a0080fb654";
+
+        bool is_daily;
+        long listid;
         string uid;
         string bearer;
+        Guid app_did;
         FrameType frameType;
         ObservableCollection<MHzSong> inner_list;
 

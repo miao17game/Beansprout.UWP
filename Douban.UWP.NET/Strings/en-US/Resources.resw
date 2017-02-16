@@ -840,4 +840,13 @@
   <data name="FM_DOWNLOADING_TITLE.Header" xml:space="preserve">
     <value>Downloading</value>
   </data>
+  <data name="Red_Heart_Added" xml:space="preserve">
+    <value>Red Heart song added.</value>
+  </data>
+  <data name="Red_Heart_Removed" xml:space="preserve">
+    <value>Removed from Red Heart.</value>
+  </data>
+  <data name="Clear_Cache_Failed" xml:space="preserve">
+    <value>Cache clear failed.</value>
+  </data>
 </root>

@@ -1,13 +1,43 @@
-﻿using Douban.UWP.Core.Tools;
+﻿using Douban.UWP.Core.Models.FMModels.ReadHeartModels;
+using Douban.UWP.Core.Tools;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Wallace.UWP.Helpers;
+using Windows.Web.Http;
 
 namespace Douban.UWP.Core.Models.FMModels {
     public static class MHzListGroupHelper {
+
+        public static async Task<bool> AddToRedHeartAsync(SongBase song, long list_id, string api_key, string bearer, Guid app_did, bool is_add = true) {
+            var model = new RedHeartPost { Type = is_add ? "r" : "u", PlayMode = null, PlaySource = "n", SID = song.SID, Time = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"), PID = list_id };
+            IList<RedHeartPost> list = new List<RedHeartPost> { model };
+            var json = JsonHelper.ToJson(list);
+            var content = new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>( "version", "644" ),
+                    new KeyValuePair<string, string>( "records", json ),
+                    new KeyValuePair<string, string>( "app_name", "radio_android" ),
+                    new KeyValuePair<string, string>( "client", $"s:mobile|v:4.6.4|y:android 4.3|f:644|m:Taobao|d:{app_did}|e:tcl_tcl-p306c" ),
+                    new KeyValuePair<string, string>( "apikey", api_key ),
+                });
+            var result = default(string);
+            try {
+                result = await DoubanWebProcess.PostDoubanResponseAsync(
+                $"{"https://"}api.douban.com/v2/fm/action_log?udid={app_did}",
+                "api.douban.com",
+                null,
+                userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
+                content: content,
+                bearer: bearer);
+            } catch { return false; }
+            if (result.Contains(@"""r"":0"))
+                return true;
+            else
+                return false;
+        }
 
         public static async Task<IList<MHzSongBase>> FetchMHzSongsAsync(int list_id, string api_key, string bearer) {
             var result = await DoubanWebProcess.GetMDoubanResponseAsync(

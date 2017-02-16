@@ -57,17 +57,8 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 path_url = args.Url;
                 identity_song = MHzSongBaseHelper.GetIdentity(args);
                 THIS_SONG = args.Song;
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(
-                    path: $"{"https://"}api.douban.com/v2/fm/song/{sid + "g" + ssid}/?version=644&start=0&app_name=radio_android&apikey={APIKey}",
-                    host: "api.douban.com",
-                    reffer: null,
-                    bearer: AccessToken,
-                    userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
 
-                var jo = JObject.Parse(result);
-                title = jo["title"].Value<string>();
-                artist = jo["artist"].Value<string>();
-                image = jo["related_channel"]["cover"].Value<string>();
+                await GetMusicDetailsAsync();
 
                 UnregisterServiceEvents();
                 RegisterServiceEvents();
@@ -104,6 +95,26 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 ReportHelper.ReportAttentionAsync(GetUIString("MediaSource_EEEEEEEError"));
             } finally { await SetDefaultLrcAndAnimationsAsync(); }
 
+        }
+
+        private async Task GetMusicDetailsAsync() {
+            try {
+                var result = await DoubanWebProcess.GetMDoubanResponseAsync(
+                    path: $"{"https://"}api.douban.com/v2/fm/song/{sid + "g" + ssid}/?version=644&start=0&app_name=radio_android&apikey={APIKey}",
+                    host: "api.douban.com",
+                    reffer: null,
+                    bearer: AccessToken,
+                    userAgt: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C");
+                var jo = JObject.Parse(result);
+                title = jo["title"].Value<string>();
+                artist = jo["artist"].Value<string>();
+                image = jo["related_channel"]["cover"].Value<string>();
+            } catch {
+                System.Diagnostics.Debug.WriteLine("get music details error.");
+                title = "";
+                artist = "";
+                image = null;
+            }
         }
 
         private async void OnBufferingEndedAsync(MediaPlaybackSession sender, object args) {
@@ -343,23 +354,28 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
             }
         }
 
-        public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) { 
-            if (is_default_lrc) {
-                var local_lrc = await StorageHelper.FetchLocalLrcBySHA256Async(identity_song);
-                if (local_lrc != null) {
-                    MusicBoardVM.LrcList = local_lrc;
-                } else if (songMessCollection != null && songMessCollection.Count() > 0) {
-                    var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
-                    MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
-                }
-            }
-            LrcListView.SetLrcAnimation(
-                list: MusicBoardVM.LrcList ?? new List<LrcInfo>(), 
-                vm: ref MusicBoardVM,
-                anima_style: animation_style);
-            if (MusicBoardVM.LrcList != null && identity_song != null) {
-                var succeed = await Downloader.CreateBLRCAsync(identity_song, MusicBoardVM.LrcList);
-            }
+        public async Task SetDefaultLrcAndAnimationsAsync(bool is_default_lrc = true) {
+            await Task.Run(async () => {
+                await Task.Delay(30);
+                await Dispatcher.UpdateUI(async () => {
+                    if (is_default_lrc) {
+                        var local_lrc = await StorageHelper.FetchLocalLrcBySHA256Async(identity_song);
+                        if (local_lrc != null) {
+                            MusicBoardVM.LrcList = local_lrc;
+                        } else if (songMessCollection != null && songMessCollection.Count() > 0) {
+                            var lrc = await LrcProcessHelper.FetchLrcByIdAsync(songMessCollection.ToArray()[0].ID);
+                            MusicBoardVM.LrcList = await LrcProcessHelper.ReadLRCFromWebAsync(title, artist, Colors.White, lrc);
+                        }
+                    }
+                    LrcListView.SetLrcAnimation(
+                        list: MusicBoardVM.LrcList ?? new List<LrcInfo>(),
+                        vm: ref MusicBoardVM,
+                        anima_style: animation_style);
+                    if (MusicBoardVM.LrcList != null && identity_song != null) {
+                        var succeed = await Downloader.CreateBLRCAsync(identity_song, MusicBoardVM.LrcList);
+                    }
+                });
+            });
         }
 
         private void SetCenterControlGridRotation(double num) {

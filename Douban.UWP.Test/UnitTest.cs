@@ -9,6 +9,8 @@ using System.Runtime.InteropServices;
 using System.IO;
 using DBCSCodePage;
 using System.Collections.Generic;
+using Douban.UWP.Core.Models.FMModels.ReadHeartModels;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.Test {
     [TestClass]
@@ -75,6 +77,28 @@ namespace Douban.UWP.Test {
                 content: new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
                     new KeyValuePair<string, string>( "version", "644" ),
                     new KeyValuePair<string, string>( "kbps", "64" ),
+                    new KeyValuePair<string, string>( "app_name", "radio_android" ),
+                    new KeyValuePair<string, string>( "apikey", apiKey ),
+                }));
+            Debug.WriteLine(result);
+        }
+
+        public async void Method04Async() {
+
+            var model = new RedHeartPost { Type = "r", PlayMode = null, PlaySource = "n", SID = "1640272", Time = "2017-02-16 13:45:56", PID = 7191384 };
+            IList<RedHeartPost> list = new List<RedHeartPost> { model };
+            var json = JsonHelper.ToJson(list);
+            Debug.WriteLine(json);
+            json = json.Replace(@"[", @"%5B").Replace(@"]", @"%5D").Replace(@"{", @"%7B").Replace(@"}", @"%D").Replace(@"""", @"%22").Replace(@":", @"%3A").Replace(" ","+").Replace(@",","%2C");
+            Debug.WriteLine(json);
+            var result = await PostDoubanResponseAsync(
+                $"{"https://"}api.douban.com/v2/fm/action_log?",
+                "api.douban.com",
+                null,
+                userAgent: @"api-client/2.0 com.douban.radio/4.6.4(464) Android/18 TCL_P306C TCL TCL-306C",
+                content: new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>>{
+                    new KeyValuePair<string, string>( "version", "644" ),
+                    new KeyValuePair<string, string>( "records", json ),
                     new KeyValuePair<string, string>( "app_name", "radio_android" ),
                     new KeyValuePair<string, string>( "apikey", apiKey ),
                 }));

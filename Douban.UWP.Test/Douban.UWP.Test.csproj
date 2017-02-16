@@ -123,6 +123,16 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Douban.UWP.Core\Douban.UWP.Core.csproj">
+      <Project>{B3BCAA1F-F21C-42B7-B3C6-A07759826272}</Project>
+      <Name>Douban.UWP.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wallace.UWP.Helpers\Wallace.UWP.Helpers.csproj">
+      <Project>{76018C20-874F-4D6D-9C30-23A82D347E41}</Project>
+      <Name>Wallace.UWP.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

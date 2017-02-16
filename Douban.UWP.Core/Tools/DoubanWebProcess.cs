@@ -269,7 +269,20 @@ namespace Douban.UWP.Core.Tools {
             string reffer,
             string userAgent,
             HttpFormUrlEncodedContent content,
-            Encoding ecd = null) {
+            Encoding ecd = null,
+            string bearer = null) {
+            return await PostDoubanResponseAsync(path, host, reffer, userAgent: userAgent, origin: null, content: content, ecd: ecd, bearer: bearer);
+        }
+
+        public static async Task<string> PostDoubanResponseAsync(
+            string path,
+            string host,
+            string reffer,
+            string userAgent,
+            string origin,
+            HttpFormUrlEncodedContent content,
+            Encoding ecd = null,
+            string bearer = null) {
             var returnString = default(string);
             try {
                 using (var httpClient = new HttpClient()) {
@@ -278,9 +291,14 @@ namespace Douban.UWP.Core.Tools {
                         httpClient.DefaultRequestHeaders.Referer = new Uri(reffer);
                     if (userAgent != null)
                         httpClient.DefaultRequestHeaders["User-Agent"] = userAgent;
+                    if (bearer != null)
+                        httpClient.DefaultRequestHeaders["Authorization"] = $"Bearer {bearer}";
+                    if (origin != null)
+                        httpClient.DefaultRequestHeaders["Origin"] = origin;
+                    httpClient.DefaultRequestHeaders["Connection"] = "Keep-Alive";
                     using (var request = await LOGIN_POSTAsync(httpClient, path, content)) {
-                        returnString = ecd == null ? 
-                            (await CastStreamResultToStringAsync(request, false)).ToString() : 
+                        returnString = ecd == null ?
+                            (await CastStreamResultToStringAsync(request, false)).ToString() :
                             (await CastStreamResultToStringAsync(request, ecd)).ToString();
                     }
                 }

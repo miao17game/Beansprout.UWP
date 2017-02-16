@@ -72,8 +72,11 @@ namespace Douban.UWP.Test
             // Ensure the current window is active
             Window.Current.Activate();
 
-            Test02Class newOne = new Test02Class();
-            await newOne.DownloadMusicAsync();
+            //Test02Class newOne = new Test02Class();
+            //await newOne.DownloadMusicAsync();
+
+            UnitTest1 one01 = new UnitTest1();
+            one01.Method04Async();
 
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }

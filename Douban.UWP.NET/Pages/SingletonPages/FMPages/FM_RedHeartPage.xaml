@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Douban.UWP.NET.Pages.SingletonPages.FMPages.FM_CachePage"
+    x:Class="Douban.UWP.NET.Pages.SingletonPages.FMPages.FM_RedHeartPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:src="using:Douban.UWP.NET.Tools"
@@ -30,7 +30,7 @@
                   Loaded="IndexList_Loaded"
                   ItemClick="IndexList_ItemClickAsync">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="baseModel:MHzSongBase">
+                <DataTemplate x:DataType="baseModel:SongBase">
                     <Grid Background="{ThemeResource DoubanBackground04}" Margin="0,0,0,0"
                           BorderBrush="#80808080" BorderThickness="0,0,0,0.5" >
                         <Grid.RowDefinitions>

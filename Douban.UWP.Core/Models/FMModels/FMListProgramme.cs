@@ -10,52 +10,52 @@ namespace Douban.UWP.Core.Models.FMModels {
     [DataContract]
     public class FMListProgramme {
 
-        [DataMember]
+        [DataMember(Name = "description")]
         public string Description { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "collected_count")]
         public int CollectedCount { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "creator")]
         public FMListCreater Creator { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "duration")]
         public int Duration { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "rec_reason")]
         public string RecommandReason { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "is_public")]
         public bool IsPublic { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "can_play")]
         public bool CanPlay { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "id")]
         public int ID { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "songs_count")]
         public int SongsCount { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "show_not_playable")]
         public bool ShowNotPlayable { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "cover_type")]
         public int CoverType { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "title")]
         public string Title { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "cover")]
         public string Cover { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "updated_time")]
         public string UpdateTime { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "is_collected")]
         public bool IsCollected { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "type")]
         public int Type { get; set; }
 
     }
@@ -63,22 +63,22 @@ namespace Douban.UWP.Core.Models.FMModels {
     [DataContract]
     public class FMListCreater {
 
-        [DataMember]
+        [DataMember(Name = "picture")]
         public string Picture { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "songlists_count")]
         public int SonglistsCount { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "url")]
         public string Url { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "type")]
         public string Type { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "id")]
         public string ID { get; set; }
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
     }
 

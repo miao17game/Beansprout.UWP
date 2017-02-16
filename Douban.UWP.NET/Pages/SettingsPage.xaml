@@ -280,7 +280,14 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1011.* / 2017.2.12" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1012.* / 2017.2.16" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="豆瓣FM红心功能已攻破" /><LineBreak/>
+                            <Run Text="支持红心歌曲的添加与移除" /><LineBreak/>
+                            <Run Text="支持删除本地歌曲缓存" /><LineBreak/>
+                            <Run Text="跟进官方API变动，增添每日歌单" /><LineBreak/>
+                            <Run Text="解决手机端初次加载歌词的性能问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1011.1701 / 2017.2.12" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="强化缓存功能健壮性" /><LineBreak/>
                             <Run Text="UI缓存队列页面的显示效果" /><LineBreak/>
                             <Run Text="优化歌曲播放" /><LineBreak/>

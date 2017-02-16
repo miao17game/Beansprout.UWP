@@ -39,7 +39,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                     break;
                 case "RedHeartItem":
                     frame = RedHeartFrame;
-                    type = typeof(StillOnWorkPage);
+                    type = typeof(FM_RedHeartPage);
                     break;
                 case "MineItem":
                     frame = MineFrame;

@@ -119,6 +119,8 @@
     <Compile Include="Models\FMModels\MHzSongListModels\MHzSongListHelper.cs" />
     <Compile Include="Models\FMModels\MHzSongListModels\MHzSongList.cs" />
     <Compile Include="Models\FMModels\MusicBoardParameter.cs" />
+    <Compile Include="Models\FMModels\ReadHeartModels\ReaHeartSong.cs" />
+    <Compile Include="Models\FMModels\ReadHeartModels\RedHeartPost.cs" />
     <Compile Include="Models\ImageModels\PromosItem.cs" />
     <Compile Include="Models\InfosHeader.cs" />
     <Compile Include="Models\InfosListItem.cs" />

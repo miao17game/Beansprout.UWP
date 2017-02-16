@@ -839,4 +839,13 @@
   <data name="FM_DOWNLOADING_TITLE.Header" xml:space="preserve">
     <value>传输中</value>
   </data>
+  <data name="Red_Heart_Added" xml:space="preserve">
+    <value>已加入红心歌单</value>
+  </data>
+  <data name="Red_Heart_Removed" xml:space="preserve">
+    <value>已从红星歌单移除</value>
+  </data>
+  <data name="Clear_Cache_Failed" xml:space="preserve">
+    <value>清理缓存失败</value>
+  </data>
 </root>

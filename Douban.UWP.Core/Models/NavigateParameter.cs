@@ -12,6 +12,7 @@ namespace Douban.UWP.Core.Models {
         public object SpecialParameter { get; set; }
         public bool IsFromInfoClick { get; set; }
         public bool IsNative { get; set; }
+        public bool IsDailyList { get; set; }
         public string UserUid { get; set; }
         public int ID { get; set; }
 

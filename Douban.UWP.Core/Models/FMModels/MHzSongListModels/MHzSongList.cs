@@ -10,24 +10,24 @@ namespace Douban.UWP.Core.Models.FMModels.MHzSongListModels {
     [DataContract]
     public class MHzSongList : FMListProgramme {
 
-        [DataMember]
+        [DataMember(Name = "count")]
         public int Count { get; set; }
-        [DataMember]
+        [DataMember(Name = "comments_count")]
         public int CommentsCount { get; set; }
-        [DataMember]
+        [DataMember(Name = "created_time")]
         public string CreateTime { get; set; }
-        [DataMember]
+        [DataMember(Name = "can_collect")]
         public bool CanCollect { get; set; }
-        [DataMember]
+        [DataMember(Name = "songs")]
         public IList<MHzSong> Songs { get; set; }
     }
 
     [DataContract]
     public class MHzSong : MHzSongBase {
 
-        [DataMember]
+        [DataMember(Name = "taste_status")]
         public int TasteStatus { get; set; }
-        [DataMember]
+        [DataMember(Name = "item_info")]
         public MHzSongItemInfo ItemInfo { get; set; }
 
     }
@@ -35,11 +35,11 @@ namespace Douban.UWP.Core.Models.FMModels.MHzSongListModels {
     [DataContract]
     public class MHzSongItemInfo {
 
-        [DataMember]
+        [DataMember(Name = "item_id")]
         public string ItemID { get; set; }
-        [DataMember]
+        [DataMember(Name = "comment")]
         public string Comment { get; set; }
-        [DataMember]
+        [DataMember(Name = "created_time")]
         public string CreateTime { get; set; }
     }
 

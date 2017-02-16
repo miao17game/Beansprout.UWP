@@ -107,14 +107,35 @@ namespace Douban.UWP.NET.Tools {
                 var str = Encoding.UTF8.GetString(bytes);
                 var result = default(MHzSongBase);
                 try {
-                    result = JsonHelper.FromJson<MHzSongBase>(str);
+                    result = JsonHelper.FromJson<MHzSongBase>(RepairForOldVersion(str));
+                    result.LocalPath = storage.Path;
                 } catch (SerializationException) {
-                    result = JsonHelper.FromJson<MHzSong>(str);
+                    var music_file = await FetchStorageFileByPathAsync(storage.Path.Replace(JsonExtension, MusicExtension));
+                    await storage.DeleteAsync();
+                    await music_file.DeleteAsync();
+                    return null;
                 } catch {
                     return null;
                 }
                 return result;
             }
+        }
+
+        private static string RepairForOldVersion(string str) {
+            str = str
+                .Replace("Title", "title")
+                .Replace("Albumtitle", "albumtitle")
+                .Replace("Picture", "picture")
+                .Replace("Artist", "artist")
+                .Replace("AID", "aid")
+                .Replace("SSID", "ssid")
+                .Replace("SID", "sid")
+                .Replace("Url", "url")
+                .Replace("Singers", "singers")
+                .Replace("Name", "name")
+                .Replace("SHA256", "sha256");
+            //System.Diagnostics.Debug.WriteLine(str);
+            return str;
         }
 
         public static async Task<IReadOnlyList<StorageFile>> GetAllStorageFilesByExtensionAsync(string extension) {

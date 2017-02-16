@@ -19,6 +19,8 @@ using Douban.UWP.Core.Models.FMModels;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models;
 using Douban.UWP.Core.Models.FMModels.MHzSongListModels;
+using Windows.Storage;
+using System.Collections.ObjectModel;
 
 namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
@@ -29,12 +31,12 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
 
         protected async override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
-            var query = await StorageHelper.GetAllStorageFilesByExtensionAsync(StorageHelper.JsonExtension);
-            var list = new List<MHzSongBase>();
-            foreach(var storage in query) {
-                try { list.Add(await StorageHelper.ReadSongModelFromStorageFileAsync(storage)); } catch{ }
+            json_query = await StorageHelper.GetAllStorageFilesByExtensionAsync(StorageHelper.JsonExtension);
+            music_cache_list = new ObservableCollection<MHzSongBase>();
+            foreach(var storage in json_query) {
+                try { music_cache_list.Add(await StorageHelper.ReadSongModelFromStorageFileAsync(storage)); } catch{ /* Ignore */ }
             }
-            ListResources.Source = list;
+            ListResources.Source = music_cache_list;
             IncrementalLoadingBorder.SetVisibility(false);
         }
 
@@ -79,9 +81,26 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 ReportHelper.ReportAttentionAsync(GetUIString("Music_added"));
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
+        private async void DeleteButton_ClickAsync(object sender, RoutedEventArgs e) {
+            var item = (sender as Button).CommandParameter as MHzSongBase;
+            if (item == null)
+                return;
+            var item_json = json_query.ToList().Find(i => i.Path == item.LocalPath);
+            if (item_json == null)
+                return;
+            bool succeed = false;
+            try {
+                var music_file = await StorageHelper.FetchStorageFileByPathAsync(item_json.Path.Replace(StorageHelper.JsonExtension, StorageHelper.MusicExtension));
+                await music_file.DeleteAsync();
+                await item_json.DeleteAsync();
+                succeed = true;
+            } catch { ReportHelper.ReportAttentionAsync(GetUIString("Clear_Cache_Failed")); }
+            if (succeed)
+                music_cache_list.Remove(item);
         }
+
+        ObservableCollection<MHzSongBase> music_cache_list;
+        IReadOnlyList<StorageFile> json_query;
 
     }
 }

@@ -10,11 +10,13 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:Converters="using:Douban.UWP.Tools.Converters"
+    xmlns:Converter ="using:Douban.UWP.NET.Tools.Converters"
     mc:Ignorable="d">
 
     <base:BaseContentPage.Resources>
         <CollectionViewSource x:Name="ListResources"/>
         <Converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <Converter:RedHeartConverter x:Key="RedHeartConverter"/>
     </base:BaseContentPage.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}" SizeChanged="Grid_SizeChanged">
@@ -271,13 +273,13 @@
                                         Visibility="{Binding IsCached,  Converter={StaticResource VisibilityConverter}, 
                                 ConverterParameter=True}"/>
                                 </Grid>
-                                <Button Click="LikeButton_Click" 
-                                        CommandParameter="{Binding Url}" 
+                                <Button Click="LikeButton_ClickAsync" 
+                                        CommandParameter="{Binding }" 
                                         Style="{ThemeResource MainPageButtonBackHamburgerStyle}" 
                                         FontSize="16" 
                                         Content="&#xEB52;" 
                                         Margin=" 5,5,10,5"
-                                        Foreground="#80808080"/>
+                                        Foreground="{Binding LikeCount, Converter={StaticResource RedHeartConverter}}"/>
                             </StackPanel>
                         </Grid>
                     </DataTemplate>

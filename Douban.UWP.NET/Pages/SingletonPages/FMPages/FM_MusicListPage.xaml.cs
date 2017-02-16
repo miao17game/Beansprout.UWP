@@ -82,7 +82,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
         private static FMListProgramme CreateDefaultProgrammeInstance(JToken everyProg) {
             return new FMListProgramme {
                 IsCollected = everyProg["is_collected"].Value<bool>(),
-                Cover = everyProg["cover"].Value<string>(),
+                Cover = everyProg["cover"].Value<string>() != ""? everyProg["cover"].Value<string>(): "ms-appx:///Assets/star006.png",
                 ID = everyProg["id"].Value<int>(),
                 Description = everyProg["description"].Value<string>(),
                 Title = everyProg["title"].Value<string>(),
@@ -122,7 +122,7 @@ namespace Douban.UWP.NET.Pages.SingletonPages.FMPages {
                 return;
             NavigateToBase?.Invoke(
                 null, 
-                new NavigateParameter { ID = item.ID, FrameType = FrameType.Content}, 
+                new NavigateParameter { IsDailyList = item.Title.Contains("每日私人歌单"), ID = item.ID, FrameType = FrameType.Content}, 
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.FM_MHzSongList));
         }

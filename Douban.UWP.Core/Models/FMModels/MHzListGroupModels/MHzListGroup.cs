@@ -49,83 +49,135 @@ namespace Douban.UWP.Core.Models.FMModels {
     }
 
     [DataContract]
-    public class MHzSongBase {
+    public class MHzSongBase : SongBase {
+
+        public MHzSongBase() { }
+
+        public MHzSongBase(SongBase baseOne) {
+            this.AID = baseOne.AID;
+            this.Album = baseOne.Album;
+            this.AlbumTitle = baseOne.AlbumTitle;
+            this.AlertMessage = baseOne.AlertMessage;
+            this.Artist = baseOne.Artist;
+            this.FileExtensionName = baseOne.FileExtensionName;
+            this.IsRoyal = baseOne.IsRoyal;
+            this.Kbps = baseOne.Kbps;
+            this.Length = baseOne.Length;
+            this.Picture = baseOne.Picture;
+            this.PublicTime = baseOne.PublicTime;
+            this.Release = baseOne.Release;
+            this.SHA256 = baseOne.SHA256;
+            this.SID = baseOne.SID;
+            this.Singers = baseOne.Singers;
+            this.SSID = baseOne.SSID;
+            this.Status = baseOne.Status;
+            this.SubType = baseOne.SubType;
+            this.Title = baseOne.Title;
+            this.UpdateTime = baseOne.UpdateTime;
+            this.Url = baseOne.Url;
+        }
+
         [DataMember]
         public bool IsCached { get; set; }
         [DataMember]
         public string LocalPath { get; set; }
         [DataMember]
         public bool IsSelect { get; set; }
-        [DataMember]
-        public string AlbumTitle { get; set; }
-        [DataMember]
-        public string Url { get; set; }
-        [DataMember]
-        public string FileExtensionName { get; set; }
-        [DataMember]
-        public string Album { get; set; }
-        [DataMember]
-        public string SSID { get; set; }
-        [DataMember]
-        public string Title { get; set; }
-        [DataMember]
-        public string SID { get; set; }
-        [DataMember]
-        public string SHA256 { get; set; }
-        [DataMember]
-        public int Status { get; set; }
-        [DataMember]
-        public string Picture { get; set; }
-        [DataMember]
-        public long UpdateTime { get; set; }
-        [DataMember]
-        public string AlertMessage { get; set; }
-        [DataMember]
-        public string PublicTime { get; set; }
-        [DataMember]
+        [DataMember(Name ="like")]
         public int LikeCount { get; set; }
-        [DataMember]
+
+    }
+
+    [DataContract]
+    public class SongBase {
+        
+        [DataMember(Name = "albumtitle")]
+        public string AlbumTitle { get; set; }
+
+        [DataMember(Name = "url")]
+        public string Url { get; set; }
+
+        [DataMember(Name = "file_ext")]
+        public string FileExtensionName { get; set; }
+
+        [DataMember(Name = "album")]
+        public string Album { get; set; }
+
+        [DataMember(Name = "ssid")]
+        public string SSID { get; set; }
+
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "sid")]
+        public string SID { get; set; }
+
+        [DataMember(Name = "sha256")]
+        public string SHA256 { get; set; }
+
+        [DataMember(Name = "status")]
+        public int Status { get; set; }
+
+        [DataMember(Name = "picture")]
+        public string Picture { get; set; }
+
+        [DataMember(Name = "update_time")]
+        public long UpdateTime { get; set; }
+
+        [DataMember(Name = "alert_msg")]
+        public string AlertMessage { get; set; }
+
+        [DataMember(Name = "public_time")]
+        public string PublicTime { get; set; }
+
+        [DataMember(Name = "artist")]
         public string Artist { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "is_royal")]
         public bool IsRoyal { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "subtype")]
         public string SubType { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "length")]
         public int Length { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "aid")]
         public string AID { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "kbps")]
         public string Kbps { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "singers")]
         public IList<MHzSingerBase> Singers { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "release")]
         public MHzListRelease Release { get; set; }
 
         [IgnoreDataMember]
         public virtual string SingerShow {
-            get { return string.Join(",", ((Singers??new List<MHzSingerBase>()).Select(i => i.Name)) ?? new string[] { "Unknown" }); }
+            get { return string.Join(",", ((Singers ?? new List<MHzSingerBase>()).Select(i => i.Name)) ?? new string[] { "Unknown" }); }
         }
-
     }
 
     [DataContract]
     public class MHzSingerBase {
 
-        [DataMember]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
-        [DataMember]
+        [DataMember(Name = "region")]
         public IList<string> Region { get; set; }
-        [DataMember]
+        [DataMember(Name = "name_usual")]
         public string NameUsual { get; set; }
-        [DataMember]
+        [DataMember(Name = "genre")]
         public IList<string> Genre { get; set; }
-        [DataMember]
+        [DataMember(Name = "avatar")]
         public string Avatar { get; set; }
-        [DataMember]
+        [DataMember(Name = "related_site_id")]
         public int RelatedSiteId { get; set; }
-        [DataMember]
+        [DataMember(Name = "is_site_artist")]
         public bool IsSiteArtist { get; set; }
-        [DataMember]
+        [DataMember(Name = "id")]
         public string ID { get; set; }
 
     }
@@ -133,11 +185,11 @@ namespace Douban.UWP.Core.Models.FMModels {
     [DataContract]
     public class MHzListRelease {
 
-        [DataMember]
+        [DataMember(Name = "id")]
         public string ID { get; set; }
-        [DataMember]
+        [DataMember(Name = "ssid")]
         public string SSID { get; set; }
-        [DataMember]
+        [DataMember(Name = "link")]
         public string Link { get; set; }
 
     }
