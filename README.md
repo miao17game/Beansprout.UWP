@@ -1,4 +1,3 @@
-# Beansprout.UWP
-UWP OF DOUBAN 3RD PARTY
-
 <h1>Beansprout UWP</h1>
+The 3rd-party app for the Universal Windows Platforms.
+Native-app experience, Great FM extensions, Beautiful UI...
