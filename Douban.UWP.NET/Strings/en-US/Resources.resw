@@ -849,4 +849,43 @@
   <data name="Clear_Cache_Failed" xml:space="preserve">
     <value>Cache clear failed.</value>
   </data>
+  <data name="ToastMode.Text" xml:space="preserve">
+    <value>Toast Sound Mode</value>
+  </data>
+  <data name="ToastModeSummary.Text" xml:space="preserve">
+    <value>Choose your favorite voice for toast.</value>
+  </data>
+  <data name="ToastOptions.Text" xml:space="preserve">
+    <value>Toast Options</value>
+  </data>
+  <data name="Voice_Haize_Breezing.Content" xml:space="preserve">
+    <value>Kids sneeze(1)</value>
+  </data>
+  <data name="Voice_Haizi_Aqi.Content" xml:space="preserve">
+    <value>Kids sneeze(2)</value>
+  </data>
+  <data name="Voice_Yiner_Laugh.Content" xml:space="preserve">
+    <value>Kids laugh</value>
+  </data>
+  <data name="ToastVoiceListener.Content" xml:space="preserve">
+    <value>Click to listen</value>
+  </data>
+  <data name="ToastVoicePreview.Text" xml:space="preserve">
+    <value>Voice Preview</value>
+  </data>
+  <data name="ToastVoicePreviewSummary.Text" xml:space="preserve">
+    <value>Check if it's the correct voice.</value>
+  </data>
+  <data name="ToastSendMode.Text" xml:space="preserve">
+    <value>Toast Send</value>
+  </data>
+  <data name="ToastSendSummary.Text" xml:space="preserve">
+    <value>If you want to receive toast, open it.</value>
+  </data>
+  <data name="Voice_Haizi_AMeng.Content" xml:space="preserve">
+    <value>Doraemon</value>
+  </data>
+  <data name="Voice_Haizi_Xiaoxin.Content" xml:space="preserve">
+    <value>Crayon</value>
+  </data>
 </root>

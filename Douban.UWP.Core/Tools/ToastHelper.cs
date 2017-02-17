@@ -47,13 +47,12 @@ namespace Douban.UWP.Core.Tools {
             return toastXml;
         }
 
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride = null) {
-            return PopToast(title, content, imageUri, uri, logoOverride, null, null);
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride = null, string voice = DefaultVoice) {
+            return PopToast(title, content, imageUri, uri, logoOverride, voice, null, null);
         }
 
-        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride, string tag, string group) {
-
-            XmlDocument toastXml = CreateToastNotificaion(title, content, imageUri, uri, logoOverride);
+        public static ToastNotification PopToast(string title, string content, string imageUri, string uri, string logoOverride, string voice, string tag, string group) {
+            XmlDocument toastXml = CreateToastNotificaion(title, content, imageUri, uri, logoOverride, voice);
             return PopCustomToast(toastXml, tag, group);
         }
 
@@ -79,6 +78,9 @@ namespace Douban.UWP.Core.Tools {
         }
 
         public static async Task<bool> GetNewsAndPushToastAsync() {
+            var support = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsToastEnable) ?? true;
+            if (!support)
+                return false;
             var nowHour = DateTime.Now.Hour;
             if (forbiddenTimeHoursOfToast.Contains(nowHour))
                 return false;
@@ -92,7 +94,8 @@ namespace Douban.UWP.Core.Tools {
                 content: item.Content ?? DateTime.Now.ToString("h:mm tt"),
                 imageUri: item.ImageSrc ?? "",
                 uri: item.Uri ?? "",
-                logoOverride: item.LogoOverride);
+                logoOverride: item.LogoOverride,
+                voice: SettingsHelper.ReadSettingsValue(SettingsSelect.ToastVoice) as string ?? DefaultVoice);
             return result.SuppressPopup;
         }
 

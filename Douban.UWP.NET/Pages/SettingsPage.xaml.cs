@@ -31,6 +31,7 @@ using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Resources;
 using System.Reflection;
 using Windows.Services.Store;
+using Windows.Media.Core;
 #endregion
 
 namespace Douban.UWP.NET.Pages {
@@ -71,10 +72,23 @@ namespace Douban.UWP.NET.Pages {
                     GetComboItemInstance(
                         (e.AddedItems.FirstOrDefault() as ComboBoxItem)
                         .Name as string));
-            SaveLanguageSettings(newLanguage);
+            SaveLanguageSettings(Language = newLanguage);
             if (isInitViewOrNot) { isInitViewOrNot = false; return; }
             Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = newLanguage;
             new ToastSmooth(GetUIString("ReStartToChangeLanguage")).Show();
+        }
+
+        private void ToastCombox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var newVoice = GetLanguageTag(
+                    GetComboItemInstance(
+                        (e.AddedItems.FirstOrDefault() as ComboBoxItem)
+                        .Name as string));
+            SaveToastVoiceSettings(ToastVoice = newVoice);
+        }
+
+        private void ListenVoiceBtn_Click(object sender, RoutedEventArgs e) {
+            VoiceContentElement.Source = MediaSource.CreateFromUri(new Uri(ToastVoice));
+            VoiceContentElement.MediaPlayer.Play();
         }
 
         /// <summary>
@@ -186,8 +200,10 @@ namespace Douban.UWP.NET.Pages {
         private async void InitSettingsPageStateAsync() {
             VersionMessage.Text = GetUIString("VersionMessage") + Utils.GetAppVersion();
             LanguageCombox.SelectedItem = GetComboItemFromTag((string)SettingsHelper.ReadSettingsValue(SettingsSelect.Language) ?? ConstFields.English_US);
+            ToastCombox.SelectedItem = GetComboItemFromTag(ToastVoice);
             ThemeSwitch.IsOn = IsGlobalDark;
             ScreenSwitch.IsOn = IsDivideScreen;
+            ToastSendSwitch.IsOn = IsToastEnable;
             SplitSizeSlider.Value = 100 * DivideNumber;
             ScreenSwitch.IsEnabled = !IsMobile;
             SplitSizeSlider.IsEnabled = !IsMobile;
@@ -217,6 +233,10 @@ namespace Douban.UWP.NET.Pages {
             DoWorkWhenScreenSwitchToggled(sender);
         }
 
+        private void OnToastSendSwitchToggled(ToggleSwitch sender) {
+            SaveToastSendSettings(IsToastEnable = sender.IsOn);
+        }
+
         #endregion
 
         #region This Helper
@@ -229,12 +249,20 @@ namespace Douban.UWP.NET.Pages {
             return obi.GetType().GetTypeInfo().BaseType.Name;
         }
 
+        private void SaveToastVoiceSettings(string newVoice) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.ToastVoice, newVoice);
+        }
+
         private void SaveLanguageSettings(string newLanguage) {
             SettingsHelper.SaveSettingsValue(SettingsSelect.Language, newLanguage);
         }
 
         private void SaveSplitPercentSetiings(double num) {
             SettingsHelper.SaveSettingsValue(SettingsSelect.SplitViewMode, num);
+        }
+
+        private void SaveToastSendSettings(bool isToastEnable) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.IsToastEnable, isToastEnable);
         }
 
         private void SaveDivideSettings(bool isDivideScreen) {
@@ -376,22 +404,34 @@ namespace Douban.UWP.NET.Pages {
             static private Dictionary<string, ComboBoxItem> comboItemsMaps = new Dictionary<string, ComboBoxItem> {
                 { Current.enUSSelect.Name,Current.enUSSelect},
                 { Current.zhCNSelect.Name,Current.zhCNSelect},
+                { Current.Voice_Yiner.Name,Current.Voice_Yiner},
+                { Current.Voice_Haizi.Name,Current.Voice_Haizi},
+                { Current.Voice_Yellsedtsr.Name,Current.Voice_Yellsedtsr},
+                { Current.Voice_AMeng.Name,Current.Voice_AMeng},
+                { Current.Voice_Xiaoxin.Name,Current.Voice_Xiaoxin},
         };
             static private Dictionary<ComboBoxItem, string> languageSaveTagsMaps = new Dictionary<ComboBoxItem, string> {
                 { Current.enUSSelect,ConstFields.English_US},
                 { Current.zhCNSelect,ConstFields.Chinese_CN},
+                { Current.Voice_Yiner,@"ms-appx:///Voice/yiner.mp3"},
+                { Current.Voice_Haizi,@"ms-appx:///Voice/haizi.mp3"},
+                { Current.Voice_Yellsedtsr,@"ms-appx:///Voice/yellsedtsr.mp3"},
+                { Current.Voice_AMeng,@"ms-appx:///Voice/DoraAmeng.mp3"},
+                { Current.Voice_Xiaoxin,@"ms-appx:///Voice/xiaoxin.mp3"},
         };
 
             public static ToggleSwitch GetSwitchInstance(string str) { return switchSettingsMaps.ContainsKey(str) ? switchSettingsMaps[str] : null; }
             static private Dictionary<string, ToggleSwitch> switchSettingsMaps = new Dictionary<string, ToggleSwitch> {
                 { Current.ThemeSwitch.Name,Current.ThemeSwitch},
                 { Current.ScreenSwitch.Name,Current.ScreenSwitch},
+                { Current.ToastSendSwitch.Name,Current.ToastSendSwitch},
         };
 
             public static SwitchEventHandler GetSwitchHandler(string switchName) { return switchHandlerMaps.ContainsKey(switchName) ? switchHandlerMaps[switchName] : null; }
             static private Dictionary<string, SwitchEventHandler> switchHandlerMaps = new Dictionary<string, SwitchEventHandler> {
                 { Current.ThemeSwitch.Name, new SwitchEventHandler(instance=> { Current.OnThemeSwitchToggled(GetSwitchInstance(instance)); }) },
                 { Current.ScreenSwitch.Name, new SwitchEventHandler(instance=> { Current.OnScreenSwitchToggled(GetSwitchInstance(instance)); }) },
+                { Current.ToastSendSwitch.Name, new SwitchEventHandler(instance=> { Current.OnToastSendSwitchToggled(GetSwitchInstance(instance)); }) },
         };
 
         }

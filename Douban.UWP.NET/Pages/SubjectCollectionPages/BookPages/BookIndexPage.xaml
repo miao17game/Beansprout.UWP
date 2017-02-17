@@ -91,7 +91,7 @@
                   Height="240">
                         <GridView.ItemTemplate>
                             <DataTemplate  x:DataType="model:BookItem">
-                                <Grid Height="225" Width="140" Margin="-2">
+                                <Grid Height="225" Width="140" Margin="2,-2,2,-2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition Height="auto"/>
@@ -131,7 +131,7 @@
                   Height="240">
                         <GridView.ItemTemplate>
                             <DataTemplate  x:DataType="model:BookItem">
-                                <Grid Height="225" Width="140" Margin="-2">
+                                <Grid Height="225" Width="140" Margin="2,-2,2,-2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition Height="auto"/>
@@ -171,7 +171,7 @@
                   Height="240">
                         <GridView.ItemTemplate>
                             <DataTemplate  x:DataType="model:BookItem">
-                                <Grid Height="225" Width="140" Margin="-2">
+                                <Grid Height="225" Width="140" Margin="2,-2,2,-2">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition Height="auto"/>

@@ -132,6 +132,23 @@ namespace Douban.UWP.NET.Resources {
             set { _volumn = value; }
         }
 
+        private static string _toast_voice;
+        public static string ToastVoice {
+            get { return _toast_voice ?? (_toast_voice = (SettingsHelper.ReadSettingsValue(SettingsSelect.ToastVoice) as string) ?? @"ms-appx:///Voice/yiner.mp3"); }
+            set { _toast_voice = value; }
+        }
+
+        private static bool? _is_toast_enable;
+        public static bool IsToastEnable {
+            get {
+                return _is_toast_enable ?? new Func<bool>(() => {
+                    _is_toast_enable = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsToastEnable) ?? true;
+                    return _is_toast_enable.Value;
+                }).Invoke();
+            }
+            set { _is_toast_enable = value; }
+        }
+
         const string api_key = "02f7751a55066bcb08e65f4eff134361";
         public static string APIKey { get { return api_key; } }
 

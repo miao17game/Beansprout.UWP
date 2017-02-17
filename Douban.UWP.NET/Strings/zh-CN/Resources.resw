@@ -848,4 +848,43 @@
   <data name="Clear_Cache_Failed" xml:space="preserve">
     <value>清理缓存失败</value>
   </data>
+  <data name="ToastMode.Text" xml:space="preserve">
+    <value>提示音选择</value>
+  </data>
+  <data name="ToastModeSummary.Text" xml:space="preserve">
+    <value>选择您偏爱的推送提示音</value>
+  </data>
+  <data name="ToastOptions.Text" xml:space="preserve">
+    <value>推送设置</value>
+  </data>
+  <data name="Voice_Haize_Breezing.Content" xml:space="preserve">
+    <value>小孩子的喷嚏(1)</value>
+  </data>
+  <data name="Voice_Haizi_Aqi.Content" xml:space="preserve">
+    <value>小孩子的喷嚏(2)</value>
+  </data>
+  <data name="Voice_Yiner_Laugh.Content" xml:space="preserve">
+    <value>小孩子的笑声</value>
+  </data>
+  <data name="ToastVoiceListener.Content" xml:space="preserve">
+    <value>点击播放</value>
+  </data>
+  <data name="ToastVoicePreview.Text" xml:space="preserve">
+    <value>推送音预览</value>
+  </data>
+  <data name="ToastVoicePreviewSummary.Text" xml:space="preserve">
+    <value>检查当前的推送声音是否正确</value>
+  </data>
+  <data name="ToastSendMode.Text" xml:space="preserve">
+    <value>推送通知</value>
+  </data>
+  <data name="ToastSendSummary.Text" xml:space="preserve">
+    <value>是否发开通知推送</value>
+  </data>
+  <data name="Voice_Haizi_AMeng.Content" xml:space="preserve">
+    <value>哆啦a梦</value>
+  </data>
+  <data name="Voice_Haizi_Xiaoxin.Content" xml:space="preserve">
+    <value>蜡笔小新</value>
+  </data>
 </root>

@@ -102,6 +102,7 @@
                 <ScrollViewer>
                     <StackPanel>
                         
+                        <!--#region Visual options-->
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
                             <TextBlock x:Uid="VisualOptions" FontWeight="Black"
@@ -154,13 +155,84 @@
                                     Minimum="30"
                                     ValueChanged="SplitSizeSlider_ValueChanged"/>
                         </Grid>
-                        
+                        <!--#endregion-->
+
+                        <!--#region Toast options-->
+                        <StackPanel Orientation="Vertical" 
+                                    Margin=" 10,25,10,0">
+                            <TextBlock x:Uid="ToastOptions" FontWeight="Black"
+                                   Style="{StaticResource SummaryTextStyle}"/>
+                            <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
+                        </StackPanel>
+
+                        <Grid Margin="10,10,10,0" >
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Uid="ToastSendMode"
+                                   Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock x:Uid="ToastSendSummary"
+                                   Style="{StaticResource SummaryTextStyle}"/>
+                            </StackPanel>
+                            <ToggleSwitch Name="ToastSendSwitch" 
+                                      Style="{ThemeResource ThemeModeSwitch}" 
+                                      HorizontalAlignment="Right"
+                                      Margin="0,0,-100,0"
+                                      OnContent=" " 
+                                      OffContent=" " 
+                                      Toggled="Switch_Toggled" />
+                        </Grid>
+
+                        <Grid Margin="10,10,10,0" >
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Uid="ToastMode"
+                                   Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock x:Uid="ToastModeSummary"
+                                   Style="{StaticResource SummaryTextStyle}"/>
+                            </StackPanel>
+                            <ComboBox Name="ToastCombox" 
+                                      Style="{ThemeResource SpecialComboBox}"
+                                      HorizontalAlignment="Right"
+                                      MinWidth="150"
+                                      SelectionChanged="ToastCombox_SelectionChanged">
+                                <ComboBoxItem Name="Voice_Yiner" x:Uid="Voice_Yiner_Laugh"/>
+                                <ComboBoxItem Name="Voice_Haizi" x:Uid="Voice_Haize_Breezing"/>
+                                <ComboBoxItem Name="Voice_Yellsedtsr" x:Uid="Voice_Haizi_Aqi"/>
+                                <ComboBoxItem Name="Voice_AMeng" x:Uid="Voice_Haizi_AMeng"/>
+                                <ComboBoxItem Name="Voice_Xiaoxin" x:Uid="Voice_Haizi_Xiaoxin"/>
+                            </ComboBox>
+                        </Grid>
+
+                        <Grid Margin="10,10,10,0" >
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Uid="ToastVoicePreview"
+                                   Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock x:Uid="ToastVoicePreviewSummary"
+                                           Style="{StaticResource SummaryTextStyle}"/>
+                            </StackPanel>
+                            <Grid HorizontalAlignment="Right">
+                                <MediaPlayerElement Name="VoiceContentElement"
+                                                    Visibility="Collapsed"/>
+                                <Button Name="ListenVoiceBtn" 
+                                        x:Uid="ToastVoiceListener"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,0,5,0"
+                                        FontSize="16"
+                                        Style="{StaticResource SpecialButtonAbort}" 
+                                        Background="{ThemeResource DoubanForeground01}"
+                                        VerticalAlignment="Stretch"
+                                        Click="ListenVoiceBtn_Click"/>
+                            </Grid>
+                        </Grid>
+
+                        <!--#endregion-->
+
+                        <!--#region Lanuage options-->
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
                             <TextBlock x:Uid="LanguageOptions" FontWeight="Black"
                                    Style="{StaticResource SummaryTextStyle}"/>
                             <Rectangle Height="1" Margin=" 0,5,0,0" Fill="{ThemeResource DQDSummTextColor}"/>
                         </StackPanel>
+                        
                         <Grid Margin="10,10,10,0" >
                             <StackPanel Orientation="Vertical">
                                 <TextBlock x:Uid="LanguageMode"
@@ -177,7 +249,9 @@
                                 <ComboBoxItem Name="zhCNSelect" Content="简体中文"/>
                             </ComboBox>
                         </Grid>
+                        <!--#endregion-->
 
+                        <!--#region Other settings-->
                         <StackPanel Orientation="Vertical" 
                                     Margin=" 10,25,10,0">
                             <TextBlock x:Uid="OtherOptions" FontWeight="Black"
@@ -231,6 +305,7 @@
                                               IsActive="False"/>
                             </Grid>
                         </Grid>
+                        <!--#endregion-->
 
                     </StackPanel>
                 </ScrollViewer>
@@ -280,7 +355,16 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1012.* / 2017.2.16" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1013.* / 2017.2.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="开放推送通知开关功能" /><LineBreak/>
+                            <Run Text="开放推送提示音选择功能" /><LineBreak/>
+                            <Run Text="支持预览改变提示音" /><LineBreak/>
+                            <Run Text="拒绝系统音效🙄，如有需要请在系统设置自行修改" /><LineBreak/>
+                            <Run Text="有好听的音效，可以通过邮件反馈给开发者🤔" /><LineBreak/>
+                            <Run Text="邮件反馈按钮在[ 关于我 ]页面" /><LineBreak/>
+                            <Run Text="微调分页的内容UI" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1012.2229 / 2017.2.16" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="豆瓣FM红心功能已攻破" /><LineBreak/>
                             <Run Text="支持红心歌曲的添加与移除" /><LineBreak/>
                             <Run Text="支持删除本地歌曲缓存" /><LineBreak/>
