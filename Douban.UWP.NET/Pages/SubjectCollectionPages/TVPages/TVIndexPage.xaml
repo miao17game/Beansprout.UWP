@@ -109,6 +109,7 @@
                                     <control:FiveStarControl FontSize="16" 
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
+                                                             Foreground="{ThemeResource DoubanTextColor02}"
                                                      Height="30"
                                                      RatingValue ="{Binding RatingValue}"/>
                                 </Grid>
@@ -149,6 +150,7 @@
                                     <control:FiveStarControl FontSize="16" 
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
+                                                             Foreground="{ThemeResource DoubanTextColor02}"
                                                      Height="30"
                                                      RatingValue ="{Binding RatingValue}"/>
                                 </Grid>
@@ -189,6 +191,7 @@
                                     <control:FiveStarControl FontSize="16" 
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
+                                                             Foreground="{ThemeResource DoubanTextColor02}"
                                                      Height="30"
                                                      RatingValue ="{Binding RatingValue}"/>
                                 </Grid>

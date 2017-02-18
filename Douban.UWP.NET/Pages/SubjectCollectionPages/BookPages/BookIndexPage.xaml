@@ -110,6 +110,7 @@
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
                                                      Height="30"
+                                                             Foreground="{ThemeResource DoubanTextColor02}"
                                                      RatingValue ="{Binding RatingValue}"/>
                                 </Grid>
                             </DataTemplate>
@@ -150,6 +151,7 @@
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
                                                      Height="30"
+                                                             Foreground="{ThemeResource DoubanTextColor02}"
                                                      RatingValue ="{Binding RatingValue}"/>
                                 </Grid>
                             </DataTemplate>

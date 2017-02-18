@@ -17,6 +17,7 @@ using Douban.UWP.NET.Pages.SingletonPages.FMPages;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models.FMModels;
 using Douban.UWP.NET.Pages.SubjectCollectionPages;
+using Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -199,7 +200,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.ItemClickNative, typeof(CardWebPage)},
                     { NavigateType.Webview, typeof(WebViewPage)},
                     { NavigateType.DouList, typeof(WebContentPage)},
-                    { NavigateType.MovieContent, typeof(WebContentPage)},
+                    { NavigateType.MovieContent, typeof(MovieContentPage)},
                     { NavigateType.MovieFilter, typeof(MovieCollectionPage)},
                     { NavigateType.BookContent, typeof(WebContentPage)},
                     { NavigateType.BookFilter, typeof(BookCollectionPage)},

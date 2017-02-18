@@ -44,7 +44,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter {
-                    ToUri = new Uri(item.PathUrl),
+                    ToUri = new Uri(UriDecoder.GetUrlFromUri(item.PathInnerUri, UriCastEnum.Movie)),
                     Title = item.Title,
                     IsNative = true,
                     FrameType = FrameType.UpContent },
@@ -67,20 +67,22 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
         }
 
         private async Task<IList<MovieItem>> DivideGroupAsync(int offset = 0) {
-            IncrementalLoadingBorder.SetVisibility(true);
             var group = await SetGridViewResourcesAsync(offset);
             return group != null ? group.Items : empty;
         }
 
         private async Task<ItemGroup<MovieItem>> SetGridViewResourcesAsync(int offset, int count = 20) {
-            if (isFinished || (total != 0 && offset * count >= total))
-                return null;
-            return await FetchMessageFromAPIAsync(
-                formatAPI: FormatPath,
-                headString: api_head,
-                start: (uint)(offset * count),
-                count: (uint)count,
-                loc_id: "108288");
+            try {
+                IncrementalLoadingBorder.SetVisibility(true);
+                if (isFinished || (total != 0 && offset * count >= total))
+                    return null;
+                return await FetchMessageFromAPIAsync(
+                    formatAPI: FormatPath,
+                    headString: api_head,
+                    start: (uint)(offset * count),
+                    count: (uint)count,
+                    loc_id: "108288");
+            } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
         private async Task<ItemGroup<MovieItem>> FetchMessageFromAPIAsync(
@@ -105,7 +107,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
                     return gmodel;
                 }
             } catch { ReportHelper.ReportAttentionAsync(GetUIString("FetchJsonDataError")); }
-            IncrementalLoadingBorder.SetVisibility(false);
             return gmodel;
         }
 

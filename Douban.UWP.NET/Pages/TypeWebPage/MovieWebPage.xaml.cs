@@ -38,12 +38,11 @@ using Douban.UWP.Core.Tools.PersonalExpressions;
 
 namespace Douban.UWP.NET.Pages.TypeWebPage {
 
-    public sealed partial class CardWebPage : BaseContentPage {
+    public sealed partial class MovieWebPage : BaseContentPage {
 
-        public CardWebPage() {
+        public MovieWebPage() {
             this.InitializeComponent();
             var shareManager = DataTransferManager.GetForCurrentView();
-            shareManager.DataRequested += DataTransferManager_DataRequested;
         }
 
         #region Events
@@ -88,89 +87,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             defaultHeight = (sender as RelativePanel).ActualHeight;
         }
 
-        private void AuthorLinkBtn_Click(object sender, RoutedEventArgs e) {
-            var uri = (sender as Button).CommandParameter as Uri;
-            if (uri == null)
-                return;
-            var res = new Regex(@"people/.+?/").Match(uri.ToString()).Value;
-            if (res == "")
-                return;
-            NavigateToBase?.Invoke(
-                       null,
-                       new NavigateParameter { FrameType = FrameType.UpContent, UserUid = new Regex(@"[0-9]{5,}").Match(res).Value },
-                       GetFrameInstance(FrameType.UpContent),
-                       GetPageType(NavigateType.UserInfo));
-        }
-
-        private void CommentsBtn_Click(object sender, RoutedEventArgs e) {
-            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
-        }
-
-        private async void LikedBtn_ClickAsync(object sender, RoutedEventArgs e) {
-            var js = @"
-                    var likebtn = document.getElementById('yeslike-btn');
-                    if(likebtn!=null){
-                        likebtn.click();
-                    }
-                    var dislikebtn = document.getElementById('dislike-btn');
-                    if(dislikebtn!=null){
-                        dislikebtn.click();
-                    }";
-            await WebView.InvokeScriptAsync("eval", new[] { js });
-        }
-
-        private async void ShareBtn_ClickAsync(object sender, RoutedEventArgs e) {
-            var name = (sender as MenuFlyoutItem).Name;
-            switch (name) {
-                case "WeixinShare":
-                case "WeixinTimeLineShare":
-                    await ShareToWeixinAsync(name);
-                    break;
-                case "WeiboShare":
-                    await ShareBySystemAPIAsync(name);
-                    break;
-                case "OthersShare":
-                    await ShareBySystemAPIAsync(name);
-                    break;
-                default:
-                    ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
-                    break;
-            }
-        }
-
-        private void DataTransferManager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args) {
-            var request = args.Request;
-            request.Data.Properties.Description = description;
-            request.Data.Properties.Title = title;
-            request.Data.Properties.ApplicationName = GetUIString("AppName");
-            request.Data.Properties.Thumbnail = ImageHelpers.CreateThumbnailFromUri(new Uri(thumb));
-            request.Data.SetBitmap(RandomAccessStreamReference.CreateFromUri(new Uri(thumb)));
-            request.Data.SetStorageItems(new List<StorageFile> { tempImageForShare });
-            request.Data.SetText(EscapeReplace.ToEscape(title) + " \n " + currentUri.ToString());
-            shareType = ShareType.System;
-        }
-
         private void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
             ChangeBarGridAnima(ref defaultHeight, (sender as ScrollViewer).VerticalOffset);
-        }
-
-        private async void ImageSaveButton_ClickAsync(object sender, RoutedEventArgs e) {
-            SoftwareBitmap sb = await DownloadImageAsync((sender as Button).CommandParameter as string);
-            if (sb != null) {
-                SoftwareBitmapSource source = new SoftwareBitmapSource();
-                await source.SetBitmapAsync(sb);
-                var name = await WriteToFileAsync(sb);
-                new ToastSmooth(GetUIString("SaveImageSuccess")).Show();
-            }
-        }
-
-        private void ImageControlButton_Click(object sender, RoutedEventArgs e) {
-            ImagePopup.IsOpen = false;
-        }
-
-        private void ImagePopup_SizeChanged(object sender, SizeChangedEventArgs e) {
-            ImagePopupBorder.Width = (sender as Popup).ActualWidth;
-            ImagePopupBorder.Height = (sender as Popup).ActualHeight;
         }
 
         #endregion
@@ -188,7 +106,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         private async void Scroll_DOMContentLoadedAsync(WebView sender, WebViewDOMContentLoadedEventArgs args) {
             IncrementalLoadingBorder.SetVisibility(false);
             isDOMLoaded = true;
-            InitStoryBoard();
             DefineJsFunction(out var js);
             await sender.InvokeScriptAsync("eval", new[] { js });
         }
@@ -215,8 +132,25 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             SetScroolTop(callBack);
             SetActionLink(callBack);
             SetPictureShow(callBack);
-            SetLikeBtnAsync(callBack);
-            SetIsLikedBtnState(callBack);
+        }
+
+        private async void ImageSaveButton_ClickAsync(object sender, RoutedEventArgs e) {
+            SoftwareBitmap sb = await DownloadImageAsync((sender as Button).CommandParameter as string);
+            if (sb != null) {
+                SoftwareBitmapSource source = new SoftwareBitmapSource();
+                await source.SetBitmapAsync(sb);
+                var name = await WriteToFileAsync(sb);
+                new ToastSmooth(GetUIString("SaveImageSuccess")).Show();
+            }
+        }
+
+        private void ImageControlButton_Click(object sender, RoutedEventArgs e) {
+            ImagePopup.IsOpen = false;
+        }
+
+        private void ImagePopup_SizeChanged(object sender, SizeChangedEventArgs e) {
+            ImagePopupBorder.Width = (sender as Popup).ActualWidth;
+            ImagePopupBorder.Height = (sender as Popup).ActualHeight;
         }
 
         #endregion
@@ -257,10 +191,8 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 if (shouldNative) {
                     WebView.NavigateToString(GetContent(doc.DocumentNode));
                     SetTitleAndDescForShare(doc);
-                    SetAuthorGrid();
                 } else {
                     WebView.Source = uri;
-                    BarGrid.SetVisibility(false);
                     isNative = false;
                 }
             } catch {
@@ -272,27 +204,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             try { title = doc.DocumentNode.SelectSingleNode("//title").InnerText.Replace(" ", "").Replace("\n", ""); } catch { title = ""; }
             try { description = doc.DocumentNode.SelectSingleNode("meta", "name", "description", true).InnerText.Replace(" ", "").Replace("\n", ""); } catch { description = ""; }
             try { thumb = doc.DocumentNode.SelectSingleNode("meta", "property", "weixin:image", true).Attributes["content"].Value; } catch { thumb = ""; }
-        }
-
-        private void SetAuthorGrid() {
-            try {
-                var docm = new HtmlDocument();
-                docm.LoadHtml(htmlReturn);
-                var author = docm.DocumentNode.SelectSingleNode("section", "class", "author", isIgnoreGeneration: true);
-                var context = BarGrid.DataContext as AuthorVM;
-                if (context == null)
-                    return;
-                var action = author.SelectSingleNode("a", "class", "note-author");
-                Uri.TryCreate(action.SelectSingleNode("img").Attributes["data-src"].Value, UriKind.RelativeOrAbsolute, out var imgUri);
-                Uri.TryCreate(htmlFormatHead + action.Attributes["href"].Value, UriKind.RelativeOrAbsolute, out var linkUri);
-                context.Image = imgUri;
-                context.Link = linkUri;
-                var author_infos = action.SelectSingleNode("div","class","author-info");
-                var author_details = author_infos.SelectSingleNode("div","class","author-details");
-                context.UserName = author_infos.SelectSingleNode("span","class","author-name").InnerText;
-                context.Notes = author_details.SelectSingleNode("span","class","notes").InnerText;
-                context.Albums = author_details.SelectSingleNode("span","class","albums").InnerText;
-            } catch { /* Ignore */ }
         }
 
         private void WebViewHeightTimerInit() {
@@ -314,34 +225,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
         #endregion
 
-        #region Shares
-
-        private async Task ShareToWeixinAsync(string name) {
-            shareType = name == "WeixinShare" ? 
-                ShareType.WechatSession : 
-                ShareType.WechatTimeLine;
-            var doc = new HtmlDocument();
-            doc.LoadHtml(nativeString);
-            var bytes = await SDKHelpers.ReadResFromImageAsync(thumb);
-            await SDKHelpers.SendWechatShareToUserChoiceRequestAsync(
-                url : currentUri.ToString(), 
-                title : title, 
-                thumb : bytes, 
-                desc : description, 
-                toTimeLine : shareType);
-        }
-
-        private async Task ShareBySystemAPIAsync(string name) {
-            shareType = name == "WeiboShare" ? 
-                ShareType.Weibo : 
-                ShareType.System;
-            
-            tempImageForShare = await ImageHelpers.GetSoftwareBitmapFromUriStringAsync(thumb);
-            DataTransferManager.ShowShareUI();
-        }
-
-        #endregion
-
         #region Web Native
 
         /// <summary>
@@ -352,7 +235,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             var bag = new NativeJavascriptBag();
             bag.AppendScript(NativeJavascriptHelper.ActionLinkExpand)
                 .AppendScript(NativeJavascriptHelper.ImageClick)
-                .AppendScript(NativeJavascriptHelper.LikeBtnClick)
                 .AppendScript(NativeJavascriptHelper.MobileScrollEvent);
             if (IsMobile)
                 WebView.Height = defaultHeight;
@@ -367,14 +249,12 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// <param name="node">htmlRoot</param>
         /// <returns></returns>
         private string GetContent(HtmlNode node) {
-            return node.ContainsFormat("div", "class", "rich-note") ? NativeStringConnect(node, node.GetHtmlFormat("div", "class", "rich-note")) :
-                node.ContainsFormat("div", "class", "full") ? NativeStringConnect(node, node.GetHtmlFormat("div", "class", "full")) :
+            return node.ContainsFormat("div", "class", "card") ? NativeStringConnect(node, node.GetHtmlFormat("div", "class", "card")) :
                 ConnectString(RemoveString(node));
         }
 
         private bool IfCanGetContent(HtmlNode node) {
-            return node.ContainsFormat("div", "class", "rich-note") ? true :
-                node.ContainsFormat("div", "class", "full") ? true :
+            return node.ContainsFormat("div", "class", "card") ? true :
                 false;
         }
 
@@ -386,8 +266,9 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// <returns></returns>
         private string NativeStringConnect(HtmlNode node, string content) {
             return nativeString = WebStringNative(
+                //GetSectionByClass(node, "header").Replace("  ", "") +
                 content +
-                node.GetSectionContentStringByClass("author").Replace("  ", ""));
+                GetSectionByClass(node, "author").Replace("  ", ""));
         }
 
         /// <summary>
@@ -435,68 +316,14 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             return value;
         }
 
-        private void ChangeBarGridAnima(ref double oldOne, double newOne) {
-            if (!isNative)
-                return;
-            if (!isMobileAnimaCompleted)
-                return;
-            if (newOne - oldOne < -20 && BarGrid.Visibility == Visibility.Collapsed) {
-                isMobileAnimaCompleted = false;
-                BarGrid.SetVisibility(true);
-                Scroll.ViewChanged -= Scroll_ViewChanged;
-                BtnStackSlideIn.Begin();
-            } else if (newOne - oldOne > 20 && BarGrid.Visibility == Visibility.Visible) {
-                isMobileAnimaCompleted = false;
-                Scroll.ViewChanged -= Scroll_ViewChanged;
-                BtnStackSlideOut.Begin();
-            }
-            oldOne = newOne;
+        #region Get HtmlNode by Format
+
+        private string GetSectionByClass(HtmlNode node, string className) {
+            return node.GetHtmlFormat("section", "class", className);
         }
 
-        private void ChangeLikedBtnStateByBoolen(bool is_liked) {
-            LikedBtn.Foreground = new SolidColorBrush(is_liked ? Color.FromArgb(255, 217, 6, 94) : Colors.White);
-        }
-
-        #region BarGrid Animations
-
-        private void InitStoryBoard() {
-            transToBarGrid = BarGrid.RenderTransform as TranslateTransform;
-            if (transToBarGrid == null) BarGrid.RenderTransform = transToBarGrid = new TranslateTransform();
-
-            doubleAnimation = new DoubleAnimation {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-                Duration = new Duration(TimeSpan.FromMilliseconds(520)),
-                From = 150,
-                To = 0,
-            };
-            doubleAnimation.Completed += DoublAnimationIn_Completed;
-            BtnStackSlideIn = new Storyboard();
-            Storyboard.SetTarget(doubleAnimation, transToBarGrid);
-            Storyboard.SetTargetProperty(doubleAnimation, "Y");
-            BtnStackSlideIn.Children.Add(doubleAnimation);
-
-            doubleAnimation = new DoubleAnimation {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
-                Duration = new Duration(TimeSpan.FromMilliseconds(520)),
-                From = 0,
-                To = 150,
-            };
-            doubleAnimation.Completed += DoublAnimationOut_Completed;
-            BtnStackSlideOut = new Storyboard();
-            Storyboard.SetTarget(doubleAnimation, transToBarGrid);
-            Storyboard.SetTargetProperty(doubleAnimation, "Y");
-            BtnStackSlideOut.Children.Add(doubleAnimation);
-        }
-
-        private void DoublAnimationIn_Completed(object sender, object e) {
-            Scroll.ViewChanged += Scroll_ViewChanged;
-            isMobileAnimaCompleted = true;
-        }
-
-        private void DoublAnimationOut_Completed(object sender, object e) {
-            BarGrid.SetVisibility(false);
-            Scroll.ViewChanged += Scroll_ViewChanged;
-            isMobileAnimaCompleted = true;
+        private string GetDivByClass(HtmlNode node, string className) {
+            return node.GetHtmlFormat("div", "class", className);
         }
 
         #endregion
@@ -527,9 +354,6 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
             if (scrollMatch.Value == "")
                 return;
             var formatStr = scrollMatch.Value.Substring(10);
-            try {
-                ChangeBarGridAnima(ref defaultHeight, Convert.ToDouble(formatStr));
-            } catch { /* Ignore */ }
         }
 
         private void SetActionLink(string callBack) {
@@ -556,49 +380,10 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                 ShowImageInScreen(uri);
         }
 
-        private void SetIsLikedBtnState(string callBack) {
-            var pictureMatch = new Regex(@"isliked:.+").Match(callBack);
-            if (pictureMatch.Value == "")
+        private void ChangeBarGridAnima(ref double oldOne, double newOne) {
+            if (!isNative)
                 return;
-            var formatStr = pictureMatch.Value.Substring(8);
-            bool is_liked = Convert.ToBoolean(formatStr);
-            ChangeLikedBtnStateByBoolen(is_liked);
-        }
-
-        private async void SetLikeBtnAsync(string callBack) {
-            var likebtnMatch = new Regex(@"like-note-link:.+").Match(callBack);
-            if (likebtnMatch.Value == "")
-                return;
-            var formatStr = "https://m.douban.com" + likebtnMatch.Value.Substring(15);
-            Uri.TryCreate(formatStr, UriKind.Absolute, out var uri);
-            if (uri != null)
-                try {
-                    var result = await DoubanWebProcess.GetMDoubanResponseAsync(uri.ToString());
-                    var jo = JObject.Parse(result);
-                    var data = jo["data"];
-                    if (data != null && data.HasValues) {
-                        var isliked = data["is_liked"].Value<bool>();
-                        var number = data["n_likers"].Value<int>();
-                        var className = isliked ? "like-btn active" : "like-btn";
-                        var addStr = isliked ? "unlike" : "like";
-                        var js = $@"
-                            var likebtn = document.getElementById('yeslike-btn');
-                            if(likebtn!=null){"{"}
-                                likebtn.className = '{className}';
-                                likebtn.innerText = {number};
-                                likebtn.setAttribute('onclick','send_path_url(""like-note-link:'+ likebtn.getAttribute('data-url') +'/{addStr}"")');
-                            {"}"}
-                            var dislikebtn = document.getElementById('dislike-btn');
-                            if(dislikebtn!=null){"{"}
-                                dislikebtn.className = '{className}';
-                                dislikebtn.innerText = {number};
-                                dislikebtn.setAttribute('onclick','send_path_url(""like-note-link:'+ likebtn.getAttribute('data-url') +'/{addStr}"")');
-                            {"}"}
-                            ";
-                        await WebView.InvokeScriptAsync("eval", new[] { js });
-                        ChangeLikedBtnStateByBoolen(isliked);
-                    }
-                } catch { /* Ignore */ }
+            oldOne = newOne;
         }
 
         #endregion
@@ -665,16 +450,9 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         bool isDOMLoaded = false;
         bool isNeedChange = false;
         bool isChangeFinished = false;
-        bool isMobileAnimaCompleted = true;
         double defaultHeight;
-        StorageFile tempImageForShare;
         DispatcherTimer timerForWebView;
-        Storyboard BtnStackSlideIn;
-        Storyboard BtnStackSlideOut;
-        DoubleAnimation doubleAnimation;
-        TranslateTransform transToBarGrid;
         FrameType frameType;
-        ShareType shareType = ShareType.System;
         const string htmlFormatHead = "https://m.douban.com/";
 
         #endregion

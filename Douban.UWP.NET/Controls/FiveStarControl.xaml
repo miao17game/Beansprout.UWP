@@ -37,10 +37,11 @@
             <TextBlock Text="{Binding RatingValue, Converter={StaticResource DoubleConverter}}" 
                        FontSize="{Binding FontSize}"
                        Margin="2,0,3,0"
+                       Foreground="{Binding Foreground}"
                        RelativePanel.AlignRightWithPanel="True"
                        RelativePanel.AlignVerticalCenterWithPanel="True"/>
         </RelativePanel>
-        <TextBlock x:Uid="NoStarValue" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" 
+        <TextBlock x:Uid="NoStarValue" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{Binding Foreground}"
                    Visibility="{Binding ElementName=StarPanel, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}"/>
     </Grid>
 </UserControl>

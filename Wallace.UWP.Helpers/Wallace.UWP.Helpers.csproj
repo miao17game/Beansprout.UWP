@@ -136,6 +136,7 @@
     <Compile Include="Tools\MessageToken.cs" />
     <Compile Include="Tools\StatusBarInit.cs" />
     <Compile Include="Tools\UWPStates.cs" />
+    <Compile Include="Tools\NativeJavascriptHelper.cs" />
     <Compile Include="Tools\WebProcess.cs" />
     <EmbeddedResource Include="Properties\Wallace.UWP.Helpers.rd.xml" />
   </ItemGroup>

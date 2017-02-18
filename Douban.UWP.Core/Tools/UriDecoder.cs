@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.Core.Tools {
+
     public static class UriDecoder {
 
         public static string EditKeyWordsForFilter(string oldkeys, string type = "book") {
@@ -42,6 +43,17 @@ namespace Douban.UWP.Core.Tools {
             if (compath != "")
                 return apiFormat + compath;
             return uriDispatch;
+        }
+
+        public static string GetUrlFromUri(string uriDispatch, string oldStr, string newStr) {
+            return GetUrlFromUri(uriDispatch).Replace(oldStr, newStr);
+        }
+
+        public static string GetUrlFromUri(string uriDispatch, UriCastEnum type) {
+            return
+                type == UriCastEnum.Movie ?
+                GetUrlFromUri(uriDispatch, "movie", "movie/subject") :
+                GetUrlFromUri(uriDispatch);
         }
 
         /// <summary>
@@ -106,6 +118,11 @@ namespace Douban.UWP.Core.Tools {
     public enum TitleEncodeEnum {
         uri,
         title,
+    }
+
+    public enum UriCastEnum {
+        Book,
+        Movie
     }
 
 }

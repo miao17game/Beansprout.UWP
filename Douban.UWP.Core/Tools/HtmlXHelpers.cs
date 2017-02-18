@@ -339,6 +339,10 @@ namespace Douban.UWP.Core.Tools {
             return value;
         }
 
+        public static HtmlNode GetNodeFormat(this HtmlNode value, string xFormat) {
+            return value.SelectSingleNode(xFormat);
+        }
+
         public static bool ContainsFormat(this HtmlNode value, string xFormat) {
             var downloadApp = value.SelectSingleNode(xFormat);
             return downloadApp != null;
@@ -371,10 +375,32 @@ namespace Douban.UWP.Core.Tools {
                 value.ContainsFormat($"{childType}[@{elementType}='{attributeName}']");
         }
 
+        public static HtmlNode GetNodeFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
+            return isIgnoreGeneration ?
+                value.GetNodeFormat($"//{childType}[@{elementType}='{attributeName}']") :
+                value.GetNodeFormat($"{childType}[@{elementType}='{attributeName}']");
+        }
+
         public static string GetHtmlFormat(this HtmlNode value, string childType, string elementType, string attributeName, bool isIgnoreGeneration = true) {
             return isIgnoreGeneration ?
                 value.GetHtmlFormat($"//{childType}[@{elementType}='{attributeName}']") :
                 value.GetHtmlFormat($"{childType}[@{elementType}='{attributeName}']");
+        }
+
+        public static string GetSectionContentStringByClass(this HtmlNode node, string className) {
+            return node.GetHtmlFormat("section", "class", className);
+        }
+
+        public static string GetDivContentStringByClass(this HtmlNode node, string className) {
+            return node.GetHtmlFormat("div", "class", className);
+        }
+
+        public static HtmlNode GetSectionNodeContentByClass(this HtmlNode node, string className) {
+            return node.GetNodeFormat("section", "class", className);
+        }
+
+        public static HtmlNode GetDivNodeByClass(this HtmlNode node, string className) {
+            return node.GetNodeFormat("div", "class", className);
         }
 
     }

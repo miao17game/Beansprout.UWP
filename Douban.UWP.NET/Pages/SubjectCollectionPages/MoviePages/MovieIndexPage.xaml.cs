@@ -190,7 +190,8 @@ namespace Douban.UWP.NET.Pages {
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter {
-                    ToUri = new Uri(item.PathUrl),
+                    ToUri = new Uri(UriDecoder.GetUrlFromUri(item.PathInnerUri, UriCastEnum.Movie)),
+                    IsNative = true,
                     Title = item.Title, 
                 },
                 GetFrameInstance(FrameType.Content),
