@@ -409,6 +409,8 @@ namespace Douban.UWP.NET.Pages {
                 { Current.Voice_Yellsedtsr.Name,Current.Voice_Yellsedtsr},
                 { Current.Voice_AMeng.Name,Current.Voice_AMeng},
                 { Current.Voice_Xiaoxin.Name,Current.Voice_Xiaoxin},
+                { Current.Voice_CS_FireInTheHole.Name,Current.Voice_CS_FireInTheHole},
+                { Current.Voice_CS_GO.Name,Current.Voice_CS_GO},
         };
             static private Dictionary<ComboBoxItem, string> languageSaveTagsMaps = new Dictionary<ComboBoxItem, string> {
                 { Current.enUSSelect,ConstFields.English_US},
@@ -418,6 +420,8 @@ namespace Douban.UWP.NET.Pages {
                 { Current.Voice_Yellsedtsr,@"ms-appx:///Voice/yellsedtsr.mp3"},
                 { Current.Voice_AMeng,@"ms-appx:///Voice/DoraAmeng.mp3"},
                 { Current.Voice_Xiaoxin,@"ms-appx:///Voice/xiaoxin.mp3"},
+                { Current.Voice_CS_FireInTheHole,@"ms-appx:///Voice/fire_in_the_hole.wav"},
+                { Current.Voice_CS_GO,@"ms-appx:///Voice/gogogo.wav"},
         };
 
             public static ToggleSwitch GetSwitchInstance(string str) { return switchSettingsMaps.ContainsKey(str) ? switchSettingsMaps[str] : null; }

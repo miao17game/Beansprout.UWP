@@ -887,4 +887,10 @@
   <data name="Voice_Haizi_Xiaoxin.Content" xml:space="preserve">
     <value>蜡笔小新</value>
   </data>
+  <data name="Voice_CS_FireInTheHole.Content" xml:space="preserve">
+    <value>CS 手榴弹</value>
+  </data>
+  <data name="Voice_CS_GO.Content" xml:space="preserve">
+    <value>CS GO</value>
+  </data>
 </root>

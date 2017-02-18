@@ -198,6 +198,8 @@
                                 <ComboBoxItem Name="Voice_Yellsedtsr" x:Uid="Voice_Haizi_Aqi"/>
                                 <ComboBoxItem Name="Voice_AMeng" x:Uid="Voice_Haizi_AMeng"/>
                                 <ComboBoxItem Name="Voice_Xiaoxin" x:Uid="Voice_Haizi_Xiaoxin"/>
+                                <ComboBoxItem Name="Voice_CS_FireInTheHole" x:Uid="Voice_CS_FireInTheHole"/>
+                                <ComboBoxItem Name="Voice_CS_GO" x:Uid="Voice_CS_GO"/>
                             </ComboBox>
                         </Grid>
 
@@ -355,7 +357,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1013.* / 2017.2.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1014.* / 2017.2.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="完成电影分页的分类浏览功能本地化" /><LineBreak/>
+                            <Run Text="新增两款通知音：[GOGOGO] 和 [Fire in the hole]🌸🐔" /><LineBreak/>
+                            <Run Text="修复一些小问题" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1013.1700 / 2017.2.17" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="开放推送通知开关功能" /><LineBreak/>
                             <Run Text="开放推送提示音选择功能" /><LineBreak/>
                             <Run Text="支持预览改变提示音" /><LineBreak/>

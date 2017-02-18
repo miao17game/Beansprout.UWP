@@ -22,6 +22,8 @@ using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json.Linq;
 using Windows.UI;
 using Douban.UWP.Core.Models;
+using System.Text.RegularExpressions;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -127,13 +129,12 @@ namespace Douban.UWP.NET.Pages {
                 var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
                     "m.douban.com",
                     "https://m.douban.com/movie/");
-                if (result == null) {
+                if (result != null) {
+                    gmodel = JsonHelper.FromJson<ItemGroup<MovieItem>>(result);
+                } else {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
                 }
-                JObject jo = JObject.Parse(result);
-                gmodel = SetGroupResources(jo, gmodel);
-                gmodel = SetSingletonResources(jo, gmodel);
             } catch { ReportHelper.ReportAttentionAsync(GetUIString("UnknownError")); }
             IncrementalLoadingBorder.SetVisibility(false);
             return gmodel;
@@ -174,9 +175,10 @@ namespace Douban.UWP.NET.Pages {
             var path = (sender as Button).CommandParameter as string;
             if (path == null)
                 return;
+            var keyword = $"subject_collection/{path}/";
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
-                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MOVIE") },
+                new NavigateParameter { ToUri = null, ApiHeadString = keyword, Title = GetUIString("DB_MOVIE") },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieFilter));
         }
@@ -187,7 +189,10 @@ namespace Douban.UWP.NET.Pages {
                 return;
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.PathUrl), Title = item.Title },
+                new NavigateParameter {
+                    ToUri = new Uri(item.PathUrl),
+                    Title = item.Title, 
+                },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieContent));
         }
@@ -196,9 +201,12 @@ namespace Douban.UWP.NET.Pages {
             var item = e.ClickedItem as ItemGroup<MovieItem>;
             if (item == null || item.GroupPathUrl == null)
                 return;
+            var keyword = new Regex(@"/movie/(?<key_word>.+)").Match(item.GroupPathUrl).Groups["key_word"].Value;
+            if (keyword != "")
+                keyword = UriDecoder.EditKeyWordsForFilter(keyword, "movie");
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl), Title = item.GroupName },
+                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl), ApiHeadString= keyword, Title = item.GroupName },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MovieFilter));
         }

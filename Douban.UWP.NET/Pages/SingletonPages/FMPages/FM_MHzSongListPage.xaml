@@ -136,7 +136,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Image Name="SongListImage" Grid.RowSpan="3" Width="120" Height="120" 
-                           VerticalAlignment="Center" Margin="10"/>
+                           VerticalAlignment="Center" Margin="10" Stretch="UniformToFill"/>
 
                     <Border CornerRadius="25" Background="#60202020"
                             Grid.RowSpan="3" Margin="60,60,0,0"

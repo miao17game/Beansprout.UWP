@@ -196,8 +196,20 @@
     <Compile Include="Pages\MetroPage.xaml.cs">
       <DependentUpon>MetroPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SubjectCollectionPages\BookPages\BookCollectionPage.xaml.cs">
+      <DependentUpon>BookCollectionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SubjectCollectionPages\GenericPages\SubCollectionGenericPage.xaml.cs">
       <DependentUpon>SubCollectionGenericPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SubjectCollectionPages\MoviePages\MovieCollectionPage.xaml.cs">
+      <DependentUpon>MovieCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SubjectCollectionPages\MusicPages\MusicCollectionPage.xaml.cs">
+      <DependentUpon>MusicCollectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SubjectCollectionPages\TVPages\TVCollectionPage.xaml.cs">
+      <DependentUpon>TVCollectionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SubjectCollectionPages\TVPages\TVIndexPage.xaml.cs">
       <DependentUpon>TVIndexPage.xaml</DependentUpon>
@@ -346,6 +358,8 @@
     <Content Include="Resources\CSS\LightTheme.css" />
     <Content Include="Resources\CSS\MobileDevice.css" />
     <Content Include="Voice\DoraAmeng.mp3" />
+    <Content Include="Voice\fire_in_the_hole.wav" />
+    <Content Include="Voice\gogogo.wav" />
     <Content Include="Voice\haizi.mp3" />
     <Content Include="Voice\xiaoxin.mp3" />
     <Content Include="Voice\yellsedtsr.mp3" />
@@ -468,9 +482,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\SubjectCollectionPages\BookPages\BookCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\SubjectCollectionPages\GenericPages\SubCollectionGenericPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SubjectCollectionPages\MoviePages\MovieCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SubjectCollectionPages\MusicPages\MusicCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\SubjectCollectionPages\TVPages\TVCollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\SubjectCollectionPages\TVPages\TVIndexPage.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -78,7 +78,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40">
                         <TextBlock FontSize="16" x:Uid="InTheaterGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click"
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/movie/nowintheater"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="movie_showing"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="InTheaterGridView" 
@@ -97,7 +97,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding CoverUrl}"
+                                    <Image Source="{Binding Cover.CoverUrl}"
                                Stretch="Fill"
                                Grid.Row="0"/>
                                     <TextBlock Text="{Binding Title}"
@@ -110,7 +110,7 @@
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
                                                      Height="30"
-                                                     RatingValue ="{Binding RatingValue}"/>
+                                                     RatingValue ="{Binding Rating.RatingValue}"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -118,7 +118,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="WatchOnlineGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/movie/watchonline"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="movie_free_stream"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="WatchOnlineGridView" 
@@ -137,7 +137,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding CoverUrl}"
+                                    <Image Source="{Binding Cover.CoverUrl}"
                                Stretch="Fill"
                                Grid.Row="0"/>
                                     <TextBlock Text="{Binding Title}"
@@ -150,7 +150,7 @@
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
                                                      Height="30"
-                                                     RatingValue ="{Binding RatingValue}"/>
+                                                     RatingValue ="{Binding Rating.RatingValue}"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>
@@ -158,7 +158,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="LatestGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/movie/latest"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="movie_latest"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="LatestGridView" 
@@ -177,7 +177,7 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
-                                    <Image Source="{Binding CoverUrl}"
+                                    <Image Source="{Binding Cover.CoverUrl}"
                                Stretch="Fill"
                                Grid.Row="0"/>
                                     <TextBlock Text="{Binding Title}"
@@ -190,7 +190,7 @@
                                                      Margin="3,0,5,0"
                                                      Grid.Row="2" 
                                                      Height="30"
-                                                     RatingValue ="{Binding RatingValue}"/>
+                                                     RatingValue ="{Binding Rating.RatingValue}"/>
                                 </Grid>
                             </DataTemplate>
                         </GridView.ItemTemplate>

@@ -13,10 +13,10 @@ using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
 using Windows.UI.Xaml;
 using Douban.UWP.NET.Pages.TypeWebPage;
-using Douban.UWP.NET.Pages.SubjectCollectionPages.GenericPages;
 using Douban.UWP.NET.Pages.SingletonPages.FMPages;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models.FMModels;
+using Douban.UWP.NET.Pages.SubjectCollectionPages;
 
 namespace Douban.UWP.NET.Resources {
     /// <summary>
@@ -132,9 +132,12 @@ namespace Douban.UWP.NET.Resources {
             set { _volumn = value; }
         }
 
+        private const string default_toast_voice = @"ms-appx:///Voice/yiner.mp3";
+        public static string DefaultToastVoice { get { return default_toast_voice; } }
+
         private static string _toast_voice;
         public static string ToastVoice {
-            get { return _toast_voice ?? (_toast_voice = (SettingsHelper.ReadSettingsValue(SettingsSelect.ToastVoice) as string) ?? @"ms-appx:///Voice/yiner.mp3"); }
+            get { return _toast_voice ?? (_toast_voice = (SettingsHelper.ReadSettingsValue(SettingsSelect.ToastVoice) as string) ?? default_toast_voice); }
             set { _toast_voice = value; }
         }
 
@@ -197,9 +200,9 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Webview, typeof(WebViewPage)},
                     { NavigateType.DouList, typeof(WebContentPage)},
                     { NavigateType.MovieContent, typeof(WebContentPage)},
-                    { NavigateType.MovieFilter, typeof(WebContentPage)},
+                    { NavigateType.MovieFilter, typeof(MovieCollectionPage)},
                     { NavigateType.BookContent, typeof(WebContentPage)},
-                    { NavigateType.BookFilter, typeof(SubCollectionGenericPage)},
+                    { NavigateType.BookFilter, typeof(BookCollectionPage)},
                     { NavigateType.MusicContent, typeof(WebContentPage)},
                     { NavigateType.MusicFilter, typeof(WebContentPage)},
                     { NavigateType.TVContent, typeof(WebContentPage)},
@@ -315,14 +318,5 @@ namespace Douban.UWP.NET.Resources {
 
         #endregion
 
-        //#region Child page for cache
-
-        //public static void AddBaseListPageInstance(string key, BaseListPage instance) { if (!baseListPageMap.ContainsKey(key)) { baseListPageMap.Add(key, instance); } }
-        //public static BaseListPage GetPageInstance(string key) { return baseListPageMap.ContainsKey(key) ? baseListPageMap[key] : null; }
-        //public static bool IfContainsPageInstance(string key) { return baseListPageMap.ContainsKey(key); }
-        //static private Dictionary<string, BaseListPage> baseListPageMap = new Dictionary<string, BaseListPage> {
-        //};
-
-        //#endregion
     }
 }

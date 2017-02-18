@@ -888,4 +888,10 @@
   <data name="Voice_Haizi_Xiaoxin.Content" xml:space="preserve">
     <value>Crayon</value>
   </data>
+  <data name="Voice_CS_FireInTheHole.Content" xml:space="preserve">
+    <value>CS-Fire in the hole</value>
+  </data>
+  <data name="Voice_CS_GO.Content" xml:space="preserve">
+    <value>CS-GO</value>
+  </data>
 </root>

@@ -78,7 +78,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40">
                         <TextBlock FontSize="16" x:Uid="BookFictionGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click"
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/book/hotfiction"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="book_fiction"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="InTheaterGridView" 
@@ -118,7 +118,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="BookUnFictionGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/book/hotnonfiction"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="book_nonfiction"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="WatchOnlineGridView" 

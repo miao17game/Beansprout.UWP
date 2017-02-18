@@ -9,9 +9,18 @@ using Wallace.UWP.Helpers;
 namespace Douban.UWP.Core.Tools {
     public static class UriDecoder {
 
-        public static string EditKeyWordsForBooks(string oldkeys) {
-            return "subject_collection/filter_book_" +
+        public static string EditKeyWordsForFilter(string oldkeys, string type = "book") {
+            return $"subject_collection/filter_{type}_" +
                 oldkeys
+
+                .Replace("underrated", "unpopular")
+                .Replace("doubantop", "score")
+                .Replace("scifi", "sci-fi")
+                .Replace("sweet", "cure")
+                .Replace("artfilm", "literature")
+                .Replace("western", "occident")
+                .Replace("korean", "korea")
+
                 .Replace("novel", "fiction")
                 .Replace("bio", "biography")
                 .Replace("motivation", "inspiration")

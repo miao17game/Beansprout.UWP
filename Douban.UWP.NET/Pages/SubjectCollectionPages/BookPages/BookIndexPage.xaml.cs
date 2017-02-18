@@ -164,11 +164,16 @@ namespace Douban.UWP.NET.Pages {
             var path = (sender as Button).CommandParameter as string;
             if (path == null)
                 return;
+            var is_not_native = path.Contains("https:");
+            var keyword = is_not_native ? path : $"subject_collection/{path}/";
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
-                new NavigateParameter { ToUri = new Uri(path + $"?loc_id=108288"), Title = GetUIString("DB_BOOK") },
+                new NavigateParameter {
+                    ToUri = is_not_native ? new Uri(path + $"?loc_id=108288") : null,
+                    ApiHeadString = keyword,
+                    Title = GetUIString("DB_BOOK") },
                 GetFrameInstance(FrameType.Content),
-                GetPageType(NavigateType.BookFilter));
+                GetPageType(is_not_native ? NavigateType.Undefined : NavigateType.BookFilter));
         }
 
         private void GridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -188,7 +193,7 @@ namespace Douban.UWP.NET.Pages {
                 return;
             var keyword = new Regex(@"/book/(?<key_word>.+)").Match(item.GroupPathUrl).Groups["key_word"].Value;
             if (keyword != "")
-                keyword = UriDecoder.EditKeyWordsForBooks(keyword);
+                keyword = UriDecoder.EditKeyWordsForFilter(keyword);
             NavigateToBase?.Invoke(
                 null,
                 new NavigateParameter {
