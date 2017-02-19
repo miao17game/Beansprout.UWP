@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="Douban.UWP.NET.Controls.FiveStarCenterControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Douban.UWP.NET.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <Converters:StarSizeColorConverter x:Key="StarSizeColorConverter"/>
+        <Converters:DoubleConverter x:Key="DoubleConverter"/>
+        <Converters:SelfVisibilityConverter x:Key="SelfVisibilityConverter"/>
+        <Converters:DeVisibilityConverter x:Key="DeVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid Name="Main" Height="{Binding Height}">
+        <Grid Name="StarPanel" Visibility="{Binding RatingValue, ConverterParameter=0, Converter={StaticResource SelfVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding RatingValue, Converter={StaticResource DoubleConverter}}" 
+                       FontSize="{Binding PointSize}"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Margin="15,10,15,0"
+                       Foreground="{Binding Foreground}"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="10,15,10,10">
+                <TextBlock Text="★" FontSize="{Binding FontSize}" 
+                       Foreground="{Binding RatingValue, ConverterParameter=1, Converter={StaticResource StarSizeColorConverter}}"/>
+                <TextBlock Text="★" FontSize="{Binding FontSize}" 
+                       Foreground="{Binding RatingValue, ConverterParameter=2, Converter={StaticResource StarSizeColorConverter}}"/>
+                <TextBlock Text="★" FontSize="{Binding FontSize}" 
+                       Foreground="{Binding RatingValue, ConverterParameter=3, Converter={StaticResource StarSizeColorConverter}}"/>
+                <TextBlock Text="★" FontSize="{Binding FontSize}" 
+                       Foreground="{Binding RatingValue, ConverterParameter=4, Converter={StaticResource StarSizeColorConverter}}"/>
+                <TextBlock Text="★" FontSize="{Binding FontSize}" 
+                       Foreground="{Binding RatingValue, ConverterParameter=5, Converter={StaticResource StarSizeColorConverter}}"/>
+            </StackPanel>
+        </Grid>
+        <TextBlock x:Uid="NoStarValue" 
+                   FontSize="30"
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center"
+                   Foreground="{Binding Foreground}"
+                   Visibility="{Binding ElementName=StarPanel, Path=Visibility,Converter={StaticResource DeVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

@@ -27,6 +27,8 @@ using Windows.Web.Http;
 using Windows.Storage.Streams;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
 
@@ -65,11 +67,11 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         }
 
         private void WishBtn_Click(object sender, RoutedEventArgs e) {
-
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void CollectBtn_Click(object sender, RoutedEventArgs e) {
-
+            ReportHelper.ReportAttentionAsync(GetUIString("StillInDeveloping"));
         }
 
         private void ImageGridView_ItemClick(object sender, ItemClickEventArgs e) {
@@ -135,8 +137,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                     return;
                 model.Title = root.GetNodeFormat("h1", "class", "title")?.InnerText;
                 model.Cover = root.GetNodeFormat("img", "class", "cover").Attributes["src"].Value;
-                var meta = root.GetNodeFormat("p", "class", "meta").InnerText.Replace(" ", "").Replace(@"\n", "");
-                model.Meta = meta.Substring(1, meta.Length - 2).Replace("/", " / ");
+                model.Meta = ReadMetaString(root);
                 model.Rating = Convert.ToDouble(root.GetNodeFormat("meta", "itemprop", "ratingValue").Attributes["content"].Value);
                 model.CommentersCount = root.GetNodeFormat("meta", "itemprop", "reviewCount").Attributes["content"].Value;
                 var descrip_group = root.GetSectionNodeContentByClass("subject-intro");
@@ -157,6 +158,43 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
             } catch {
                 System.Diagnostics.Debug.WriteLine("Bug");
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
+        }
+
+        private string ReadMetaString(HtmlNode root) {
+
+            var builder = new StringBuilder();
+
+            var meta = root.GetNodeFormat("p", "class", "meta").InnerText.Replace(" ", "").Replace(@"\n", "");
+            meta = meta.Substring(1, meta.Length - 2);
+            var time = new Regex(@"(?<time>[0-9]{4}-[0-9]{2}-[0-9]{2}.+)").Match(meta).Groups["time"].Value;
+            var meta_coll = meta.Replace(time, "").Split('/').ToList();
+            meta_coll.RemoveAt(meta_coll.Count - 1);
+            var duration = meta_coll[0];
+            meta_coll.RemoveAt(0);
+            var director_index = meta_coll.FindIndex(i => i.Contains("导演"));
+            var director = default(string);
+            var feel_coll = default(List<string>);
+            if (director_index >= 0) {
+                director = meta_coll[director_index];
+                meta_coll.RemoveAt(director_index);
+                feel_coll = meta_coll.Take(director_index).ToList();
+                meta_coll.RemoveRange(0, director_index);
+            }
+            var actors = string.Join(",", meta_coll);
+            var feels = string.Join(",", feel_coll);
+
+            if (actors.Length >= 120)
+                actors = actors.Substring(0, 120) + "...";
+
+            return builder
+                .AppendLine(duration)
+                .AppendLine(feels)
+                .AppendLine()
+                .AppendLine(director)
+                .AppendLine(actors)
+                .AppendLine()
+                .AppendLine(time)
+                .ToString();
         }
 
         #region Show Images

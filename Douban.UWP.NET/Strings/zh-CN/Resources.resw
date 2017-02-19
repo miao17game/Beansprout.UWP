@@ -406,11 +406,11 @@
     <comment>LoginPage</comment>
   </data>
   <data name="Douban_Login_Submit.Content" xml:space="preserve">
-    <value>登陆</value>
+    <value>登录</value>
     <comment>LoginPage</comment>
   </data>
   <data name="Douban_Login_Title.Text" xml:space="preserve">
-    <value>登陆 豆角</value>
+    <value>登录 豆角</value>
     <comment>LoginPage</comment>
   </data>
   <data name="Settings" xml:space="preserve">
@@ -879,7 +879,7 @@
     <value>推送通知</value>
   </data>
   <data name="ToastSendSummary.Text" xml:space="preserve">
-    <value>是否发开通知推送</value>
+    <value>是否打开通知推送</value>
   </data>
   <data name="Voice_Haizi_AMeng.Content" xml:space="preserve">
     <value>哆啦a梦</value>
@@ -892,5 +892,26 @@
   </data>
   <data name="Voice_CS_GO.Content" xml:space="preserve">
     <value>CS GO</value>
+  </data>
+  <data name="Collect_See_Title" xml:space="preserve">
+    <value>看过</value>
+  </data>
+  <data name="Wish_See_Title" xml:space="preserve">
+    <value>想看</value>
+  </data>
+  <data name="Have_Collect_See_Title" xml:space="preserve">
+    <value>已看过</value>
+  </data>
+  <data name="Have_Wish_See_Title" xml:space="preserve">
+    <value>已想看</value>
+  </data>
+  <data name="Album_Mivie_Title.Text" xml:space="preserve">
+    <value>影片图选</value>
+  </data>
+  <data name="Description_Movie_Title.Text" xml:space="preserve">
+    <value>剧情简介</value>
+  </data>
+  <data name="Reviews_Suuuuuuuummary.Text" xml:space="preserve">
+    <value>个评价</value>
   </data>
 </root>

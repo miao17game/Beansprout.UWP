@@ -112,6 +112,9 @@
     <Compile Include="Behaviors\ButtonGetFocusBehaviorOfScale.cs" />
     <Compile Include="Behaviors\CDRollAnimation.cs" />
     <Compile Include="Controls\BaseContentPage.cs" />
+    <Compile Include="Controls\FiveStarCenterControl.xaml.cs">
+      <DependentUpon>FiveStarCenterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FiveStarControl.xaml.cs">
       <DependentUpon>FiveStarControl.xaml</DependentUpon>
     </Compile>
@@ -385,6 +388,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FiveStarCenterControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\FiveStarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -894,4 +894,25 @@
   <data name="Voice_CS_GO.Content" xml:space="preserve">
     <value>CS-GO</value>
   </data>
+  <data name="Collect_See_Title" xml:space="preserve">
+    <value>Collect</value>
+  </data>
+  <data name="Have_Collect_See_Title" xml:space="preserve">
+    <value>Collected</value>
+  </data>
+  <data name="Have_Wish_See_Title" xml:space="preserve">
+    <value>Wished</value>
+  </data>
+  <data name="Wish_See_Title" xml:space="preserve">
+    <value>Wish</value>
+  </data>
+  <data name="Album_Mivie_Title.Text" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="Description_Movie_Title.Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Reviews_Suuuuuuuummary.Text" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
 </root>

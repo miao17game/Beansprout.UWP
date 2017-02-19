@@ -77,8 +77,30 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="grid.(FrameworkElement.Height)" Value="320"/>
+                        <Setter Target="grid.(FrameworkElement.Height)" Value="380"/>
                         <Setter Target="Placeholder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="CoverImage.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Width)" Value="180"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="ButtonGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,0,0,20</Setter.Value>
+                        </Setter>
+                        <Setter Target="ButtonGrid.(Grid.Column)" Value="2"/>
+                        <Setter Target="ReviewsStack.(Grid.Column)" Value="2"/>
+                        <Setter Target="ReviewsStack.(Grid.Row)" Value="2"/>
+                        <Setter Target="ReviewsStack.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="ButtonGrid.(Grid.Row)" Value="3"/>
+                        <Setter Target="ButtonGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="WishBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="CollectBtn.(Grid.Row)" Value="1"/>
+                        <Setter Target="CollectBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="CollectBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="WishBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="CollectBtn.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="WishBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="CollectBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="FiveStar02.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="FiveStar01.(UIElement.Visibility)" Value="Collapsed"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -88,8 +110,31 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="grid.(FrameworkElement.Height)" Value="320"/>
+                        <Setter Target="grid.(FrameworkElement.Height)" Value="380"/>
                         <Setter Target="Placeholder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="CoverImage.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Width)" Value="180"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="ButtonGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,0,0,20</Setter.Value>
+                        </Setter>
+                        <Setter Target="ButtonGrid.(Grid.Column)" Value="2"/>
+                        <Setter Target="ButtonGrid.(Grid.Row)" Value="3"/>
+                        <Setter Target="ButtonGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="ReviewsStack.(Grid.Column)" Value="2"/>
+                        <Setter Target="ReviewsStack.(Grid.Row)" Value="2"/>
+                        <Setter Target="ReviewsStack.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="WishBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="CollectBtn.(Grid.Row)" Value="1"/>
+                        <Setter Target="CollectBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="CollectBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="WishBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="CollectBtn.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="WishBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="CollectBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="FiveStar02.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="FiveStar01.(UIElement.Visibility)" Value="Collapsed"/>
+                        
 
                     </VisualState.Setters>
                 </VisualState>
@@ -99,8 +144,30 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
 
-                        <Setter Target="grid.(FrameworkElement.Height)" Value="320"/>
+                        <Setter Target="grid.(FrameworkElement.Height)" Value="380"/>
                         <Setter Target="Placeholder.(FrameworkElement.Height)" Value="70"/>
+                        <Setter Target="CoverImage.(Grid.RowSpan)" Value="3"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Width)" Value="180"/>
+                        <Setter Target="CoverImage.(FrameworkElement.Height)" Value="270"/>
+                        <Setter Target="ButtonGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,0,0,20</Setter.Value>
+                        </Setter>
+                        <Setter Target="ButtonGrid.(Grid.Column)" Value="2"/>
+                        <Setter Target="ButtonGrid.(Grid.Row)" Value="3"/>
+                        <Setter Target="ButtonGrid.(Grid.RowSpan)" Value="1"/>
+                        <Setter Target="ReviewsStack.(Grid.Column)" Value="2"/>
+                        <Setter Target="ReviewsStack.(Grid.Row)" Value="2"/>
+                        <Setter Target="ReviewsStack.(FrameworkElement.HorizontalAlignment)" Value="Center"/>
+                        <Setter Target="WishBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="WishBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="CollectBtn.(Grid.RowSpan)" Value="2"/>
+                        <Setter Target="CollectBtn.(Grid.Row)" Value="1"/>
+                        <Setter Target="CollectBtn.(Grid.Column)" Value="0"/>
+                        <Setter Target="CollectBtn.(Grid.ColumnSpan)" Value="2"/>
+                        <Setter Target="WishBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="CollectBtn.(FrameworkElement.MinWidth)" Value="100"/>
+                        <Setter Target="FiveStar02.(UIElement.Visibility)" Value="Visible"/>
+                        <Setter Target="FiveStar01.(UIElement.Visibility)" Value="Collapsed"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -135,7 +202,7 @@
                                Grid.RowSpan="3" 
                                Opacity="0.35" 
                                Fill="Black"/>
-                    <Grid x:Name="grid" Height="240" MaxWidth="800">
+                    <Grid x:Name="grid" Height="270" MaxWidth="800">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition />
@@ -145,9 +212,11 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition />
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <Rectangle Name="Placeholder"/>
-                        <Image Grid.Column="0" 
+                        <Image Name="CoverImage"
+                               Grid.Column="0" 
                                Grid.Row="1"
                                Width="120" 
                                Height="200" 
@@ -163,18 +232,20 @@
                                FontWeight="Thin"
                                Foreground="White"
                                TextWrapping="WrapWholeWords"/>
-                        <StackPanel Grid.Row="3" Margin="10,3,5,10" 
-                                Orientation="Horizontal">
+                        <StackPanel Name="ReviewsStack"
+                                    Grid.Row="3" Margin="10,3,5,10" 
+                                    Orientation="Horizontal">
                             <TextBlock FontSize="15" 
                                Foreground="White"
                                HorizontalAlignment="Left"
                                Text="{Binding CommentersCount}"/>
                             <TextBlock FontSize="15" 
                                    Foreground="White"
-                                   Text="Reviews"
+                                   x:Uid="Reviews_Suuuuuuuummary"
                                    Margin="3,0,0,0"/>
                         </StackPanel>
-                        <control:FiveStarControl FontSize="17" 
+                        <control:FiveStarControl FontSize="18" 
+                                                 x:Name="FiveStar01"
                                              Margin="10,3,5,2"
                                              Grid.Row="2" 
                                              Height="30"
@@ -182,17 +253,27 @@
                                              Foreground="White"
                                              HorizontalAlignment="Left"
                                              RatingValue ="{Binding Rating}"/>
-                        <Grid Grid.RowSpan="2" Grid.Row="2" Grid.Column="1">
+                        <Grid Name="ButtonGrid" 
+                              Grid.RowSpan="2" 
+                              Grid.Row="2" 
+                              Grid.Column="1"
+                              VerticalAlignment="Bottom"
+                              Padding="0,0,0,5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
                             <Button Grid.Row="0" 
                                 Grid.Column="0"
                                 Name="WishBtn"
-                                Margin="5,5,2,5"
-                                Height="40"
-                                Content="Wish"
+                                Margin="5"
+                                Height="30"
+                                FontSize="14"
+                                Content="{Binding WishTitle}"
                                 Foreground="{ThemeResource DoubanForeground01}"
                                 Background="{ThemeResource AppScrollViewerForeground02}"
                                 Style="{StaticResource SpecialButtonAbort}" 
@@ -203,9 +284,10 @@
                             <Button Grid.Row="0" 
                                 Grid.Column="1"
                                 Name="CollectBtn"
-                                Margin="3,5,5,5"
-                                Height="40"
-                                Content="Collect"
+                                Margin="5"
+                                Height="30"
+                                FontSize="14"
+                                Content="{Binding CollectTitle}"
                                 Foreground="{ThemeResource DoubanForeground01}"
                                 Background="{ThemeResource AppScrollViewerForeground02}"
                                 Style="{StaticResource SpecialButtonAbort}" 
@@ -214,10 +296,22 @@
                                 Click="CollectBtn_Click"
                                 VerticalAlignment="Stretch"/>
                         </Grid>
+                        <control:FiveStarCenterControl FontSize="25" 
+                                                       Margin="10,3,5,2"
+                                                       Grid.Row="1" 
+                                                       Visibility="Collapsed"
+                                                       x:Name="FiveStar02"
+                                                       Grid.Column="2"
+                                                       MinWidth="150"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Bottom"
+                                                       PointSize="70"
+                                                       RatingValue ="{Binding Rating}"/>
                     </Grid>
                 </Grid>
                 <Border MaxWidth="800">
-                    <TextBlock Text="Description" FontSize="18" Margin="5"/>
+                    <TextBlock x:Uid="Description_Movie_Title" FontSize="18" Margin="5"/>
                 </Border>
                 <Border MaxWidth="800">
                     <TextBlock Text="{Binding Intro}" 
@@ -227,7 +321,7 @@
                                TextWrapping="WrapWholeWords"/>
                 </Border>
                 <Border MaxWidth="800">
-                    <TextBlock Text="Album" FontSize="18" Margin="5"/>
+                    <TextBlock x:Uid="Album_Mivie_Title" FontSize="18" Margin="5"/>
                 </Border>
                 <GridView x:Name="ImageGridView" 
                           SelectionMode="None" IsItemClickEnabled="True" 
@@ -237,10 +331,10 @@
                           VerticalAlignment="Top"
                           Margin="0,5,0,2"
                           MaxWidth="800"
-                          Height="220">
+                          Height="180">
                     <GridView.ItemTemplate>
                         <DataTemplate >
-                            <Border Height="240" Width="240" Margin="-2">
+                            <Border Height="180" Width="270" Margin="-2">
                                 <Image Source="{Binding }" Stretch="UniformToFill"/>
                             </Border>
                         </DataTemplate>

@@ -357,7 +357,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1014.* / 2017.2.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                             <Run Text="Version：2.1015.* / 2017.2.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复异常唤醒知乎UWP的问题" /><LineBreak/>
+                            <Run Text="着手本地化电影页面，未完成" /><LineBreak/>
+                            <Run Text="明天搬家，休息几天" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1014.1528 / 2017.2.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成电影分页的分类浏览功能本地化" /><LineBreak/>
                             <Run Text="新增两款通知音：[GOGOGO] 和 [Fire in the hole]🌸🐔" /><LineBreak/>
                             <Run Text="修复一些小问题" /><LineBreak/><LineBreak/>

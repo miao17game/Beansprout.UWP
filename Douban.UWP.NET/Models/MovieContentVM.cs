@@ -1,4 +1,7 @@
-﻿using Douban.UWP.Core.Models;
+﻿using static Wallace.UWP.Helpers.Tools.UWPStates;
+using static Douban.UWP.NET.Resources.AppResources;
+
+using Douban.UWP.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +45,18 @@ namespace Douban.UWP.NET.Models {
         public string Intro {
             get { return _intro; }
             set { _intro = value; RaisePropertyChanged("Intro"); }
+        }
+
+        string _wish_title;
+        public string WishTitle {
+            get { return _wish_title ?? (_wish_title = GetUIString("Wish_See_Title")); }
+            set { _wish_title = value; RaisePropertyChanged("WishTitle"); }
+        }
+
+        string _collect_title;
+        public string CollectTitle {
+            get { return _collect_title ?? (_collect_title = GetUIString("Collect_See_Title")); }
+            set { _collect_title = value; RaisePropertyChanged("CollectTitle"); }
         }
 
         IList<MovieContentTag> _tags_list;
