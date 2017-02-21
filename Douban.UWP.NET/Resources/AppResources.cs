@@ -201,6 +201,7 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.Webview, typeof(WebViewPage)},
                     { NavigateType.DouList, typeof(WebContentPage)},
                     { NavigateType.MovieContent, typeof(MovieContentPage)},
+                    { NavigateType.MovieContentQuestion, typeof(WebContentPage)},
                     { NavigateType.MovieFilter, typeof(MovieCollectionPage)},
                     { NavigateType.BookContent, typeof(WebContentPage)},
                     { NavigateType.BookFilter, typeof(BookCollectionPage)},

@@ -26,6 +26,7 @@ namespace Douban.UWP.Core.Models {
         ItemClickNative,
         DouList,
         MovieContent,
+        MovieContentQuestion,
         MovieFilter,
         TVContent,
         TVFilter,

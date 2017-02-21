@@ -914,4 +914,7 @@
   <data name="Reviews_Suuuuuuuummary.Text" xml:space="preserve">
     <value>个评价</value>
   </data>
+  <data name="Questions_Mivie_Title.Text" xml:space="preserve">
+    <value>热门问答</value>
+  </data>
 </root>

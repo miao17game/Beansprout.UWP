@@ -310,9 +310,14 @@
                                                        RatingValue ="{Binding Rating}"/>
                     </Grid>
                 </Grid>
-                <Border MaxWidth="800">
-                    <TextBlock x:Uid="Description_Movie_Title" FontSize="18" Margin="5"/>
-                </Border>
+                <Grid MaxWidth="800">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="25" Width="5" Fill="{ThemeResource DoubanForeground08}"/>
+                    <TextBlock x:Uid="Description_Movie_Title" FontSize="18" Margin="5" Grid.Column="1"/>
+                </Grid>
                 <Border MaxWidth="800">
                     <TextBlock Text="{Binding Intro}" 
                                FontSize="14" 
@@ -320,9 +325,14 @@
                                Margin="5" 
                                TextWrapping="WrapWholeWords"/>
                 </Border>
-                <Border MaxWidth="800">
-                    <TextBlock x:Uid="Album_Mivie_Title" FontSize="18" Margin="5"/>
-                </Border>
+                <Grid MaxWidth="800">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="25" Width="5" Fill="{ThemeResource DoubanForeground08}"/>
+                    <TextBlock x:Uid="Album_Mivie_Title" FontSize="18" Margin="5" Grid.Column="1"/>
+                </Grid>
                 <GridView x:Name="ImageGridView" 
                           SelectionMode="None" IsItemClickEnabled="True" 
                           ItemClick="ImageGridView_ItemClick"
@@ -340,6 +350,46 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
+                <Grid MaxWidth="800">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="25" Width="5" Fill="{ThemeResource DoubanForeground08}"/>
+                    <TextBlock x:Uid="Questions_Mivie_Title" FontSize="18" Margin="5" Grid.Column="1"/>
+                </Grid>
+                <ListView ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}"
+                          ItemsSource="{Binding Questions}" 
+                          ItemClick="ListView_ItemClick"
+                          SelectionMode="None" 
+                          MaxWidth="800"
+                          IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="{Binding Count}" 
+                                           Margin="5,0,5,5" 
+                                           Grid.Row="1" 
+                                           FontSize="13"
+                                           FontWeight="Bold"
+                                           Foreground="{ThemeResource DoubanForeground08}"/>
+                                <TextBlock Text="{Binding Title}" 
+                                           Margin=" 5"
+                                           FontSize="16"
+                                           TextWrapping="WrapWholeWords"/>
+                                <Rectangle Height="0.5" 
+                                           Fill="#80808080"
+                                           Margin="5,0,5,0"
+                                           Grid.Row="1" 
+                                           VerticalAlignment="Bottom"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackPanel>
         </ScrollViewer>
 

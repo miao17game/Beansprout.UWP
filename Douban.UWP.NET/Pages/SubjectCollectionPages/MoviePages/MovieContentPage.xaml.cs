@@ -135,32 +135,72 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                 var root = doc.DocumentNode;
                 if (model == null)
                     return;
-                model.Title = root.GetNodeFormat("h1", "class", "title")?.InnerText;
-                model.Cover = root.GetNodeFormat("img", "class", "cover").Attributes["src"].Value;
-                model.Meta = ReadMetaString(root);
-                model.Rating = Convert.ToDouble(root.GetNodeFormat("meta", "itemprop", "ratingValue").Attributes["content"].Value);
-                model.CommentersCount = root.GetNodeFormat("meta", "itemprop", "reviewCount").Attributes["content"].Value;
-                var descrip_group = root.GetSectionNodeContentByClass("subject-intro");
-                if (descrip_group != null) {
-                    model.Intro = descrip_group.GetNodeFormat("div", "class", "bd", false).SelectSingleNode("p").InnerText.Replace("。", "。\n"); ;
-                }
-                var img_group = root.GetSectionNodeContentByClass("subject-pics");
-                if (img_group != null) {
-                    var new_list = new List<string>();
-                    var lists = img_group
-                        .GetNodeFormat("div", "class", "bd photo-list", false)
-                        .GetNodeFormat("ul", "class", "wx-preview", false)
-                        .SelectNodes("li[@class='pic']");
-                    lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["src"].Value));
-                    model.ImageList = new_list;
-                }
+
+                var model_state_succeed = SetDefaultModelState(root);
+                var description_succeed = SetDescription(root.GetSectionNodeContentByClass("subject-intro"));
+                var imagelist_succeed = SetImageList(root.GetSectionNodeContentByClass("subject-pics"));
+                var question_succeed = SetQuestionList(root.GetSectionNodeContentByClass("subject-question"));
 
             } catch {
                 System.Diagnostics.Debug.WriteLine("Bug");
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
-        private string ReadMetaString(HtmlNode root) {
+        private bool SetDefaultModelState(HtmlNode root) {
+            try {
+                model.Title = root.GetNodeFormat("h1", "class", "title")?.InnerText;
+                model.Cover = root.GetNodeFormat("img", "class", "cover").Attributes["src"].Value;
+                model.Rating = Convert.ToDouble(root.GetNodeFormat("meta", "itemprop", "ratingValue").Attributes["content"].Value);
+                model.CommentersCount = root.GetNodeFormat("meta", "itemprop", "reviewCount").Attributes["content"].Value;
+                model.Meta = SetMeta(root);
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        private bool SetDescription(HtmlNode descrip_group) {
+            if (descrip_group != null) {
+                model.Intro = descrip_group.GetNodeFormat("div", "class", "bd", false).SelectSingleNode("p").InnerText.Replace("。", "。\n");
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetQuestionList(HtmlNode questions) {
+            if (questions != null) {
+                var new_questions_list = new List<MovieContentQuestion>();
+                var ques_nodes = questions.GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
+                ques_nodes?.ToList()?.ForEach(i => {
+                    var act = i.SelectSingleNode("a");
+                    if (act?.SelectSingleNode("h3") != null)
+                        new_questions_list.Add(new MovieContentQuestion {
+                            PartUrl = "https://m.douban.com" + act?.Attributes["href"]?.Value,
+                            Title = act?.SelectSingleNode("h3")?.InnerText,
+                            Count = act?.GetNodeFormat("div", "class", "info", false)?.InnerText
+                        });
+                });
+                model.Questions = new_questions_list;
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetImageList(HtmlNode img_group) {
+            if (img_group != null) {
+                var new_list = new List<string>();
+                var lists = img_group
+                    .GetNodeFormat("div", "class", "bd photo-list", false)
+                    .GetNodeFormat("ul", "class", "wx-preview", false)
+                    .SelectNodes("li[@class='pic']");
+                lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["src"].Value));
+                model.ImageList = new_list;
+                return true;
+            }
+            return false;
+        }
+
+        private string SetMeta(HtmlNode root) {
 
             var builder = new StringBuilder();
 
@@ -251,5 +291,23 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         FrameType frameType;
         MovieContentVM model;
         #endregion
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as MovieContentQuestion;
+            if (item == null)
+                return;
+            NavigateToBase?.Invoke(null, 
+                new NavigateParameter {
+                    ToUri = new Uri(item.PartUrl),
+                    FrameType = 
+                    frameType == FrameType.Content ?
+                    FrameType.UpContent : 
+                    FrameType.UserInfos,
+                    Title = item.Title }, 
+                GetFrameInstance(frameType == FrameType.Content ? 
+                FrameType.UpContent : 
+                FrameType.UserInfos), 
+                GetPageType(NavigateType.MovieContentQuestion));
+        }
     }
 }

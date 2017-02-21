@@ -915,4 +915,7 @@
   <data name="Reviews_Suuuuuuuummary.Text" xml:space="preserve">
     <value>Reviews</value>
   </data>
+  <data name="Questions_Mivie_Title.Text" xml:space="preserve">
+    <value>Questions</value>
+  </data>
 </root>

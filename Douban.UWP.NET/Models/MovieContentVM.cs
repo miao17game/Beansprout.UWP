@@ -80,7 +80,7 @@ namespace Douban.UWP.NET.Models {
         IList<MovieContentQuestion> _questions;
         public IList<MovieContentQuestion> Questions {
             get { return _questions ?? (_questions = new List<MovieContentQuestion>()); }
-            set { _questions = value; RaisePropertyChanged("TagsList"); }
+            set { _questions = value; RaisePropertyChanged("Questions"); }
         }
 
         IList<object> _reviews;
