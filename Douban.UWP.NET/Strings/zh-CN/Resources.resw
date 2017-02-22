@@ -917,4 +917,10 @@
   <data name="Questions_Mivie_Title.Text" xml:space="preserve">
     <value>热门问答</value>
   </data>
+  <data name="Recommands_Mivie_Title.Text" xml:space="preserve">
+    <value>大家也喜欢</value>
+  </data>
+  <data name="Reviews_Mivie_Title.Text" xml:space="preserve">
+    <value>热门影评</value>
+  </data>
 </root>

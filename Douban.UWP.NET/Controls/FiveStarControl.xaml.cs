@@ -26,5 +26,11 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(RatingValueProperty, value); }
         }
 
+        public static readonly DependencyProperty ShowValueVisibilityProperty = DependencyProperty.Register("ShowValueVisibility", typeof(double), typeof(FiveStarControl), PropertyMetadata.Create(Visibility.Visible));
+        public Visibility ShowValueVisibility {
+            get { return (Visibility)GetValue(ShowValueVisibilityProperty); }
+            set { SetValue(ShowValueVisibilityProperty, value); }
+        }
+
     }
 }

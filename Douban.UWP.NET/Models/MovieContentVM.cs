@@ -83,10 +83,16 @@ namespace Douban.UWP.NET.Models {
             set { _questions = value; RaisePropertyChanged("Questions"); }
         }
 
-        IList<object> _reviews;
-        public IList<object> Reviews {
-            get { return _reviews ?? (_reviews = new List<object>()); }
+        IList<MovieContentReview> _reviews;
+        public IList<MovieContentReview> Reviews {
+            get { return _reviews ?? (_reviews = new List<MovieContentReview>()); }
             set { _reviews = value; RaisePropertyChanged("Reviews"); }
+        }
+
+        IList<MovieContentRecommand> _recommands;
+        public IList<MovieContentRecommand> Recommands {
+            get { return _recommands ?? (_recommands = new List<MovieContentRecommand>()); }
+            set { _recommands = value; RaisePropertyChanged("Recommands"); }
         }
 
     }
@@ -99,7 +105,28 @@ namespace Douban.UWP.NET.Models {
     public class MovieContentQuestion {
         public string Title { get; set; }
         public string Count { get; set; }
-        public string PartUrl { get; set; }
+        public string UrlPart { get; set; }
+
+        public string PathUrl { get { return "https://m.douban.com" + UrlPart ?? ""; } }
+    }
+
+    public class MovieContentRecommand {
+        public string Cover { get; set; }
+        public string Title { get; set; }
+        public string UrlPart { get; set; }
+
+        public string PathUrl { get { return "https://m.douban.com" + UrlPart ?? ""; } }
+    }
+
+    public class MovieContentReview {
+        public string UserName { get; set; }
+        public string Title { get; set; }
+        public string UrlPart { get; set; }
+        public double Rating { get; set; }
+        public string UsefulCount { get; set; }
+        public string Abstract { get; set; }
+
+        public string PathUrl { get { return "https://m.douban.com" + UrlPart ?? ""; } }
     }
 
 }

@@ -105,6 +105,64 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
             ImagePopupBorder.Height = (sender as Popup).ActualHeight;
         }
 
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as MovieContentQuestion;
+            if (item == null)
+                return;
+            NavigateToBase?.Invoke(null,
+                new NavigateParameter {
+                    ToUri = new Uri(item.PathUrl),
+                    FrameType =
+                    frameType == FrameType.Content ?
+                    FrameType.UpContent :
+                    FrameType.UserInfos,
+                    Title = item.Title
+                },
+                GetFrameInstance(frameType == FrameType.Content ?
+                FrameType.UpContent :
+                FrameType.UserInfos),
+                GetPageType(NavigateType.MovieContentQuestion));
+        }
+
+        private void RecommandGridView_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as MovieContentRecommand;
+            if (item == null)
+                return;
+            NavigateToBase?.Invoke(null,
+                new NavigateParameter {
+                    ToUri = new Uri(item.PathUrl),
+                    FrameType =
+                    frameType == FrameType.Content ?
+                    FrameType.UpContent :
+                    FrameType.UserInfos,
+                    Title = item.Title,
+                    IsNative = true
+                },
+                GetFrameInstance(frameType == FrameType.Content ?
+                FrameType.UpContent :
+                FrameType.UserInfos),
+                GetPageType(NavigateType.MovieContent));
+        }
+
+        private void ReviewsListView_ItemClick(object sender, ItemClickEventArgs e) {
+            var item = e.ClickedItem as MovieContentReview;
+            if (item == null)
+                return;
+            NavigateToBase?.Invoke(null,
+                new NavigateParameter {
+                    ToUri = new Uri(item.PathUrl),
+                    FrameType =
+                    frameType == FrameType.Content ?
+                    FrameType.UpContent :
+                    FrameType.UserInfos,
+                    Title = item.Title
+                },
+                GetFrameInstance(frameType == FrameType.Content ?
+                FrameType.UpContent :
+                FrameType.UserInfos),
+                GetPageType(NavigateType.MovieContentQuestion));
+        }
+
         #endregion
 
         #region Methods
@@ -140,6 +198,8 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                 var description_succeed = SetDescription(root.GetSectionNodeContentByClass("subject-intro"));
                 var imagelist_succeed = SetImageList(root.GetSectionNodeContentByClass("subject-pics"));
                 var question_succeed = SetQuestionList(root.GetSectionNodeContentByClass("subject-question"));
+                var rec_succeed = SetRecommandsList(root.GetSectionNodeContentByClass("subject-rec"));
+                var reviews_succeed = SetReviewsList(root.GetSectionNodeContentByClass("subject-reviews"));
 
             } catch {
                 System.Diagnostics.Debug.WriteLine("Bug");
@@ -175,12 +235,57 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                     var act = i.SelectSingleNode("a");
                     if (act?.SelectSingleNode("h3") != null)
                         new_questions_list.Add(new MovieContentQuestion {
-                            PartUrl = "https://m.douban.com" + act?.Attributes["href"]?.Value,
+                            UrlPart = act?.Attributes["href"]?.Value,
                             Title = act?.SelectSingleNode("h3")?.InnerText,
                             Count = act?.GetNodeFormat("div", "class", "info", false)?.InnerText
                         });
                 });
                 model.Questions = new_questions_list;
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetReviewsList(HtmlNode questions) {
+            if (questions != null) {
+                var new_questions_list = new List<MovieContentReview>();
+                var ques_nodes = questions.GetNodeFormat("div","class","bd",false).GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
+                ques_nodes?.ToList()?.ForEach(i => {
+                    var act = i.SelectSingleNode("a");
+                    var wp = act.SelectSingleNode("div");
+                    if (act?.SelectSingleNode("h3") != null)
+                        new_questions_list.Add(new MovieContentReview {
+                            UrlPart = act?.Attributes["href"]?.Value,
+                            Title = act?.SelectSingleNode("h3")?.InnerText,
+                            UserName = wp?.GetNodeFormat("span","class","username",false)?.InnerText,
+                            Rating = Convert.ToDouble(wp?.GetNodeFormat("span", "class", "rating-stars", false)?.Attributes["data-rating"].Value) / 10,
+                            UsefulCount = act?.GetNodeFormat("div", "class", "info", false)?.InnerText.Replace(" ","").Substring(1),
+                            Abstract = act?.GetNodeFormat("p", "class", "abstract", false)?.InnerText.Replace(" ", "").Substring(1),
+                        });
+                });
+                model.Reviews = new_questions_list;
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetRecommandsList(HtmlNode questions) {
+            if (questions != null) {
+                var new_questions_list = new List<MovieContentRecommand>();
+                var ques_nodes = questions.GetNodeFormat("div", "class", "bd", false)?.SelectSingleNode("ul")?.SelectNodes("li");
+                ques_nodes?.ToList()?.ForEach(i => {
+                    var act = i.SelectSingleNode("a");
+                    if(act!=null && act.GetNodeFormat("div", "class", "wp", false) != null) {
+                        var wp = act.GetNodeFormat("div", "class", "wp", false);
+                        if (wp?.SelectSingleNode("h3") != null)
+                            new_questions_list.Add(new MovieContentRecommand {
+                                UrlPart = act?.Attributes["href"]?.Value,
+                                Title = wp?.SelectSingleNode("h3")?.InnerText,
+                                Cover = wp?.SelectSingleNode("img")?.Attributes["src"]?.Value
+                            });
+                    }
+                });
+                model.Recommands = new_questions_list;
                 return true;
             }
             return false;
@@ -292,22 +397,5 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         MovieContentVM model;
         #endregion
 
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e) {
-            var item = e.ClickedItem as MovieContentQuestion;
-            if (item == null)
-                return;
-            NavigateToBase?.Invoke(null, 
-                new NavigateParameter {
-                    ToUri = new Uri(item.PartUrl),
-                    FrameType = 
-                    frameType == FrameType.Content ?
-                    FrameType.UpContent : 
-                    FrameType.UserInfos,
-                    Title = item.Title }, 
-                GetFrameInstance(frameType == FrameType.Content ? 
-                FrameType.UpContent : 
-                FrameType.UserInfos), 
-                GetPageType(NavigateType.MovieContentQuestion));
-        }
     }
 }

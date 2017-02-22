@@ -36,6 +36,7 @@
             </StackPanel>
             <TextBlock Text="{Binding RatingValue, Converter={StaticResource DoubleConverter}}" 
                        FontSize="{Binding FontSize}"
+                       Visibility="{Binding ShowValueVisibility}"
                        Margin="2,0,3,0"
                        Foreground="{Binding Foreground}"
                        RelativePanel.AlignRightWithPanel="True"

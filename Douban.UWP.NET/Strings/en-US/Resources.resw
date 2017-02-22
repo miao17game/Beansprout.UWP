@@ -918,4 +918,10 @@
   <data name="Questions_Mivie_Title.Text" xml:space="preserve">
     <value>Questions</value>
   </data>
+  <data name="Recommands_Mivie_Title.Text" xml:space="preserve">
+    <value>Recommand</value>
+  </data>
+  <data name="Reviews_Mivie_Title.Text" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
 </root>

@@ -357,7 +357,10 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                             <Run Text="Version：2.1015.* / 2017.2.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1016.* / 2017.2.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="继续完善电影内容页面的本地化" /><LineBreak/><LineBreak/>
+                            
+                             <Run Text="Version：2.1015.2048 / 2017.2.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复异常唤醒知乎UWP的问题" /><LineBreak/>
                             <Run Text="着手本地化电影页面，未完成" /><LineBreak/>
                             <Run Text="明天搬家，休息几天" /><LineBreak/><LineBreak/>
