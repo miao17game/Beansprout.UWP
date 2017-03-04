@@ -357,7 +357,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1016.* / 2017.2.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1017.* / 2017.2.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="公司集训结束，回来接着写代码" /><LineBreak/>
+                            <Run Text="以后变忙，更新频率会低一些" /><LineBreak/>
+                            <Run Text="完成了电影部分热门短评的显示功能" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1016.1338 / 2017.2.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="继续完善电影内容页面的本地化" /><LineBreak/><LineBreak/>
                             
                              <Run Text="Version：2.1015.2048 / 2017.2.19" FontSize="15" FontWeight="Medium" /><LineBreak/>
