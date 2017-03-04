@@ -29,6 +29,7 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Text.RegularExpressions;
 using System.Text;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
 
@@ -124,6 +125,10 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                 GetPageType(NavigateType.MovieContentQuestion));
         }
 
+        private void CommentListView_ItemClick(object sender, ItemClickEventArgs e) {
+
+        }
+
         private void RecommandGridView_ItemClick(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as MovieContentRecommand;
             if (item == null)
@@ -182,6 +187,10 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
             GetFrameInstance(frameType).Content = null;
         }
 
+        /// <summary>
+        /// Update XAML views by url content.
+        /// </summary>
+        /// <param name="uri">this path url</param>
         private async void SetWebViewSourceAsync(Uri uri) {
             try {
                 var result = htmlReturn = await DoubanWebProcess.GetMDoubanResponseAsync(
@@ -201,11 +210,46 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                 var rec_succeed = SetRecommandsList(root.GetSectionNodeContentByClass("subject-rec"));
                 var reviews_succeed = SetReviewsList(root.GetSectionNodeContentByClass("subject-reviews"));
 
-            } catch {
-                System.Diagnostics.Debug.WriteLine("Bug");
+                var interests_succeed = await SetInterestsAsync(uri);
+
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : global wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
 
+        /// <summary>
+        /// Fetch the interests list by movie-id and show them. Regex the uri to get the movie-id.
+        /// </summary>
+        /// <param name="uri">this path url</param>
+        /// <returns>succeed or not</returns>
+        private async Task<bool> SetInterestsAsync(Uri uri) {
+
+            movie_id = new Regex(@"subject/(?<movie_id>.+)").Match(uri.ToString()).Groups["movie_id"].Value;
+            if (movie_id == "")
+                return false;
+
+            var interests_json = await DoubanWebProcess.GetMDoubanResponseAsync(
+                path: $"{"https://"}m.douban.com/rexxar/api/v2/movie/{movie_id}/interests?count={7}&order_by=hot&start={0}&for_mobile=1",
+                host: "m.douban.com",
+                reffer: $"{"https://"}m.douban.com/movie/subject/{movie_id}/?refer=home");
+
+            try {
+                var collection = JsonHelper.FromJson<MovieContentInterestsCollection>(interests_json);
+                model.CommentsList = collection.Interests;
+                return true;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : interests wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Init default state of the model this page.
+        /// </summary>
+        /// <param name="root">html root node</param>
+        /// <returns>succeed or not</returns>
         private bool SetDefaultModelState(HtmlNode root) {
             try {
                 model.Title = root.GetNodeFormat("h1", "class", "title")?.InnerText;
@@ -214,132 +258,199 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                 model.CommentersCount = root.GetNodeFormat("meta", "itemprop", "reviewCount").Attributes["content"].Value;
                 model.Meta = SetMeta(root);
                 return true;
-            } catch {
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : set default model wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return false;
             }
         }
 
+        /// <summary>
+        /// Read the description of the movie in correct format.
+        /// </summary>
+        /// <param name="descrip_group">description node</param>
+        /// <returns>succeed or not</returns>
         private bool SetDescription(HtmlNode descrip_group) {
-            if (descrip_group != null) {
-                model.Intro = descrip_group.GetNodeFormat("div", "class", "bd", false).SelectSingleNode("p").InnerText.Replace("。", "。\n");
-                return true;
+            try{
+                if (descrip_group != null) {
+                    model.Intro = descrip_group.GetNodeFormat("div", "class", "bd", false).SelectSingleNode("p").InnerText.Replace("。", "。\n");
+                    return true;
+                }
+                return false;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : description wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
             }
-            return false;
         }
 
+        /// <summary>
+        /// Read the questions-list of the movie in correct format.
+        /// </summary>
+        /// <param name="questions">questions list node</param>
+        /// <returns>succeed or not</returns>
         private bool SetQuestionList(HtmlNode questions) {
-            if (questions != null) {
-                var new_questions_list = new List<MovieContentQuestion>();
-                var ques_nodes = questions.GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
-                ques_nodes?.ToList()?.ForEach(i => {
-                    var act = i.SelectSingleNode("a");
-                    if (act?.SelectSingleNode("h3") != null)
-                        new_questions_list.Add(new MovieContentQuestion {
-                            UrlPart = act?.Attributes["href"]?.Value,
-                            Title = act?.SelectSingleNode("h3")?.InnerText,
-                            Count = act?.GetNodeFormat("div", "class", "info", false)?.InnerText
-                        });
-                });
-                model.Questions = new_questions_list;
-                return true;
-            }
-            return false;
-        }
-
-        private bool SetReviewsList(HtmlNode questions) {
-            if (questions != null) {
-                var new_questions_list = new List<MovieContentReview>();
-                var ques_nodes = questions.GetNodeFormat("div","class","bd",false).GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
-                ques_nodes?.ToList()?.ForEach(i => {
-                    var act = i.SelectSingleNode("a");
-                    var wp = act.SelectSingleNode("div");
-                    if (act?.SelectSingleNode("h3") != null)
-                        new_questions_list.Add(new MovieContentReview {
-                            UrlPart = act?.Attributes["href"]?.Value,
-                            Title = act?.SelectSingleNode("h3")?.InnerText,
-                            UserName = wp?.GetNodeFormat("span","class","username",false)?.InnerText,
-                            Rating = Convert.ToDouble(wp?.GetNodeFormat("span", "class", "rating-stars", false)?.Attributes["data-rating"].Value) / 10,
-                            UsefulCount = act?.GetNodeFormat("div", "class", "info", false)?.InnerText.Replace(" ","").Substring(1),
-                            Abstract = act?.GetNodeFormat("p", "class", "abstract", false)?.InnerText.Replace(" ", "").Substring(1),
-                        });
-                });
-                model.Reviews = new_questions_list;
-                return true;
-            }
-            return false;
-        }
-
-        private bool SetRecommandsList(HtmlNode questions) {
-            if (questions != null) {
-                var new_questions_list = new List<MovieContentRecommand>();
-                var ques_nodes = questions.GetNodeFormat("div", "class", "bd", false)?.SelectSingleNode("ul")?.SelectNodes("li");
-                ques_nodes?.ToList()?.ForEach(i => {
-                    var act = i.SelectSingleNode("a");
-                    if(act!=null && act.GetNodeFormat("div", "class", "wp", false) != null) {
-                        var wp = act.GetNodeFormat("div", "class", "wp", false);
-                        if (wp?.SelectSingleNode("h3") != null)
-                            new_questions_list.Add(new MovieContentRecommand {
+            try {
+                if (questions != null) {
+                    var new_questions_list = new List<MovieContentQuestion>();
+                    var ques_nodes = questions.GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
+                    ques_nodes?.ToList()?.ForEach(i => {
+                        var act = i.SelectSingleNode("a");
+                        if (act?.SelectSingleNode("h3") != null)
+                            new_questions_list.Add(new MovieContentQuestion {
                                 UrlPart = act?.Attributes["href"]?.Value,
-                                Title = wp?.SelectSingleNode("h3")?.InnerText,
-                                Cover = wp?.SelectSingleNode("img")?.Attributes["src"]?.Value
+                                Title = act?.SelectSingleNode("h3")?.InnerText,
+                                Count = act?.GetNodeFormat("div", "class", "info", false)?.InnerText
                             });
-                    }
-                });
-                model.Recommands = new_questions_list;
-                return true;
+                    });
+                    model.Questions = new_questions_list;
+                    return true;
+                }
+                return false;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : question list wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
             }
-            return false;
         }
 
+        /// <summary>
+        /// Read the reviews-list of the movie in correct format.
+        /// </summary>
+        /// <param name="reviews">reviews list node</param>
+        /// <returns>succeed or not</returns>
+        private bool SetReviewsList(HtmlNode reviews) {
+            try {
+                if (reviews != null) {
+                    var new_questions_list = new List<MovieContentReview>();
+                    var ques_nodes = reviews.GetNodeFormat("div", "class", "bd", false).GetNodeFormat("ul", "class", "list", false)?.SelectNodes("li");
+                    ques_nodes?.ToList()?.ForEach(i => {
+                        var act = i.SelectSingleNode("a");
+                        var wp = act.SelectSingleNode("div");
+                        if (act?.SelectSingleNode("h3") != null)
+                            new_questions_list.Add(new MovieContentReview {
+                                UrlPart = act?.Attributes["href"]?.Value,
+                                Title = act?.SelectSingleNode("h3")?.InnerText,
+                                UserName = wp?.GetNodeFormat("span", "class", "username", false)?.InnerText,
+                                Rating = Convert.ToDouble(wp?.GetNodeFormat("span", "class", "rating-stars", false)?.Attributes["data-rating"].Value) / 10,
+                                UsefulCount = act?.GetNodeFormat("div", "class", "info", false)?.InnerText.Replace(" ", "").Substring(1),
+                                Abstract = act?.GetNodeFormat("p", "class", "abstract", false)?.InnerText.Replace(" ", "").Substring(1),
+                            });
+                    });
+                    model.Reviews = new_questions_list;
+                    return true;
+                }
+                return false;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : review list wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Read the rec-list of the movie in correct format.
+        /// </summary>
+        /// <param name="rec_coll">recommand list node</param>
+        /// <returns>succeed or not</returns>
+        private bool SetRecommandsList(HtmlNode rec_coll) {
+            try {
+                if (rec_coll != null) {
+                    var new_questions_list = new List<MovieContentRecommand>();
+                    var ques_nodes = rec_coll.GetNodeFormat("div", "class", "bd", false)?.SelectSingleNode("ul")?.SelectNodes("li");
+                    ques_nodes?.ToList()?.ForEach(i => {
+                        var act = i.SelectSingleNode("a");
+                        if (act != null && act.GetNodeFormat("div", "class", "wp", false) != null) {
+                            var wp = act.GetNodeFormat("div", "class", "wp", false);
+                            if (wp?.SelectSingleNode("h3") != null)
+                                new_questions_list.Add(new MovieContentRecommand {
+                                    UrlPart = act?.Attributes["href"]?.Value,
+                                    Title = wp?.SelectSingleNode("h3")?.InnerText,
+                                    Cover = wp?.SelectSingleNode("img")?.Attributes["src"]?.Value
+                                });
+                        }
+                    });
+                    model.Recommands = new_questions_list;
+                    return true;
+                }
+                return false;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : recommand list wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Read the image-list of the movie in correct format.
+        /// </summary>
+        /// <param name="img_group">image node</param>
+        /// <returns>succeed or not</returns>
         private bool SetImageList(HtmlNode img_group) {
-            if (img_group != null) {
-                var new_list = new List<string>();
-                var lists = img_group
-                    .GetNodeFormat("div", "class", "bd photo-list", false)
-                    .GetNodeFormat("ul", "class", "wx-preview", false)
-                    .SelectNodes("li[@class='pic']");
-                lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["src"].Value));
-                model.ImageList = new_list;
-                return true;
+            try {
+                if (img_group != null) {
+                    var new_list = new List<string>();
+                    var lists = img_group
+                        .GetNodeFormat("div", "class", "bd photo-list", false)
+                        .GetNodeFormat("ul", "class", "wx-preview", false)
+                        .SelectNodes("li[@class='pic']");
+                    lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["src"].Value));
+                    model.ImageList = new_list;
+                    return true;
+                }
+                return false;
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : images list wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return false;
             }
-            return false;
         }
 
+        /// <summary>
+        /// Read the meta of the movie in correct format.
+        /// </summary>
+        /// <param name="root">html root node</param>
+        /// <returns>string format meta</returns>
         private string SetMeta(HtmlNode root) {
-
             var builder = new StringBuilder();
+            try {
+                var meta = root.GetNodeFormat("p", "class", "meta").InnerText.Replace(" ", "").Replace(@"\n", "");
+                meta = meta.Substring(1, meta.Length - 2);
+                var time = new Regex(@"(?<time>[0-9]{4}-[0-9]{2}-[0-9]{2}.+)").Match(meta).Groups["time"].Value;
+                var meta_coll = meta.Replace(time, "").Split('/').ToList();
+                meta_coll.RemoveAt(meta_coll.Count - 1);
+                var duration = meta_coll[0];
+                meta_coll.RemoveAt(0);
+                var director_index = meta_coll.FindIndex(i => i.Contains("导演"));
+                var director = default(string);
+                var feel_coll = default(List<string>);
+                if (director_index >= 0) {
+                    director = meta_coll[director_index];
+                    meta_coll.RemoveAt(director_index);
+                    feel_coll = meta_coll.Take(director_index).ToList();
+                    meta_coll.RemoveRange(0, director_index);
+                }
+                var actors = string.Join(",", meta_coll);
+                var feels = string.Join(",", feel_coll);
 
-            var meta = root.GetNodeFormat("p", "class", "meta").InnerText.Replace(" ", "").Replace(@"\n", "");
-            meta = meta.Substring(1, meta.Length - 2);
-            var time = new Regex(@"(?<time>[0-9]{4}-[0-9]{2}-[0-9]{2}.+)").Match(meta).Groups["time"].Value;
-            var meta_coll = meta.Replace(time, "").Split('/').ToList();
-            meta_coll.RemoveAt(meta_coll.Count - 1);
-            var duration = meta_coll[0];
-            meta_coll.RemoveAt(0);
-            var director_index = meta_coll.FindIndex(i => i.Contains("导演"));
-            var director = default(string);
-            var feel_coll = default(List<string>);
-            if (director_index >= 0) {
-                director = meta_coll[director_index];
-                meta_coll.RemoveAt(director_index);
-                feel_coll = meta_coll.Take(director_index).ToList();
-                meta_coll.RemoveRange(0, director_index);
+                if (actors.Length >= 120)
+                    actors = actors.Substring(0, 120) + "...";
+
+                return builder
+                    .AppendLine(duration)
+                    .AppendLine(feels)
+                    .AppendLine()
+                    .AppendLine(director)
+                    .AppendLine(actors)
+                    .AppendLine()
+                    .AppendLine(time)
+                    .ToString();
+
+            } catch (Exception e) {
+                System.Diagnostics.Debug.WriteLine("Build native movie content page wrong : set meta area wrong.");
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return builder.ToString();
             }
-            var actors = string.Join(",", meta_coll);
-            var feels = string.Join(",", feel_coll);
-
-            if (actors.Length >= 120)
-                actors = actors.Substring(0, 120) + "...";
-
-            return builder
-                .AppendLine(duration)
-                .AppendLine(feels)
-                .AppendLine()
-                .AppendLine(director)
-                .AppendLine(actors)
-                .AppendLine()
-                .AppendLine(time)
-                .ToString();
         }
 
         #region Show Images
@@ -391,6 +502,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         #endregion
 
         #region Properties
+        string movie_id;
         string htmlReturn;
         bool isFromInfoClick;
         FrameType frameType;

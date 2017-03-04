@@ -923,4 +923,7 @@
   <data name="Reviews_Mivie_Title.Text" xml:space="preserve">
     <value>热门影评</value>
   </data>
+  <data name="Comments_Mivie_Title.Text" xml:space="preserve">
+    <value>热门短评</value>
+  </data>
 </root>

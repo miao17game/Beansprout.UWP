@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Serialization;
+using static Douban.UWP.Core.Models.ListModel.ListItemBase;
+using Douban.UWP.Core.Models.LifeStreamModels;
 
 namespace Douban.UWP.NET.Models {
     public class MovieContentVM : ViewModelBase {
@@ -71,9 +74,9 @@ namespace Douban.UWP.NET.Models {
             set { _images_list = value; RaisePropertyChanged("ImageList"); }
         }
 
-        IList<object> _comments_list;
-        public IList<object> CommentsList {
-            get { return _comments_list ?? (_comments_list = new List<object>()); }
+        IList<MovieContentInterest> _comments_list;
+        public IList<MovieContentInterest> CommentsList {
+            get { return _comments_list ?? (_comments_list = new List<MovieContentInterest>()); }
             set { _comments_list = value; RaisePropertyChanged("CommentsList"); }
         }
 
@@ -127,6 +130,66 @@ namespace Douban.UWP.NET.Models {
         public string Abstract { get; set; }
 
         public string PathUrl { get { return "https://m.douban.com" + UrlPart ?? ""; } }
+    }
+
+    [DataContract]
+    public class MovieContentInterest {
+
+        [DataMember(Name = "comment")]
+        public string Comment { get; set; }
+
+        [DataMember(Name = "rating")]
+        public MovieContentInterestRating Rating { get; set; }
+
+        [DataMember(Name = "sharing_url")]
+        public string SharingUrl { get; set; }
+
+        [DataMember(Name = "is_voted")]
+        public bool IsVoted { get; set; }
+
+        [DataMember(Name = "Uri")]
+        public string Uri { get; set; }
+
+        [DataMember(Name = "vote_count")]
+        public int VoteCount { get; set; }
+
+        [DataMember(Name = "create_time")]
+        public string CreateTime { get; set; }
+
+        [DataMember(Name = "status")]
+        public string Status { get; set; }
+
+        [DataMember(Name = "user")]
+        public SimpleUserBase User { get; set; }
+
+        [DataMember(Name = "id")]
+        public string ID { get; set; }
+
+    }
+
+    [DataContract]
+    public class MovieContentInterestRating : ItemRatingBase {
+
+        [DataMember(Name = "star_count")]
+        public int RatingStarCount { get; set; }
+
+    }
+
+    [DataContract]
+    public class MovieContentInterestsCollection {
+
+        [DataMember(Name = "count")]
+        public int Count { get; set; }
+
+        [DataMember(Name = "start")]
+        public int Start { get; set; }
+
+        [DataMember(Name = "total")]
+        public int Total { get; set; }
+
+        [DataMember(Name = "interests")]
+        public IList<MovieContentInterest> Interests { get; set; }
+
     }
 
 }

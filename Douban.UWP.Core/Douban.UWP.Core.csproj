@@ -130,6 +130,7 @@
     <Compile Include="Models\LifeStreamModels\LifeStreamItem.cs" />
     <Compile Include="Models\LifeStreamModels\PictureItem.cs" />
     <Compile Include="Models\LifeStreamModels\PictureItemBase.cs" />
+    <Compile Include="Models\LifeStreamModels\SimpleUserBase.cs" />
     <Compile Include="Models\LifeStreamModels\StatusCard.cs" />
     <Compile Include="Models\LifeStreamModels\StatusEntity.cs" />
     <Compile Include="Models\LifeStreamModels\StatusItem.cs" />

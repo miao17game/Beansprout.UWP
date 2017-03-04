@@ -9,12 +9,17 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     xmlns:animations="using:Douban.UWP.NET.Behaviors"
+    xmlns:Converters="using:Douban.UWP.Tools.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <control:BaseContentPage.DataContext>
         <model:MovieContentVM x:Name="MCVM"/>
     </control:BaseContentPage.DataContext>
+
+    <control:BaseContentPage.Resources>
+        <Converters:ValueConverter x:Key="ValueConverter"/>
+    </control:BaseContentPage.Resources>
 
     <Grid Background="{ThemeResource DoubanBackground04}"
           SizeChanged="Grid_SizeChanged"
@@ -350,6 +355,95 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
+                <Grid MaxWidth="800" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Height="25" Width="5" Fill="{ThemeResource DoubanForeground08}"/>
+                    <TextBlock x:Uid="Comments_Mivie_Title" FontSize="18" Margin="5" Grid.Column="1"/>
+                </Grid>
+                <ListView ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}"
+                          ItemsSource="{Binding CommentsList}" 
+                          ItemClick="CommentListView_ItemClick"
+                          SelectionMode="None" 
+                          MaxWidth="800"
+                          IsItemClickEnabled="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <StackPanel Margin="5,0,5,5" Grid.Row="3"  Orientation="Horizontal">
+                                    <TextBlock Text="&#xE19F;" 
+                                               Margin="0,5,5,5"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14"
+                                               Foreground="{ThemeResource DoubanForeground08}"/>
+                                    <TextBlock Text="{Binding VoteCount}" 
+                                               FontSize="13"
+                                               Margin="0,3,5,5"
+                                               Foreground="{ThemeResource DoubanForeground08}"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Comment}" 
+                                           Grid.Row="2"
+                                           TextWrapping="WrapWholeWords"
+                                           FontSize="14"
+                                           FontWeight="Thin"
+                                           Margin="5"/>
+                                <Grid Grid.Row="1" Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse Height="40" Width="40" Grid.RowSpan="2" Margin="0,5,5,5">
+                                        <Ellipse.Fill>
+                                            <ImageBrush ImageSource="{Binding User.Avatar}" Stretch="UniformToFill"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                        <TextBlock Text="{Binding User.Name}" 
+                                           TextWrapping="WrapWholeWords"
+                                           VerticalAlignment="Center"
+                                           FontSize="14"
+                                           FontWeight="Thin"/>
+                                        <control:FiveStarControl FontSize="18" 
+                                             Margin="10,0,0,0"
+                                             Grid.Row="2" 
+                                             Height="30"
+                                             MinWidth="120"
+                                             Foreground="White"
+                                             HorizontalAlignment="Left"
+                                             ShowValueVisibility ="Collapsed"
+                                             RatingValue ="{Binding Rating.RatingValue, 
+                                            ConverterParameter=0.5,
+                                            Converter={StaticResource ValueConverter}}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding CreateTime}" 
+                                               Grid.Row="1"
+                                               Grid.Column="1"
+                                               TextWrapping="WrapWholeWords"
+                                               FontSize="13"
+                                               FontWeight="Thin"
+                                               Foreground="#80808080"/>
+                                </Grid>
+                                <Rectangle Height="0.5" 
+                                           Fill="#80808080"
+                                           Margin="5,0,5,0"
+                                           Grid.Row="3" 
+                                           VerticalAlignment="Bottom"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
                 <Grid MaxWidth="800">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
