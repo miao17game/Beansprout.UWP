@@ -9,6 +9,10 @@ namespace Douban.UWP.Core.Tools {
 
     public static class XHtmlHelpers {
 
+        public static string CreateDefaultHtml(string htmlString) {
+            return htmlString;
+        }
+
         public static string CreateHtml(string bodyContent, bool isGlobalDark = true) {
             return @"<html>" + SetHtmlChildren(bodyContent, isGlobalDark) + @"</html>";
         }

@@ -22,6 +22,11 @@ namespace Wallace.UWP.Helpers.Tools {
 
     public static class NativeJavascriptHelper {
 
+        public const string WindowExternalSender = @"
+            function send_path_url(path){
+                window.external.notify(JSON.stringify(path));
+            }";
+
         public const string ScrollHide = @"
             document.body.style.overflow = 'hidden';
             window.external.notify(JSON.stringify('scrollheight:'+document.body.scrollHeight));";

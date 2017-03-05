@@ -184,7 +184,7 @@ namespace Douban.UWP.NET.Resources {
                 return pagesMaps ?? new Func<IDictionary<NavigateType, Type>>(()=> {
                 pagesMaps = new Dictionary<NavigateType, Type> {
                     { NavigateType.Settings,typeof(SettingsPage)},
-                    { NavigateType.Search,typeof(WebContentPage)},
+                    { NavigateType.Search,typeof(GenericNativeWebPage)},
                     { NavigateType.Login,typeof(LoginPage)},
                     { NavigateType.UserInfo,typeof(UserInfoPage)},
                     { NavigateType.InfoItemClick,typeof(WebContentPage)},
