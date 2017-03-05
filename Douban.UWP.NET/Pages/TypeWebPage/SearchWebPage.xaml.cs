@@ -71,7 +71,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
 
             //System.Diagnostics.Debug.WriteLine("Notify CallBack ---->  :  " + e.Value);
 
-            var movie_mess = new Regex(@"/movie/subject/.+/").Match(e.Value).Value;
+            var movie_mess = new Regex(@"(<?content>/movie/subject/.+)/").Match(e.Value).Groups["content"].Value;
             if (movie_mess != "") {
                 var target_path = "https://m.douban.com" + movie_mess;
                 var succeed = Uri.TryCreate(target_path, UriKind.Absolute, out var uri);
