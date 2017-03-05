@@ -1,0 +1,460 @@
+﻿<base:BaseContentPage
+    x:Class="Douban.UWP.NET.Pages.TypeWebPage.SearchWebPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="using:Douban.UWP.NET.Controls"
+    xmlns:local="using:Douban.UWP.NET.Pages.TypeWebPage"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    mc:Ignorable="d">
+
+    <base:BaseContentPage.Resources>
+        <Style x:Key="SpecialTextBox" TargetType="TextBox">
+            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+            <Setter Property="Foreground" Value="{ThemeResource AppPersonalTextColorPure02}" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" />
+            <Setter Property="SelectionHighlightColor" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid>
+                            <Grid.Resources>
+                                <Style x:Name="DeleteButtonStyle" TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="ButtonLayoutGrid" BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Background="{ThemeResource TextBoxButtonBackgroundThemeBrush}">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CommonStates">
+                                                            <VisualState x:Name="Normal" />
+                                                            <VisualState x:Name="PointerOver">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement"
+                                                                 Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppPersonalTextColorPure02}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Pressed">
+                                                                <Storyboard>
+                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement"
+                                                                 Storyboard.TargetProperty="Foreground">
+                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppPersonalTextColorPure02}" />
+                                                                    </ObjectAnimationUsingKeyFrames>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Disabled">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetName="ButtonLayoutGrid"
+                                                   Storyboard.TargetProperty="Opacity"
+                                                   To="0"
+                                                   Duration="0" />
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <TextBlock x:Name="GlyphElement"
+                                      Foreground="{ThemeResource SystemControlForegroundChromeBlackMediumBrush}"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      FontStyle="Normal"
+                                      FontSize="12"
+                                      Text="&#xE10A;"
+                                      FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                      AutomationProperties.AccessibilityView="Raw"/>
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter"
+                                                       Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                     Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
+                                                     Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="#80808080" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                     Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeWhiteBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
+                                                     Storyboard.TargetProperty="Opacity">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
+                                                     Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DoubanForeground01 }" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
+                                                     Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Black"  />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
+                                                     Storyboard.TargetProperty="RequestedTheme">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Default" />
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="ButtonStates">
+                                    <VisualState x:Name="ButtonVisible">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton"
+                                                     Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="ButtonCollapsed" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Border x:Name="BackgroundElement"
+                      Grid.Row="1"
+                      Background="{TemplateBinding Background}"
+                      Margin="{TemplateBinding BorderThickness}"
+                      Opacity="{ThemeResource TextControlBackgroundRestOpacity}"
+                      Grid.ColumnSpan="2"
+                      Grid.RowSpan="1"/>
+                            <Border x:Name="BorderElement"
+                      Grid.Row="1"
+                      BorderBrush="{ThemeResource AppScrollViewerForeground02}"
+                      BorderThickness="0"
+                      Grid.ColumnSpan="2"
+                      Grid.RowSpan="1"/>
+                            <ContentPresenter x:Name="HeaderContentPresenter"
+                                x:DeferLoadStrategy="Lazy"
+                                Visibility="Collapsed"
+                                Grid.Row="0"
+                                Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
+                                Margin="0,0,0,8"
+                                Grid.ColumnSpan="2"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                FontWeight="Normal" />
+                            <ScrollViewer x:Name="ContentElement"
+                            Grid.Row="1"
+                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                            Margin="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            IsTabStop="False"
+                            AutomationProperties.AccessibilityView="Raw"
+                            ZoomMode="Disabled" />
+                            <ContentControl x:Name="PlaceholderTextContentPresenter"
+                            Grid.Row="1" VerticalAlignment="Center"
+                            Foreground="#80808080"
+                            Margin="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            IsTabStop="False"
+                            Grid.ColumnSpan="2"
+                            Content="{TemplateBinding PlaceholderText}"
+                            IsHitTestVisible="False"/>
+                            <Button x:Name="DeleteButton"
+                      Grid.Row="1"
+                                    Foreground="#80808080"
+                      Style="{StaticResource DeleteButtonStyle}"
+                      BorderThickness="{TemplateBinding BorderThickness}"
+                      Margin="{ThemeResource HelperButtonThemePadding}"
+                      IsTabStop="False"
+                      Grid.Column="1"
+                      Visibility="Collapsed"
+                      FontSize="{TemplateBinding FontSize}"
+                      MinWidth="34"
+                      VerticalAlignment="Stretch"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Name="SB">
+            <FadeOutThemeAnimation x:Name="Out_ani" Storyboard.TargetName="ForeBackRec" />
+        </Storyboard>
+    </base:BaseContentPage.Resources>
+
+    <Grid Background="#DDDDDD" SizeChanged="Grid_SizeChanged" >
+
+        <!--#region StateTriggers-->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Mobile360">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                        <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="200"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
+                        <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,10,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="WebGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,0</Setter.Value>
+                        </Setter>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Mobile480">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="361"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                        <Setter Target="navigateTitlePath.(FrameworkElement.MaxWidth)" Value="300"/>
+                        <Setter Target="BasePartBorder.(FrameworkElement.Height)" Value="80"/>
+                        <Setter Target="LineGrid.(FrameworkElement.Height)" Value="95"/>
+                        <Setter Target="navigateTitlePath.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,10,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,20,0,0</Setter.Value>
+                        </Setter>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
+                        <Setter Target="WebGrid.(FrameworkElement.Margin)" >
+                            <Setter.Value>0,80,0,0</Setter.Value>
+                        </Setter>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Desktop">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="400" MinWindowWidth="800"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_Tablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="700" MinWindowWidth="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="DesktopExtra_LightTablet">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="1300"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <!--#endregion-->
+
+        <Grid Name="WebGrid" Margin="0,70,0,0">
+            <WebView Name="webView" 
+                     Margin="0,-50,0,0"
+                     Visibility="Visible"
+                     DOMContentLoaded="WebView_DOMContentLoadedAsync"
+                     NavigationStarting="WebView_NavigationStarting"
+                     ContentLoading="WebView_ContentLoading"
+                     SizeChanged="WebView_SizeChanged"
+                     ScriptNotify="WebView_ScriptNotify"/>
+            <Rectangle Name="ForeBackRec" Fill="{ThemeResource DoubanForeground03}"/>
+            <controls:DropShadowPanel BlurRadius="8" 
+                                      Loaded="Search_Grid_Loaded"
+                                      Name="Search_Grid"
+                                      ShadowOpacity="0.2"
+                                      OffsetX="2"
+                                      OffsetY="2"
+                                      Color="Black"
+                                      VerticalAlignment="Top"
+                                      MaxWidth="650" >
+                <Grid Background="White" Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Margin="5,5,5,5"
+                        CornerRadius="5" 
+                        BorderThickness="0.5"
+                        BorderBrush="#80808080"
+                        Grid.Column="0">
+                        <TextBox Background="Transparent" 
+                             Name="SearchBox"
+                             x:Uid="SearchBox_Placeholder"
+                             Margin="10,5,10,5" 
+                             VerticalAlignment="Center" 
+                             FontWeight="Thin"
+                             Foreground="Black"
+                             Style="{StaticResource SpecialTextBox}"/>
+                    </Border>
+                    <Button Grid.Column="1" 
+                        VerticalAlignment="Stretch"
+                        Margin="2,5,5,5"
+                        Name="SearchBtn"
+                        x:Uid="Douban_Search" 
+                        FontSize="14"
+                        MinWidth="70"
+                        Background="{ThemeResource DoubanBackground04}"
+                        Style="{StaticResource SpecialButtonAbort}" 
+                        HorizontalAlignment="Stretch" 
+                        Click="SearchBtn_Click"/>
+                </Grid>
+            </controls:DropShadowPanel>
+        </Grid>
+
+        <Border Name="IncrementalLoadingBorder" 
+                Background="#FC202020" 
+                Opacity="0.5" 
+                Height=" 60" 
+                VerticalAlignment="Bottom"
+                Visibility="Collapsed">
+            <Image Name="IncrementalLoading" 
+                   Visibility="Visible" 
+                   Source="/Assets/loading_grey.gif" 
+                   Width="30" 
+                   Height="30" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Center" 
+                   Margin="15"/>
+        </Border>
+
+        <!--#region Head-->
+        <Border Name="BasePartBorder" 
+                            Background="{ThemeResource DoubanForeground03}" 
+                            Height="70" VerticalAlignment="Top">
+            <TextBlock Name="navigateTitlePath"
+                       MaxWidth="500"
+                       FontWeight="Bold"
+                       x:Uid="Search_Title"
+                       FontSize="20"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+        </Border>
+        <Button Name="BaseHamburgerButton"
+                            VerticalAlignment="Top"
+                            Content="&#xE26C;"
+                            Width="70"
+                            Height="70"
+                            Click="BaseHamburgerButton_Click"
+                            Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+        <Grid Name="LineGrid" Height="85" VerticalAlignment="Top" >
+            <Rectangle Height="1" 
+                               Margin=" 0,0,0,15" 
+                               VerticalAlignment="Bottom" 
+                               Opacity="0.7"
+                               Fill="{ThemeResource DoubanForeground03}"/>
+            <!--<Rectangle Margin="0,0,0,8" Height=" 7" VerticalAlignment="Bottom">
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                        <GradientStopCollection >
+                            <GradientStop Color="{ThemeResource DoubanShadowColor05}" Offset="0.0"/>
+                            <GradientStop Color="{ThemeResource DoubanShadowColor01}" Offset="0.4"/>
+                            <GradientStop Color="{ThemeResource DoubanShadowColor02}" Offset="0.6"/>
+                            <GradientStop Color="{ThemeResource DoubanShadowColor03}" Offset="0.8"/>
+                            <GradientStop Color="{ThemeResource DoubanShadowColor04}" Offset="1.0"/>
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>-->
+            <Button Name="FullContentBtn"
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right"
+                    Content="&#xE10C;"
+                    Width="70"
+                    Height="70"
+                    FontWeight="Black"
+                    Foreground="White"
+                    Style="{ThemeResource MainPageButtonBackHamburgerStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="FullWebContent" Click="FullContentBtn_Click"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        <!--#endregion-->
+
+    </Grid>
+</base:BaseContentPage>

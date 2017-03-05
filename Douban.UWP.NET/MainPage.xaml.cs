@@ -250,7 +250,7 @@ namespace Douban.UWP.NET {
         private void SearchButton_Click(object sender, RoutedEventArgs e) {
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { Title = GetUIString("SEARCH"), ToUri = new Uri("https://m.douban.com/search/") },
+                new NavigateParameter { Title = GetUIString("SEARCH"), ToUri = new Uri("https://m.douban.com/search/"), IsNative = true },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.Search));
         }

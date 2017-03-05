@@ -927,4 +927,13 @@
   <data name="Comments_Mivie_Title.Text" xml:space="preserve">
     <value>Comments</value>
   </data>
+  <data name="Douban_Search.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchBox_Placeholder.PlaceholderText" xml:space="preserve">
+    <value>Search for books / movies / music / tags...</value>
+  </data>
+  <data name="Search_Title.Text" xml:space="preserve">
+    <value>SEARCH IN DOUBAN</value>
+  </data>
 </root>

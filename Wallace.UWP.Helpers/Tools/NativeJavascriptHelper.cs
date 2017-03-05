@@ -34,14 +34,15 @@ namespace Wallace.UWP.Helpers.Tools {
         public const string ActionLinkExpand = @"
             var coll = document.getElementsByTagName('a');
             for(i=0;i<coll.length;i++){
-                coll[i].setAttribute('onclick','send_path_url(""actionlink:'+ coll[i].getAttribute('href') +'"")');
+                coll[i].setAttribute('onclick',""send_path_url('actionlink:""+ coll[i].getAttribute('href') +""')"");
                 coll[i].setAttribute('href','');
             }";
 
         public const string ImageClick = @"
             var pics = document.getElementsByTagName('img');
             for(i=0;i<pics.length;i++){
-                pics[i].setAttribute('onclick','send_path_url(""picturelink:'+ pics[i].getAttribute('src') +'"")');
+                var image_path = ""send_path_url('picturelink:""+ pics[i].getAttribute('src') +""')"";
+                pics[i].setAttribute('onclick',image_path);
             }";
 
         public const string LikeBtnClick = @"

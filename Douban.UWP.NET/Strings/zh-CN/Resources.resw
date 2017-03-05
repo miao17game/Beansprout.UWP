@@ -926,4 +926,13 @@
   <data name="Comments_Mivie_Title.Text" xml:space="preserve">
     <value>热门短评</value>
   </data>
+  <data name="Douban_Search.Content" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="SearchBox_Placeholder.PlaceholderText" xml:space="preserve">
+    <value>搜索 书 / 影 / 音 / 标签</value>
+  </data>
+  <data name="Search_Title.Text" xml:space="preserve">
+    <value>在豆瓣中搜索</value>
+  </data>
 </root>
