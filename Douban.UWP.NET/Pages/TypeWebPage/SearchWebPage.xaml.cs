@@ -69,11 +69,11 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         private void WebView_ScriptNotify(object sender, NotifyEventArgs e) {
             var callBack = JsonHelper.FromJson<string>(e.Value);
 
-            //System.Diagnostics.Debug.WriteLine("Notify CallBack ---->  :  " + e.Value);
+            System.Diagnostics.Debug.WriteLine("Notify CallBack ---->  :  " + e.Value);
 
-            var movie_mess = new Regex(@"(<?content>/movie/subject/.+)/").Match(e.Value).Groups["content"].Value;
+            var movie_mess = new Regex(@"/movie/subject/(?<movie_id>.+)/").Match(e.Value).Groups["movie_id"].Value;
             if (movie_mess != "") {
-                var target_path = "https://m.douban.com" + movie_mess;
+                var target_path = "https://m.douban.com/movie/subject/" + movie_mess;
                 var succeed = Uri.TryCreate(target_path, UriKind.Absolute, out var uri);
                 if (!succeed)
                     return;
@@ -81,8 +81,9 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
                     null,
                     new NavigateParameter {
                         ToUri = uri,
-                        Title = "LINK CONTENT",
+                        Title = "",
                         IsNative = true,
+                        SpecialParameter = movie_mess,
                         FrameType = FrameType.UpContent
                     },
                     GetFrameInstance(FrameType.UpContent),

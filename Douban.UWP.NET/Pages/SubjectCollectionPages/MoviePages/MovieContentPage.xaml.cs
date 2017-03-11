@@ -48,6 +48,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
             if (isFromInfoClick = args.IsFromInfoClick)
                 GlobalHelpers.SetChildPageMargin(this, matchNumber: VisibleWidth, isDivideScreen: IsDivideScreen);
             frameType = args.FrameType;
+            movie_id_received = args.SpecialParameter as string;
             SetWebViewSourceAsync(currentUri = args.ToUri);
         }
 
@@ -225,9 +226,13 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         /// <returns>succeed or not</returns>
         private async Task<bool> SetInterestsAsync(Uri uri) {
 
-            movie_id = new Regex(@"subject/(?<movie_id>.+)").Match(uri.ToString()).Groups["movie_id"].Value;
-            if (movie_id == "")
-                return false;
+            if (movie_id_received != null) {
+                movie_id = movie_id_received;
+            } else {
+                movie_id = new Regex(@"subject/(?<movie_id>.+)").Match(uri.ToString()).Groups["movie_id"].Value;
+                if (movie_id == "")
+                    return false;
+            }
 
             var interests_json = await DoubanWebProcess.GetMDoubanResponseAsync(
                 path: $"{"https://"}m.douban.com/rexxar/api/v2/movie/{movie_id}/interests?count={7}&order_by=hot&start={0}&for_mobile=1",
@@ -253,7 +258,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         private bool SetDefaultModelState(HtmlNode root) {
             try {
                 model.Title = root.GetNodeFormat("h1", "class", "title")?.InnerText;
-                model.Cover = root.GetNodeFormat("img", "class", "cover").Attributes["src"].Value;
+                model.Cover = root.GetNodeFormat("img", "class", "cover").Attributes["data-src"].Value;
                 model.Rating = Convert.ToDouble(root.GetNodeFormat("meta", "itemprop", "ratingValue").Attributes["content"].Value);
                 model.CommentersCount = root.GetNodeFormat("meta", "itemprop", "reviewCount").Attributes["content"].Value;
                 model.Meta = SetMeta(root);
@@ -366,7 +371,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                                 new_questions_list.Add(new MovieContentRecommand {
                                     UrlPart = act?.Attributes["href"]?.Value,
                                     Title = wp?.SelectSingleNode("h3")?.InnerText,
-                                    Cover = wp?.SelectSingleNode("img")?.Attributes["src"]?.Value
+                                    Cover = wp?.SelectSingleNode("img")?.Attributes["data-src"]?.Value
                                 });
                         }
                     });
@@ -394,7 +399,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
                         .GetNodeFormat("div", "class", "bd photo-list", false)
                         .GetNodeFormat("ul", "class", "wx-preview", false)
                         .SelectNodes("li[@class='pic']");
-                    lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["src"].Value));
+                    lists.ToList().ForEach(i => new_list.Add(i.SelectSingleNode("a").SelectSingleNode("img").Attributes["data-src"].Value));
                     model.ImageList = new_list;
                     return true;
                 }
@@ -505,6 +510,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages.MoviePages {
         string movie_id;
         string htmlReturn;
         bool isFromInfoClick;
+        string movie_id_received;
         FrameType frameType;
         MovieContentVM model;
         #endregion
