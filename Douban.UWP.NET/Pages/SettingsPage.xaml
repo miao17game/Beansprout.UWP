@@ -357,7 +357,14 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1018.* / 2017.3.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1019.* / 2017.3.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复因豆瓣官方改动导致的电影页面图片罢工的问题" /><LineBreak/>
+                            <Run Text="修复了从搜索跳转到电影页面短评不能加载的问题" /><LineBreak/>
+                            <Run Text="公司的华为内网封闭的，没法做个人开发" /><LineBreak/>
+                            <Run Text="应用暂时转入维护状态🤒" /><LineBreak/>
+                            <Run Text="开发者真的太忙了，但并没有弃疗！" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1018.2156 / 2017.3.5" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="完成搜索页面本地化" /><LineBreak/>
                             <Run Text="增加搜索页面内部动画" /><LineBreak/><LineBreak/>
                             
