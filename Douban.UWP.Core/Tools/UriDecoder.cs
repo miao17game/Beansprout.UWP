@@ -14,6 +14,11 @@ namespace Douban.UWP.Core.Tools {
             return $"subject_collection/filter_{type}_" +
                 oldkeys
 
+                .Replace("british", "english")
+                .Replace("chinese", "dimestic")
+
+                .Replace("pop", "popular")
+
                 .Replace("underrated", "unpopular")
                 .Replace("doubantop", "score")
                 .Replace("scifi", "sci-fi")
@@ -26,6 +31,16 @@ namespace Douban.UWP.Core.Tools {
                 .Replace("bio", "biography")
                 .Replace("motivation", "inspiration")
                 .Replace("business", "economic") +
+                "_hot/";
+        }
+
+        public static string EditKeyWordsForTVFilter(string oldkeys, string type = "tv") {
+            return $"subject_collection/filter_{type}_" +
+                oldkeys
+                .Replace("british", "english")
+                .Replace("korean", "korean_drama")
+                .Replace("tvshow", "variety")
+                .Replace("chinese", "dimestic") +
                 "_hot/";
         }
 

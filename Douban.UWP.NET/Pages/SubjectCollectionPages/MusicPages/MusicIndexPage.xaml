@@ -78,7 +78,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" BorderBrush="#80808080" BorderThickness="0,0,0,0.5" Margin="0,0,0,5">
                         <TextBlock FontSize="16" x:Uid="MusicChineseGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newchinese"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="music_chinese"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="InTheaterGridView" 
@@ -128,7 +128,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,5" BorderBrush="#80808080" BorderThickness="0,0,0,0.5">
                         <TextBlock FontSize="16" x:Uid="MusicOccidentGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newwestern"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="music_occident"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="WatchOnlineGridView" 
@@ -178,7 +178,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,5" BorderBrush="#80808080" BorderThickness="0,0,0,0.5">
                         <TextBlock FontSize="16" x:Uid="MusicJapanKoreaGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/music/newjapankorean"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="music_japan_korea"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="LatestGridView" 

@@ -78,7 +78,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40">
                         <TextBlock FontSize="16" x:Uid="TVChineseGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click"
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/tv/chinese"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="tv_domestic"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="InTheaterGridView" 
@@ -119,7 +119,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="TVShowGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/tv/tvshow"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="tv_variety_show"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="WatchOnlineGridView" 
@@ -160,7 +160,7 @@
                     <Grid Background="{ThemeResource DoubanBackground05}" Height="40" Margin="0,-10,0,0">
                         <TextBlock FontSize="16" x:Uid="TVAmericanGroup" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3,0,0,0"/>
                         <Button Style="{ThemeResource ButtonNoAnyShapeStyle}" x:Uid="MoreButton" Click="MoreButton_Click" 
-                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="https://m.douban.com/tv/american"
+                        Foreground="{ThemeResource DoubanForeground}" FontSize="14" CommandParameter="tv_american"
                         HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,3,0"/>
                     </Grid>
                     <GridView x:Name="LatestGridView" 

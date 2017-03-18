@@ -21,7 +21,6 @@ using Douban.UWP.Core.Tools;
 using Newtonsoft.Json.Linq;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Models;
-using System.Diagnostics;
 using Douban.UWP.NET.Controls;
 
 namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
@@ -70,7 +69,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
             if ((total != 0 && offset * count >= total) || isFinished)
                 return null;
             return await FetchMessageFromAPIAsync(
-                formatAPI: FormatPath,
                 headString: api_head,
                 start: (uint)(offset * count),
                 count: (uint)count,
@@ -78,7 +76,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
         }
 
         private async Task<ItemGroup<BookItem>> FetchMessageFromAPIAsync(
-            string formatAPI,
             string headString,
             string loc_id = "108288",
             uint start = 0,
@@ -87,10 +84,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
             var gmodel = default(ItemGroup<BookItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                Debug.WriteLine(string.Format(formatAPI, new object[] { headString, start, count, loc_id, minised }));
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { headString, start, count, loc_id, minised }),
-                    "m.douban.com",
-                    "https://m.douban.com/book/");
+                var result = await BeansproutRequestHelper.FetchTypeCollectionList( headString, loc_id, start, count, minised, SubjectType.TVs);
                 if (result == null) {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
@@ -148,7 +142,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
         FrameType frameType = FrameType.Content;
         IList<BookItem> empty = new List<BookItem>();
         private string LocationUid { get { return IsLogined ? LoginStatus.APIUserinfos?.LocationUid : "108288"; }}
-        const string FormatPath = "https://m.douban.com/rexxar/api/v2/{0}items?os=android&start={1}&count={2}&loc_id={3}&_={4}";
         #endregion
 
     }

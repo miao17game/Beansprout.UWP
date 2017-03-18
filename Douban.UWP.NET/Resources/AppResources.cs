@@ -206,9 +206,9 @@ namespace Douban.UWP.NET.Resources {
                     { NavigateType.BookContent, typeof(WebContentPage)},
                     { NavigateType.BookFilter, typeof(BookCollectionPage)},
                     { NavigateType.MusicContent, typeof(WebContentPage)},
-                    { NavigateType.MusicFilter, typeof(WebContentPage)},
+                    { NavigateType.MusicFilter, typeof(MusicCollectionPage)},
                     { NavigateType.TVContent, typeof(WebContentPage)},
-                    { NavigateType.TVFilter, typeof(WebContentPage)},
+                    { NavigateType.TVFilter, typeof(TVCollectionPage)},
                     { NavigateType.Undefined, typeof(WebContentPage)},
                     { NavigateType.MusicBoard, typeof(FM_SongBoardPage)}
                 };

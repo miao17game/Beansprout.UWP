@@ -357,7 +357,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1019.* / 2017.3.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1020.* / 2017.3.18" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="修复音乐页面遗留的神经病错误" /><LineBreak/>
+                            <Run Text="重构了部分代码，提升稳定性" /><LineBreak/>
+                            <Run Text="启动了音乐、电视分页的二级本地化" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1019.1812 / 2017.3.11" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复因豆瓣官方改动导致的电影页面图片罢工的问题" /><LineBreak/>
                             <Run Text="修复了从搜索跳转到电影页面短评不能加载的问题" /><LineBreak/>
                             <Run Text="公司的华为内网封闭的，没法做个人开发" /><LineBreak/>

@@ -295,33 +295,13 @@ namespace Douban.UWP.NET.Pages {
                                              <link href='style.css' rel='stylesheet' type='text/css'>
                                              <script language='JavaScript1.2' src='nocache.js'></script >
                                              </head><body>" + htmlBodyContent + "</body></html>");
-            //var rootNode = doc.DocumentNode;
-            //var pcCheck = rootNode.SelectSingleNode("//div[@class='top-nav-info']");
-            //var mobileCheck = rootNode.SelectSingleNode("//div[@id='people-profile']");
-            //if (pcCheck == null && mobileCheck == null) {// login failed.
-            //    ReportHelper.ReportAttention(GetUIString("LoginFailed"));
             if (htmlBodyContent.Contains("验证码")) {// login failed.
-                //NativeLoginPanel.SetVisibility(false);
                 ReportHelper.ReportAttentionAsync(GetUIString("LoginFailed"));
             } else {
                 // login successful...
                 MainLoginPopup.IsOpen = false;
                 try {
-                    var result = await DoubanWebProcess.PostDoubanResponseAsync(
-                        path: "https://frodo.douban.com/service/auth2/token",
-                        host: "frodo.douban.com",
-                        reffer: null,
-                        content:
-                        new HttpFormUrlEncodedContent(new List<KeyValuePair<string, string>> {
-                            new KeyValuePair<string, string>("client_id","0dad551ec0f84ed02907ff5c42e8ec70"),
-                            new KeyValuePair<string, string>("client_secret","9e8bb54dc3288cdf"),
-                            new KeyValuePair<string, string>("redirect_uri","frodo://app/oauth/callback/"),
-                            new KeyValuePair<string, string>("grant_type","password"),
-                            new KeyValuePair<string, string>("username", EmailBox.Text),
-                            new KeyValuePair<string, string>("password", PasswordBox.Password),
-                            new KeyValuePair<string, string>("os_rom","android"),
-                        }),
-                        isMobileDevice: true);
+                    string result = await BeansproutRequestHelper.AccessOauth2Token(EmailBox.Text, PasswordBox.Password);
                     var tokenReturn = default(APITokenReturn);
                     try {
                         JObject jo = JObject.Parse(result);
@@ -395,8 +375,7 @@ namespace Douban.UWP.NET.Pages {
                 cryptographicKey = objAlg.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(CipherEncryptionHelper.CollForKeyAndIv));
                 ibufferVector = CryptographicBuffer.CreateFromByteArray(CipherEncryptionHelper.CollForKeyAndIv);
 
-                var Password = SettingsHelper.ReadSettingsValue(SettingsConstants.Password) as byte[];
-                if (Password != null) { // init ibuffer vector and cryptographic key for decryption.
+                if (SettingsHelper.ReadSettingsValue(SettingsConstants.Password) is byte[] Password) { // init ibuffer vector and cryptographic key for decryption.
 
                     stringColl[1] = CipherEncryptionHelper.CipherDecryption( // decryption the message.
                         SymmetricAlgorithmNames.AesCbcPkcs7,
@@ -406,9 +385,8 @@ namespace Douban.UWP.NET.Pages {
                         cryptographicKey);
                 }
 
-                var User = SettingsHelper.ReadSettingsValue(SettingsConstants.Email) as byte[];
-                if (User != null) { // init ibuffer vector and cryptographic key for decryption.
-                    
+                if (SettingsHelper.ReadSettingsValue(SettingsConstants.Email) is byte[] User) { // init ibuffer vector and cryptographic key for decryption.
+
                     stringColl[0] = CipherEncryptionHelper.CipherDecryption( // decryption the message.
                         SymmetricAlgorithmNames.AesCbcPkcs7,
                         CryptographicBuffer.CreateFromByteArray(User),
@@ -472,8 +450,7 @@ namespace Douban.UWP.NET.Pages {
                         cryptographicKey);
                 }
 
-                var User = SettingsHelper.ReadSettingsValue(SettingsConstants.Email) as byte[];
-                if (User != null) { // init ibuffer vector and cryptographic key for decryption.
+                if (SettingsHelper.ReadSettingsValue(SettingsConstants.Email) is byte[] User) { // init ibuffer vector and cryptographic key for decryption.
                     EmailBox.Text = CipherEncryptionHelper.CipherDecryption( // decryption the message.
                         SymmetricAlgorithmNames.AesCbcPkcs7,
                         CryptographicBuffer.CreateFromByteArray(User),

@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Navigation;
 using Newtonsoft.Json.Linq;
 using Windows.UI;
 using Douban.UWP.Core.Models;
+using System.Text.RegularExpressions;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -37,11 +38,11 @@ namespace Douban.UWP.NET.Pages {
 
         private async void InitWhenNavigatedAsync() {
             var MusicChineseResult = await SetGridViewResourcesAsync("music_chinese");
-            MusicChineseResources.Source = MusicChineseResult != null ? MusicChineseResult.Items : null;
+            MusicChineseResources.Source = MusicChineseResult?.Items;
             var MusicOccidentResult = await SetGridViewResourcesAsync("music_occident");
-            MusicOccidentResources.Source = MusicOccidentResult != null ? MusicOccidentResult.Items : null;
+            MusicOccidentResources.Source = MusicOccidentResult?.Items;
             var MusicJAndKResult = await SetGridViewResourcesAsync("music_japan_korea");
-            MusicJAndKResources.Source = MusicJAndKResult != null ? MusicJAndKResult.Items : null;
+            MusicJAndKResources.Source = MusicJAndKResult?.Items;
             var webResult = await DoubanWebProcess.GetMDoubanResponseAsync("https://m.douban.com/music/");
             SetWrapPanelResources(webResult);
             SetFilterResources(webResult);
@@ -104,7 +105,6 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<ItemGroup<MusicItem>> SetGridViewResourcesAsync(string groupName) {
             return await FetchMessageFromAPIAsync(
-                formatAPI: FormatPath,
                 group: groupName,
                 count: 13,
                 loc_id: GetLocalUid());
@@ -115,7 +115,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async Task<ItemGroup<MusicItem>> FetchMessageFromAPIAsync(
-            string formatAPI,
             string group,
             string loc_id = "108288",
             uint start = 0,
@@ -124,9 +123,7 @@ namespace Douban.UWP.NET.Pages {
             var gmodel = default(ItemGroup<MusicItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
-                    "m.douban.com",
-                    "https://m.douban.com/music/");
+                var result = await BeansproutRequestHelper.FetchTypeCollectionList(group, loc_id, start, count, minised, SubjectType.Music, RequestType.SubjectCollection);
                 if (result == null) {
                     ReportWhenGoesWrong("WebActionError");
                     return gmodel;
@@ -174,9 +171,10 @@ namespace Douban.UWP.NET.Pages {
             var path = (sender as Button).CommandParameter as string;
             if (path == null)
                 return;
+            var keyword = $"subject_collection/{path}/";
             NavigateToBase?.Invoke( // change loc_id to adjust location.
                 null,
-                new NavigateParameter { ToUri = new Uri(path + "?loc_id=108288"), Title = GetUIString("DB_MUSIC") },
+                new NavigateParameter { ToUri = null, ApiHeadString = keyword, Title = GetUIString("DB_MUSIC") },
                 GetFrameInstance(FrameType.Content),
                 GetPageType(NavigateType.MusicFilter));
         }
@@ -189,18 +187,21 @@ namespace Douban.UWP.NET.Pages {
                 null,
                 new NavigateParameter { ToUri = new Uri(item.PathUrl) , Title = item.Title },
                 GetFrameInstance(FrameType.Content),
-                GetPageType(NavigateType.MovieContent));
+                GetPageType(NavigateType.MusicContent));
         }
 
         private void FilterGridView_ItemClick(object sender, ItemClickEventArgs e) {
             var item = e.ClickedItem as ItemGroup<MusicItem>;
             if (item == null || item.GroupPathUrl == null)
                 return;
+            var keyword = new Regex(@"/music/(?<key_word>.+)").Match(item.GroupPathUrl).Groups["key_word"].Value;
+            if (keyword != "")
+                keyword = UriDecoder.EditKeyWordsForFilter(keyword, "music");
             NavigateToBase?.Invoke(
                 null,
-                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl) , Title = item.GroupName },
+                new NavigateParameter { ToUri = new Uri(item.GroupPathUrl), ApiHeadString = keyword, Title = item.GroupName },
                 GetFrameInstance(FrameType.Content),
-                GetPageType(NavigateType.MovieFilter));
+                GetPageType(NavigateType.MusicFilter));
         }
 
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e) {
@@ -208,8 +209,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         #region Properties
-
-        string FormatPath = "https://m.douban.com/rexxar/api/v2/subject_collection/{0}/items?os=windows&start={1}&count={2}&loc_id={3}&_={4}";
 
         #endregion
         

@@ -235,15 +235,7 @@ namespace Douban.UWP.NET.Pages.TypeWebPage {
         /// <param name="value">web string contrnt</param>
         /// <returns></returns>
         private string WebStringNative(string value) {
-            //var maxWidthPercent = "100";
-            //return XHtmlHelpers.CreateDefaultHtml(value.Replace("\n", "<br/>"));
             return XHtmlHelpers.CreateHtml(value.Replace("\n", "<br/>"), IsGlobalDark);
-                //.Replace(@"<img data-src", $@"<img style='max-width:{maxWidthPercent}%' src")  // adapt image size
-                //.Replace(@"<div class='cc'>", @"<div>")  // commen div class
-                //.Replace(@"href=""/", $@"href=""{htmlFormatHead}")  // correct url fprmat
-                //.Replace(@"<div class=""like-btn""", @"<div class=""like-btn"" id='yeslike-btn'")
-                //.Replace(@"<div class=""like-btn """, @"<div class=""like-btn"" id='yeslike-btn'")  // add id to like-btn
-                //.Replace(@"<div class=""like-btn active""", @"<div class=""like-btn active"" id='dislike-btn'");  // add id to dislike-btn
         }
 
         /// <summary>

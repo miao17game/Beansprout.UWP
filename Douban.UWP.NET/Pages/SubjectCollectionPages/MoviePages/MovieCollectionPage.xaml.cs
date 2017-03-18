@@ -77,7 +77,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
                 if (isFinished || (total != 0 && offset * count >= total))
                     return null;
                 return await FetchMessageFromAPIAsync(
-                    formatAPI: FormatPath,
                     headString: api_head,
                     start: (uint)(offset * count),
                     count: (uint)count,
@@ -86,7 +85,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
         }
 
         private async Task<ItemGroup<MovieItem>> FetchMessageFromAPIAsync(
-            string formatAPI,
             string headString,
             string loc_id = "108288",
             uint start = 0,
@@ -95,9 +93,7 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
             var gmodel = default(ItemGroup<MovieItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { headString, start, count, loc_id, minised }),
-                    "m.douban.com",
-                    "https://m.douban.com/movie/");
+                string result = await BeansproutRequestHelper.FetchTypeCollectionList(headString, loc_id, start, count, minised, SubjectType.Movies);
                 if (result != null) {
                     gmodel = JsonHelper.FromJson<ItemGroup<MovieItem>>(result);
                     if (gmodel.Items == null || gmodel.Items.Count < count)
@@ -141,7 +137,6 @@ namespace Douban.UWP.NET.Pages.SubjectCollectionPages {
         FrameType frameType = FrameType.Content;
         IList<MovieItem> empty = new List<MovieItem>();
         private string LocationUid { get { return IsLogined ? LoginStatus.APIUserinfos?.LocationUid : "108288"; }}
-        const string FormatPath = "https://m.douban.com/rexxar/api/v2/{0}items?os=android&start={1}&count={2}&loc_id={3}&_={4}";
         #endregion
 
     }

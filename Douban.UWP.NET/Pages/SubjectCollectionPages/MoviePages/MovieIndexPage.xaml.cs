@@ -106,7 +106,6 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<ItemGroup<MovieItem>> SetGridViewResourcesAsync(string groupName) {
             return await FetchMessageFromAPIAsync(
-                formatAPI: FormatPath,
                 group: groupName,
                 count: 13,
                 loc_id: GetLocalUid());
@@ -117,7 +116,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private async Task<ItemGroup<MovieItem>> FetchMessageFromAPIAsync(
-            string formatAPI, 
             string group,
             string loc_id = "108288",
             uint start = 0, 
@@ -126,9 +124,7 @@ namespace Douban.UWP.NET.Pages {
             var gmodel = default(ItemGroup<MovieItem>);
             try {
                 var minised = (DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
-                var result = await DoubanWebProcess.GetMDoubanResponseAsync(string.Format(formatAPI, new object[] { group, start, count, loc_id, minised }),
-                    "m.douban.com",
-                    "https://m.douban.com/movie/");
+                var result = await BeansproutRequestHelper.FetchTypeCollectionList(group, loc_id, start, count, minised, SubjectType.Movies, RequestType.SubjectCollection);
                 if (result != null) {
                     gmodel = JsonHelper.FromJson<ItemGroup<MovieItem>>(result);
                 } else {
@@ -217,8 +213,6 @@ namespace Douban.UWP.NET.Pages {
         }
 
         #region Properties
-
-        string FormatPath = "https://m.douban.com/rexxar/api/v2/subject_collection/{0}/items?os=windows&start={1}&count={2}&loc_id={3}&_={4}";
 
         #endregion
         
