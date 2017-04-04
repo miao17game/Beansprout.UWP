@@ -51,7 +51,7 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(HasResharedStatusProperty, value); }
         }
 
-        public static readonly DependencyProperty MorePicturesProperty = DependencyProperty.Register("MorePictures", typeof(List<PictureItemBase>), typeof(StatusPanel), null);
+        public static readonly DependencyProperty MorePicturesProperty = DependencyProperty.Register("MorePictures", typeof(List<PictureItemBase>), typeof(StatusPanel), PropertyMetadata.Create(new List<PictureItemBase>()));
         public List<PictureItemBase> MorePictures {
             get { return GetValue(MorePicturesProperty) as List<PictureItemBase>; }
             set { SetValue(MorePicturesProperty, value); }

@@ -17,6 +17,8 @@ namespace Douban.UWP.Tools.Converters {
             throw new NotImplementedException();
         }
 
-        private List<PictureItemBase> ConvertToVisibility(IList<PictureItemBase> value) { return value as List<PictureItemBase> == null ? new List<PictureItemBase>() : (List<PictureItemBase>)value; }
+        private List<PictureItemBase> ConvertToVisibility(IList<PictureItemBase> value) {
+            return value as List<PictureItemBase> ?? new List<PictureItemBase>();
+        }
     }
 }

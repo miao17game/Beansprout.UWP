@@ -95,52 +95,11 @@ namespace Douban.UWP.NET.Pages {
 
         private void WorkOnEachNote(JToken noteItem, IList<DiaryItem> list) {
             try {
-                var item = CreateDefaultDiaryItem(noteItem);
-                var author = noteItem["author"];
-                if (author.HasValues)
-                    item.Author = InitAuthorStatus(author, author["loc"]);
+                var item = JsonHelper.FromJson<DiaryItem>(noteItem.ToString());
+                item.Type = InfosItemBase.JsonType.Note;
+                item.HasCover = noteItem["cover_url"].Value<string>() == "" ? false : true;
                 list.Add(item);
-            } catch { /* Ignore, item error. */ }
-        }
-
-        private DiaryItem CreateDefaultDiaryItem(JToken note) {
-            return new DiaryItem() {
-                Type = InfosItemBase.JsonType.Note,
-                SharingUrl = note["sharing_url"].Value<string>(),
-                Uri = note["uri"].Value<string>(),
-                LikersCounts = note["likers_count"].Value<string>(),
-                Time = note["create_time"].Value<string>(),
-                CommentsCounts = note["comments_count"].Value<string>(),
-                ID = note["id"].Value<string>(),
-                Domain = note["domain"].Value<string>(),
-                Abstract = note["abstract"].Value<string>(),
-                Title = note["title"].Value<string>(),
-                AllowComment = note["allow_comment"].Value<bool>(),
-                Cover = note["cover_url"].Value<string>() == "" ? new Uri(NoPictureUrl) : new Uri(note["cover_url"].Value<string>()),
-                HasCover = note["cover_url"].Value<string>() == "" ? false : true,
-                TimeLineShareCount = note["timeline_share_count"].Value<int>(),
-                UpdateTime = note["update_time"].Value<string>(),
-                Url = note["url"].Value<string>(),
-            };
-        }
-
-        private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
-            return new AuthorStatus {
-                Kind = author["kind"].Value<string>(),
-                Name = author["name"].Value<string>(),
-                Url = author["url"].Value<string>(),
-                Gender = author["gender"].Value<string>(),
-                //Abstract = author["abstract"].Value<string>(),
-                Uri = author["uri"].Value<string>(),
-                Avatar = author["avatar"].Value<string>(),
-                LargeAvatar = author["large_avatar"].Value<string>(),
-                Type = author["type"].Value<string>(),
-                ID = author["id"].Value<string>(),
-                Uid = author["uid"].Value<string>(),
-                LocationID = location.HasValues ? location["id"].Value<string>() : null,
-                LocationName = location.HasValues ? location["name"].Value<string>() : null,
-                LocationUid = location.HasValues ? location["uid"].Value<string>() : null,
-            };
+            } catch(Exception e) { System.Diagnostics.Debug.WriteLine($"DiaryItem add error : {e.Message + e.StackTrace}"); }
         }
 
         private async Task<IList<DiaryItem>> FetchMoreResourcesAsync(int offset) {
@@ -154,7 +113,7 @@ namespace Douban.UWP.NET.Pages {
 
         #region Properties and state
 
-        int fetchCount = 10;
+        int fetchCount = 20;
         int startCount = 0;
         string uid;
         bool needContinue = true;

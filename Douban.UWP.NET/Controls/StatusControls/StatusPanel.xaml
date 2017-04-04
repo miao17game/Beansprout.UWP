@@ -74,12 +74,12 @@
                 <Border Margin="4,10,5,10" BorderBrush="#30A0A0A0" BorderThickness="0,0.5,0,0.5" 
                         Visibility="{Binding ElementName=HasCardFlag, Path=Text, ConverterParameter=True ,Converter={StaticResource HasCoverConverter}}">
                     <local:StatusCardPanel Grid.Row="1" 
-                    HasCover="{Binding Path=Card.HasImage}" 
-                    Cover="{Binding Path=Card.Image.Large}" 
-                    Title="{Binding Path=Card.Title}" 
-                    Abstract="{Binding Path=Card.SubTitle}"
-                    HasRating="{Binding Path=Card.HasRating}"
-                    Rating="{Binding Path=Card.Rating}"/>
+                                           HasCover="{Binding Path=Card.HasImage}" 
+                                           Cover="{Binding Path=Card.Image.LargeString.Url}" 
+                                           Title="{Binding Path=Card.Title}" 
+                                           Abstract="{Binding Path=Card.SubTitle}"
+                                           HasRating="{Binding Path=Card.HasRating}"
+                                           Rating="{Binding Path=Card.Rating}"/>
                 </Border>
 
             </Grid>
@@ -98,7 +98,7 @@
                     <GridView.ItemTemplate>
                         <DataTemplate>
                             <Border Width="135" MaxHeight="135">
-                                <Image Source="{Binding Normal}" Stretch="UniformToFill"/>
+                                <Image Source="{Binding NormalString.Url}" Stretch="UniformToFill"/>
                             </Border>
                         </DataTemplate>
                     </GridView.ItemTemplate>

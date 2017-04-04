@@ -35,12 +35,12 @@
                                           LikersCount="{x:Bind LikersCounts}"
                                           CommentsCount="{x:Bind CommentsCounts}"
                                           HasText="{x:Bind HasText}"
-                                          HasImages="{x:Bind HasImages}"
                                           HasCard="{x:Bind HasCard}"
                                           ResharesCount="{x:Bind ResharesCounts}"
                                           Card ="{x:Bind Card}"
                                           ResharedStatus ="{x:Bind ResharedStatus}"
                                           HasResharedStatus = "{x:Bind HasResharedStatus}"
+                                          HasImages="{x:Bind HasImages}"
                                           MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -272,6 +272,10 @@ namespace Douban.UWP.NET.Pages {
         private void AddEverySingleton(JToken singleton, List<LifeStreamItem> newList) {
             try {
                 var type = InitLifeStreamType(singleton);
+                //var item = JsonHelper.FromJson<LifeStreamItem>(singleton.ToString());
+                //item.Type = InitLifeStreamType(singleton);
+                //if (item.Type != InfosItemBase.JsonType.Undefined)
+                //    newList.Add(item);
                 var itemToAdd = InitLifeStreamItem(singleton, type);
                 SetSpecialContent(newList, singleton["content"], type, itemToAdd);
             } catch { System.Diagnostics.Debug.WriteLine("AddEverySingleton ERROR"); }
@@ -297,7 +301,8 @@ namespace Douban.UWP.NET.Pages {
                     case InfosItemBase.JsonType.Undefined:
                         break;
                 }
-            } catch { System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
+            } catch {
+                System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
             } finally { if (type != InfosItemBase.JsonType.Undefined) newList.Add(itemToAdd); }
         }
 
@@ -311,7 +316,7 @@ namespace Douban.UWP.NET.Pages {
 
         private LifeStreamItem InitLifeStreamItem(JToken singleton, InfosItemBase.JsonType type) {
             double time = default(double);
-            try { time = (DateTime.Parse(singleton["time"].Value<string>())- new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0 ; }
+            try { time = (DateTime.Parse(singleton["time"].Value<string>()) - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0; }
             return new LifeStreamItem {
                 Type = type,
                 LikersCounts = singleton["likers_count"].Value<string>(),
@@ -416,7 +421,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
-             return new AuthorStatus {
+            return new AuthorStatus {
                 Kind = author["kind"].Value<string>(),
                 Name = author["name"].Value<string>(),
                 Url = author["url"].Value<string>(),
