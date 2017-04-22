@@ -349,8 +349,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void DoWorkWhenNEONSwitchToggled(ToggleSwitch sender) {
-            SetNEONChangesMetroDone(MainMetroFrame, sender.IsOn);
-            SetNEONChangesListDone(MainLeftPartFrame, sender.IsOn);
+            SetNEONChangesMetroDone(MainMetroFrame.Content, sender.IsOn);
+            SetNEONChangesListDone(MainLeftPartFrame.Content, sender.IsOn);
         }
 
         #endregion

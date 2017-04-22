@@ -372,7 +372,10 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                             <Run Text="Version：2.1022.* / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1023.* / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="紧急修复NEON实时修改的反射异常" /><LineBreak/><LineBreak/>
+                            
+                             <Run Text="Version：2.1022.2145 / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="迎接Windows10创意者更新" /><LineBreak/>
                             <Run Text="添加Project NEON支持的高斯透明特性" /><LineBreak/>
                             <Run Text="提供NEON开关，如果严重影响性能请关闭" /><LineBreak/><LineBreak/>
