@@ -66,6 +66,17 @@ namespace Douban.UWP.NET.Resources {
             set { isDivideScreen = value; }
         }
 
+        private static bool? isProjectNEON;
+        public static bool IsProjectNEON {
+            get {
+                return isProjectNEON ?? new Func<bool>(() => {
+                    isProjectNEON = (bool?)SettingsHelper.ReadSettingsValue(SettingsSelect.IsProjectNEON) ?? true;
+                    return isProjectNEON.Value;
+                }).Invoke();
+            }
+            set { isProjectNEON = value; }
+        }
+
         private static double? divideNumber;
         public static double DivideNumber {
             get {

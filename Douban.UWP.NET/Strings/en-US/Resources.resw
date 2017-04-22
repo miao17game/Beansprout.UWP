@@ -936,4 +936,10 @@
   <data name="Search_Title.Text" xml:space="preserve">
     <value>SEARCH IN DOUBAN</value>
   </data>
+  <data name="NEONSwitch.Text" xml:space="preserve">
+    <value>Project NEON(beta)</value>
+  </data>
+  <data name="NEONSwitchSummary.Text" xml:space="preserve">
+    <value>Using new Windows 10 Creator Apis for UI</value>
+  </data>
 </root>

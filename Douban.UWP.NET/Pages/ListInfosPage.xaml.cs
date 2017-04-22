@@ -24,6 +24,7 @@ using Douban.UWP.NET.Controls;
 using System.Diagnostics;
 using Douban.UWP.Core.Models.ImageModels;
 using System.Text.RegularExpressions;
+using Windows.UI.Composition;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -205,11 +206,25 @@ namespace Douban.UWP.NET.Pages {
         private void IndexList_Loaded(object sender, RoutedEventArgs e) {
             scroll = GlobalHelpers.GetScrollViewer(IndexList);
             scroll.ViewChanged += ScrollViewerChangedForFlip;
+            SetNEONOutside(IsProjectNEON);
+        }
+
+        public void SetNEONOutside(bool isNEON) {
+            if (SDKVersion < 15021)
+                return;
+            if (isNEON) {
+                if (glass != null)
+                    glass.IsVisible = true;
+                else
+                    glass = GlobalHelpers.SetProjectNEON(IndexList, 10.0f, 0.15f, 0.85f);
+            } else if (glass != null)
+                glass.IsVisible = false;
         }
 
         #region Properties
-        private ScrollViewer scroll;
-        private string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
+        ScrollViewer scroll;
+        SpriteVisual glass;
+        string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
         #endregion
 
     }

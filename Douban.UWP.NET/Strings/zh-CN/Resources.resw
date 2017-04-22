@@ -935,4 +935,10 @@
   <data name="Search_Title.Text" xml:space="preserve">
     <value>在豆瓣中搜索</value>
   </data>
+  <data name="NEONSwitch.Text" xml:space="preserve">
+    <value>NEON设计语言(beta)</value>
+  </data>
+  <data name="NEONSwitchSummary.Text" xml:space="preserve">
+    <value>使用最新的Windows10创意者更新提供的磨砂透明特效</value>
+  </data>
 </root>

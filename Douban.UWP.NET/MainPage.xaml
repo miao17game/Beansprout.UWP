@@ -153,7 +153,8 @@
         </Storyboard>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground05}" SizeChanged="Grid_SizeChanged" Loaded="Grid_Loaded">
+    <Grid Background="{ThemeResource DoubanBackground05}" Name="rootGrid"
+          SizeChanged="Grid_SizeChanged" Loaded="Grid_Loaded">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />

@@ -202,6 +202,7 @@ namespace Douban.UWP.NET.Pages {
             LanguageCombox.SelectedItem = GetComboItemFromTag((string)SettingsHelper.ReadSettingsValue(SettingsSelect.Language) ?? ConstFields.English_US);
             ToastCombox.SelectedItem = GetComboItemFromTag(ToastVoice);
             ThemeSwitch.IsOn = IsGlobalDark;
+            NEONSwitch.IsOn = IsProjectNEON;
             ScreenSwitch.IsOn = IsDivideScreen;
             ToastSendSwitch.IsOn = IsToastEnable;
             SplitSizeSlider.Value = 100 * DivideNumber;
@@ -231,6 +232,11 @@ namespace Douban.UWP.NET.Pages {
         private void OnScreenSwitchToggled(ToggleSwitch sender) {
             SaveDivideSettings(IsDivideScreen = sender.IsOn);
             DoWorkWhenScreenSwitchToggled(sender);
+        }
+
+        private void OnNEONSwitchToggled(ToggleSwitch sender) {
+            SaveNEONSettings(IsProjectNEON = sender.IsOn);
+            DoWorkWhenNEONSwitchToggled(sender);
         }
 
         private void OnToastSendSwitchToggled(ToggleSwitch sender) {
@@ -269,6 +275,10 @@ namespace Douban.UWP.NET.Pages {
             SettingsHelper.SaveSettingsValue(SettingsSelect.IsDivideScreen, isDivideScreen);
         }
 
+        private void SaveNEONSettings(bool isNEON) {
+            SettingsHelper.SaveSettingsValue(SettingsSelect.IsProjectNEON, isNEON);
+        }
+
         private void SaveThemeSettings(bool isDarkOrNot) {
             SettingsHelper.SaveSettingsValue(SettingsConstants.IsDarkThemeOrNot, isDarkOrNot);
         }
@@ -294,6 +304,19 @@ namespace Douban.UWP.NET.Pages {
                 AdaptForFrameDivide(MainMetroFrame.Content, DivideNumber, IsDivideScreen);
         }
 
+        private void SetNEONChangesMetroDone(object content, bool isOn) {
+            if (content == null)
+                return;
+            if (GetTypeName(content) == typeof(MetroPage).Name)
+                (content as MetroPage)?.SetNEONOutside(isOn);
+        }
+
+        private void SetNEONChangesListDone(object content, bool isOn) {
+            if (content == null)
+                return;
+            if (GetTypeName(content) == typeof(ListInfosPage).Name)
+                (content as ListInfosPage)?.SetNEONOutside(isOn);
+        }
 
         private void SetChangesDone(Frame frame, double value) {
             if (frame.Content == null)
@@ -323,6 +346,11 @@ namespace Douban.UWP.NET.Pages {
             SetMetroChangesDone();
             if (sender.IsOn && VisibleWidth > FormatNumber && MainMetroFrame.Content == null)
                 NavigateToMetroPage();
+        }
+
+        private void DoWorkWhenNEONSwitchToggled(ToggleSwitch sender) {
+            SetNEONChangesMetroDone(MainMetroFrame, sender.IsOn);
+            SetNEONChangesListDone(MainLeftPartFrame, sender.IsOn);
         }
 
         #endregion
@@ -428,6 +456,7 @@ namespace Douban.UWP.NET.Pages {
             static private Dictionary<string, ToggleSwitch> switchSettingsMaps = new Dictionary<string, ToggleSwitch> {
                 { Current.ThemeSwitch.Name,Current.ThemeSwitch},
                 { Current.ScreenSwitch.Name,Current.ScreenSwitch},
+                { Current.NEONSwitch.Name,Current.NEONSwitch},
                 { Current.ToastSendSwitch.Name,Current.ToastSendSwitch},
         };
 
@@ -435,6 +464,7 @@ namespace Douban.UWP.NET.Pages {
             static private Dictionary<string, SwitchEventHandler> switchHandlerMaps = new Dictionary<string, SwitchEventHandler> {
                 { Current.ThemeSwitch.Name, new SwitchEventHandler(instance=> { Current.OnThemeSwitchToggled(GetSwitchInstance(instance)); }) },
                 { Current.ScreenSwitch.Name, new SwitchEventHandler(instance=> { Current.OnScreenSwitchToggled(GetSwitchInstance(instance)); }) },
+                { Current.NEONSwitch.Name, new SwitchEventHandler(instance=> { Current.OnNEONSwitchToggled(GetSwitchInstance(instance)); }) },
                 { Current.ToastSendSwitch.Name, new SwitchEventHandler(instance=> { Current.OnToastSendSwitchToggled(GetSwitchInstance(instance)); }) },
         };
 

@@ -20,5 +20,6 @@
         public const string MusicServiceVolumn = "MUSIC_SERVICE_VOLUMN";
         public const string ToastVoice = "TOAST_VOICE";
         public const string IsToastEnable = "IS_TOAST_ENABLE";
+        public const string IsProjectNEON = "IS_PROJECT_NEON";
     }
 }

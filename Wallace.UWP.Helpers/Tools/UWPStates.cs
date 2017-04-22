@@ -47,6 +47,18 @@ namespace Wallace.UWP.Helpers.Tools {
 
         public static string GetUIString(string id) { return ResLoader.GetString(id); }
 
+        public static ulong SDKVersion { get { return (ulong.Parse(AnalyticsInfo.VersionInfo.DeviceFamilyVersion) & 0x00000000FFFF0000L) >> 16; } }
+
+        public static string GetSystemVersion { get { return AnalyticsInfo.VersionInfo.DeviceFamilyVersion; } }
+
+        public static string GetSystemOSBuild() {
+            string sv = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
+            ulong v = ulong.Parse(sv);
+            ulong v3 = (v & 0x00000000FFFF0000L) >> 16;
+            ulong v4 = (v & 0x000000000000FFFFL);
+            return $"{v3}.{v4}";
+        }
+
         /// <summary>
         /// Adaptive the screen when you app running on a mobile device with vitual navigation bar.
         /// </summary>

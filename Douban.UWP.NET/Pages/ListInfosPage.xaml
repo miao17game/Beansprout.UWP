@@ -19,7 +19,7 @@
         <Converters:IListToListConverter x:Key="IListToListConverter"/>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource DoubanBackground05}">
+    <Grid Name="root" Background="{ThemeResource DoubanBackground05}">
 
         <RelativePanel>
             <!--#region FlipView Content-->

@@ -15,6 +15,9 @@ using Windows.UI;
 using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.UI.Core;
+using Windows.UI.Composition;
+using Windows.UI.Xaml.Hosting;
+using Microsoft.Graphics.Canvas.Effects;
 
 namespace Douban.UWP.NET.Tools {
     public static class GlobalHelpers {
@@ -23,6 +26,33 @@ namespace Douban.UWP.NET.Tools {
 
         public static IAsyncAction UpdateUI(this CoreDispatcher dispatcher, DispatchedHandler handle) {
             return dispatcher.RunAsync(CoreDispatcherPriority.Normal, handle);
+        }
+
+        public static SpriteVisual SetProjectNEON(UIElement root,Single rads = 20.0f, Single src1 = 0.99f, Single src2 = 0.01f) {
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(root);
+            Compositor compositor = hostVisual.Compositor;
+            var glassEffect = new GaussianBlurEffect {
+                BlurAmount = rads,
+                BorderMode = EffectBorderMode.Hard,
+                Source = new ArithmeticCompositeEffect {
+                    MultiplyAmount = 0,
+                    Source1Amount = src1,
+                    Source2Amount = src2,
+                    Source1 = new CompositionEffectSourceParameter("backdropBrush"),
+                    Source2 = new ColorSourceEffect { Color = Windows.UI.Color.FromArgb(30, 0, 0, 0) }
+                },
+            };
+            var effectFactory = compositor.CreateEffectFactory(glassEffect);
+            var backdropBrush = compositor.CreateHostBackdropBrush();
+            var effectBrush = effectFactory.CreateBrush();
+            effectBrush.SetSourceParameter("backdropBrush", backdropBrush);
+            var glassVisual = compositor.CreateSpriteVisual();
+            glassVisual.Brush = effectBrush;
+            ElementCompositionPreview.SetElementChildVisual(root, glassVisual);
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
+            return glassVisual;
         }
 
         public static LoginStatusBag GetLoginStatus(HtmlAgilityPack.HtmlDocument doc) {

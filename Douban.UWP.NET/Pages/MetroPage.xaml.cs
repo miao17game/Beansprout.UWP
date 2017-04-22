@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Wallace.UWP.Helpers;
 using Douban.UWP.Core.Tools;
 using HtmlAgilityPack;
+using Windows.UI.Composition;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -34,6 +35,19 @@ namespace Douban.UWP.NET.Pages {
             SetUserStatus();
             if (!IsLogined)
                 await TryLoginAsync(true);
+            SetNEONOutside(IsProjectNEON);
+        }
+
+        public void SetNEONOutside(bool isNEON) {
+            if (SDKVersion < 15021)
+                return;
+            if (isNEON) {
+                if (glass != null) 
+                    glass.IsVisible = true;
+                else 
+                    glass = GlobalHelpers.SetProjectNEON(BackImage);
+            } else if (glass != null) 
+                    glass.IsVisible = false;
         }
 
         private void InitPageState() {
@@ -202,6 +216,7 @@ namespace Douban.UWP.NET.Pages {
         }
 
         List<MetroChangeItem> forCache = new List<MetroChangeItem>();
+        SpriteVisual glass;
 
     }
 

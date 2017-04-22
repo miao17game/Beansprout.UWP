@@ -141,6 +141,21 @@
                         </Grid>
                         <Grid Margin="10,10,10,0" >
                             <StackPanel Orientation="Vertical">
+                                <TextBlock x:Uid="NEONSwitch"
+                                   Style="{StaticResource TitleTextStyle}"/>
+                                <TextBlock x:Uid="NEONSwitchSummary"
+                                   Style="{StaticResource SummaryTextStyle}"/>
+                            </StackPanel>
+                            <ToggleSwitch Name="NEONSwitch" 
+                                      Style="{ThemeResource ThemeModeSwitch}" 
+                                      HorizontalAlignment="Right"
+                                      Margin="0,0,-100,0"
+                                      OnContent=" " 
+                                      OffContent=" " 
+                                      Toggled="Switch_Toggled" />
+                        </Grid>
+                        <Grid Margin="10,10,10,0" >
+                            <StackPanel Orientation="Vertical">
                                 <TextBlock x:Uid="SplitMode"
                                    Style="{StaticResource TitleTextStyle}"/>
                                 <TextBlock x:Uid="SplitSummary"
@@ -357,7 +372,12 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1021.* / 2017.4.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                             <Run Text="Version：2.1022.* / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="迎接Windows10创意者更新" /><LineBreak/>
+                            <Run Text="添加Project NEON支持的高斯透明特性" /><LineBreak/>
+                            <Run Text="提供NEON开关，如果严重影响性能请关闭" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1021.2233 / 2017.4.4" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="修复个人主页广播部分遗留的严重UI卡死问题" /><LineBreak/>
                             <Run Text="重写了个人主页得广播和日记的获取" /><LineBreak/>
                             <Run Text="可靠性和性能提升，顺便刷个版本号🙄🐸" /><LineBreak/><LineBreak/>
