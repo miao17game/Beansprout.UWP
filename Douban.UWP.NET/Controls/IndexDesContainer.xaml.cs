@@ -42,9 +42,9 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(AuthorNameProperty, value); }
         }
 
-        public static readonly DependencyProperty AuthorAvatarProperty = DependencyProperty.Register("AuthorAvatar", typeof(Uri), typeof(IndexDesContainer), null);
-        public Uri AuthorAvatar {
-            get { return GetValue(AuthorAvatarProperty) as Uri; }
+        public static readonly DependencyProperty AuthorAvatarProperty = DependencyProperty.Register("AuthorAvatar", typeof(string), typeof(IndexDesContainer), null);
+        public string AuthorAvatar {
+            get { return GetValue(AuthorAvatarProperty) as string; }
             set { SetValue(AuthorAvatarProperty, value); }
         }
 
@@ -60,9 +60,9 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(HasSourceHeadProperty, value); }
         }
 
-        public static readonly DependencyProperty CoverProperty = DependencyProperty.Register("Cover", typeof(Uri), typeof(IndexDesContainer), null);
-        public Uri Cover {
-            get { return GetValue(CoverProperty) as Uri; }
+        public static readonly DependencyProperty CoverProperty = DependencyProperty.Register("Cover", typeof(string), typeof(IndexDesContainer), null);
+        public string Cover {
+            get { return GetValue(CoverProperty) as string; }
             set { SetValue(CoverProperty, value); }
         }
 
@@ -84,21 +84,21 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(ColumnNameProperty, value); }
         }
 
-        public static readonly DependencyProperty LikersCountProperty = DependencyProperty.Register("LikersCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
-        public uint LikersCount {
-            get { return (uint)GetValue(LikersCountProperty); }
+        public static readonly DependencyProperty LikersCountProperty = DependencyProperty.Register("LikersCount", typeof(int), typeof(IndexDesContainer), PropertyMetadata.Create((int)0));
+        public int LikersCount {
+            get { return (int)GetValue(LikersCountProperty); }
             set { SetValue(LikersCountProperty, value); }
         }
 
-        public static readonly DependencyProperty PicturesCountProperty = DependencyProperty.Register("PicturesCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
-        public uint PicturesCount {
-            get { return (uint)GetValue(PicturesCountProperty); }
+        public static readonly DependencyProperty PicturesCountProperty = DependencyProperty.Register("PicturesCount", typeof(int), typeof(IndexDesContainer), PropertyMetadata.Create((int)0));
+        public int PicturesCount {
+            get { return (int)GetValue(PicturesCountProperty); }
             set { SetValue(PicturesCountProperty, value); }
         }
 
-        public static readonly DependencyProperty CommentCountProperty = DependencyProperty.Register("CommentCount", typeof(uint), typeof(IndexDesContainer), PropertyMetadata.Create((uint)0));
-        public uint CommentCount {
-            get { return (uint)GetValue(CommentCountProperty); }
+        public static readonly DependencyProperty CommentCountProperty = DependencyProperty.Register("CommentCount", typeof(int), typeof(IndexDesContainer), PropertyMetadata.Create((int)0));
+        public int CommentCount {
+            get { return (int)GetValue(CommentCountProperty); }
             set { SetValue(CommentCountProperty, value); }
         }
 

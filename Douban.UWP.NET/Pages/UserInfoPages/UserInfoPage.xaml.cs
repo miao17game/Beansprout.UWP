@@ -71,7 +71,7 @@ namespace Douban.UWP.NET.Pages {
             if (UserId == null || UserId == LoginStatus.UserId) {
                 UserNameBlock.Text = LoginStatus.UserName ?? "";
                 LocationBlock.Text = LoginStatus.LocationString ?? "";
-                DescriptionBlock.Text = LoginStatus.Description?.Replace("\n", " ");
+                DescriptionBlock.Text = (LoginStatus.Description?.Replace("\n", " ")) ?? "";
                 if (LoginStatus.APIUserinfos != null)
                     SetStateByLoginStatus();
             } else {

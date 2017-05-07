@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" IgnorableNamespaces="uap mp uap3">
-  <Identity Name="64530WallaceSun.UWP" Publisher="CN=F20CB244-5466-4E73-B935-8A83BABDE8FA" Version="2.1023.2218.0" />
-  <mp:PhoneIdentity PhoneProductId="f8b1a4d3-ca94-49c2-8f25-672e22df9752" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="64530WallaceSun.UWP" Publisher="CN=F20CB244-5466-4E73-B935-8A83BABDE8FA" Version="2.1024.1738.0" />
+  <mp:PhoneIdentity PhoneProductId="3448925e-a031-49b4-9183-5b3561ad9b20" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ms-resource:AppName</DisplayName>
     <PublisherDisplayName>Wallace Sun</PublisherDisplayName>
@@ -33,39 +33,6 @@
         <uap:Rule Match="https://accounts.douban.com/login" Type="include" WindowsRuntimeAccess="none" />
       </uap:ApplicationContentUriRules>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ToastBackgroundPushTask">
-          <BackgroundTasks>
-            <Task Type="timer" />
-            <Task Type="pushNotification" />
-          </BackgroundTasks>
-        </Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="test">
-            <uap:SupportedFileTypes>
-              <uap:FileType ContentType="application/qqsdkconnect">.qc-xxxxxxxxxx</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="qc-xxxxxxxxxx" />
-        </uap:Extension>
-        <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="wechat">
-            <uap:SupportedFileTypes>
-              <uap:FileType>.wxdfa382a79b754759</uap:FileType>
-            </uap:SupportedFileTypes>
-          </uap:FileTypeAssociation>
-        </uap:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
-          <BackgroundTasks>
-            <Task Type="timer" />
-          </BackgroundTasks>
-        </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ServicingComplete">
-          <BackgroundTasks>
-            <Task Type="systemEvent" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="beansproutmusic">
             <uap:DisplayName>Beansprout UWP Music</uap:DisplayName>
@@ -75,6 +42,39 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ServicingComplete">
+          <BackgroundTasks>
+            <Task Type="systemEvent" />
+          </BackgroundTasks>
+        </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.TitleBackgroundUpdateTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="wechat">
+            <uap:SupportedFileTypes>
+              <uap:FileType>.wxdfa382a79b754759</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="qc-xxxxxxxxxx" />
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="test">
+            <uap:SupportedFileTypes>
+              <uap:FileType ContentType="application/qqsdkconnect">.qc-xxxxxxxxxx</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Douban.UWP.BackgroundTasks.ToastBackgroundPushTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+            <Task Type="pushNotification" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

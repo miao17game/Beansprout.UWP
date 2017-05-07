@@ -372,7 +372,10 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
-                            <Run Text="Version：2.1023.* / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1024.* / 2017.5.6" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="紧急维护豆瓣API变动" /><LineBreak/><LineBreak/>
+                            
+                            <Run Text="Version：2.1023.2218 / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急修复NEON实时修改的反射异常" /><LineBreak/><LineBreak/>
                             
                              <Run Text="Version：2.1022.2145 / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>

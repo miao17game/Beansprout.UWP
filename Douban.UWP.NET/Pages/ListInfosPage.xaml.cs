@@ -20,11 +20,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Douban.UWP.NET.Tools;
 using System.Threading.Tasks;
-using Douban.UWP.NET.Controls;
 using System.Diagnostics;
 using Douban.UWP.Core.Models.ImageModels;
-using System.Text.RegularExpressions;
 using Windows.UI.Composition;
+using Wallace.UWP.Helpers;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -115,53 +114,18 @@ namespace Douban.UWP.NET.Pages {
                     list.Add(new IndexItem {
                         Type = IndexItem.ItemType.DateBlock,
                         ThisDate = DateTime.Now.AddDays(-offset).ToString("yyyy-MM-dd") ,
-                        MorePictures = new List<Uri> { new Uri(NoPictureUrl), new Uri(NoPictureUrl) }
                     });
                     feeds.Children().ToList().ForEach(singleton => {
                         try {
                             var targets = singleton["target"];
-                            var card = singleton["card"];
                             if (targets != null) {
-                                var author = targets["author"];
-                                var morePic = targets["more_pic_urls"];
-                                IList<Uri> more_pic = new List<Uri>();
-                                if (morePic.HasValues) 
-                                    morePic.ToList().ForEach(pic => { if (pic.Value<string>() != "") more_pic.Add(new Uri(pic.Value<string>())); });
-                                else
-                                    more_pic.Add(new Uri(NoPictureUrl)); more_pic.Add(new Uri(NoPictureUrl));
                                 var type =
                                 targets["cover_url"].Value<string>() == "" ? IndexItem.ItemType.Paragraph :
                                 targets["photos_count"].Value<uint>() == 0 ? IndexItem.ItemType.Normal :
                                 IndexItem.ItemType.Gallary;
-                                list.Add(new IndexItem {
-                                    Type = type,
-                                    ReadCount = targets["read_count"].Value<uint>(),
-                                    PhotosCount = targets["photos_count"].Value<uint>(),
-                                    ImpressionUrl = targets["impression_url"].Value<string>(),
-                                    Title = singleton["title"].Value<string>(),
-                                    LikersCount = 0,
-                                    AuthorAvatar = author != null && author.HasValues ? author["avatar"].Value<string>() != "" ? new Uri(author["avatar"].Value<string>()) : null : null,
-                                    AuthorName = author != null && author.HasValues ? author["name"].Value<string>() : null,
-                                    PathUrl = targets["uri"].Value<string>(),
-                                    HasCover = targets["cover_url"].Value<string>() != "" ? true : false,
-                                    Cover = targets["cover_url"].Value<string>() != "" ? new Uri(targets["cover_url"].Value<string>()) : null,
-                                    Source = singleton["source"].Value<string>(),
-
-                                    ColumnName = singleton["source_cn"].Value<string>() == "" ?
-                                    (card != null && card.HasValues) ? 
-                                    card["name"].Value<string>() : 
-                                    GetUIString("AppName") : 
-                                    singleton["source_cn"].Value<string>(),
-
-                                    CommentCount = 0,
-                                    OutSource = null,
-                                    Comments = null,
-                                    Action = null,
-                                    Description = targets["desc"].Value<string>(),
-                                    MorePictures = more_pic,
-                                    ID = singleton["id"].Value<uint>(),
-                                    MonitorUrl = targets["monitor_url"].HasValues ? targets["monitor_url"].Value<string>() : null,
-                                });
+                                var one = JsonHelper.FromJson<IndexItem>(singleton.ToString());
+                                one.Type = type;
+                                list.Add(one);
                             }
                         } catch { /* Ignore, item error. */ }
                     });

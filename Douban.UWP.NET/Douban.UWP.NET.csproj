@@ -21,7 +21,7 @@
     <AppxPackageDir>C:\Users\miao1\Desktop\</AppxPackageDir>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>02C65038908012B38249A1152E3E3ACCC0C3805B</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>E6E517117F1CCFF418424608BA8FE51D2DCB6451</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -101,6 +101,7 @@
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <None Include="Douban.UWP.NET_StoreKey.pfx" />
+    <None Include="Douban.UWP.NET_TemporaryKey.pfx" />
     <None Include="project.json" />
     <PRIResource Include="Strings\zh-CN\Resources.resw" />
     <PRIResource Include="Strings\en-US\Resources.resw" />
@@ -299,7 +300,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Douban.UWP.NET_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\188.jpg" />
@@ -368,6 +368,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Resources\CSS\DarkTheme.css" />
     <Content Include="Resources\CSS\DefaultClass.css" />
     <Content Include="Resources\CSS\Desktop.css" />
@@ -380,7 +381,6 @@
     <Content Include="Voice\xiaoxin.mp3" />
     <Content Include="Voice\yellsedtsr.mp3" />
     <Content Include="Voice\yiner.mp3" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

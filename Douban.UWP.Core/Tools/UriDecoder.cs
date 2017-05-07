@@ -83,6 +83,10 @@ namespace Douban.UWP.Core.Tools {
             if (path != "")
                 return path;
             path = new Regex(@"douban://(?<com_path>.+)").Match(uri).Groups["com_path"].Value;
+            if (path.Contains("photo_album"))
+                return headFormat_web + path.Replace("photo_album", "photos/album");
+            if (path.Contains("review"))
+                return headFormat_web + path.Replace("/review/", "/movie/review/");
             if (path != "")
                 return headFormat_web + path;
             return uri;
