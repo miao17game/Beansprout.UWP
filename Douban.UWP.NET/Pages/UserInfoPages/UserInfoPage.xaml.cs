@@ -271,7 +271,7 @@ namespace Douban.UWP.NET.Pages {
                 next_filter = next.Value<string>();
                 if (items.HasValues) {
                     items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
-                    if (items.Count() < 5)
+                    if (items.Count() < 20)
                         next_filter = "SHOULD_STOP";
                 }
                 return newList.OrderByDescending(i => i.TimeForOrder).ToList();
@@ -283,7 +283,7 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<string> APIForFetchLifeStreamAsync(string uid) {
             return await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: string.Format(APIFormat, uid, "1970-1", next_filter, "5"),
+                path: string.Format(APIFormat, uid, "1970-1", next_filter, "20"),
                 host: "m.douban.com",
                 reffer: string.Format("https://m.douban.com/people/{0}/", uid));
         }
@@ -594,9 +594,9 @@ namespace Douban.UWP.NET.Pages {
             //    listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight - vp, 0, 0);
             //    listScroll.ChangeView(0, 0, 1);
             //}
-            if (vp > 100 && Scroll.Visibility == Visibility.Visible) {
-                GoSetAnimaAsync(vp);
-            }
+            //if (vp > 100 && Scroll.Visibility == Visibility.Visible) {
+            //    GoSetAnimaAsync(vp);
+            //}
             if ((listScroll.ScrollableHeight - listScroll.VerticalOffset < 100)) {
                 listSource?.HasMoreItemsOrNot(true);
                 listSource?.LoadMoreItemsAsync(0);
@@ -664,6 +664,10 @@ namespace Douban.UWP.NET.Pages {
 
         private void allSlide_Tapped(object sender, TappedRoutedEventArgs e) {
             allSlide.SetVisibility(false);
+            listBorder.Height = ActualHeight - 70;
+            listBorder.Margin = new Thickness(0, 70, 0, 0);
+            //borderTrans.Y = -(ActualHeight - Scroll.ActualHeight);
+            GoPanelAnimation();
         }
     }
 }
