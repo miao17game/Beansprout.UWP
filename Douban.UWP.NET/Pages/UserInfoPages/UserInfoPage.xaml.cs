@@ -24,6 +24,8 @@ using Newtonsoft.Json.Linq;
 using Douban.UWP.Core.Models.LifeStreamModels;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Diagnostics;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Douban.UWP.NET.Pages {
 
@@ -58,11 +60,23 @@ namespace Douban.UWP.NET.Pages {
 
         protected override void OnNavigatedTo(NavigationEventArgs e) {
             base.OnNavigatedTo(e);
+
+            transform = Scroll.RenderTransform as TranslateTransform;
+            if (transform == null)
+                Scroll.RenderTransform = transform = new TranslateTransform();
+            borderTrans = listBorder.RenderTransform as TranslateTransform;
+            if (borderTrans == null)
+                listBorder.RenderTransform = borderTrans = new TranslateTransform();
+
             var args = e.Parameter as NavigateParameter;
             if (args == null)
                 return;
             UserId = args.UserUid;
             frameType = args.FrameType;
+        }
+
+        private void DoublAnimationSlideIn_Completed(object sender, object e) {
+            //throw new NotImplementedException();
         }
 
         private async void RelativePanel_LoadedAsync(object sender, RoutedEventArgs e) {
@@ -88,6 +102,9 @@ namespace Douban.UWP.NET.Pages {
                         SetStateByLoginStatus(resultBag);
                 } catch { /* Ignore */ }
             }
+            listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight, 0, 0);
+            listScroll = GlobalHelpers.GetScrollViewer(ContentList);
+            listScroll.ViewChanged += ListScroll_OnViewChanged;
         }
 
         private void BaseHamburgerButton_Click(object sender, RoutedEventArgs e) {
@@ -112,6 +129,8 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e) {
+            if (is_delta)
+                return;
             RunButtonClick((sender as Button).Name);
             OpenAllComsBtn.SetVisibility(true);
             OpenInnerContent();
@@ -160,19 +179,19 @@ namespace Douban.UWP.NET.Pages {
             PopupBackBorder.SetVisibility(false);
         }
 
-        private  void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
-            var scroll = (sender as ScrollViewer);
-            try {
-                if (scroll.VerticalOffset <= 300)
-                    TitleBackRec.Opacity = (scroll.VerticalOffset) / 300;
-                else if (TitleBackRec.Opacity < 1)
-                    TitleBackRec.Opacity = 1;
-                if ((scroll.ScrollableHeight - scroll.VerticalOffset < 100)) {
-                    listSource?.HasMoreItemsOrNot(true);
-                    listSource?.LoadMoreItemsAsync(0);
-                }
-            } catch { /* Ignore */ }
-        }
+        //private  void Scroll_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+        //    var scroll = (sender as ScrollViewer);
+        //    try {
+        //        if (scroll.VerticalOffset <= 300)
+        //            TitleBackRec.Opacity = (scroll.VerticalOffset) / 300;
+        //        else if (TitleBackRec.Opacity < 1)
+        //            TitleBackRec.Opacity = 1;
+        //        if ((scroll.ScrollableHeight - scroll.VerticalOffset < 100)) {
+        //            listSource?.HasMoreItemsOrNot(true);
+        //            listSource?.LoadMoreItemsAsync(0);
+        //        }
+        //    } catch { /* Ignore */ }
+        //}
 
         #endregion
 
@@ -257,7 +276,7 @@ namespace Douban.UWP.NET.Pages {
                 }
                 return newList.OrderByDescending(i => i.TimeForOrder).ToList();
             } catch {
-                System.Diagnostics.Debug.WriteLine("SetListResourcesAsync ERROR");
+                Debug.WriteLine("SetListResourcesAsync ERROR");
                 return new List<LifeStreamItem>();
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
         }
@@ -278,7 +297,7 @@ namespace Douban.UWP.NET.Pages {
                 //    newList.Add(item);
                 var itemToAdd = InitLifeStreamItem(singleton, type);
                 SetSpecialContent(newList, singleton["content"], type, itemToAdd);
-            } catch { System.Diagnostics.Debug.WriteLine("AddEverySingleton ERROR"); }
+            } catch { Debug.WriteLine("AddEverySingleton ERROR"); }
         }
 
         #region Set Comment Content
@@ -521,10 +540,130 @@ namespace Douban.UWP.NET.Pages {
 
         string UserId;
         string next_filter = "";
+        bool is_delta = false;
+        bool still_rolling = false;
+        ScrollViewer listScroll;
+        TranslateTransform transform;
+        TranslateTransform borderTrans;
+        DoubleAnimation anima;
+        Storyboard board;
         DoubanLazyLoadContext<LifeStreamItem> listSource;
         List<LifeStreamItem> empty = new List<LifeStreamItem>();
         FrameType frameType = FrameType.UserInfos;
 
         #endregion
+
+        private void Scroll_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e) {
+            is_delta = true;
+            if (transform.Y + e.Delta.Translation.Y >= 0) {
+                transform.Y = 0;
+                return;
+            }
+            transform.Y += e.Delta.Translation.Y;
+            Scroll.Margin = new Thickness(0, transform.Y, 0, 0);
+            listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight + Scroll.Margin.Top*2, 0, 0);
+            if (transform.Y < -200 && allSlide.Visibility == Visibility.Visible) {
+                Scroll.SetVisibility(false);
+                listBorder.Margin = new Thickness(0);
+                allSlide.SetVisibility(false);
+            }
+        }
+
+        private async void Scroll_ManipulationCompletedAsync(object sender, ManipulationCompletedRoutedEventArgs e) {
+            await Task.Delay(500);
+            is_delta = false;
+        }
+
+        private void Scroll_SizeChanged(object sender, SizeChangedEventArgs e) {
+            listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight + Scroll.Margin.Top * 2, 0, 0);
+            if (transform.Y < -200) {
+                Scroll.SetVisibility(false);
+                listBorder.Margin = new Thickness(0);
+                allSlide.SetVisibility(false);
+            }
+        }
+
+        private void ListScroll_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
+            //Debug.WriteLine(string.Format("[ {0} : {1} ]", listScroll.HorizontalOffset, listScroll.VerticalOffset));
+            var vp = listScroll.VerticalOffset;
+            //if (vp < 200) {
+            //    //transform.Y = 0;
+            //    //var dp = listBorder.Margin.Top;
+            //    Scroll.Margin = new Thickness(0, -vp, 0, 0);
+            //    //Debug.WriteLine(string.Format("[ {0} : {1} ]", Scroll.Margin.Top, Scroll.Margin.Left));
+            //    listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight - vp, 0, 0);
+            //    listScroll.ChangeView(0, 0, 1);
+            //}
+            if (vp > 100 && Scroll.Visibility == Visibility.Visible) {
+                GoSetAnimaAsync(vp);
+            }
+            if ((listScroll.ScrollableHeight - listScroll.VerticalOffset < 100)) {
+                listSource?.HasMoreItemsOrNot(true);
+                listSource?.LoadMoreItemsAsync(0);
+            }
+        }
+
+        private async void GoSetAnimaAsync(double vp) {
+            if (still_rolling)
+                return;
+            still_rolling = true;
+            await Task.Run(async () => {
+                await Task.Delay(200);
+                if (Math.Abs(listScroll.VerticalOffset - vp) < 20) {
+                    Debug.WriteLine("go");
+                    await Window.Current.Dispatcher.RunAsync(
+                        Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                            listBorder.Height = ActualHeight - 70;
+                            listBorder.Margin = new Thickness(0, 70, 0, 0);
+                            //borderTrans.Y = -(ActualHeight - Scroll.ActualHeight);
+                            GoPanelAnimation();
+                        });
+                } else {
+                    still_rolling = false;
+                    Debug.WriteLine("fk");
+                }
+            });
+        }
+
+        private void GoPanelAnimation() {
+            board = new Storyboard();
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = -Scroll.Margin.Top,
+                To = -Scroll.ActualHeight
+            };
+            anima.Completed += OnTopCompleted;
+            Storyboard.SetTarget(anima, transform);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = Scroll.ActualHeight,
+                To = 0
+            };
+            anima.Completed += OnBorderCompleted;
+            Storyboard.SetTarget(anima, borderTrans);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            board.Begin();
+            TitleBackRec.Opacity = 1;
+        }
+
+        private void OnBorderCompleted(object sender, object e) {
+            listBorder.Margin = new Thickness(0, 70, 0, 0);
+            borderTrans.Y = 0;
+        }
+
+        private void OnTopCompleted(object sender, object e) {
+            listBorder.Margin = new Thickness(0, -500, 0, 0);
+            borderTrans.Y = 0;
+            Scroll.SetVisibility(false);
+        }
+
+        private void allSlide_Tapped(object sender, TappedRoutedEventArgs e) {
+            allSlide.SetVisibility(false);
+        }
     }
 }

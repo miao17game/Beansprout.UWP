@@ -171,11 +171,11 @@ namespace Douban.UWP.NET.Tools {
                 num == 14 ? Color.FromArgb(255, 141, 4, 33) :
                 Color.FromArgb(255, 82, 82, 82)
             };
-        } 
+        }
 
-            #region Handler of ListView Scroll 
+        #region Handler of ListView Scroll 
 
-            public static ScrollViewer GetScrollViewer(DependencyObject depObj) {
+        public static ScrollViewer GetScrollViewer(DependencyObject depObj) {
             if (depObj is ScrollViewer)
                 return depObj as ScrollViewer;
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {

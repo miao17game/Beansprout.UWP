@@ -463,7 +463,12 @@
             </TransitionCollection>
         </Grid.Transitions>
 
-        <ScrollViewer Name="Scroll" ViewChanged="Scroll_ViewChanged">
+        <Border Name="Scroll" 
+                ManipulationMode="TranslateY"
+                VerticalAlignment="Top"
+                SizeChanged="Scroll_SizeChanged"
+                ManipulationDelta="Scroll_ManipulationDelta"
+                ManipulationCompleted="Scroll_ManipulationCompletedAsync">
 
             <RelativePanel Loaded="RelativePanel_LoadedAsync">
 
@@ -709,17 +714,20 @@
 
                 </StackPanel>
 
-                <Border Margin="0,20,0,0" 
-                        RelativePanel.AlignLeftWithPanel="True" 
-                        RelativePanel.AlignRightWithPanel="True"
-                        RelativePanel.Below="MainStack">
-                    <ListView Name="ContentList" IsItemClickEnabled="True" SelectionMode="None"
-                              ItemsSource="{Binding Source={StaticResource ListResources}}" 
-                              ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
-                              ItemClick="ContentList_ItemClick" >
-                        <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="LSM:LifeStreamItem">
-                                <controls:LifeStreamSingleton x:Name="Singleton"
+            </RelativePanel>
+
+        </Border>
+
+        <Grid Name="listBorder" Background="{ThemeResource DoubanBackground05}">
+            <ListView Name="ContentList"
+                      IsItemClickEnabled="True" 
+                      SelectionMode="None"
+                      ItemsSource="{Binding Source={StaticResource ListResources}}" 
+                      ItemContainerStyle="{ThemeResource SpecialListViewItemExpanded}" 
+                      ItemClick="ContentList_ItemClick" >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="LSM:LifeStreamItem">
+                        <controls:LifeStreamSingleton x:Name="Singleton"
                                                               Background="{ThemeResource DoubanBackground04}" 
                                                               Margin="0,0,0,5"
                                                               Title="{x:Bind Title}" 
@@ -737,14 +745,11 @@
                                                               HasAlbum="{x:Bind HasAlbum}"
                                                               MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"
                                                               AlbumList ="{Binding AlbumList, Converter={StaticResource IListToListPicConverter}}"/>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Border>
-
-            </RelativePanel>
-
-        </ScrollViewer>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Rectangle Name="allSlide" Fill="#90000000" Tapped="allSlide_Tapped"/>
+        </Grid>
 
         <Grid VerticalAlignment="Top">
             <Grid Opacity="0" Name="TitleBackRec">

@@ -41,34 +41,34 @@ namespace Douban.UWP.NET.Controls {
         /// Page slide in animations.
         /// </summary>
         public void InitSlideInBoard() {
-            doubleAnimation = new DoubleAnimation() {
+            anima = new DoubleAnimation() {
                 Duration = new Duration(TimeSpan.FromMilliseconds(220)),
                 From = this.ActualWidth,
                 To = 0,
             };
-            doubleAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
-            doubleAnimation.Completed += DoublAnimationSlideIn_Completed;
-            storyToSideGridIn = new Storyboard();
-            Storyboard.SetTarget(doubleAnimation, transToSideGrid);
-            Storyboard.SetTargetProperty(doubleAnimation, "X");
-            storyToSideGridIn.Children.Add(doubleAnimation);
+            anima.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+            anima.Completed += DoublAnimationSlideIn_Completed;
+            board = new Storyboard();
+            Storyboard.SetTarget(anima, transToSideGrid);
+            Storyboard.SetTargetProperty(anima, "X");
+            board.Children.Add(anima);
         }
 
         /// <summary>
         /// Page slide out animations.
         /// </summary>
         public void InitSlideOutBoard(bool isToLeft) {
-            doubleAnimation = new DoubleAnimation() {
+            anima = new DoubleAnimation() {
                 Duration = new Duration(TimeSpan.FromMilliseconds(220)),
                 From = 0,
                 To = isToLeft ? -this.ActualWidth : this.ActualWidth,
             };
-            doubleAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
-            doubleAnimation.Completed += DoublAnimationSlideOut_Completed;
+            anima.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+            anima.Completed += DoublAnimationSlideOut_Completed;
             storyToSideGridOut = new Storyboard();
-            Storyboard.SetTarget(doubleAnimation, transToSideGrid);
-            Storyboard.SetTargetProperty(doubleAnimation, "X");
-            storyToSideGridOut.Children.Add(doubleAnimation);
+            Storyboard.SetTarget(anima, transToSideGrid);
+            Storyboard.SetTargetProperty(anima, "X");
+            storyToSideGridOut.Children.Add(anima);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Douban.UWP.NET.Controls {
         /// <param name="e"></param>
         private void DoublAnimationSlideOut_Completed(object sender, object e) {
             storyToSideGridOut.Stop();
-            doubleAnimation.Completed -= DoublAnimationSlideOut_Completed;
+            anima.Completed -= DoublAnimationSlideOut_Completed;
             DoWorkWhenAnimationCompleted();
         }
 
@@ -95,8 +95,8 @@ namespace Douban.UWP.NET.Controls {
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void DoublAnimationSlideIn_Completed(object sender, object e) {
-            storyToSideGridIn.Stop();
-            doubleAnimation.Completed -= DoublAnimationSlideIn_Completed;
+            board.Stop();
+            anima.Completed -= DoublAnimationSlideIn_Completed;
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Douban.UWP.NET.Controls {
         /// </summary>
         public virtual void StartPageInAnima() {
             InitSlideInBoard();
-            storyToSideGridIn.Begin();
+            board.Begin();
         }
         #endregion
 
@@ -121,10 +121,10 @@ namespace Douban.UWP.NET.Controls {
         internal bool isFirstLoaded = true;
         internal bool isDivideScreen = true;
         internal Uri currentUri;
-        Storyboard storyToSideGridIn;
+        Storyboard board;
         Storyboard storyToSideGridOut;
         TranslateTransform transToSideGrid;
-        DoubleAnimation doubleAnimation;
+        DoubleAnimation anima;
         #endregion
 
     }
