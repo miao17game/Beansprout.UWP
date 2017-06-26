@@ -27,11 +27,11 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(ActivityProperty, value); }
         }
 
-        public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(InfosItemBase.JsonType), typeof(LifeStreamSingleton), PropertyMetadata.Create(LifeStreamItem.JsonType.Undefined));
-        public InfosItemBase.JsonType Type {
-            get { return (InfosItemBase.JsonType)GetValue(TypeProperty); }
-            set { SetValue(TypeProperty, value); }
-        }
+        //public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(InfosItemBase.JsonType), typeof(LifeStreamSingleton), PropertyMetadata.Create(LifeStreamItem.JsonType.Undefined));
+        //public InfosItemBase.JsonType Type {
+        //    get { return (InfosItemBase.JsonType)GetValue(TypeProperty); }
+        //    set { SetValue(TypeProperty, value); }
+        //}
 
         public static readonly DependencyProperty TitleProperty = DependencyProperty.Register("Title", typeof(string), typeof(LifeStreamSingleton), null);
         public string Title {

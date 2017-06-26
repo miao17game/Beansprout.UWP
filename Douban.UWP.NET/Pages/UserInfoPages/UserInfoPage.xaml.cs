@@ -151,7 +151,7 @@ namespace Douban.UWP.NET.Pages {
             Uri.TryCreate(iten.PathUrl, UriKind.RelativeOrAbsolute, out var uri);
             NavigateToBase?.Invoke(
                 null, 
-                new NavigateParameter { Title = iten.Title, ToUri = uri, IsFromInfoClick = true }, 
+                new NavigateParameter { Title = iten.Content?.Title, ToUri = uri, IsFromInfoClick = true }, 
                 DetailsFrame,
                 GetPageType(NavigateType.InfoItemClick));
         }
@@ -265,17 +265,22 @@ namespace Douban.UWP.NET.Pages {
             var newList = new List<LifeStreamItem>();
             try {
                 var returns = await APIForFetchLifeStreamAsync(uid);
-                var jo = JObject.Parse(returns);
-                var items = jo["items"];
-                var next = jo["next_filter_after"];
-                next_filter = next.Value<string>();
-                if (items.HasValues) {
-                    items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
-                    if (items.Count() < 20)
-                        next_filter = "SHOULD_STOP";
-                }
-                return newList.OrderByDescending(i => i.TimeForOrder).ToList();
-            } catch {
+                var one = JsonHelper.FromJson<ListStreamOne>(returns);
+                if (one.Items ==null || one.Items.Count() < 50)
+                    next_filter = "SHOULD_STOP";
+                Debug.WriteLine(one.Items.Count());
+                return one.Items.OrderByDescending(i => i.TimeForOrder).ToList();
+                //var items = jo["items"];
+                //var next = jo["next_filter_after"];
+                //next_filter = next.Value<string>();
+                //if (items.HasValues) {
+                //    items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
+                //    if (items.Count() < 5)
+                //        next_filter = "SHOULD_STOP";
+                //}
+                //return newList.OrderByDescending(i => i.TimeForOrder).ToList();
+            } catch(Exception e) {
+                Debug.WriteLine(e.Message);
                 Debug.WriteLine("SetListResourcesAsync ERROR");
                 return new List<LifeStreamItem>();
             } finally { IncrementalLoadingBorder.SetVisibility(false); }
@@ -283,201 +288,201 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<string> APIForFetchLifeStreamAsync(string uid) {
             return await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: string.Format(APIFormat, uid, "1970-1", next_filter, "20"),
+                path: string.Format(APIFormat, uid, "1970-1", next_filter, "50"),
                 host: "m.douban.com",
                 reffer: string.Format("https://m.douban.com/people/{0}/", uid));
         }
 
-        private void AddEverySingleton(JToken singleton, List<LifeStreamItem> newList) {
-            try {
-                var type = InitLifeStreamType(singleton);
-                //var item = JsonHelper.FromJson<LifeStreamItem>(singleton.ToString());
-                //item.Type = InitLifeStreamType(singleton);
-                //if (item.Type != InfosItemBase.JsonType.Undefined)
-                //    newList.Add(item);
-                var itemToAdd = InitLifeStreamItem(singleton, type);
-                SetSpecialContent(newList, singleton["content"], type, itemToAdd);
-            } catch { Debug.WriteLine("AddEverySingleton ERROR"); }
-        }
+        //private void AddEverySingleton(JToken singleton, List<LifeStreamItem> newList) {
+        //    try {
+        //        var type = InitLifeStreamType(singleton);
+        //        //var item = JsonHelper.FromJson<LifeStreamItem>(singleton.ToString());
+        //        //item.Type = InitLifeStreamType(singleton);
+        //        //if (item.Type != InfosItemBase.JsonType.Undefined)
+        //        //    newList.Add(item);
+        //        var itemToAdd = InitLifeStreamItem(singleton, type);
+        //        SetSpecialContent(newList, singleton["content"], type, itemToAdd);
+        //    } catch { Debug.WriteLine("AddEverySingleton ERROR"); }
+        //}
 
         #region Set Comment Content
 
-        private void SetSpecialContent(List<LifeStreamItem> newList, JToken content, InfosItemBase.JsonType type, LifeStreamItem itemToAdd) {
-            try {
-                switch (type) {
-                    case InfosItemBase.JsonType.Status:
-                        SetStatusContent(content, itemToAdd);
-                        break;
-                    case InfosItemBase.JsonType.Article:
-                        SetArticleContent(content, itemToAdd);
-                        break;
-                    case InfosItemBase.JsonType.Card:
-                        SetCardContent(content, itemToAdd);
-                        break;
-                    case InfosItemBase.JsonType.Album:
-                        SetAlbumContent(content, itemToAdd);
-                        break;
-                    case InfosItemBase.JsonType.Undefined:
-                        break;
-                }
-            } catch {
-                System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
-            } finally { if (type != InfosItemBase.JsonType.Undefined) newList.Add(itemToAdd); }
-        }
+        //private void SetSpecialContent(List<LifeStreamItem> newList, JToken content, InfosItemBase.JsonType type, LifeStreamItem itemToAdd) {
+        //    try {
+        //        switch (type) {
+        //            case InfosItemBase.JsonType.Status:
+        //                SetStatusContent(content, itemToAdd);
+        //                break;
+        //            case InfosItemBase.JsonType.Article:
+        //                SetArticleContent(content, itemToAdd);
+        //                break;
+        //            case InfosItemBase.JsonType.Card:
+        //                SetCardContent(content, itemToAdd);
+        //                break;
+        //            case InfosItemBase.JsonType.Album:
+        //                SetAlbumContent(content, itemToAdd);
+        //                break;
+        //            case InfosItemBase.JsonType.Undefined:
+        //                break;
+        //        }
+        //    } catch {
+        //        System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
+        //    } finally { if (type != InfosItemBase.JsonType.Undefined) newList.Add(itemToAdd); }
+        //}
 
-        private InfosItemBase.JsonType InitLifeStreamType(JToken singleton) {
-            return singleton["type"].Value<string>() == "card" ? InfosItemBase.JsonType.Card :
-            singleton["type"].Value<string>() == "status" ? InfosItemBase.JsonType.Status :
-            singleton["type"].Value<string>() == "album" ? InfosItemBase.JsonType.Album :
-            singleton["type"].Value<string>() == "article" ? InfosItemBase.JsonType.Article :
-            InfosItemBase.JsonType.Undefined;
-        }
+        //private InfosItemBase.JsonType InitLifeStreamType(JToken singleton) {
+        //    return singleton["type"].Value<string>() == "card" ? InfosItemBase.JsonType.Card :
+        //    singleton["type"].Value<string>() == "status" ? InfosItemBase.JsonType.Status :
+        //    singleton["type"].Value<string>() == "album" ? InfosItemBase.JsonType.Album :
+        //    singleton["type"].Value<string>() == "article" ? InfosItemBase.JsonType.Article :
+        //    InfosItemBase.JsonType.Undefined;
+        //}
 
-        private LifeStreamItem InitLifeStreamItem(JToken singleton, InfosItemBase.JsonType type) {
-            double time = default(double);
-            try { time = (DateTime.Parse(singleton["time"].Value<string>()) - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0; }
-            return new LifeStreamItem {
-                Type = type,
-                LikersCounts = singleton["likers_count"].Value<string>(),
-                Time = singleton["time"].Value<string>(),
-                Uri = singleton["uri"].Value<string>(),
-                PathUrl = singleton["url"].Value<string>(),
-                CommentsCounts = singleton["comments_count"].Value<string>(),
-                Activity = singleton["activity"].Value<string>(),
-                TimeForOrder = time,
-            };
-        }
+        //private LifeStreamItem InitLifeStreamItem(JToken singleton, InfosItemBase.JsonType type) {
+        //    double time = default(double);
+        //    try { time = (DateTime.Parse(singleton["time"].Value<string>()) - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0; }
+        //    return new LifeStreamItem {
+        //        Type = type,
+        //        LikersCounts = singleton["likers_count"].Value<string>(),
+        //        Time = singleton["time"].Value<string>(),
+        //        Uri = singleton["uri"].Value<string>(),
+        //        PathUrl = singleton["url"].Value<string>(),
+        //        CommentsCounts = singleton["comments_count"].Value<string>(),
+        //        Activity = singleton["activity"].Value<string>(),
+        //        TimeForOrder = time,
+        //    };
+        //}
 
         #endregion
 
         #region Set Special Content
 
-        private void SetCardContent(JToken content, LifeStreamItem item) {
-            try {
-                AddCover(content, item);
-                item.Title = content["title"].Value<string>();
-                item.Description = content["description"].Value<string>();
-                item.Text = content["text"].Value<string>();
-            } catch { System.Diagnostics.Debug.WriteLine("SetCardContent ERROR"); }
-        }
+        //private void SetCardContent(JToken content, LifeStreamItem item) {
+        //    try {
+        //        AddCover(content, item);
+        //        item.Title = content["title"].Value<string>();
+        //        item.Description = content["description"].Value<string>();
+        //        item.Text = content["text"].Value<string>();
+        //    } catch { System.Diagnostics.Debug.WriteLine("SetCardContent ERROR"); }
+        //}
 
-        private void SetArticleContent(JToken content, LifeStreamItem item) {
-            try {
-                AddCover(content, item);
-                item.Abstract = content["abstract"].Value<string>();
-                item.Title = content["title"].Value<string>();
-            } catch { System.Diagnostics.Debug.WriteLine("SetArticleContent ERROR"); }
-        }
+        //private void SetArticleContent(JToken content, LifeStreamItem item) {
+        //    try {
+        //        AddCover(content, item);
+        //        item.Abstract = content["abstract"].Value<string>();
+        //        item.Title = content["title"].Value<string>();
+        //    } catch { System.Diagnostics.Debug.WriteLine("SetArticleContent ERROR"); }
+        //}
 
-        private void SetStatusContent(JToken content, LifeStreamItem item) {
-            try {
-                item.Text = content["text"].Value<string>();
-                item.Images = new List<PictureItemBase>();
-                var images = content["images"];
-                if (images.HasValues) {
-                    item.HasImages = true;
-                    images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
-                } else {
-                    item.HasImages = false;
-                    item.Images.Add(CreateNoPictureBase());
-                }
-            } catch { System.Diagnostics.Debug.WriteLine("SetStatusContent ERROR"); }
-        }
+        //private void SetStatusContent(JToken content, LifeStreamItem item) {
+        //    try {
+        //        item.Text = content["text"].Value<string>();
+        //        item.Images = new List<PictureItemBase>();
+        //        var images = content["images"];
+        //        if (images.HasValues) {
+        //            item.HasImages = true;
+        //            images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
+        //        } else {
+        //            item.HasImages = false;
+        //            item.Images.Add(CreateNoPictureBase());
+        //        }
+        //    } catch { System.Diagnostics.Debug.WriteLine("SetStatusContent ERROR"); }
+        //}
 
-        private void SetAlbumContent(JToken content, LifeStreamItem item) {
-            try {
-                item.AlbumList = new List<PictureItem>();
-                var photos = content["photos"];
-                if (photos.HasValues) {
-                    item.HasAlbum = true;
-                    photos.Children().ToList().ForEach(singleton => item.AlbumList.Add(CreatePictureSingleton(item, singleton)));
-                } else {
-                    item.HasAlbum = false;
-                    item.Images.Add(CreateNoPictureSingleton());
-                }
-            } catch { System.Diagnostics.Debug.WriteLine("SetAlbumContent ERROR"); }
-        }
+        //private void SetAlbumContent(JToken content, LifeStreamItem item) {
+        //    try {
+        //        item.AlbumList = new List<PictureItem>();
+        //        var photos = content["photos"];
+        //        if (photos.HasValues) {
+        //            item.HasAlbum = true;
+        //            photos.Children().ToList().ForEach(singleton => item.AlbumList.Add(CreatePictureSingleton(item, singleton)));
+        //        } else {
+        //            item.HasAlbum = false;
+        //            item.Images.Add(CreateNoPictureSingleton());
+        //        }
+        //    } catch { System.Diagnostics.Debug.WriteLine("SetAlbumContent ERROR"); }
+        //}
 
         #endregion
 
         #region Details
 
-        private void AddCover(JToken content, LifeStreamItem item) {
-            item.HasCover = content["cover_url"].Value<string>() != "" ? true : false;
-            item.Cover = content["cover_url"].Value<string>() != "" ? new Uri(content["cover_url"].Value<string>()) : new Uri(NoPictureUrl);
-        }
+        //private void AddCover(JToken content, LifeStreamItem item) {
+        //    item.HasCover = content["cover_url"].Value<string>() != "" ? true : false;
+        //    item.Cover = content["cover_url"].Value<string>() != "" ? new Uri(content["cover_url"].Value<string>()) : new Uri(NoPictureUrl);
+        //}
 
-        private PictureItemBase CreateNoPictureBase() {
-            return new PictureItemBase {
-                Normal = new Uri(NoPictureUrl),
-                Large = new Uri(NoPictureUrl),
-            };
-        }
+        //private PictureItemBase CreateNoPictureBase() {
+        //    return new PictureItemBase {
+        //        Normal = new Uri(NoPictureUrl),
+        //        Large = new Uri(NoPictureUrl),
+        //    };
+        //}
 
-        private PictureItem CreateNoPictureSingleton() {
-            return new PictureItem {
-                Normal = new Uri(NoPictureUrl),
-                Large = new Uri(NoPictureUrl),
-                Small = new Uri(NoPictureUrl),
-            };
-        }
+        //private PictureItem CreateNoPictureSingleton() {
+        //    return new PictureItem {
+        //        Normal = new Uri(NoPictureUrl),
+        //        Large = new Uri(NoPictureUrl),
+        //        Small = new Uri(NoPictureUrl),
+        //    };
+        //}
 
-        private PictureItemBase CreatePictureBaseItem(JToken each) {
-            var normal = each["normal"];
-            var large = each["large"];
-            return new PictureItemBase {
-                Normal = new Uri((normal != null && normal.HasValues) ? normal["url"].Value<string>() : NoPictureUrl),
-                Large = new Uri((large != null && large.HasValues) ? large["url"].Value<string>() : NoPictureUrl),
-            };
-        }
+        //private PictureItemBase CreatePictureBaseItem(JToken each) {
+        //    var normal = each["normal"];
+        //    var large = each["large"];
+        //    return new PictureItemBase {
+        //        Normal = new Uri((normal != null && normal.HasValues) ? normal["url"].Value<string>() : NoPictureUrl),
+        //        Large = new Uri((large != null && large.HasValues) ? large["url"].Value<string>() : NoPictureUrl),
+        //    };
+        //}
 
-        private PictureItem CreatePictureSingleton(LifeStreamItem item, JToken singleton) {
-            var author = singleton["author"];
-            var picItm = InitPictureItem(singleton, singleton["image"]);
-            if (author.HasValues)
-                picItm.Author = InitAuthorStatus(author, author["loc"]);
-            return picItm;
-        }
+        //private PictureItem CreatePictureSingleton(LifeStreamItem item, JToken singleton) {
+        //    var author = singleton["author"];
+        //    var picItm = InitPictureItem(singleton, singleton["image"]);
+        //    if (author.HasValues)
+        //        picItm.Author = InitAuthorStatus(author, author["loc"]);
+        //    return picItm;
+        //}
 
-        private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
-            return new AuthorStatus {
-                Kind = author["kind"].Value<string>(),
-                Name = author["name"].Value<string>(),
-                Url = author["url"].Value<string>(),
-                Gender = author["gender"].Value<string>(),
-                //Abstract = author["abstract"].Value<string>(),
-                Uri = author["uri"].Value<string>(),
-                Avatar = author["avatar"].Value<string>(),
-                LargeAvatar = author["large_avatar"].Value<string>(),
-                Type = author["type"].Value<string>(),
-                ID = author["id"].Value<string>(),
-                Uid = author["uid"].Value<string>(),
-                LocationID = location.HasValues ? location["id"].Value<string>() : null,
-                LocationName = location.HasValues ? location["name"].Value<string>() : null,
-                LocationUid = location.HasValues ? location["uid"].Value<string>() : null,
-            };
-        }
+        //private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
+        //    return new AuthorStatus {
+        //        Kind = author["kind"].Value<string>(),
+        //        Name = author["name"].Value<string>(),
+        //        Url = author["url"].Value<string>(),
+        //        Gender = author["gender"].Value<string>(),
+        //        //Abstract = author["abstract"].Value<string>(),
+        //        Uri = author["uri"].Value<string>(),
+        //        Avatar = author["avatar"].Value<string>(),
+        //        LargeAvatar = author["large_avatar"].Value<string>(),
+        //        Type = author["type"].Value<string>(),
+        //        ID = author["id"].Value<string>(),
+        //        Uid = author["uid"].Value<string>(),
+        //        LocationID = location.HasValues ? location["id"].Value<string>() : null,
+        //        LocationName = location.HasValues ? location["name"].Value<string>() : null,
+        //        LocationUid = location.HasValues ? location["uid"].Value<string>() : null,
+        //    };
+        //}
 
-        private PictureItem InitPictureItem(JToken singleton, JToken images) {
-            return new PictureItem {
-                Liked = singleton["liked"].Value<bool>(),
-                Description = singleton["description"].Value<string>(),
-                LikersCount = singleton["likers_count"].Value<string>(),
-                Uri = singleton["uri"].Value<string>(),
-                Url = singleton["url"].Value<string>(),
-                CreateTime = singleton["create_time"].Value<string>(),
-                CommentsCount = singleton["comments_count"].Value<string>(),
-                AllowComment = singleton["allow_comment"].Value<bool>(),
-                Position = singleton["position"].Value<int>(),
-                OwnedUri = singleton["owner_uri"].Value<string>(),
-                Type = singleton["type"].Value<string>(),
-                Id = singleton["id"].Value<string>(),
-                SharingUrl = singleton["sharing_url"].Value<string>(),
-                Small = new Uri(images.HasValues && images["small"].HasValues ? images["small"]["url"].Value<string>() : NoPictureUrl),
-                Normal = new Uri(images.HasValues && images["normal"].HasValues ? images["normal"]["url"].Value<string>() : NoPictureUrl),
-                Large = new Uri(images.HasValues && images["large"].HasValues ? images["large"]["url"].Value<string>() : NoPictureUrl),
-            };
-        }
+        //private PictureItem InitPictureItem(JToken singleton, JToken images) {
+        //    return new PictureItem {
+        //        Liked = singleton["liked"].Value<bool>(),
+        //        Description = singleton["description"].Value<string>(),
+        //        LikersCount = singleton["likers_count"].Value<string>(),
+        //        Uri = singleton["uri"].Value<string>(),
+        //        Url = singleton["url"].Value<string>(),
+        //        CreateTime = singleton["create_time"].Value<string>(),
+        //        CommentsCount = singleton["comments_count"].Value<string>(),
+        //        AllowComment = singleton["allow_comment"].Value<bool>(),
+        //        Position = singleton["position"].Value<int>(),
+        //        OwnedUri = singleton["owner_uri"].Value<string>(),
+        //        Type = singleton["type"].Value<string>(),
+        //        Id = singleton["id"].Value<string>(),
+        //        SharingUrl = singleton["sharing_url"].Value<string>(),
+        //        Small = new Uri(images.HasValues && images["small"].HasValues ? images["small"]["url"].Value<string>() : NoPictureUrl),
+        //        Normal = new Uri(images.HasValues && images["normal"].HasValues ? images["normal"]["url"].Value<string>() : NoPictureUrl),
+        //        Large = new Uri(images.HasValues && images["large"].HasValues ? images["large"]["url"].Value<string>() : NoPictureUrl),
+        //    };
+        //}
 
         #endregion
 

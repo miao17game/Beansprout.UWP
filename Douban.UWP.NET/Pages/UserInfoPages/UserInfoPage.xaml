@@ -727,7 +727,7 @@
                       ItemClick="ContentList_ItemClick" >
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="LSM:LifeStreamItem">
-                        <controls:LifeStreamSingleton x:Name="Singleton"
+                        <!--<controls:LifeStreamSingleton x:Name="Singleton"
                                                               Background="{ThemeResource DoubanBackground04}" 
                                                               Margin="0,0,0,5"
                                                               Title="{x:Bind Title}" 
@@ -744,8 +744,17 @@
                                                               HasImages="{x:Bind HasImages}"
                                                               HasAlbum="{x:Bind HasAlbum}"
                                                               MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"
-                                                              AlbumList ="{Binding AlbumList, Converter={StaticResource IListToListPicConverter}}"/>
-                    </DataTemplate>
+                                                              AlbumList ="{Binding AlbumList, Converter={StaticResource IListToListPicConverter}}"/>-->
+                        <controls:LifeStreamOne x:Name="Singleton"
+                                                Background="{ThemeResource DoubanBackground04}" 
+                                                Margin="0,0,0,5"
+                                                HasCover="{x:Bind HasCover}"
+                                                HasAlbum="{x:Bind HasAlbum}"
+                                                HasImages="{x:Bind HasImages}"
+                                                Activity="{x:Bind Activity}"
+                                                Time="{x:Bind Time}"
+                                                Type="{x:Bind ContentType}"/>
+                        </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
             <Rectangle Name="allSlide" Fill="#90000000" Tapped="allSlide_Tapped"/>

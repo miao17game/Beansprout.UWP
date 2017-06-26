@@ -122,6 +122,9 @@
     <Compile Include="Controls\IndexDesContainer.xaml.cs">
       <DependentUpon>IndexDesContainer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LifeStreamOne.xaml.cs">
+      <DependentUpon>LifeStreamOne.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LifeStreamSingleton.xaml.cs">
       <DependentUpon>LifeStreamSingleton.xaml</DependentUpon>
     </Compile>
@@ -403,6 +406,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\IndexDesContainer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LifeStreamOne.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
