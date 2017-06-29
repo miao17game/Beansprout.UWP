@@ -372,6 +372,11 @@
                         <TextBlock Margin="10,5,10,5" FontSize="12" FontWeight="Thin"
                                TextWrapping="WrapWholeWords">
                             
+                            <Run Text="Version：2.1025.* / 2017.6.29" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="重写个人中心空间，以前的闪退太厉害" /><LineBreak/>
+                            <Run Text="解决了个人中心虚拟化的问题" /><LineBreak/>
+                            <Run Text="调整个人中心动画" /><LineBreak/><LineBreak/>
+                            
                             <Run Text="Version：2.1024.* / 2017.5.6" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急维护豆瓣API变动" /><LineBreak/><LineBreak/>
                             

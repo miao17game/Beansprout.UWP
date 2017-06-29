@@ -265,8 +265,12 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var returns = await APIForFetchLifeStreamAsync(uid);
                 var one = JsonHelper.FromJson<ListStreamOne>(returns);
-                if (one.Items ==null || one.Items.Count() < 10)
+                if (one.Items == null || one.Items.Count() < 10) {
                     next_filter = "SHOULD_STOP";
+                } else {
+                    next_filter = one.NextFilter;
+                }
+                Debug.WriteLine(next_filter);
                 return one.Items.OrderByDescending(i => i.TimeForOrder).ToList();
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
