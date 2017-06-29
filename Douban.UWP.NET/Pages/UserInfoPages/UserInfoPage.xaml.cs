@@ -20,7 +20,6 @@ using Windows.UI.Xaml.Navigation;
 using Wallace.UWP.Helpers;
 using Douban.UWP.NET.Tools;
 using Douban.UWP.Core.Tools;
-using Newtonsoft.Json.Linq;
 using Douban.UWP.Core.Models.LifeStreamModels;
 using System.Threading.Tasks;
 using System.Reflection;
@@ -266,19 +265,9 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var returns = await APIForFetchLifeStreamAsync(uid);
                 var one = JsonHelper.FromJson<ListStreamOne>(returns);
-                if (one.Items ==null || one.Items.Count() < 50)
+                if (one.Items ==null || one.Items.Count() < 10)
                     next_filter = "SHOULD_STOP";
-                Debug.WriteLine(one.Items.Count());
                 return one.Items.OrderByDescending(i => i.TimeForOrder).ToList();
-                //var items = jo["items"];
-                //var next = jo["next_filter_after"];
-                //next_filter = next.Value<string>();
-                //if (items.HasValues) {
-                //    items.Children().ToList().ForEach(singleton => AddEverySingleton(singleton, newList));
-                //    if (items.Count() < 5)
-                //        next_filter = "SHOULD_STOP";
-                //}
-                //return newList.OrderByDescending(i => i.TimeForOrder).ToList();
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);
                 Debug.WriteLine("SetListResourcesAsync ERROR");
@@ -288,203 +277,10 @@ namespace Douban.UWP.NET.Pages {
 
         private async Task<string> APIForFetchLifeStreamAsync(string uid) {
             return await DoubanWebProcess.GetMDoubanResponseAsync(
-                path: string.Format(APIFormat, uid, "1970-1", next_filter, "50"),
+                path: string.Format(APIFormat, uid, "1970-1", next_filter, "10"),
                 host: "m.douban.com",
                 reffer: string.Format("https://m.douban.com/people/{0}/", uid));
         }
-
-        //private void AddEverySingleton(JToken singleton, List<LifeStreamItem> newList) {
-        //    try {
-        //        var type = InitLifeStreamType(singleton);
-        //        //var item = JsonHelper.FromJson<LifeStreamItem>(singleton.ToString());
-        //        //item.Type = InitLifeStreamType(singleton);
-        //        //if (item.Type != InfosItemBase.JsonType.Undefined)
-        //        //    newList.Add(item);
-        //        var itemToAdd = InitLifeStreamItem(singleton, type);
-        //        SetSpecialContent(newList, singleton["content"], type, itemToAdd);
-        //    } catch { Debug.WriteLine("AddEverySingleton ERROR"); }
-        //}
-
-        #region Set Comment Content
-
-        //private void SetSpecialContent(List<LifeStreamItem> newList, JToken content, InfosItemBase.JsonType type, LifeStreamItem itemToAdd) {
-        //    try {
-        //        switch (type) {
-        //            case InfosItemBase.JsonType.Status:
-        //                SetStatusContent(content, itemToAdd);
-        //                break;
-        //            case InfosItemBase.JsonType.Article:
-        //                SetArticleContent(content, itemToAdd);
-        //                break;
-        //            case InfosItemBase.JsonType.Card:
-        //                SetCardContent(content, itemToAdd);
-        //                break;
-        //            case InfosItemBase.JsonType.Album:
-        //                SetAlbumContent(content, itemToAdd);
-        //                break;
-        //            case InfosItemBase.JsonType.Undefined:
-        //                break;
-        //        }
-        //    } catch {
-        //        System.Diagnostics.Debug.WriteLine("SetSpecialContent ERROR");
-        //    } finally { if (type != InfosItemBase.JsonType.Undefined) newList.Add(itemToAdd); }
-        //}
-
-        //private InfosItemBase.JsonType InitLifeStreamType(JToken singleton) {
-        //    return singleton["type"].Value<string>() == "card" ? InfosItemBase.JsonType.Card :
-        //    singleton["type"].Value<string>() == "status" ? InfosItemBase.JsonType.Status :
-        //    singleton["type"].Value<string>() == "album" ? InfosItemBase.JsonType.Album :
-        //    singleton["type"].Value<string>() == "article" ? InfosItemBase.JsonType.Article :
-        //    InfosItemBase.JsonType.Undefined;
-        //}
-
-        //private LifeStreamItem InitLifeStreamItem(JToken singleton, InfosItemBase.JsonType type) {
-        //    double time = default(double);
-        //    try { time = (DateTime.Parse(singleton["time"].Value<string>()) - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds; } catch { time = 0; }
-        //    return new LifeStreamItem {
-        //        Type = type,
-        //        LikersCounts = singleton["likers_count"].Value<string>(),
-        //        Time = singleton["time"].Value<string>(),
-        //        Uri = singleton["uri"].Value<string>(),
-        //        PathUrl = singleton["url"].Value<string>(),
-        //        CommentsCounts = singleton["comments_count"].Value<string>(),
-        //        Activity = singleton["activity"].Value<string>(),
-        //        TimeForOrder = time,
-        //    };
-        //}
-
-        #endregion
-
-        #region Set Special Content
-
-        //private void SetCardContent(JToken content, LifeStreamItem item) {
-        //    try {
-        //        AddCover(content, item);
-        //        item.Title = content["title"].Value<string>();
-        //        item.Description = content["description"].Value<string>();
-        //        item.Text = content["text"].Value<string>();
-        //    } catch { System.Diagnostics.Debug.WriteLine("SetCardContent ERROR"); }
-        //}
-
-        //private void SetArticleContent(JToken content, LifeStreamItem item) {
-        //    try {
-        //        AddCover(content, item);
-        //        item.Abstract = content["abstract"].Value<string>();
-        //        item.Title = content["title"].Value<string>();
-        //    } catch { System.Diagnostics.Debug.WriteLine("SetArticleContent ERROR"); }
-        //}
-
-        //private void SetStatusContent(JToken content, LifeStreamItem item) {
-        //    try {
-        //        item.Text = content["text"].Value<string>();
-        //        item.Images = new List<PictureItemBase>();
-        //        var images = content["images"];
-        //        if (images.HasValues) {
-        //            item.HasImages = true;
-        //            images.Children().ToList().ForEach(each => item.Images.Add(CreatePictureBaseItem(each)));
-        //        } else {
-        //            item.HasImages = false;
-        //            item.Images.Add(CreateNoPictureBase());
-        //        }
-        //    } catch { System.Diagnostics.Debug.WriteLine("SetStatusContent ERROR"); }
-        //}
-
-        //private void SetAlbumContent(JToken content, LifeStreamItem item) {
-        //    try {
-        //        item.AlbumList = new List<PictureItem>();
-        //        var photos = content["photos"];
-        //        if (photos.HasValues) {
-        //            item.HasAlbum = true;
-        //            photos.Children().ToList().ForEach(singleton => item.AlbumList.Add(CreatePictureSingleton(item, singleton)));
-        //        } else {
-        //            item.HasAlbum = false;
-        //            item.Images.Add(CreateNoPictureSingleton());
-        //        }
-        //    } catch { System.Diagnostics.Debug.WriteLine("SetAlbumContent ERROR"); }
-        //}
-
-        #endregion
-
-        #region Details
-
-        //private void AddCover(JToken content, LifeStreamItem item) {
-        //    item.HasCover = content["cover_url"].Value<string>() != "" ? true : false;
-        //    item.Cover = content["cover_url"].Value<string>() != "" ? new Uri(content["cover_url"].Value<string>()) : new Uri(NoPictureUrl);
-        //}
-
-        //private PictureItemBase CreateNoPictureBase() {
-        //    return new PictureItemBase {
-        //        Normal = new Uri(NoPictureUrl),
-        //        Large = new Uri(NoPictureUrl),
-        //    };
-        //}
-
-        //private PictureItem CreateNoPictureSingleton() {
-        //    return new PictureItem {
-        //        Normal = new Uri(NoPictureUrl),
-        //        Large = new Uri(NoPictureUrl),
-        //        Small = new Uri(NoPictureUrl),
-        //    };
-        //}
-
-        //private PictureItemBase CreatePictureBaseItem(JToken each) {
-        //    var normal = each["normal"];
-        //    var large = each["large"];
-        //    return new PictureItemBase {
-        //        Normal = new Uri((normal != null && normal.HasValues) ? normal["url"].Value<string>() : NoPictureUrl),
-        //        Large = new Uri((large != null && large.HasValues) ? large["url"].Value<string>() : NoPictureUrl),
-        //    };
-        //}
-
-        //private PictureItem CreatePictureSingleton(LifeStreamItem item, JToken singleton) {
-        //    var author = singleton["author"];
-        //    var picItm = InitPictureItem(singleton, singleton["image"]);
-        //    if (author.HasValues)
-        //        picItm.Author = InitAuthorStatus(author, author["loc"]);
-        //    return picItm;
-        //}
-
-        //private AuthorStatus InitAuthorStatus(JToken author, JToken location) {
-        //    return new AuthorStatus {
-        //        Kind = author["kind"].Value<string>(),
-        //        Name = author["name"].Value<string>(),
-        //        Url = author["url"].Value<string>(),
-        //        Gender = author["gender"].Value<string>(),
-        //        //Abstract = author["abstract"].Value<string>(),
-        //        Uri = author["uri"].Value<string>(),
-        //        Avatar = author["avatar"].Value<string>(),
-        //        LargeAvatar = author["large_avatar"].Value<string>(),
-        //        Type = author["type"].Value<string>(),
-        //        ID = author["id"].Value<string>(),
-        //        Uid = author["uid"].Value<string>(),
-        //        LocationID = location.HasValues ? location["id"].Value<string>() : null,
-        //        LocationName = location.HasValues ? location["name"].Value<string>() : null,
-        //        LocationUid = location.HasValues ? location["uid"].Value<string>() : null,
-        //    };
-        //}
-
-        //private PictureItem InitPictureItem(JToken singleton, JToken images) {
-        //    return new PictureItem {
-        //        Liked = singleton["liked"].Value<bool>(),
-        //        Description = singleton["description"].Value<string>(),
-        //        LikersCount = singleton["likers_count"].Value<string>(),
-        //        Uri = singleton["uri"].Value<string>(),
-        //        Url = singleton["url"].Value<string>(),
-        //        CreateTime = singleton["create_time"].Value<string>(),
-        //        CommentsCount = singleton["comments_count"].Value<string>(),
-        //        AllowComment = singleton["allow_comment"].Value<bool>(),
-        //        Position = singleton["position"].Value<int>(),
-        //        OwnedUri = singleton["owner_uri"].Value<string>(),
-        //        Type = singleton["type"].Value<string>(),
-        //        Id = singleton["id"].Value<string>(),
-        //        SharingUrl = singleton["sharing_url"].Value<string>(),
-        //        Small = new Uri(images.HasValues && images["small"].HasValues ? images["small"]["url"].Value<string>() : NoPictureUrl),
-        //        Normal = new Uri(images.HasValues && images["normal"].HasValues ? images["normal"]["url"].Value<string>() : NoPictureUrl),
-        //        Large = new Uri(images.HasValues && images["large"].HasValues ? images["large"]["url"].Value<string>() : NoPictureUrl),
-        //    };
-        //}
-
-        #endregion
 
         #endregion
 
@@ -565,12 +361,18 @@ namespace Douban.UWP.NET.Pages {
                 return;
             }
             transform.Y += e.Delta.Translation.Y;
+            //Debug.WriteLine(transform.Y);
             Scroll.Margin = new Thickness(0, transform.Y, 0, 0);
             listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight + Scroll.Margin.Top*2, 0, 0);
+            listBorder.Height = ActualHeight - Scroll.ActualHeight - Scroll.Margin.Top * 2;
+            TitleBackRec.Opacity = -(Scroll.Margin.Top) / 200;
             if (transform.Y < -200 && allSlide.Visibility == Visibility.Visible) {
-                Scroll.SetVisibility(false);
-                listBorder.Margin = new Thickness(0);
                 allSlide.SetVisibility(false);
+                var nowheight = listBorder.ActualHeight;
+                listBorder.Height = ActualHeight - 70;
+                borderTrans.Y = listBorder.Margin.Top - 70;
+                listBorder.Margin = new Thickness(0, 70, 0, 0);
+                GoPanelUp(nowheight);
             }
         }
 
@@ -580,54 +382,56 @@ namespace Douban.UWP.NET.Pages {
         }
 
         private void Scroll_SizeChanged(object sender, SizeChangedEventArgs e) {
-            listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight + Scroll.Margin.Top * 2, 0, 0);
-            if (transform.Y < -200) {
-                Scroll.SetVisibility(false);
-                listBorder.Margin = new Thickness(0);
-                allSlide.SetVisibility(false);
-            }
+
         }
 
         private void ListScroll_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e) {
-            //Debug.WriteLine(string.Format("[ {0} : {1} ]", listScroll.HorizontalOffset, listScroll.VerticalOffset));
-            var vp = listScroll.VerticalOffset;
-            //if (vp < 200) {
-            //    //transform.Y = 0;
-            //    //var dp = listBorder.Margin.Top;
-            //    Scroll.Margin = new Thickness(0, -vp, 0, 0);
-            //    //Debug.WriteLine(string.Format("[ {0} : {1} ]", Scroll.Margin.Top, Scroll.Margin.Left));
-            //    listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight - vp, 0, 0);
-            //    listScroll.ChangeView(0, 0, 1);
-            //}
-            //if (vp > 100 && Scroll.Visibility == Visibility.Visible) {
-            //    GoSetAnimaAsync(vp);
-            //}
             if ((listScroll.ScrollableHeight - listScroll.VerticalOffset < 100)) {
                 listSource?.HasMoreItemsOrNot(true);
                 listSource?.LoadMoreItemsAsync(0);
             }
         }
 
-        private async void GoSetAnimaAsync(double vp) {
-            if (still_rolling)
-                return;
-            still_rolling = true;
-            await Task.Run(async () => {
-                await Task.Delay(200);
-                if (Math.Abs(listScroll.VerticalOffset - vp) < 20) {
-                    Debug.WriteLine("go");
-                    await Window.Current.Dispatcher.RunAsync(
-                        Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                            listBorder.Height = ActualHeight - 70;
-                            listBorder.Margin = new Thickness(0, 70, 0, 0);
-                            //borderTrans.Y = -(ActualHeight - Scroll.ActualHeight);
-                            GoPanelAnimation();
-                        });
-                } else {
-                    still_rolling = false;
-                    Debug.WriteLine("fk");
-                }
-            });
+        private void AllSlide_Tapped(object sender, TappedRoutedEventArgs e) {
+            allSlide.SetVisibility(false);
+            listBorder.Height = ActualHeight - 70;
+            listBorder.Margin = new Thickness(0, 70, 0, 0);
+            GoPanelAnimation();
+        }
+
+        private void GoPanelUp(double now) {
+            Scroll.ManipulationDelta -= Scroll_ManipulationDelta;
+            board = new Storyboard();
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = Scroll.Margin.Top/2,
+                To = -Scroll.ActualHeight
+            };
+            anima.Completed += (sender, e)=> {
+                Scroll.SetVisibility(false);
+                allSlide.SetVisibility(false);
+                TitleBackRec.Opacity = 1;
+                Scroll.ManipulationDelta += Scroll_ManipulationDelta;
+            };
+            Storyboard.SetTarget(anima, transform);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = listBorder.ActualHeight - now,
+                To = 0
+            };
+            anima.Completed += (sender, e)=> {
+                listBorder.Margin = new Thickness(0, 70, 0, 0);
+                borderTrans.Y = 0;
+            };
+            Storyboard.SetTarget(anima, borderTrans);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            board.Completed += (sender, e) => board.Stop();
+            board.Begin();
         }
 
         private void GoPanelAnimation() {
@@ -638,7 +442,11 @@ namespace Douban.UWP.NET.Pages {
                 From = -Scroll.Margin.Top,
                 To = -Scroll.ActualHeight
             };
-            anima.Completed += OnTopCompleted;
+            anima.Completed += (sender,e)=> {
+                listBorder.Margin = new Thickness(0, -500, 0, 0);
+                transform.Y = 0;
+                Scroll.SetVisibility(false);
+            };
             Storyboard.SetTarget(anima, transform);
             Storyboard.SetTargetProperty(anima, "Y");
             board.Children.Add(anima);
@@ -648,31 +456,55 @@ namespace Douban.UWP.NET.Pages {
                 From = Scroll.ActualHeight,
                 To = 0
             };
-            anima.Completed += OnBorderCompleted;
+            anima.Completed += (sender, e)=> {
+                listBorder.Margin = new Thickness(0, 70, 0, 0);
+                borderTrans.Y = 0;
+            };
             Storyboard.SetTarget(anima, borderTrans);
             Storyboard.SetTargetProperty(anima, "Y");
             board.Children.Add(anima);
+            board.Completed += (sender, e) => board.Stop();
             board.Begin();
             TitleBackRec.Opacity = 1;
         }
 
-        private void OnBorderCompleted(object sender, object e) {
-            listBorder.Margin = new Thickness(0, 70, 0, 0);
-            borderTrans.Y = 0;
-        }
-
-        private void OnTopCompleted(object sender, object e) {
-            listBorder.Margin = new Thickness(0, -500, 0, 0);
-            borderTrans.Y = 0;
-            Scroll.SetVisibility(false);
-        }
-
-        private void allSlide_Tapped(object sender, TappedRoutedEventArgs e) {
-            allSlide.SetVisibility(false);
-            listBorder.Height = ActualHeight - 70;
-            listBorder.Margin = new Thickness(0, 70, 0, 0);
-            //borderTrans.Y = -(ActualHeight - Scroll.ActualHeight);
-            GoPanelAnimation();
+        private void UpToTopButton_Click(object sender, RoutedEventArgs e) {
+            if (Scroll.Visibility == Visibility.Visible)
+                return;
+            Scroll.SetVisibility(true);
+            Scroll.Margin = new Thickness(0, -Scroll.ActualHeight, 0, 0);
+            board = new Storyboard();
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = 0,
+                To = Scroll.ActualHeight
+            };
+            anima.Completed += (obj, args) => {
+                Scroll.Margin = new Thickness(0, 0, 0, 0);
+                transform.Y = 0;
+            };
+            Storyboard.SetTarget(anima, transform);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            anima = new DoubleAnimation {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                Duration = new Duration(TimeSpan.FromMilliseconds(1000)),
+                From = 0,
+                To = Scroll.ActualHeight
+            };
+            anima.Completed += (obj, args) => {
+                listBorder.Height = ActualHeight - Scroll.ActualHeight - 20;
+                listBorder.Margin = new Thickness(0, 20 + Scroll.ActualHeight, 0, 0);
+                borderTrans.Y = 0;
+                allSlide.SetVisibility(true);
+            };
+            Storyboard.SetTarget(anima, borderTrans);
+            Storyboard.SetTargetProperty(anima, "Y");
+            board.Children.Add(anima);
+            board.Completed += (obj, args) => board.Stop();
+            board.Begin();
+            TitleBackRec.Opacity = 0;
         }
     }
 }

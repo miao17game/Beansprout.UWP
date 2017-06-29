@@ -32,6 +32,12 @@ namespace Douban.UWP.NET.Controls {
             set { SetValue(TimeProperty, value); }
         }
 
+        public static readonly DependencyProperty CoverProperty = DependencyProperty.Register("Cover", typeof(string), typeof(LifeStreamOne), null);
+        public string Cover {
+            get { return GetValue(CoverProperty) as string; }
+            set { SetValue(CoverProperty, value); }
+        }
+
         public static readonly DependencyProperty TypeProperty = DependencyProperty.Register("Type", typeof(string), typeof(LifeStreamOne), null);
         public string Type {
             get { return GetValue(TypeProperty) as string; }
@@ -54,6 +60,32 @@ namespace Douban.UWP.NET.Controls {
         public bool HasAlbum {
             get { return (bool)GetValue(HasAlbumProperty); }
             set { SetValue(HasAlbumProperty, value); }
+        }
+
+        public static readonly DependencyProperty StreamContentProperty = DependencyProperty.Register("StreamContent", typeof(object), typeof(LifeStreamOne), null);
+        public object StreamContent {
+            get { return GetValue(StreamContentProperty) as object; }
+            set { SetValue(StreamContentProperty, value); }
+        }
+
+        public static readonly DependencyProperty LikersCountProperty = DependencyProperty.Register("LikersCount", typeof(int), typeof(LifeStreamOne), PropertyMetadata.Create(0));
+        public int LikersCount {
+            get { return (int)GetValue(LikersCountProperty); }
+            set { SetValue(LikersCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty CommentsCountProperty = DependencyProperty.Register("CommentsCount", typeof(int), typeof(LifeStreamOne), PropertyMetadata.Create(0));
+        public int CommentsCount {
+            get { return (int)GetValue(CommentsCountProperty); }
+            set { SetValue(CommentsCountProperty, value); }
+        }
+
+        private void StatusGrid_SizeChanged(object sender, SizeChangedEventArgs e) {
+            GridView01.Width = (sender as Grid).ActualWidth;
+        }
+
+        private void AlbumGrid_SizeChanged(object sender, SizeChangedEventArgs e) {
+            GridView02.Width = (sender as Grid).ActualWidth;
         }
 
     }

@@ -240,6 +240,8 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="FlowLayoutButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="FlowLayoutButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="UpToTopButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="UpToTopButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
                         <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="300"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="127"/>
@@ -304,6 +306,8 @@
                         <Setter Target="BaseHamburgerButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="FlowLayoutButton.(FrameworkElement.Width)" Value="50"/>
                         <Setter Target="FlowLayoutButton.(FrameworkElement.Height)" Value="50"/>
+                        <Setter Target="UpToTopButton.(FrameworkElement.Width)" Value="50"/>
+                        <Setter Target="UpToTopButton.(FrameworkElement.Height)" Value="50"/>
                         <Setter Target="navigateTitlePath.(TextBlock.FontSize)" Value="15"/>
                         <Setter Target="HeadGrid.(FrameworkElement.Height)" Value="360"/>
                         <Setter Target="HeadUserImage.(FrameworkElement.Width)" Value="127"/>
@@ -727,24 +731,6 @@
                       ItemClick="ContentList_ItemClick" >
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="LSM:LifeStreamItem">
-                        <!--<controls:LifeStreamSingleton x:Name="Singleton"
-                                                              Background="{ThemeResource DoubanBackground04}" 
-                                                              Margin="0,0,0,5"
-                                                              Title="{x:Bind Title}" 
-                                                              Text="{x:Bind Text}"
-                                                              Abstract="{x:Bind Abstract}"
-                                                              Description="{x:Bind Description}"
-                                                              HasCover="{x:Bind HasCover}"
-                                                              Cover="{x:Bind Cover}"
-                                                              Time="{x:Bind Time}"
-                                                              Activity="{x:Bind Activity}"
-                                                              Type="{x:Bind Type}"
-                                                              LikersCount="{x:Bind LikersCounts}"
-                                                              CommentsCount="{x:Bind CommentsCounts}"
-                                                              HasImages="{x:Bind HasImages}"
-                                                              HasAlbum="{x:Bind HasAlbum}"
-                                                              MorePictures="{Binding Images, Converter={StaticResource IListToListPicBaseConverter}}"
-                                                              AlbumList ="{Binding AlbumList, Converter={StaticResource IListToListPicConverter}}"/>-->
                         <controls:LifeStreamOne x:Name="Singleton"
                                                 Background="{ThemeResource DoubanBackground04}" 
                                                 Margin="0,0,0,5"
@@ -753,11 +739,15 @@
                                                 HasImages="{x:Bind HasImages}"
                                                 Activity="{x:Bind Activity}"
                                                 Time="{x:Bind Time}"
+                                                Cover="{x:Bind Cover}"
+                                                StreamContent="{x:Bind Content}"
+                                                LikersCount="{x:Bind LikersCount}"
+                                                CommentsCount="{x:Bind CommentsCount}"
                                                 Type="{x:Bind ContentType}"/>
                         </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Rectangle Name="allSlide" Fill="#90000000" Tapped="allSlide_Tapped"/>
+            <Rectangle Name="allSlide" Fill="#90000000" Tapped="AllSlide_Tapped"/>
         </Grid>
 
         <Grid VerticalAlignment="Top">
@@ -796,6 +786,15 @@
                             Height="70"
                             Click="BaseHamburgerButton_Click"
                             Foreground="White"
+                            Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
+            <Button Name="UpToTopButton"
+                            VerticalAlignment="Top"
+                            Content=""
+                            Width="140"
+                            Height="70"
+                            Click="UpToTopButton_Click"
+                            Foreground="White"
+                            HorizontalAlignment="Center"
                             Style="{ThemeResource MainPageButtonBackHamburgerStyle}"/>
             <Button Name="FlowLayoutButton"
                             VerticalAlignment="Top"

@@ -125,9 +125,6 @@
     <Compile Include="Controls\LifeStreamOne.xaml.cs">
       <DependentUpon>LifeStreamOne.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LifeStreamSingleton.xaml.cs">
-      <DependentUpon>LifeStreamSingleton.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\LrcListView.cs" />
     <Compile Include="Controls\ScheduleTip.xaml.cs">
       <DependentUpon>ScheduleTip.xaml</DependentUpon>
@@ -410,10 +407,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LifeStreamOne.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\LifeStreamSingleton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

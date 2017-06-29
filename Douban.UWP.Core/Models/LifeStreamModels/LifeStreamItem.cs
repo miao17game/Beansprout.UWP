@@ -100,7 +100,11 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         [IgnoreDataMember]
         public string Cover {
-            get => this.Content?.CoverUrl;
+            get => this.Content != null ?
+                this.Content.CoverUrl != null && this.Content.CoverUrl != "" ?
+                this.Content.CoverUrl 
+                : NoPictureUrl
+                : NoPictureUrl;
         }
 
         [IgnoreDataMember]
@@ -122,8 +126,8 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
         [IgnoreDataMember]
         public bool HasAlbum {
             get =>
-                this.ContentType == "album" ?
-                this.HasImages ?
+                this.Content != null ?
+                this.Content.Photos != null && this.Content.Photos.Count() > 0 ?
                 true : false : false;
         }
 
@@ -137,6 +141,8 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
                 return time;
             }
         }
+
+        const string NoPictureUrl = "https://www.none-wallace-767fc6vh7653df0jb.com/no_wallace_085sgdfg7447fddds65.jpg";
 
     }
 
@@ -188,6 +194,9 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
 
         [DataMember(Name = "normal")]
         public ImageSize Normal { get; set; }
+
+        [DataMember(Name = "small")]
+        public ImageSize Small { get; set; }
     }
 
     [DataContract]
@@ -219,7 +228,7 @@ namespace Douban.UWP.Core.Models.LifeStreamModels {
         public int LikersCount { get; set; }
 
         [DataMember(Name = "image")]
-        public ImageSize Image { get; set; }
+        public LifeStreamImage Image { get; set; }
 
         [DataMember(Name = "uri")]
         public string Uri { get; set; }
