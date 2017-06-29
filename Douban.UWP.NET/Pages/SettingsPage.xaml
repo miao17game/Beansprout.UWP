@@ -377,7 +377,7 @@
                             <Run Text="解决了个人中心虚拟化的问题" /><LineBreak/>
                             <Run Text="调整个人中心动画" /><LineBreak/><LineBreak/>
                             
-                            <Run Text="Version：2.1024.* / 2017.5.6" FontSize="15" FontWeight="Medium" /><LineBreak/>
+                            <Run Text="Version：2.1024.1738 / 2017.5.6" FontSize="15" FontWeight="Medium" /><LineBreak/>
                             <Run Text="紧急维护豆瓣API变动" /><LineBreak/><LineBreak/>
                             
                             <Run Text="Version：2.1023.2218 / 2017.4.22" FontSize="15" FontWeight="Medium" /><LineBreak/>
