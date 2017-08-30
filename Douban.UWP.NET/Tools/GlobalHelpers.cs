@@ -81,12 +81,12 @@ namespace Douban.UWP.NET.Tools {
         public static LoginStatusBag GetLoginStatus(string webResult) {
             var api = JsonHelper.FromJson<APIUserinfos>(webResult);
             return new LoginStatusBag {
-                UserName = api.AbstractName,
+                UserName = api.AbstractName??"",
                 UserId = api.ID,
                 BigHeadUrl = api.LargeAvatar,
-                Description = api.Introductions,
+                Description = api.Introductions??"",
                 ImageUrl = api.Avatar,
-                LocationString = api.LocationName,
+                LocationString = api.LocationName??"",
                 LocationUrl = null,
                 APIUserinfos = api
             };

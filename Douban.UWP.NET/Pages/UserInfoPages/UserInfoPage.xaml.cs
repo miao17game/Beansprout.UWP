@@ -226,6 +226,8 @@ namespace Douban.UWP.NET.Pages {
                     Uri.TryCreate(bag.ImageUrl, UriKind.Absolute, out head_uri);
                 HeadUserImage.Fill = new ImageBrush { ImageSource = new Windows.UI.Xaml.Media.Imaging.BitmapImage(head_uri ?? new Uri(NoPictureUrl)), Stretch = Stretch.UniformToFill };
                 UserId = status.ID;
+            } catch (Exception e) {
+                Debug.WriteLine(e.StackTrace + "\n" + e.Message);
             } finally { ListResources.Source = listSource = new DoubanLazyLoadContext<LifeStreamItem>(FetchMoreResourcesAsync); }
         }
 
@@ -265,12 +267,9 @@ namespace Douban.UWP.NET.Pages {
             try {
                 var returns = await APIForFetchLifeStreamAsync(uid);
                 var one = JsonHelper.FromJson<ListStreamOne>(returns);
-                if (one.Items == null || one.Items.Count() < 10) {
-                    next_filter = "SHOULD_STOP";
-                } else {
-                    next_filter = one.NextFilter;
-                }
-                Debug.WriteLine(next_filter);
+                next_filter = one.Items == null || one.Items.Count() < 10 ? 
+                    "SHOULD_STOP" : 
+                    one.NextFilter;
                 return one.Items.OrderByDescending(i => i.TimeForOrder).ToList();
             } catch(Exception e) {
                 Debug.WriteLine(e.Message);

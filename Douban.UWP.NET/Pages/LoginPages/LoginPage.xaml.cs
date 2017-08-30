@@ -327,7 +327,9 @@ namespace Douban.UWP.NET.Pages {
                 } catch {
                     try {
                         MainPage.SetUserStatus(doc);
-                    } catch {/* Ignore. */  }
+                    } catch(Exception e) {
+                        Debug.WriteLine(e.Message + "\n" + e.StackTrace);
+                    }
                 }
                 NavigateToBase?.Invoke(
                     null,

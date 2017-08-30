@@ -138,7 +138,8 @@ namespace Douban.UWP.NET {
                 if(succeed)
                     Current.LoginUserIcon.Fill = new ImageBrush { ImageSource = new BitmapImage(img_uri) };
                 IsLogined = true;
-            } catch {
+            } catch(Exception e) {
+                System.Diagnostics.Debug.WriteLine(e.Message + "\n" + e.StackTrace);
                 SettingsHelper.SaveSettingsValue(SettingsSelect.UserID, "LOGOUT");
                 IsLogined = false;
             }
